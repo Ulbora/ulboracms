@@ -1,0 +1,139 @@
+<div ng-switch on="menu">
+    <div ng-switch-when="m1">
+        <div ng-include src="'partials/mainMenu1.html'"></div>
+    </div>
+    <div ng-switch-when="m2">
+        <div ng-include src="'partials/mainMenu2.html'"></div>
+    </div>
+    <div ng-switch-when="m3">
+        <div ng-include src="'partials/mainMenu3.html'"></div>
+    </div>
+    <div ng-switch-when="m4">
+        <div ng-include src="'partials/mainMenu4.html'"></div>
+    </div>
+    <div ng-switch-when="m5">
+        <div ng-include src="'partials/mainMenu5.html'"></div>
+    </div>
+</div>
+
+<div id="container" class="container">   
+    <div class="page-container">
+        <div class="title-wrapper">            
+            <div class="title">Ulbora CMS Admin</div>            
+        </div>
+    </div>
+    <div class="summary-wrapper">
+        <div class="summary-row">
+            <div class="summary-cell">
+                <div class="summary-cell-title">
+                    <a href="#!articles">Articles</a>
+                </div>
+                <div class="summary-cell-data">
+                    <table class="table table-striped table-hover article-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Modified</th>
+                                <th>Views</th>                                
+                            </tr>        
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="article in articleList">
+                                <td>
+                                    <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                                </td>
+                                <td>
+                                    {{article.modifiedDate}}
+                                </td>
+                                <td>
+                                    {{article.hits}} 
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>                    
+                </div>
+
+            </div>
+            <div class="summary-cell">
+                <div class="summary-cell-title">
+                    <a href="#!sections">Sections</a>
+                </div>
+                <div class="summary-cell-data">
+                    <table class="table table-striped table-hover article-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>                                                            
+                            </tr>        
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="sec in sectionList">
+                                <td>
+                                    {{sec.name}}
+                                </td>                                
+                            </tr>
+                        </tbody>
+
+                    </table>                    
+                </div>
+            </div>
+        </div>
+        <div class="summary-row">
+            <div class="summary-cell">
+                <div class="summary-cell-title">
+                    <a href="#!articles">Front Page</a>
+                </div>
+                <div class="summary-cell-data">
+                    <table class="table table-striped table-hover article-table">
+                        <thead>
+                            <tr>
+                                <th>Title</th>
+                                <th>Modified</th>
+                                <th>Views</th>                                
+                            </tr>        
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="article in frontPageList">
+                                <td>
+                                    <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                                </td>
+                                <td>
+                                    {{article.modifiedDate}}
+                                </td>
+                                <td>
+                                    {{article.hits}} 
+                                </td>
+                            </tr>
+                        </tbody>
+
+                    </table>                    
+                </div>
+            </div>
+            <div class="summary-cell">
+                <div class="summary-cell-title">
+                    <a href="#!categories">Categories</a>
+                </div>
+                <div class="summary-cell-data">
+                    <table class="table table-striped table-hover article-table">
+                        <thead>
+                            <tr>
+                                <th>Name</th>                                                            
+                            </tr>        
+                        </thead>
+                        <tbody>
+                            <tr ng-repeat="cat in categoryList">
+                                <td>
+                                    {{cat.name}}
+                                </td>                                
+                            </tr>
+                        </tbody>
+
+                    </table>          
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>
+<div ng-include src="'partials/footer.html'"></div>
+

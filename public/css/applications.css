@@ -1,0 +1,35 @@
+.application-row{
+    float: left;
+    width: 100%;
+    margin: 2% 0 2% 0;
+    padding: 0 0 0 0;
+}
+
+.application-cell{
+    float: left;
+    width: 33.33%;
+    display: inline;
+    border-radius:7px;
+    -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+    border: #3276b1 solid 1px;
+    margin: 0 0 0 0;
+    padding: 1% 0 1% 0;
+}
+.application-icon{
+    float: left;
+    width: 100%;   
+    text-align: center;
+}
+.application-text{
+    float: left;
+    width: 100%; 
+    margin: 0 0 0 0;
+    padding: 1% 2% 1% 2%;
+    text-align: center;
+}
+
+.app-container{
+    width: 90%;
+    margin: 0 0 0 5%;
+    
+}

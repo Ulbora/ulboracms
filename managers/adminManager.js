@@ -1,0 +1,14 @@
+//adminManager
+
+
+
+/**
+ * 
+ */
+exports.summary = function ()
+{
+  
+};
+
+
+

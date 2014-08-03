@@ -1,0 +1,28 @@
+
+.form-upload-element{
+    float: left;
+    width: 100%;  
+    text-align: center;
+    padding: 0 2px 2px 2px;
+    margin: 0 0 1% 0;
+}
+
+.form-upload-label{
+    float: left;
+    width: 100%;
+    padding: 0 0 0 0;
+    margin: 0 0 0 0;
+
+}
+
+.form-upload-button{
+    float: left;
+    width: 100%;   
+    padding: 2px;
+    text-align: center;
+    margin: 2% 0 0 0;
+}
+
+.article-table a{
+    text-decoration: underline;
+}

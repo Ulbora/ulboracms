@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+    <head>
+        <title>TODO supply a title</title>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width">
+    </head>
+    <body>
+        <div>
+            <form method="post" action="http://localhost:8080/UlboraCMSAPI/rs/pdf" enctype="multipart/form-data">                
+                <input type="file" name="file"/>
+                <input name="returnLink" type="hidden" value="http://localhost:8080/UlboraCmsUI"/>
+                <input type="submit"/>
+            </form>
+        </div>
+    </body>
+</html>

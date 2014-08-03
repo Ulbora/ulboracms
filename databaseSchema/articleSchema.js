@@ -1,0 +1,32 @@
+//articleSchema
+var mongoose = require('mongoose');
+
+var articleSchema = new mongoose.Schema({
+    title: {type: String, required: true, trim: true},
+    alias: String,
+    create_date: {type: Date, default: Date.now},
+    hits: {type: Number, default: 0},
+    metaAuthorName: String,
+    metaDesc: String,
+    metaKeyWords: String,
+    metaRobotKeyWords: String,
+    modifiedDate: {type: Date},
+    published: {type: Boolean, default: false},
+    showAuthor: {type: Boolean, default: false},
+    showCategoryName: {type: Boolean, default: false},
+    showCreateDate: {type: Boolean, default: false},
+    showIntroText: {type: Boolean, default: false},
+    showModifyDate: {type: Boolean, default: false},
+    showSectionName: {type: Boolean, default: false},
+    showTitle: {type: Boolean, default: false},
+    fullPage: {type: Boolean, default: false},
+    accessLevel: {type: mongoose.Schema.ObjectId, required: true, ref: "AccessLevel"},
+    category: {type: mongoose.Schema.ObjectId, required: true, ref: "Category"},
+    section: {type: mongoose.Schema.ObjectId, required: true, ref: "Section"},
+    language: {type: mongoose.Schema.ObjectId, required: true, ref: "Language"},
+    user: {type: mongoose.Schema.ObjectId, required: true, ref: "User"}
+
+});
+module.exports = articleSchema;
+
+

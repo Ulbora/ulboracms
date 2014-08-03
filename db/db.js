@@ -1,0 +1,368 @@
+//mongoDB files
+var mongoose = require('mongoose');
+var mongoConnectString = "mongodb://localhost/ulboracms";
+//this is specific to RedHat's OpenShift 
+if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+    mongoConnectString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+            process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
+            process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
+            process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
+            process.env.OPENSHIFT_APP_NAME;
+}
+//---------add other mongoDB configuration blocks here----------------
+//
+//
+//
+//--------------------------------------------------------------------
+
+
+
+//mongoose.connect('mongodb://localhost/blogpost');
+mongoose.connect(mongoConnectString);
+
+var manager = require('../managers/manager');
+
+
+var accessLevelSchema = require('../databaseSchema/accessLevelSchema');
+var addonsSchema = require('../databaseSchema/addonsSchema');
+var articleLocationSchema = require('../databaseSchema/articleLocationSchema');
+var articleSchema = require('../databaseSchema/articleSchema');
+var commentSchema = require('../databaseSchema/commentSchema');
+var articleTextSchema = require('../databaseSchema/articleTextSchema');
+var categorySchema = require('../databaseSchema/categorySchema');
+var configurationSchema = require('../databaseSchema/configurationSchema');
+var databaseVersionSchema = require('../databaseSchema/databaseVersionSchema');
+var downloadableFileSchema = require('../databaseSchema/downloadableFileSchema');
+var feedSchema = require('../databaseSchema/feedSchema');
+var frontPageSchema = require('../databaseSchema/frontPageSchema');
+var languageSchema = require('../databaseSchema/languageSchema');
+var linkSchema = require('../databaseSchema/linkSchema');
+var locationSchema = require('../databaseSchema/locationSchema');
+var mediaSchema = require('../databaseSchema/mediaSchema');
+var productLocationSchema = require('../databaseSchema/productLocationSchema');
+var productPriceSchema = require('../databaseSchema/productPriceSchema');
+var productSchema = require('../databaseSchema/productSchema');
+var roleSchema = require('../databaseSchema/roleSchema');
+var ruleDeclarationSchema = require('../databaseSchema/ruleDeclarationSchema');
+var sectionSchema = require('../databaseSchema/sectionSchema');
+var tagSchema = require('../databaseSchema/tagSchema');
+var userSchema = require('../databaseSchema/userSchema');
+var workflowRuleSchema = require('../databaseSchema/workflowRuleSchema');
+
+
+
+var AccessLevel = mongoose.model('AccessLevel', accessLevelSchema);
+var Addons = mongoose.model('Addons', addonsSchema);
+var Location = mongoose.model('Location', locationSchema);
+var Language = mongoose.model('Language', languageSchema);
+var Category = mongoose.model('Category', categorySchema);
+var Section = mongoose.model('Section', sectionSchema);
+var Role = mongoose.model('Role', roleSchema);
+var Link = mongoose.model('Link', linkSchema);
+var Feed = mongoose.model('Feed', feedSchema);
+var Configuration = mongoose.model('Configuration', configurationSchema);
+var DatabaseVersion = mongoose.model('DatabaseVersion', databaseVersionSchema);
+var Media = mongoose.model('Media', mediaSchema);
+var RuleDeclaration = mongoose.model('RuleDeclaration', ruleDeclarationSchema);
+var WorkflowRule = mongoose.model('WorkflowRule', workflowRuleSchema);
+var User = mongoose.model('User', userSchema);
+var Article = mongoose.model('Article', articleSchema);
+var ArticleText = mongoose.model('ArticleText', articleTextSchema);
+var Comment = mongoose.model('Comment', commentSchema);
+var ArticleLocation = mongoose.model('ArticleLocation', articleLocationSchema);
+var Tag = mongoose.model('Tag', tagSchema);
+var FrontPage = mongoose.model('FrontPage', frontPageSchema);
+var Product = mongoose.model('Product', productSchema);
+var ProductLocation = mongoose.model('ProductLocation', productLocationSchema);
+var ProductPrice = mongoose.model('ProductPrice', productPriceSchema);
+var DownloadableFile = mongoose.model('DownloadableFile', downloadableFileSchema);
+
+
+exports.getAccessLevel = function() {
+    return AccessLevel;
+};
+exports.getAddons = function() {
+    return addons;
+};
+exports.getLocation = function() {
+    return Location;
+};
+exports.getLanguage = function() {
+    return Language;
+};
+exports.getCategory = function() {
+    return Category;
+};
+exports.getSection = function() {
+    return Section;
+};
+exports.getRole = function() {
+    return Role;
+};
+exports.getLink = function() {
+    return Link;
+};
+exports.getFeed = function() {
+    return Feed;
+};
+exports.getConfiguration = function() {
+    return Configuration;
+};
+exports.getDatabaseVersion = function() {
+    return DatabaseVersion;
+};
+exports.getMedia = function() {
+    return Media;
+};
+exports.getRuleDeclaration = function() {
+    return RuleDeclaration;
+};
+exports.getWorkflowRule = function() {
+    return WorkflowRule;
+};
+exports.getUser = function() {
+    return User;
+};
+exports.getArticle = function() {
+    return Article;
+};
+exports.getArticleText = function() {
+    return ArticleText;
+};
+exports.getComment = function() {
+    return Comment;
+};
+exports.getArticleLocation = function() {
+    return ArticleLocation;
+};
+exports.getTag = function() {
+    return Tag;
+};
+exports.getFrontPage = function() {
+    return FrontPage;
+};
+exports.getProduct = function() {
+    return Product;
+};
+exports.getProductLocation = function() {
+    return ProductLocation;
+};
+exports.getProductPrice = function() {
+    return ProductPrice;
+};
+exports.getDownloadableFile = function() {
+    return DownloadableFile;
+};
+
+//initialize the mongoDB database with needed records required for startup
+exports.initializeMongoDb = function() {
+    //check if databaseVersion record is set
+    initializeDatabaseVersion();
+};
+
+initializeDatabaseVersion = function() {
+    DatabaseVersion.find({}, function(err, results) {        
+        if (err) {            
+            console.log("databaseVersion Error:" + err);
+        } else {
+            console.log("DatabaseVersion:" + JSON.stringify(results));
+            if (results.length === 0) {
+                var versionRecord = {
+                    version: "1.0.0"
+                };
+                var dbVer = new DatabaseVersion(versionRecord);
+                dbVer.save(function(err) {
+                    if (err) {
+                        console.log("databaseVersion save error: " + err);
+                    } else {
+                        //check if roles are in database
+                        initializeRoles();
+                    }
+                });
+            } else {
+                //check if roles are in database
+                initializeRoles();
+            }
+        }
+    });
+};
+
+initializeRoles = function() {
+    //check if roles are in database
+    Role.find({}, function(err, results) {        
+        if (err) {            
+            console.log("Role Error:" + err);
+        } else {
+            console.log("Role:" + JSON.stringify(results));
+            if (results.length === 0) {
+                var superAdminRecord = {
+                    name: manager.ROLE_SUPER_ADMIN
+                };
+                var adminRecord = {
+                    name: manager.ROLE_ADMIN
+                };
+                var authorRecord = {
+                    name: manager.ROLE_AUTHOR
+                };
+                var userRecord = {
+                    name: manager.ROLE_USER
+                };
+                var role = new Role(superAdminRecord);
+                role.save(function(err) {
+                    if (err) {
+                        console.log("super admin role save error: " + err);
+                    } else {
+                        role = new Role(adminRecord);
+                        role.save(function(err) {
+                            if (err) {
+                                console.log("admin role save error: " + err);
+                            } else {
+                                role = new Role(authorRecord);
+                                role.save(function(err) {
+                                    if (err) {
+                                        console.log("author role save error: " + err);
+                                    } else {
+                                        role = new Role(userRecord);
+                                        role.save(function(err) {
+                                            if (err) {
+                                                console.log("user role save error: " + err);
+                                            } else {
+                                                //check if default users are in database
+                                                initializeDefaultUsers();
+                                            }
+                                        });
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                //check if default users are in database
+                initializeDefaultUsers();
+            }
+        }
+    });
+};
+
+initializeDefaultUsers = function() {
+    //check if default users are in database
+    Role.findOne({name: manager.ROLE_SUPER_ADMIN}, function(err, roleResults) {
+        if (err) {
+            console.log("lookup super admin role error:" + err);
+        } else {
+            console.log("role:" + JSON.stringify(roleResults));
+            var superAdmimRole = roleResults.toObject();
+            User.find({}, function(err, results) {                
+                if (err) {                    
+                    console.log("user Error:" + err);
+                } else {
+                    console.log("user:" + JSON.stringify(results));
+                    if (results.length === 0) {
+                        var hashedPw = manager.hashPasswordSync("admin", "admin");
+                        var adminUserRecord = {
+                            username: "admin",
+                            password: hashedPw,
+                            enabled: true,
+                            emailAddress: "admin@ulboracms.com",
+                            firstName: "super",
+                            lastName: "administrator",
+                            role: superAdmimRole
+                        };
+                        var u = new User(adminUserRecord);
+                        u.save(function(err) {
+                            if (err) {
+                                console.log("super admin user save error: " + err);
+                            } else {
+                                //check if accessLevel or in database
+                                initializeAccessLevels();
+                            }
+                        });
+
+                    } else {
+                        //check if accessLevel or in database
+                        initializeAccessLevels();
+                    }
+                }
+            });
+        }
+    });
+};
+
+initializeAccessLevels = function() {
+    //check if accessLevel or in database
+    AccessLevel.find({}, function(err, results) {        
+        if (err) {            
+            console.log("accessLevels Error:" + err);
+        } else {
+            console.log("accessLevels:" + JSON.stringify(results));
+            if (results.length === 0) {
+                var publicAccessLevelRecord = {
+                    name: manager.ACCESS_LEVEL_PUBLIC
+                };
+                var userAccessLevelRecord = {
+                    name: manager.ACCESS_LEVEL_USER
+                };
+                var acc = new AccessLevel(publicAccessLevelRecord);
+                acc.save(function(err) {
+                    if (err) {
+                        console.log("public accessLevels save error: " + err);
+                    } else {
+                        acc = new AccessLevel(userAccessLevelRecord);
+                        acc.save(function(err) {
+                            if (err) {
+                                console.log("user accessLevels save error: " + err);
+                            } else {
+                                //check if english language is in database
+                                initializeLanguage();
+                            }
+                        });
+                    }
+                });
+            } else {
+                //check if english language is in database
+                initializeLanguage();
+            }
+        }
+    });
+};
+
+initializeLanguage = function() {
+    //check if english language is in database
+    Language.find({}, function(err, results) {        
+        if (err) {            
+            console.log("language Error:" + err);
+        } else {
+            console.log("language:" + JSON.stringify(results));
+            if (results.length === 0) {
+                var englishLanguageRecord = {
+                    name: "English US",
+                    defaultLanguage: true,
+                    code: "en-us"
+                };
+                var spanishLanguageRecord = {
+                    name: "Spanish Puerto Rico",
+                    defaultLanguage: false,
+                    code: "es-pr"
+                };
+                var lan = new Language(englishLanguageRecord);
+                lan.save(function(err) {
+                    if (err) {
+                        console.log("english language save error: " + err);
+                    } else {
+                        lan = new Language(spanishLanguageRecord);
+                        lan.save(function(err) {
+                            if (err) {
+                                console.log("spanish language save error: " + err);
+                            } else {
+                                //future use
+                            }
+                        });
+                    }
+                });
+            } else {
+                //future use
+            }
+        }
+    });
+};

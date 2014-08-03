@@ -1,0 +1,38 @@
+<div ng-include src="'partials/configurationMenu.html'"></div>   
+
+
+<div id="container" class="container">   
+    <div class="page-container">
+        <div class="title-wrapper">            
+            <div class="title">Configurations</div>
+        </div>
+        <table class="table table-striped table-hover article-table">
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Language</th> 
+                <th>Delete</th>
+            </tr>        
+        </thead>
+        <tbody>
+            <tr ng-repeat="conf in configurationList"  >
+                <td ng-repeat="ct in conf.configurationTextList">
+                   <a href="#!configuration/{{conf.id}}">{{ct.siteName}}</a> 
+                </td>               
+                
+                <td ng-repeat="ct in conf.configurationTextList">
+                    {{ct.language.name}}
+                </td>
+                <td ng-repeat="ct in conf.configurationTextList">
+                    <span ng-controller="DeleteConfigurationCtrl" ng-click="deleteConfiguration(conf.id, ct.siteName)" class="glyphicon glyphicon-trash clickable-image"></span>                   
+                </td>
+                
+            </tr>
+        </tbody>
+    </table>
+    </div>
+     
+</div>
+
+
+<div ng-include src="'partials/footer.html'"></div>

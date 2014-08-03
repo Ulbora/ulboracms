@@ -1,0 +1,34 @@
+<div id="container" class="container">   
+    <div class="login-page-container">
+        <div class="title-wrapper">            
+            <div class="login-title">Login</div>            
+        </div>
+        <div class="login-fail">
+            {{loginFailMessage}}
+        </div>
+        <div class="login-form-wrapper">
+            <form class="" ng-submit="submit()" ng-controller="LoginCtrl">
+                <div class="login-element-row">
+                    <label class="login-form-label" for="username">Username:</label>                
+                </div>
+                <div class="login-element-row">                
+                    <input class="form-text-element" type="text" ng-model="username" name="username" placeholder="username"/>
+                </div>
+                <div class="login-element-row">
+                    <label class="login-form-label" for="password">Password:</label>                
+                </div>
+                <div class="login-element-row">                
+                    <input class="form-text-element" type="password" ng-model="password" name="password" placeholder="password"/>
+                </div>
+                <div class="login-button-row">
+                    <button type="submit" class="form-button">Sign in</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div ng-include src="'partials/footer.html'"></div>

@@ -1,0 +1,278 @@
+<div ng-include src="'partials/articleMenu.html'"></div>   
+
+
+<div id="container" class="container">   
+    <div class="page-container">
+        <div class="title-wrapper">            
+            <div class="title">New Article</div>
+        </div>
+        <form  ng-submit="submit()" ng-controller="ArticleAddCtrl">            
+            <div class="article-settings">
+                <div class="article-settings-c1">
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="title">Title:</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" type="text" ng-model="title" name="title" placeholder="Title" required/>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="language">Language:</label> 
+                        </div>
+                        <div class="article-element">                    
+                            <select class="form-select-element-left" ng-model="languageId" name="language" required>    
+                                <option ng-repeat="lan in articleValues.languageList"  value="{{lan.id}}" ng-selected="languageSelectId">{{lan.name}} </option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="alias">Alias:</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" type="text" ng-model="alias" name="alias" placeholder="alias"/>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="section">Section:</label> 
+                        </div>
+                        <div class="article-element">                    
+                            <select class="form-select-element-left" ng-model="sectionId" name="section" required>    
+                                <option ng-repeat="sec in articleValues.sectionList"  value="{{sec.id}}" ng-selected="sectionSelectId">{{sec.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="category">Category:</label> 
+                        </div>
+                        <div class="article-element">                    
+                            <select class="form-select-element-left" ng-model="categoryId" name="category" required>    
+                                <option ng-repeat="cat in articleValues.categoryList"  value="{{cat.id}}" ng-selected="categorySelectId">{{cat.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="metaDescription">Meta Description:</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" type="text" ng-model="metaDescription" name="metaDescription" placeholder="Meta Description"/>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="metaKeyWords">Meta Keywords:</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" type="text" ng-model="metaKeyWords" name="metaKeyWords" placeholder="Meta Keywords"/>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="metaAuthorName">Meta Author</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" type="text" ng-model="metaAuthorName" name="metaAuthorName" placeholder="Meta Author"/>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="metaRobotKeyWords">Meta Robot Keywords</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" type="text" ng-model="metaRobotKeyWords" name="metaRobotKeyWords" placeholder="Meta Robot Keywords"/>
+                        </div>
+                    </div>
+
+                </div>
+                <div class="article-settings-c2">                    
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input  type="radio" ng-model="published" value="true"/>
+                                Published
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input  type="radio" ng-model="published" value="false"/>
+                                Not Published
+                            </label>
+                        </div>
+
+                    </div>
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showTitle"  name="showTitle" value="true" />
+                                Show Title
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showTitle"  name="showTitle" value="false" />
+                                Hide Title
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showSectionName"  name="showSectionName" value="true" />
+                                Show Section
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showSectionName"  name="showSectionName" value="false" />
+                                Hide Section
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showCategoryName"  name="showCategoryName" value="true" />
+                                Show Category
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showCategoryName"  name="showCategoryName" value="false" />
+                                Hide Category
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showAuthor"  name="showAuthor" value="true" />
+                                Show Author
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showAuthor"  name="showAuthor" value="false" />
+                                Hide Author
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showCreationDate"  name="showCreationDate" value="true" />
+                                Show Created
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showCreationDate"  name="showCreationDate" value="false" />
+                                Hide Created
+                            </label>
+                        </div>
+
+                    </div>
+
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showModifiedDate"  name="showModifiedDate" value="true" />
+                                Show Modified
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="showModifiedDate"  name="showModifiedDate" value="false" />
+                                Hide Modified
+                            </label>
+                        </div>
+
+                    </div>
+
+                </div>
+                <div class="article-settings-c3">
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="location">Location</label> 
+                        </div>
+                        <div class="article-element">                    
+                            <select class="form-select-element-left" ng-model="locationId" name="location" required>    
+                                <option ng-repeat="loc in articleValues.locationList"  value="{{loc.id}}" ng-selected="locationSelectId">{{loc.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="accessLevel">Access Level:</label> 
+                        </div>
+                        <div class="article-element">                    
+                            <select class="form-select-element-left" ng-model="accessLevelId" name="accessLevel" required>    
+                                <option ng-repeat="ac in articleValues.accessLevelList"  value="{{ac.id}}" ng-selected="accessLevelSelectId">{{ac.name}}</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="frontPage"  name="frontPage" value="true" />
+                                Front Page
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="frontPage"  name="frontPage" value="false" />
+                                No
+                            </label>
+                        </div>
+
+                    </div>
+
+                    
+
+                </div>
+
+
+
+            </div>
+
+            <div class="{{tinymceWrapper}}">
+
+                <textarea id="elm1" ng-model="articleHtml" name="area">
+                    
+                </textarea>
+
+            </div>
+            <div class="article-submit-button-row">
+                <button  type="submit" class="btn btn-default">Save Article</button>
+            </div>
+
+        </form>
+
+    </div>
+
+</div>
+
+
+<div ng-include src="'partials/footer.html'"></div>

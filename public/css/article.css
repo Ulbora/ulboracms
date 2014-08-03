@@ -1,0 +1,90 @@
+.mb-tinymce-wrapper{
+    float: left;
+    width: 100%;    
+}
+.mb-tinymce-hidden-wrapper{
+    display: none;  
+}
+
+.article-settings{
+    float: left;
+    width: 100%;
+    margin: 0 0 1% 0;
+    padding: 0 0 1% 0;
+    border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #DDDDDD solid 1px;
+}
+.article-settings-c1{
+    float: left;
+    width: 40%;
+    display: inline;
+    
+}
+
+.article-settings-c2{
+    float: left;
+    width: 30%;
+    display: inline;
+    
+}
+    
+.article-settings-c3{
+    float: left;
+    width: 30%;
+    display: inline;
+    
+}
+
+.article-element-label{
+    float: left;
+    width: 100%;
+    
+}
+.article-element{
+    float: left;
+    width: 100%;
+}
+
+.article-radio-element{
+    float: left;
+    width: 96%;
+    margin: 2% 2% 2% 2%;
+    border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #DDDDDD solid 1px;
+    
+}
+
+.article-element-wrapper{
+    float: left;
+    width: 96%;
+    margin: 1% 2% 1% 2%;
+    padding: 0 0 1% 0;
+    border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #DDDDDD solid 1px;
+    
+}
+
+.article-submit-button-row{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 2% 0 20% 0;
+}
+
+.article-span-element{
+    float: left;
+    padding: 0 0 0 1%;
+    width: 96%;
+    margin: 1% 2% 1% 2%;
+    border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #DDDDDD solid 1px;
+    
+}
+.article-delete-button-span-element{
+    float: left;
+    padding: 0 0 0 2%;
+}

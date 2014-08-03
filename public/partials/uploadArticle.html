@@ -1,0 +1,72 @@
+<div ng-include src="'partials/articleMenu.html'"></div>   
+
+
+<div id="container" class="container app-container">   
+    <div class="page-container">
+        <div class="title-wrapper">            
+            <div class="title">Upload PDF Article</div>
+        </div>
+
+        <div class="new-article-upload-wrapper">
+            <form id="articleForm" method="post" action="" enctype="multipart/form-data"> 
+                <div class="form-upload-label">
+                    <label class="upload-form-label" for="accessLevel">Access Level</label>    
+                </div>                    
+                <div class="form-upload-element">
+                    <select class="form-select-element"  name="accessLevel" required>
+                        <option value="">---</option>
+                        <option ng-repeat="accessLevel in articleValues.accessLevelList" ng-model="accessLevel" value="{{accessLevel.id}}">{{accessLevel.name}}</option>
+                    </select>                    
+                </div>
+                <div class="form-upload-label">
+                    <label class="upload-form-label" for="section">Section:</label>    
+                </div>   
+                <div class="form-upload-element">
+                    <select class="form-select-element" name="section" required>
+                        <option value="">---</option>
+                         <option ng-repeat="section in articleValues.sectionList" ng-model="section" value="{{section.id}}">{{section.name}}</option>
+                    </select>
+                </div> 
+                <div class="form-upload-label">
+                    <label class="upload-form-label" for="category">Category:</label>    
+                </div>   
+                 <div class="form-upload-element">
+                    <select class="form-select-element" name="category" required>
+                        <option value="">---</option>
+                        <option ng-repeat="category in articleValues.categoryList" ng-model="category" value="{{category.id}}">{{category.name}}</option>
+                    </select>
+                </div> 
+                <div class="form-upload-label">
+                    <label class="upload-form-label" for="language">Language:</label>    
+                </div> 
+                 <div class="form-upload-element">
+                    <select class="form-select-element" name="language" required>
+                        <option value="">---</option>
+                        <option ng-repeat="language in articleValues.languageList" ng-model="language" value="{{language.id}}">{{language.name}}</option>
+                    </select>  
+                </div> 
+                
+                 
+                <div class="form-upload-label">
+                    <label class="upload-form-label" for="file">PDF File:</label>    
+                </div> 
+                <div class="form-upload-element">                
+                    <input type="file" name="file" class="form-file-element" required/>
+                </div>
+                <div class="form-upload-button">
+                    <input name="returnLink" type="hidden" value="{{articleUrl}}"/> 
+                    <input name="errorLink" type="hidden" value="{{errorUrl}}"/> 
+                    <input name="username" type="hidden" value="{{articleValues.username}}"/> 
+                    <input name="uploadKey" type="hidden" value="{{articleValues.uploadKey}}"/> 
+                    <input id="actionUrl" name="actionUrl" type="hidden" value="{{api}}"/>
+                    <button class="form-button" onClick="articleUpdate();" >Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+
+</div>
+
+
+<div ng-include src="'partials/footer.html'"></div>

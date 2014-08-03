@@ -1,0 +1,41 @@
+<div ng-include src="'partials/mediaMenu.html'"></div>   
+
+
+<div id="container" class="container">
+    <div class="page-container">
+        <div class="title-wrapper">            
+            <div class="title">New Media</div>
+        </div>
+        <div class="support-form-wrapper">
+            <form id="mediaForm" method="post" action="" enctype="multipart/form-data">                
+                 <input name="uploadKey" type="hidden" value="{{uploadKey}}"/> 
+                <input name="username" type="hidden" value="{{username}}"/>
+                <input name="errorLink" type="hidden" value="{{errorUrl}}"/> 
+                <input name="returnLink" type="hidden" value="{{mediaUrl}}"/>
+                <input id="actionUrl" name="actionUrl" type="hidden" value="{{api}}"/>
+                <div class="support-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="name">Name:</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="text" name="name" placeholder="name"  required/>
+                    </div>
+                </div>
+                <div class="support-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="file">File</label> 
+                    </div>
+                    <div class="support-element">                    
+                        <input type="file"  name="file" class="form-file-left-element" required/>
+                    </div>
+                </div>
+                <div class="support-submit-button-row">
+                    <button  onClick="mediaUpdate();" class="btn btn-default">Save</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div ng-include src="'partials/footer.html'"></div>

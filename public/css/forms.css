@@ -1,0 +1,695 @@
+.form-text-element{
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+
+
+}
+
+.form-left-text-element{
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+
+
+}
+
+textarea.form-left-text-element {
+  height: auto;
+}
+
+
+.form-radio,
+.form-checkbox {
+  display: block;  
+  padding: 0 0 0 2px;
+  margin: 0 0 0 0;
+  vertical-align: middle;
+  float: left;
+  width: 100%;
+  
+}
+
+.form-radio label,
+.form-checkbox label {
+  display: inline;
+  margin: 0 0 0 0;
+  font-weight: normal;
+  cursor: pointer; 
+  float: left;
+  width: 100%;
+}
+
+
+
+.form-button{
+    display: inline-block;
+    margin-bottom: 0;  
+    line-height: 1.428571429;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    cursor: pointer;
+    border: 1px solid transparent;    
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    -o-user-select: none;
+    user-select: none;
+    color: #333333;
+    background-color: #ffffff;
+    border-color: #cccccc;
+}
+.form-file-element{
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    width: 100%;   
+}
+
+.form-file-left-element{
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    width: 95%;  
+    margin: 0 0 0 2.5%;
+}
+
+.form-select-element{
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    width: 100%; 
+    padding: 0 12px 6px 12px;
+}
+
+.form-select-element-left{
+    line-height: 1.428571429;
+    color: #555555;
+    vertical-align: middle;
+    background-color: #ffffff;
+    border: 1px solid #cccccc;
+    border-radius: 4px;
+    -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+    -webkit-transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
+    transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;    
+    
+}
+
+
+.login-form-label{
+    float: left;
+    width: 80%;
+    margin: 2% 0 0 10%;  
+    padding: 0 0 0 0;
+}
+
+.article-form-label{
+    float: left;
+    width: 80%;
+    margin: 0% 0 0 1%;  
+    padding: 0 0 0 0;
+}
+
+.support-form-label{
+    float: left;
+    width: 80%;
+    margin: 0% 0 0 3%;  
+    padding: 0 0 0 0;
+}
+
+.upload-form-label{
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;  
+    padding: 0 0 0 6px;
+}
+
+@media screen and (min-width: 1200px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;
+        height: 34px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 34px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-file-element{
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;   
+        height: 34px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+    }   
+    .form-select-element{
+        height: 34px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 34px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+
+}
+
+@media screen and (max-width: 1200px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;
+        height: 34px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 34px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;   
+        height: 34px;      
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+    } 
+    
+    .form-select-element{
+        height: 34px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 34px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+
+}
+
+
+
+@media screen and (max-width: 1100px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;
+        height: 34px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 34px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;   
+        height: 34px;         
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+    }   
+    
+    .form-select-element{
+        height: 34px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 34px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+
+}
+
+@media screen and (max-width: 1000px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;
+        height: 32px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 32px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;   
+        height: 32px;          
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+    }  
+    
+    .form-select-element{
+        height: 32px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 32px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+
+}
+
+@media screen and (max-width: 900px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;
+        height: 30px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 30px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;   
+        height: 30px;        
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+    }  
+    .form-select-element{
+        height: 30px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 30px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+@media screen and (max-width: 800px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;   
+        height: 28px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 28px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;          
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+        height: 28px;
+    }   
+    .form-select-element{
+        height: 28px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 28px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+
+@media screen and (max-width: 700px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0; 
+        height: 28px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 28px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;     
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+        height: 28px;
+    }   
+    .form-select-element{
+        height: 28px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 28px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0; 
+        height: 26px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 26px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;         
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+        height: 26px;
+    } 
+    .form-select-element{
+        height: 26px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 26px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+
+@media screen and (max-width: 500px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0; 
+        height: 25px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 25px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;         
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+        height: 25px;
+    }  
+    .form-select-element{
+        height: 25px; 
+        padding: 6px 12px;
+    }
+    .form-select-element-left{
+        height: 25px; 
+        padding: 6px 0 6px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+
+@media screen and (max-width: 400px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;  
+        height: 24px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 24px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;        
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+        height: 24px;
+    } 
+    
+    .form-select-element{
+        height: 24px; 
+        padding: 2px 6px;        
+    }
+    .form-select-element-left{
+        height: 24px; 
+        padding: 2px 0 2px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+
+@media screen and (max-width: 300px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;  
+        height: 24px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px; 
+        height: 24px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;      
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+        height: 24px;
+    }  
+    .form-select-element{
+        height: 24px; 
+        padding: 2px 6px;    
+    }
+    .form-select-element-left{
+        height: 24px; 
+        padding: 2px 0 2px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+
+@media screen and (max-width: 200px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0; 
+        height: 24px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px;
+        height: 24px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;       
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+        height: 24px;
+    } 
+    .form-select-element{
+        height: 24px; 
+        padding: 2px 6px;    
+    }
+    .form-select-element-left{
+        height: 24px; 
+        padding: 2px 0 2px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+@media screen and (max-width: 100px){
+    .form-text-element{ 
+        width: 80%; 
+        margin: 0 0 0 10%;
+        padding: 0 0 0 0;  
+        height: 24px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    
+    .form-left-text-element{ 
+        width: 95%; 
+        margin: 0 0 0 1%;
+        padding: 0 0 0 1px; 
+        height: 24px;
+        border-radius:4px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+
+    }
+    .form-button{        
+        margin: 5px 0 0 0;      
+        border-radius:4px;
+        height: 24px;
+        -moz-border-radius:4px; /* Firefox 3.6 and earlier */
+    } 
+    .form-select-element{
+        height: 24px; 
+        padding: 2px 6px;    
+    }
+    .form-select-element-left{
+        height: 24px; 
+        padding: 2px 0 2px 0;
+        width: 95%;
+        margin: 0 0 0 1%;
+    }
+}
+
+.form-label{
+    float: left;
+    width:100%;
+    margin: 0 0 0 0;
+    padding: 1% 0 0 0;
+}
+.form-element{
+    float: left;
+    width: 100%;
+    margin: 0 0 0 0;
+    padding: 0 0 1% 0;
+}
+
+.form-button-element{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 0 0 0 0;
+    padding: 2% 0 0 0;
+}
+
+.form-inline-text-element{        
+    width: 100%;
+}
+.form-inline-button{
+
+} 
+
+

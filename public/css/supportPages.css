@@ -1,0 +1,97 @@
+.support-element-wrapper{
+    float: left;
+    width: 100%;    
+}
+.support-label{
+    float: left;
+    width: 100%;
+    margin: 1% 0 0 0;    
+}
+
+
+.support-image-label{
+    float: left;
+    width: 100%;
+    margin: 1% 0 0 3%;    
+}
+.support-element{
+    float: left;
+    width: 100%;
+    text-align: center;
+}
+.support-element-left{
+    float: left;
+    width: 92%;
+    padding: 0 0 0 1%;
+    margin: 0 4% 0 4%;
+    text-align: left;
+    background: #E0E0DD;
+}
+
+.support-radio-element{
+    float: left;
+    width: 100%;
+    margin: 0 0 0 5%;
+}
+
+.support-submit-button-row{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 5% 0 10% 0;
+}
+.support-form-wrapper{
+    float: left;
+    width: 40%;
+    padding: 0 0 0 0;
+    margin: 0 0 0 30%;
+    border-radius:7px;
+    -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+    border: #230fba solid 1px;
+
+}
+
+.support-image-wrapper{
+    float: left;
+    width: 80%;
+    padding: 0 0 2% 0;
+    margin: 0 0 0 10%;
+    border-radius:7px;
+    -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+    border: #230fba solid 1px;
+
+}
+
+.u-thumbnail{
+    width: 50px;
+    height: 50px;
+}
+
+.u-image img{
+    max-width: 100%; 
+}
+
+.product-image-wrapper{
+    float: left;
+    width: 96%;
+    margin: 1% 2% 1% 3%;
+    padding: 0 0 1% 0;
+}
+
+.product-upload-button-wrapper{
+    float: left;
+    width: 96%;
+    margin: 2% 2% 1% 3%;
+    padding: 0 0 1% 0;
+    text-align: center;
+}
+
+.p-thumbnail{
+    width: 100px;
+    height: 100px;
+}
+
+.image-location{
+    background: #E0E0DD;
+    padding: 2px 1% 2px 1%;
+}

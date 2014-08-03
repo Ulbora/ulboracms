@@ -1,0 +1,84 @@
+//publicService
+
+var publicUserManager = require('../managers/publicUserManager');
+
+
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.activate = function(req, res) {
+
+};
+
+
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.getMicbuttionChallenge = function(req, res) {
+
+};
+
+
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+//PublicService.prototype.login = function(req, res) {
+exports.login = function(req, res) {
+    var returnVal = false;
+    if (req.is('application/json')) {
+        var reqBody = req.body;
+        var json = JSON.stringify(reqBody);
+        console.log("login request: " + json);
+        publicUserManager.login(reqBody, function(loginStatus) {
+            returnVal = loginStatus;
+            //console.log("login success: " + returnVal);
+            console.log("exit service login success: " + returnVal);
+            res.send({success: returnVal});
+        });
+
+    } else {
+        res.status(415);
+        res.send({success: returnVal});
+    }
+
+};
+
+
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.register = function(req, res) {
+
+};
+
+
+/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+exports.resetPassword = function(req, res) {
+
+};
+
+
+
+
