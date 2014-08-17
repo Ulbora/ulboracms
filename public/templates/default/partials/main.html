@@ -1,0 +1,71 @@
+<div ng-include src="'partials/menus/topMenu.html'"></div>   
+<div id="container" class="container"> 
+    <div class="main-wrapper">
+        <div class="main-left">
+            <div class="main-news-flash" ng-switch on="showNews">
+                <div class="cell-header" ng-switch-when="true">
+                    Latest
+                </div>
+                <div class="main-cell-body">
+                    <div  ng-repeat="article in content.articleLocations.Left">
+                        <div class="main-cell-row">
+                            <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                        </div>
+                    </div>
+                </div>
+            </div>            
+        </div>
+        <div class="main-middle">
+            <div ng-repeat="article in content.articleLocations.Frontpage">
+                <div class="main-center" ng-switch on="article.showTitle">
+                    <div class="front-page-header" ng-switch-when="true">
+                        {{article.title}}
+                    </div>
+                    <div class="main-cell-body"> 
+                        <div ng-bind-html="article.textList[0].text"></div>                     
+                    </div>
+                    <div class="main-center" ng-switch on="article.pageBreak">
+                        <div class="read-more-link" ng-switch-when="true">
+                            <a href="#!article/{{article.id}}">Read More...</a> 
+                        </div>
+                         <div class="read-more-link" ng-switch-when="false">
+                            <a href="#!article/{{article.id}}">View</a> 
+                        </div>
+
+                    </div>
+                    <div ng-switch on="$index < (content.articleLocations.Frontpage.length - 1)">
+                        <div class="bottom-break-bar" ng-switch-when="true"></div>
+                    </div>
+                </div>            
+            </div>
+        </div>
+        <div class="main-right">
+            <div class="main-news-flash" ng-switch on="showNewsFlash">
+                <div class="cell-header" ng-switch-when="true">
+                    News Flash
+                </div>
+                <div class="main-cell-body">
+                    <div  ng-repeat="article in content.articleLocations.Right">
+                        <div class="main-cell-row">
+                            <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="main-links" ng-switch on="showLinks">
+                <div class="cell-header" ng-switch-when="true">
+                    Links
+                </div>
+                <div class="main-cell-body">
+                    <div  ng-repeat="link in content.links">
+                        <div class="main-cell-row">
+                            <a href="{{link.link}}">{{link.name}}</a> 
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>    
+</div>
+<div ng-include src="'partials/footer/footer.html'"></div>

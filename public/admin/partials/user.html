@@ -1,56 +1,58 @@
 <div ng-include src="'partials/userMenu.html'"></div>   
 
 
-<div id="container" class="container">
+<div id="container" class="container">   
     <div class="page-container">
         <div class="title-wrapper">            
-            <div class="title">New User</div>
+            <div class="title">Edit User</div>
         </div>
-        <div class="support-form-wrapper">
-            <form  ng-submit="submit()" ng-controller="UserAddCtrl">
+      <div class="support-form-wrapper">
+            <form  ng-submit="submit()" ng-controller="UserEditCtrl">
                 <div class="support-element-wrapper">
+                    <input type="hidden" ng-model="_id" name="id" />
+                    <input type="hidden" ng-model="username" name="username" />
                     <div class="support-label">
-                        <label class="support-form-label" for="username">Username</label>  
+                        <label class="support-form-label" for="username2">Username</label>  
                     </div>
                     <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="username" name="username" placeholder="username"  required/>
+                        <input class="form-left-text-element" disabled="disabled" type="text" ng-model="username2" name="username2" placeholder="username" />
                     </div>
-
+                    
                     <div class="support-label">
                         <label class="support-form-label" for="password">Password</label>  
                     </div>
                     <div class="support-element">
                         <input class="form-left-text-element" type="password" ng-model="password" name="password" placeholder="password"  required/>
                     </div>
-
+                    
                     <div class="support-label">
                         <label class="support-form-label" for="confirm">Confirm</label>  
                     </div>
                     <div class="support-element">
                         <input class="form-left-text-element" type="password" ng-model="confirm" name="confirm" placeholder="password"  required/>
                     </div>
-
+                    
                     <div class="support-label">
                         <label class="support-form-label" for="firstName">First Name</label>  
                     </div>
                     <div class="support-element">
                         <input class="form-left-text-element" type="text" ng-model="firstName" name="firstName" placeholder="first name"  required/>
                     </div>
-
+                    
                     <div class="support-label">
                         <label class="support-form-label" for="lastName">Last Name</label>  
                     </div>
                     <div class="support-element">
                         <input class="form-left-text-element" type="text" ng-model="lastName" name="lastName" placeholder="last name"  required/>
                     </div>
-
+                    
                     <div class="support-label">
                         <label class="support-form-label" for="email">Email</label>  
                     </div>
                     <div class="support-element">
                         <input class="form-left-text-element" type="email" ng-model="email" name="email" placeholder="email"  required/>
                     </div>
-
+                    
                     <div class="article-radio-element">
                         <div class="form-radio">
                             <label>
@@ -65,20 +67,22 @@
                             </label>
                         </div>
 
-                    </div>                    
-
+                    </div>
+                    
                     <div class="article-element-wrapper">
                         <div class="article-element-label">
-                            <label class="article-form-label" for="newUserRoleId">User Role</label> 
+                            <label class="article-form-label" for="userRoleId">User Role</label> 
                         </div>
                         <div class="article-element">                    
-                            <select class="form-select-element-left" ng-model="newUserRoleId"  ng-options="role.id as role.roleName for role in userRoleList" name="newUserRoleId" required>
+                            <select class="form-select-element-left" ng-model="roleId"  ng-options="role._id as role.name for role in userRoleList" name="userRoleId" required>
                             </select>
+                            <div class="article-element">  
+                        </div>
                         </div>
                     </div>
-
+                    
                 </div>
-
+                
 
                 <div class="support-submit-button-row">
                     <button  type="submit" class="btn btn-default">Save</button>
@@ -87,6 +91,7 @@
             </form>
         </div>
     </div>
+     
 </div>
 
 <div ng-include src="'partials/footer.html'"></div>

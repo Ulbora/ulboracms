@@ -9,10 +9,10 @@ var manager = require('../managers/manager');
 /**
  * 
  * @param json
-    *      
+ *      
  */
-exports.create = function (json, callback){
-  var returnVal = {
+exports.create = function(json, callback) {
+    var returnVal = {
         success: false,
         message: ""
     };
@@ -53,10 +53,10 @@ exports.create = function (json, callback){
 /**
  * 
  * @param json
-    *      
+ *      
  */
-exports.update = function (json, callback){
-  var returnVal = {
+exports.update = function(json, callback) {
+    var returnVal = {
         success: false,
         message: ""
     };
@@ -101,10 +101,10 @@ exports.update = function (json, callback){
 /**
  * 
  * @param id
-    *      
+ *      
  */
-exports.delete = function (id, callback){
-  var returnVal = {
+exports.delete = function(id, callback) {
+    var returnVal = {
         success: false,
         message: ""
     };
@@ -131,10 +131,10 @@ exports.delete = function (id, callback){
 /**
  * 
  * @param id
-    *      
+ *      
  */
-exports.get = function (id, callback){
-  var isOk = manager.securityCheck(id);
+exports.get = function(id, callback) {
+    var isOk = manager.securityCheck(id);
     if (isOk) {
         console.log("id: " + id);
         var Link = db.getLink();
@@ -155,17 +155,43 @@ exports.get = function (id, callback){
 /**
  * 
  * @param json
-    *      
+ *      
  */
-exports.list = function (callback){
-  var Link = db.getLink();
+exports.list = function(callback) {
+    var returnVal = [];
+    var Link = db.getLink();
     Link.find({}, null, {sort: {name: 1}}, function(err, results) {
         console.log("found link list: " + JSON.stringify(results));
         if (err) {
             callback({});
         } else {
             if (results !== undefined && results !== null) {
-                callback(results);
+                var Language = db.getLanguage();
+                Language.find({}, function(lanListErr, lanList) {
+                    if (!lanListErr && lanList !== undefined && lanList !== null) {
+                        for (var cnt = 0; cnt < results.length; cnt++) {
+                            console.log("test:" + results[cnt].language);
+                            var link = results[cnt].toObject();
+                            for (var lanCnt = 0; lanCnt < lanList.length; lanCnt++) {
+                                var lanId = lanList[lanCnt]._id.toString();
+                                var linkLanId = results[cnt].language.toString();
+                                if (lanId === linkLanId) {
+                                    link.language = lanList[lanCnt];
+                                    console.log("found language: " + JSON.stringify(lanList[lanCnt]));
+                                    break;
+                                }
+                            }
+                            returnVal.push(link);
+                        }
+                        console.log("modified link list: " + JSON.stringify(returnVal));
+                        callback(returnVal);
+                    } else {
+                        callback({});
+                    }
+
+
+                    callback(results);
+                });
             } else {
                 callback({});
             }

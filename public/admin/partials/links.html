@@ -18,7 +18,7 @@
         <tbody>
             <tr ng-repeat="link in linkList">
                 <td>
-                   <a href="#!link/{{link.id}}">{{link.name}}</a> 
+                   <a href="#!link/{{link._id}}">{{link.name}}</a> 
                 </td>
                 <td>
                     {{link.link}}
@@ -28,7 +28,7 @@
                     {{link.language.name}}
                 </td>
                 <td>
-                    <span ng-controller="DeleteLinkCtrl" ng-click="deleteLink(link.id, link.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
+                    <span ng-controller="DeleteLinkCtrl" ng-click="deleteLink(link._id, link.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
                 </td>
                 
             </tr>

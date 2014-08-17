@@ -104,6 +104,22 @@ exports.generateFileUploadKey = function(username){
     return hashPasswordSync(username, getSalt(false));
 };
 
+exports.validateFileUploadKey = function(username, key){
+    var returnVal = false;
+    var saltNow = getSalt(false);
+    var testKey = hashPasswordSync(username, saltNow);
+    if(testKey === key){
+        returnVal = true;
+    }else{
+        var saltPast = getSalt(true);
+        var testKey2 = hashPasswordSync(username, saltPast);
+        if(testKey2 === key){
+            returnVal = true;
+        }
+    }    
+    return returnVal;
+}
+
 
 function getSalt(shiftDown) {
     var returnVal;

@@ -129,8 +129,10 @@ ulboraCmsLocationControllers.controller('LocationCtrl', ['$scope', 'checkCreds',
             
             
             $scope.locationName = response.name;
-            $scope.articleList = response.usageList.articleList;
-            $scope.productList = response.usageList.productList;
+            //$scope.articleList = response.usageList.articleList;
+            //$scope.productList = response.usageList.productList;
+            $scope.articleList = response.articleList;
+            $scope.productList = response.productList;
             
             var artCnt = $scope.articleList.length;
             var prodCnt = $scope.productList.length;

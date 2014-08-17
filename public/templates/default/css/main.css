@@ -1,0 +1,262 @@
+.main-wrapper{
+    float: left;
+    width: 100%; 
+    padding: 0 2% 0 2%;
+}
+.main-left{
+    float: left;   
+}
+.main-middle{
+    float: left;
+}
+.main-right{
+    float: left;
+}
+
+
+
+.main-news-flash{
+    float: left;
+    width: 100%;
+    overflow-y: auto;  
+    margin: 0 0 5% 0;
+    background: ghostwhite;
+    border-radius:6px;
+        -moz-border-radius:6px; /* Firefox 3.6 and earlier */
+}
+.main-links{
+    float: left;
+    width: 100%; 
+    overflow-y: auto;
+    margin: 0 0 5% 0;
+    background: ghostwhite;
+    border-radius:6px;
+        -moz-border-radius:6px; /* Firefox 3.6 and earlier */
+}
+
+.main-cell-row{
+    float: left;
+    width: 100%;
+    padding: 0 0 0 0;
+    text-align: center;
+}
+.main-cell-row a{
+    color: #230fba;
+}
+
+.main-cell-row a:hover{
+    color: red;
+}
+.main-cell-row a:visited{
+    color: #230fba;
+}
+
+.main-cell-body{
+    float: left;
+    width: 95%;
+    margin: 0 0 0 5%;
+
+}
+
+.main-center{
+    float: left;
+    width: 100%;   
+    margin: 0 0 5% 0;   
+}
+
+.front-page-header{
+    float: left;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;    
+}
+
+
+
+
+@media screen and (min-width: 1200px){
+    .main-wrapper{
+        margin: 8% 0 0 0; 
+    }
+    .main-wrapper img{
+        max-width: 100%;
+    }
+    .main-left{        
+        width: 20%;    
+        display: inline;
+
+    }
+    .main-middle{        
+        width: 60%;    
+        display: inline;
+
+    }
+    .main-right{        
+        width: 20%;    
+        display: inline;
+
+    }
+
+}
+
+
+@media screen and (max-width: 1200px){
+    .main-wrapper{
+        margin: 8% 0 0 0; 
+    }
+    .main-wrapper img{
+        max-width: 100%;
+    }
+    .main-left{        
+        width: 20%;    
+        display: inline;
+
+    }
+    .main-middle{        
+        width: 60%;    
+        display: inline;
+
+    }
+    .main-right{        
+        width: 20%;    
+        display: inline;
+
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .main-wrapper{
+        margin: 10% 0 0 0; 
+        
+    }
+    .main-wrapper img{
+        max-width: 80%;
+    }
+
+    .main-left{        
+        width: 20%;    
+        display: inline;
+
+    }
+    .main-middle{        
+        width: 60%;    
+        display: inline;
+
+    }
+    .main-right{        
+        width: 20%;    
+        display: inline;
+
+    }
+}
+
+
+
+@media screen and (max-width: 800px){
+    .main-wrapper{
+        margin: 12% 0 0 0;         
+    }
+    .main-wrapper img{
+        max-width: 90%;
+    }
+    .main-left{        
+        display: none;
+
+    }
+    .main-middle{        
+        width: 100%;    
+        display: inline;
+
+    }
+    .main-right{ 
+        display: none;
+
+    }
+}
+
+@media screen and (max-width: 600px){
+    .main-wrapper{
+        margin: 12% 0 0 0;         
+    }
+    .main-wrapper img{
+        max-width: 90%;
+    }
+    .main-left{        
+        display: none;
+
+    }
+    .main-middle{        
+        width: 100%;    
+        display: inline;
+
+    }
+    .main-right{ 
+        display: none;
+
+    }
+}
+
+@media screen and (max-width: 500px){
+    .main-wrapper{
+        margin: 16% 0 0 0;         
+    }
+    .main-wrapper img{
+        max-width: 90%;
+    }
+    .main-left{        
+        display: none;
+
+    }
+    .main-middle{        
+        width: 100%;    
+        display: inline;
+
+    }
+    .main-right{  
+        display: none;
+
+    }
+}
+
+@media screen and (max-width: 400px){
+    .main-wrapper{
+        margin: 20% 0 0 0;        
+    }
+    .main-wrapper img{
+        max-width: 90%;
+    }
+    .main-left{        
+        display: none;
+
+    }
+    .main-middle{        
+        width: 100%;    
+        display: inline;
+
+    }
+    .main-right{    
+        display: none;
+
+    }
+}
+
+@media screen and (max-width: 300px){
+    .main-wrapper{
+        margin: 26% 0 0 0;         
+    }
+    .main-wrapper img{
+        max-width: 90%;
+    }
+    .main-left{        
+        display: none;
+
+    }
+    .main-middle{        
+        width: 100%;    
+        display: inline;
+
+    }
+    .main-right{ 
+        display: none;
+    }
+}

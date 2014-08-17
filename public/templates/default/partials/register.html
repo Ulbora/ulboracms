@@ -1,0 +1,79 @@
+<div ng-include src="'partials/menus/topMenu.html'"></div>   
+<div id="container" class="container">
+    <div class="main-wrapper">  
+        <div class="title-wrapper">            
+            <div class="login-title">Register</div>            
+        </div>
+        <div class="support-form-wrapper">
+            <form  ng-submit="submit()" ng-controller="RegistrationCtrl">
+                <div class="support-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="username">Username</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="text" ng-model="username" name="username" placeholder="username"  required/>
+                    </div>
+
+                    <div class="support-label">
+                        <label class="support-form-label" for="password">Password</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="password" ng-model="password" name="password" placeholder="password"  required/>
+                    </div>
+
+                    <div class="support-label">
+                        <label class="support-form-label" for="confirm">Confirm</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="password" ng-model="confirm" name="confirm" placeholder="password"  required/>
+                    </div>
+
+                    <div class="support-label">
+                        <label class="support-form-label" for="firstName">First Name</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="text" ng-model="firstName" name="firstName" placeholder="first name"  required/>
+                    </div>
+
+                    <div class="support-label">
+                        <label class="support-form-label" for="lastName">Last Name</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="text" ng-model="lastName" name="lastName" placeholder="last name"  required/>
+                    </div>
+
+                    <div class="support-label">
+                        <label class="support-form-label" for="email">Email</label>  
+                    </div>                    
+
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="email" ng-model="email" name="email" placeholder="email"  required/>
+                    </div>
+
+                    <div class="support-label">
+                        <label class="support-form-label"  for="question">Question</label>
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" id="question" type="text" disabled="disabled" ng-model="challenge.question" name="question"/>            
+                    </div>
+
+                    <div class="support-label">
+                        <label class="support-form-label" for="answer">Answer</label>
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" id="answer" type="text" ng-model="answer" name="answer" required/> 
+                        <input id="key" type="hidden" name="key" ng-model="key" /> 
+                    </div>
+
+                </div>
+
+
+                <div class="support-submit-button-row">
+                    <button  type="submit" class="btn btn-default">Register</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+<div ng-include src="'partials/footer/footer.html'"></div>

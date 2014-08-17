@@ -1,0 +1,115 @@
+body{
+    font-family: arial;
+    font-size: 12pt;
+    color: #230fba;
+}
+.cell-header{
+    float: left;
+    width: 100%;
+    font-weight: bold;
+    text-align: center;
+    border-bottom: #c0c0c0 solid 1px;
+}
+
+.read-more-link{
+    float: left;
+    width: 100%;
+    margin: 5% 0 0 0;
+    font-weight: bold;
+    text-align: center;    
+}
+.read-more-link a{
+    color: #230fba;
+}
+
+.read-more-link a:hover{
+    color: red;
+}
+.read-more-link a:visited{
+    color: #230fba;
+}
+
+.bottom-break-bar{
+    float: left;
+    width: 100%;  
+    height: 1px;
+    border-bottom: #c0c0c0 solid 2px;
+}
+
+
+@media screen and (min-width: 1200px){
+    body{    
+        font-size: 12pt;    
+    }
+    cell-header{
+        font-size: 12pt;
+    }
+
+}
+
+
+@media screen and (max-width: 1200px){
+    body{    
+        font-size: 12pt;    
+    }
+    cell-header{
+        font-size: 12pt;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    body{    
+        font-size: 10pt;    
+    }
+}
+
+
+
+@media screen and (max-width: 800px){
+    body{    
+        font-size: 10pt;    
+    }
+}
+
+@media screen and (max-width: 600px){
+    body{    
+        font-size: 8pt;    
+    }
+}
+
+
+@media screen and (max-width: 400px){
+    body{    
+        font-size: 8pt;    
+    }
+}
+
+.warning{
+    float: left;
+    width: 80%;
+    margin: 10% 0 0 10%;
+    text-align: center;
+    font-size: 16pt;
+    font-style: italic;
+    font-weight: bold;
+    
+}
+
+.messageSuccess{
+    color: green;
+}
+.messageFail{
+    color: red;
+}
+
+.navbar-brandfocus {
+  color: white;  
+  background-color: transparent;  
+}
+
+.footer{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 40% 0 10% 0;
+}

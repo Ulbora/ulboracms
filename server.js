@@ -16,6 +16,8 @@ var linksService = require('./services/linksService');
 var locationService = require('./services/locationService');
 var ulboraUserService = require('./services/ulboraUserService');
 var articleService = require('./services/articleService');
+var mediaService = require('./services/mediaService');
+var imageService = require('./services/imageService');
 
 
 
@@ -96,58 +98,61 @@ var nodeBlog = function() {
      */
     self.initializeServer = function() {
 
-        self.app = express();        
+        self.app = express();
         self.app.use(express.logger('dev'));
         self.app.use(express.bodyParser());
         self.app.use(express.static(__dirname + '/public'));
         var auth = express.basicAuth(un, pw);
         db.initializeMongoDb();
-        
+
+        // initial web apps
+        initializeWebApp(self);
+
 
         self.app.post('/rs/public/login', publicService.login);
         self.app.post('/rs/accessLevel', accessLevelService.create);//just for test
-        
-        
-        
+
+
+
         //language
         self.app.post('/rs/language', languageService.create);
         self.app.put('/rs/language', languageService.update);
         self.app.delete('/rs/language/:id', languageService.delete);
         self.app.get('/rs/language/:id', languageService.get);
         self.app.post('/rs/language/list', languageService.list);
-        
-        
+
+
         //category
         self.app.post('/rs/category', categoryService.create);
         self.app.put('/rs/category', categoryService.update);
         self.app.delete('/rs/category/:id', categoryService.delete);
         self.app.get('/rs/category/:id', categoryService.get);
         self.app.post('/rs/category/list', categoryService.list);
-        
-        
+
+
         //section
         self.app.post('/rs/section', sectionService.create);
         self.app.put('/rs/section', sectionService.update);
         self.app.delete('/rs/section/:id', sectionService.delete);
         self.app.get('/rs/section/:id', sectionService.get);
         self.app.post('/rs/section/list', sectionService.list);
-        
-        
+
+
         //links
         self.app.post('/rs/link', linksService.create);
         self.app.put('/rs/link', linksService.update);
         self.app.delete('/rs/link/:id', linksService.delete);
         self.app.get('/rs/link/:id', linksService.get);
         self.app.post('/rs/link/list', linksService.list);
-        
-        
+
+
         //location
         self.app.post('/rs/location', locationService.create);
         //self.app.put('/rs/location', locationService.update);
         self.app.delete('/rs/location/:id', locationService.delete);
         self.app.get('/rs/location/:id', locationService.get);
         self.app.post('/rs/location/list', locationService.list);
-        
+
         //user
         self.app.post('/rs/user', ulboraUserService.create);
         self.app.put('/rs/user', ulboraUserService.update);
@@ -156,11 +161,24 @@ var nodeBlog = function() {
         self.app.post('/rs/user/list', ulboraUserService.list);
         self.app.post('/rs/user/pw', ulboraUserService.changePassword);
         self.app.post('/rs/user/roleList', ulboraUserService.roleList);
-        
+
         //article
         self.app.post('/rs/article/values', articleService.values);
-        
 
+
+        //media         
+        self.app.post('/rs/media/upload', mediaService.create);
+        self.app.get('/image/get/:id', imageService.get);
+        self.app.put('/rs/media', mediaService.update);
+        //self.app.get('/rs/media/:id', mediaService.get);
+        self.app.get('/rs/media/:id', function(req, res){
+            mediaService.get(req, res, self.port);
+        });
+        self.app.delete('/rs/media/:id', mediaService.delete);
+        //self.app.post('/rs/media/list', mediaService.list);
+        self.app.post('/rs/media/list', function(req, res){
+            mediaService.list(req, res, self.port);
+        });
 
 
         self.app.get('/rs/test', auth, function(req, res) {
@@ -173,23 +191,23 @@ var nodeBlog = function() {
         //self.app.get('/NodeBlog/blogList', blogPost.findBlogList);
         //self.app.get('/NodeBlog/blog/:id', blogPost.findBlog);
         /*
-        self.app.post('/UlboraCms/login', function(req, res) {
-            var reqBody = req.body;
-            var auth = false;
-            if (!req.is('application/json')) {
-                res.status(415);
-            } else {
-                if (reqBody.username === un && reqBody.password === pw) {
-                    auth = true;
-                }
-            }
-            var returnVal = {
-                "authenticated": auth
-            };
-            res.send(returnVal);
-
-        });
-        */
+         self.app.post('/UlboraCms/login', function(req, res) {
+         var reqBody = req.body;
+         var auth = false;
+         if (!req.is('application/json')) {
+         res.status(415);
+         } else {
+         if (reqBody.username === un && reqBody.password === pw) {
+         auth = true;
+         }
+         }
+         var returnVal = {
+         "authenticated": auth
+         };
+         res.send(returnVal);
+         
+         });
+         */
         self.app.post('/rs/blogTest', function(req, res) {
             var reqBody = req.body;
             console.log("new Blog: " + JSON.stringify(reqBody));
@@ -202,7 +220,7 @@ var nodeBlog = function() {
      *  Initializes the sample application.
      */
     self.initialize = function() {
-        self.setupVariables();        
+        self.setupVariables();
         self.setupTerminationHandlers();
 
         // Create the express server and routes.
@@ -225,7 +243,70 @@ var nodeBlog = function() {
 
 };
 
+var initializeWebApp = function(self) {
 
+    self.app.get('/', function(req, res) {
+        getDefaultTemplate(function(template) {
+            res.sendfile("public/templates/" + template + "/index.html");
+        });
+
+    });
+
+    self.app.get('/css/*', function(req, res) {
+        getDefaultTemplate(function(template) {
+            res.redirect('templates/' + template + req.originalUrl);
+        });
+
+    });
+
+    self.app.get('/font/*', function(req, res) {
+        getDefaultTemplate(function(template) {
+            res.redirect('templates/' + template + req.originalUrl);
+        });
+
+    });
+
+    self.app.get('/img/*', function(req, res) {
+        getDefaultTemplate(function(template) {
+            res.redirect('templates/' + template + req.originalUrl);
+        });
+
+    });
+
+    self.app.get('/js/*', function(req, res) {
+        getDefaultTemplate(function(template) {
+            res.redirect('templates/' + template + req.originalUrl);
+        });
+
+    });
+
+    self.app.get('/lib-css/*', function(req, res) {
+        getDefaultTemplate(function(template) {
+            res.redirect('templates/' + template + req.originalUrl);
+        });
+
+    });
+
+    self.app.get('/partials/*', function(req, res) {
+        getDefaultTemplate(function(template) {
+            res.redirect('templates/' + template + req.originalUrl);
+        });
+
+    });
+
+};
+
+var getDefaultTemplate = function(callback) {
+    var Template = db.getTemplate();
+    Template.findOne({defaultTemplate: true}, function(err, results) {
+        console.log("found template set to default: " + JSON.stringify(results));
+        if (!err && (results !== undefined && results !== null)) {
+            callback(results.name);
+        } else {
+            callback("default");
+        }
+    });
+};
 
 /**
  *  main():  Main code.

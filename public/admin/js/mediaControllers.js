@@ -9,15 +9,15 @@ ulboraCmsMediaControllers.controller('MediaListCtrl', ['$scope', 'checkCreds', '
         if (checkCreds() !== true) {
             $location.path('/loginForm');
         }
-        
+
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        MediaList.getMediaList({}, 
+        MediaList.getMediaList({},
                 function success(response) {
                     //alert($scope.challenge.question);
                     console.log("Success:" + JSON.stringify(response));
 
-                    $scope.mediaList = response;                    
-                   
+                    $scope.mediaList = response;
+
                 },
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
@@ -46,7 +46,7 @@ ulboraCmsMediaControllers.controller('DeleteMediaCtrl', ['$scope', 'Media', '$lo
                     } else {
                         alert("Failed");
                     }
-                    
+
                     $route.reload();
                 },
                         function error(errorResponse) {
@@ -61,72 +61,76 @@ ulboraCmsMediaControllers.controller('DeleteMediaCtrl', ['$scope', 'Media', '$lo
     }]);
 
 /*
-ulboraCmsMediaControllers.controller('MediaAddCtrl', ['$scope', 'MediaUpload', '$location', '$http', 'getToken',
-    function MediaAddCtrl($scope, MediaUpload, $location, $http, getToken) {
-        $scope.submit = function() {            
-            
-                var postData = {                    
-                    "name": $scope.name,
-                    "uploadKey": $scope.uploadKey,
-                    "username" : $scope.username,
-                    "errorLink" : $scope.errorLink,
-                    "returnLink": $scope.returnLink,
-                    "file" : $scope.file
-                };
-                console.log("json request:" + JSON.stringify(postData));
-                $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-                MediaUpload.addMedia({}, postData,
-                        function success(response) {                            
-                            console.log("Success:" + JSON.stringify(response));
-                            if (response.success === true) {
-                                // set cookie
-                                //setCreds($scope.username, $scope.password);
-                                //$location.path('/');
-                                console.log("Success:" + JSON.stringify(response));
-                                $location.path('/mediaList');
-                            } else {
-                                //$location.path('/loginFailedForm');
-                                console.log("Failed:" + JSON.stringify(response));
-                            }
-                        },
-                        function error(errorResponse) {
-                            console.log("Error:" + JSON.stringify(errorResponse));
-                            //$location.path('/loginFailedForm');
-                            $location.path('/mediaList');
-                        }
-                );
-           
-
-            //$location.path('/articles');
-        };
-
-    }]);
-*/
+ ulboraCmsMediaControllers.controller('MediaAddCtrl', ['$scope', 'MediaUpload', '$location', '$http', 'getToken',
+ function MediaAddCtrl($scope, MediaUpload, $location, $http, getToken) {
+ $scope.submit = function() {            
+ 
+ var postData = {                    
+ "name": $scope.name,
+ "uploadKey": $scope.uploadKey,
+ "username" : $scope.username,
+ "errorLink" : $scope.errorLink,
+ "returnLink": $scope.returnLink,
+ "file" : $scope.file
+ };
+ console.log("json request:" + JSON.stringify(postData));
+ $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+ MediaUpload.addMedia({}, postData,
+ function success(response) {                            
+ console.log("Success:" + JSON.stringify(response));
+ if (response.success === true) {
+ // set cookie
+ //setCreds($scope.username, $scope.password);
+ //$location.path('/');
+ console.log("Success:" + JSON.stringify(response));
+ $location.path('/mediaList');
+ } else {
+ //$location.path('/loginFailedForm');
+ console.log("Failed:" + JSON.stringify(response));
+ }
+ },
+ function error(errorResponse) {
+ console.log("Error:" + JSON.stringify(errorResponse));
+ //$location.path('/loginFailedForm');
+ $location.path('/mediaList');
+ }
+ );
+ 
+ 
+ //$location.path('/articles');
+ };
+ 
+ }]);
+ */
 ulboraCmsMediaControllers.controller('NewMediaCtrl', ['$scope', 'checkCreds', '$location', "ArticleValues", '$http', 'getToken',
     function NewMediaCtrl($scope, checkCreds, $location, ArticleValues, $http, getToken) {
         if (checkCreds() !== true) {
             $location.path('/loginForm');
         }
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        ArticleValues.getValues({}, 
+        var postData = {
+            "languageCode": "en-us"
+        };
+
+        ArticleValues.getValues({}, postData,
                 function success(response) {
                     //alert($scope.challenge.question);
                     console.log("Success:" + JSON.stringify(response));
 
-                    $scope.uploadKey = response.uploadKey; 
-                    $scope.errorUrl = clientUrl;
-                    $scope.mediaUrl = clientUrl + "/#!/mediaList/";
+                    $scope.uploadKey = response.uploadKey;
+                    $scope.errorUrl = "admin/#!";
+                    $scope.mediaUrl = "admin/#!mediaList";
                     $scope.username = response.username;
-                    $scope.api = siteUrl + "media/upload";
-                   
+                    $scope.api = "../../rs/media/upload";
+
                 },
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
                     //$location.path('/loginFailedForm');
                 }
         );
-        
-        
+
+
         $scope.newMediaActiveClass = "active";
 
     }]);
@@ -142,7 +146,7 @@ ulboraCmsMediaControllers.controller('MediaCtrl', ['$scope', 'checkCreds', '$loc
         var mediaId = $routeParams.a;
         //$scope.link = $routeParams.link;
         //$scope.name = $routeParams.name;
-        
+
         Media.get({id: mediaId},
         function success(response) {
             //alert($scope.challenge.question);
@@ -152,7 +156,7 @@ ulboraCmsMediaControllers.controller('MediaCtrl', ['$scope', 'checkCreds', '$loc
             $scope.name = response.name;
             $scope.imageLink = response.imageLink;
             $scope.imageType = response.extension;
-            
+
 
         },
                 function error(errorResponse) {
@@ -161,16 +165,16 @@ ulboraCmsMediaControllers.controller('MediaCtrl', ['$scope', 'checkCreds', '$loc
                 }
         );
 
-        
+
     }]);
 
 ulboraCmsMediaControllers.controller('MediaEditCtrl', ['$scope', 'Media', '$location', '$http', 'getToken',
     function MediaEditCtrl($scope, Media, $location, $http, getToken) {
         $scope.submit = function() {
-            
+
             var putData = {
-                "id": Number($scope.mediaId),
-                "name": $scope.name                
+                "id": $scope.mediaId,
+                "name": $scope.name
             };
             console.log("json request:" + JSON.stringify(putData));
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();

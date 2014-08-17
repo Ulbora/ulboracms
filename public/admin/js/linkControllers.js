@@ -66,10 +66,10 @@ ulboraCmsLinkControllers.controller('LinkAddCtrl', ['$scope', 'Link', '$location
     function LinkAddCtrl($scope, Link, $location, $http, getToken) {
         $scope.submit = function() {
 
-            var postData = {                
+            var postData = {
                 "name": $scope.name,
                 "link": $scope.link,
-                "language": $scope.languageId   
+                "language": $scope.languageId
             };
 
             console.log("json request:" + JSON.stringify(postData));
@@ -139,9 +139,7 @@ ulboraCmsLinkControllers.controller('LinkEditCtrl', ['$scope', 'Link', '$locatio
                 "id": $scope.linkId,
                 "name": $scope.name,
                 "link": $scope.link,
-                "language": {
-                    "id": $scope.languageId
-                }
+                "language": $scope.languageId
             };
             console.log("json request:" + JSON.stringify(putData));
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
@@ -172,26 +170,31 @@ ulboraCmsLinkControllers.controller('LinkEditCtrl', ['$scope', 'Link', '$locatio
     }]);
 
 
-ulboraCmsLinkControllers.controller('LinkCtrl', ['$scope', 'checkCreds', '$location', "Link", '$routeParams', '$http', 'getToken',
-    function LinkCtrl($scope, checkCreds, $location, Link, $routeParams, $http, getToken) {
+ulboraCmsLinkControllers.controller('LinkCtrl', ['$scope', 'checkCreds', '$location', "Link", '$routeParams', '$http', 'getToken', 'LanguageList',
+    function LinkCtrl($scope, checkCreds, $location, Link, $routeParams, $http, getToken, LanguageList) {
         if (checkCreds() !== true) {
             $location.path('/loginForm');
         }
 
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-
         var configId = $routeParams.a;
         Link.get({id: configId},
         function success(response) {
-            //alert($scope.challenge.question);
-            console.log("Success:" + JSON.stringify(response));
-
-            $scope.linkId = response.id;
-            $scope.name = response.name;
-            $scope.link = response.link;
-            $scope.languageId = response.language.id;
-            $scope.languageList = response.languageList;
-
+            LanguageList.getLanguageList({},
+                    function success(lanList) {
+                        //alert($scope.challenge.question);
+                        console.log("Success:" + JSON.stringify(response));
+                        $scope.linkId = response._id;
+                        $scope.name = response.name;
+                        $scope.link = response.link;
+                        $scope.languageId = response.language;
+                        $scope.languageList = lanList;
+                        console.log("Success:" + JSON.stringify(lanList));
+                    },
+                    function error(errorLanList) {
+                        console.log("Error:" + JSON.stringify(errorLanList));
+                    }
+            );
 
         },
                 function error(errorResponse) {

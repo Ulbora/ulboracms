@@ -6,20 +6,20 @@ var ulboraCmsAdminServices = angular.module('ulboraCmsAdminServices', ['ngResour
 
 ulboraCmsAdminServices.factory('Challenge', ['$resource',
     function($resource) {
-        return $resource("./rsuser/getChallenge", {}, {
+        return $resource("../rsuser/getChallenge", {}, {
             getChallenge: {method: 'GET', params: {languageCode: "en_US"}, isArray: false}
         });
     }]);
 
 ulboraCmsAdminServices.factory('Login', ['$resource',
     function($resource) {
-        return $resource("./rs/public/login", {}, {
+        return $resource("../rs/public/login", {}, {
         });
     }]);
 
 ulboraCmsAdminServices.factory('ArticleValues', ['$resource',
     function($resource) {
-        return $resource("./rs/article/values", {}, {
+        return $resource("../rs/article/values", {}, {
             getValues: {method: 'POST', cache: false, params: {}, isArray: false}
         });
     }]);
@@ -27,14 +27,14 @@ ulboraCmsAdminServices.factory('ArticleValues', ['$resource',
 
 ulboraCmsAdminServices.factory('ArticleList', ['$resource',
     function($resource) {
-        return $resource("./rs/article/list", {}, {
+        return $resource("../rs/article/list", {}, {
             getArticleList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
 
 ulboraCmsAdminServices.factory('Article', ['$resource',
     function($resource) {
-        return $resource("./rs/article/:id", {}, {
+        return $resource("../rs/article/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -45,14 +45,14 @@ ulboraCmsAdminServices.factory('Article', ['$resource',
 
 ulboraCmsAdminServices.factory('SectionList', ['$resource',
     function($resource) {
-        return $resource("./rs/section/list", {}, {
+        return $resource("../rs/section/list", {}, {
             getSectionList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
 
 ulboraCmsAdminServices.factory('Section', ['$resource',
     function($resource) {
-        return $resource("./rs/section/:id", {}, {
+        return $resource("../rs/section/:id", {}, {
             //get: {method: 'GET', isArray: false, headers: {Authorization: 'Basic ' + getToken()}},
             save: {method: 'POST', cache: false, isArray: false},
             //update: {method: 'PUT', isArray: false, headers: {Authorization: 'Basic ' + getToken()}},
@@ -62,7 +62,7 @@ ulboraCmsAdminServices.factory('Section', ['$resource',
 
 ulboraCmsAdminServices.factory('CategoryList', ['$resource',
     function($resource) {
-        return $resource("./rs/category/list", {}, {
+        return $resource("../rs/category/list", {}, {
             getCategoryList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
@@ -71,7 +71,7 @@ ulboraCmsAdminServices.factory('CategoryList', ['$resource',
 
 ulboraCmsAdminServices.factory('Category', ['$resource',
     function($resource) {
-        return $resource("./rs/category/:id", {}, {
+        return $resource("../rs/category/:id", {}, {
             //get: {method: 'GET', isArray: false, headers: {Authorization: 'Basic ' + getToken()}},
             save: {method: 'POST', cache: false, isArray: false},
             //update: {method: 'PUT', isArray: false, headers: {Authorization: 'Basic ' + getToken()}},
@@ -87,7 +87,7 @@ ulboraCmsAdminServices.factory('Category', ['$resource',
 
 ulboraCmsAdminServices.factory('LanguageList', ['$resource',
     function($resource) {
-        return $resource("./rs/language/list", {}, {
+        return $resource("../rs/language/list", {}, {
             getLanguageList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
@@ -96,7 +96,7 @@ ulboraCmsAdminServices.factory('LanguageList', ['$resource',
 
 ulboraCmsAdminServices.factory('Language', ['$resource',
     function($resource) {
-        return $resource("./rs/language/:id", {}, {
+        return $resource("../rs/language/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -107,7 +107,7 @@ ulboraCmsAdminServices.factory('Language', ['$resource',
 
 ulboraCmsAdminServices.factory('LocationList', ['$resource',
     function($resource) {
-        return $resource("./rs/location/list", {}, {
+        return $resource("../rs/location/list", {}, {
             getLocationList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
@@ -116,7 +116,7 @@ ulboraCmsAdminServices.factory('LocationList', ['$resource',
 
 ulboraCmsAdminServices.factory('Location', ['$resource',
     function($resource) {
-        return $resource("./rs/location/:id", {}, {
+        return $resource("../rs/location/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -127,7 +127,7 @@ ulboraCmsAdminServices.factory('Location', ['$resource',
 
 ulboraCmsAdminServices.factory('LinkList', ['$resource',
     function($resource) {
-        return $resource("./rs/link/list", {}, {
+        return $resource("../rs/link/list", {}, {
             getList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
@@ -136,7 +136,7 @@ ulboraCmsAdminServices.factory('LinkList', ['$resource',
 
 ulboraCmsAdminServices.factory('Link', ['$resource',
     function($resource) {
-        return $resource("./rs/link/:id", {}, {
+        return $resource("../rs/link/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -148,7 +148,7 @@ ulboraCmsAdminServices.factory('Link', ['$resource',
 
 ulboraCmsAdminServices.factory('ConfigurationList', ['$resource',
     function($resource) {
-        return $resource("./rs/configuration/list", {}, {
+        return $resource("../rs/configuration/list", {}, {
             getList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
@@ -157,7 +157,7 @@ ulboraCmsAdminServices.factory('ConfigurationList', ['$resource',
 
 ulboraCmsAdminServices.factory('Configuration', ['$resource',
     function($resource) {
-        return $resource("./rs/configuration/:id", {}, {
+        return $resource("../rs/configuration/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -167,14 +167,14 @@ ulboraCmsAdminServices.factory('Configuration', ['$resource',
 
 ulboraCmsAdminServices.factory('ProductList', ['$resource',
     function($resource) {
-        return $resource("./rs/product/list", {}, {
+        return $resource("../rs/product/list", {}, {
             getList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
 
 ulboraCmsAdminServices.factory('Product', ['$resource',
     function($resource) {
-        return $resource("./rs/product/:id", {}, {
+        return $resource("../rs/product/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -184,21 +184,21 @@ ulboraCmsAdminServices.factory('Product', ['$resource',
 
 ulboraCmsAdminServices.factory('MediaList', ['$resource',
     function($resource) {
-        return $resource("./rs/media/list", {}, {
+        return $resource("../rs/media/list", {}, {
             getMediaList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
 
 ulboraCmsAdminServices.factory('MediaUpload', ['$resource',
     function($resource) {
-        return $resource("./rs/media/upload", {}, {
+        return $resource("../rs/media/upload", {}, {
             addMedia: {method: 'POST', cache: false, isArray: false, headers: {'Content-Type': 'multipart/form-data'}}
         });
     }]);
 
 ulboraCmsAdminServices.factory('Media', ['$resource',
     function($resource) {
-        return $resource("./rs/media/:id", {}, {
+        return $resource("../rs/media/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -208,14 +208,14 @@ ulboraCmsAdminServices.factory('Media', ['$resource',
 
 ulboraCmsAdminServices.factory('DownloadableFileList', ['$resource',
     function($resource) {
-        return $resource("./rs/downloadableFile/list", {}, {
+        return $resource("../rs/downloadableFile/list", {}, {
             getList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
 
 ulboraCmsAdminServices.factory('DownloadableFile', ['$resource',
     function($resource) {
-        return $resource("./rs/downloadableFile/:id", {}, {
+        return $resource("../rs/downloadableFile/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -225,28 +225,28 @@ ulboraCmsAdminServices.factory('DownloadableFile', ['$resource',
 
 ulboraCmsAdminServices.factory('UserList', ['$resource',
     function($resource) {
-        return $resource("./rs/user/list", {}, {
+        return $resource("../rs/user/list", {}, {
             getUserList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
 
 ulboraCmsAdminServices.factory('UserRoleList', ['$resource',
     function($resource) {
-        return $resource("./rs/user/roleList", {}, {
+        return $resource("../rs/user/roleList", {}, {
             getUserRoleList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
 
 ulboraCmsAdminServices.factory('Password', ['$resource',
     function($resource) {
-        return $resource("./rs/ulboraUser/pw", {}, {
+        return $resource("../rs/user/pw", {}, {
             change: {method: 'POST', cache: false, isArray: false}
         });
     }]);
 
 ulboraCmsAdminServices.factory('User', ['$resource',
     function($resource) {
-        return $resource("./rs/user/:id", {}, {
+        return $resource("../rs/user/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
@@ -256,21 +256,21 @@ ulboraCmsAdminServices.factory('User', ['$resource',
 
 ulboraCmsAdminServices.factory('AdminSummary', ['$resource',
     function($resource) {
-        return $resource("./rs/admin/summary", {}, {
+        return $resource("../rs/admin/summary", {}, {
             get: {method: 'POST', cache: false, isArray: false}
         });
     }]);
 
 ulboraCmsAdminServices.factory('AddonsList', ['$resource',
     function($resource) {
-        return $resource("./rs/addons/list", {}, {
+        return $resource("../rs/addons/list", {}, {
             getList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
 
 ulboraCmsAdminServices.factory('Addons', ['$resource',
     function($resource) {
-        return $resource("./rs/addons/:id", {}, {
+        return $resource("../rs/addons/:id", {}, {
             get: {method: 'GET', cache: false, isArray: false},
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},

@@ -93,10 +93,30 @@ exports.get = function(id, callback) {
     if (isOk) {
         console.log("id: " + id);
         var Location = db.getLocation();
-        Location.findById(id, function(err, results) {
-            console.log("found location: " + JSON.stringify(results));
-            if (!err && (results !== undefined && results !== null)) {
-                callback(results);
+        Location.findById(id, function(err, location) {
+            console.log("found location: " + JSON.stringify(location));
+            if (!err && (location !== undefined && location !== null)) {
+                var loc = location.toObject();
+                var ArticleLocation = db.getArticleLocation();
+                ArticleLocation.find({location: location._id}, function(err, articleLocations) {
+                    console.log("found article locations: " + JSON.stringify(articleLocations));
+                    if (!err && (articleLocations === undefined || articleLocations === null)) {
+                        loc.articleList = articleLocations;
+                    } else {
+                        loc.articleList = [];
+                    }
+                    var ProductLocation = db.getProductLocation();
+                    ProductLocation.find({location: location._id}, function(err, productLocations) {
+                        console.log("found product locations: " + JSON.stringify(productLocations));
+                        if (!err && (productLocations === undefined || productLocations === null)) {
+                            loc.productList = productLocations;
+                        } else {
+                            loc.productList = [];
+                        }
+                        callback(loc);
+                    });
+                });
+
             } else {
                 callback({});
             }

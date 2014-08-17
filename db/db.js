@@ -48,6 +48,7 @@ var sectionSchema = require('../databaseSchema/sectionSchema');
 var tagSchema = require('../databaseSchema/tagSchema');
 var userSchema = require('../databaseSchema/userSchema');
 var workflowRuleSchema = require('../databaseSchema/workflowRuleSchema');
+var templateSchema = require('../databaseSchema/templateSchema');
 
 
 
@@ -76,6 +77,7 @@ var Product = mongoose.model('Product', productSchema);
 var ProductLocation = mongoose.model('ProductLocation', productLocationSchema);
 var ProductPrice = mongoose.model('ProductPrice', productPriceSchema);
 var DownloadableFile = mongoose.model('DownloadableFile', downloadableFileSchema);
+var Template = mongoose.model('Template', templateSchema);
 
 
 exports.getAccessLevel = function() {
@@ -152,6 +154,9 @@ exports.getProductPrice = function() {
 };
 exports.getDownloadableFile = function() {
     return DownloadableFile;
+};
+exports.getTemplate = function() {
+    return Template;
 };
 
 //initialize the mongoDB database with needed records required for startup
@@ -355,9 +360,40 @@ initializeLanguage = function() {
                             if (err) {
                                 console.log("spanish language save error: " + err);
                             } else {
-                                //future use
+                                //initial template
+                                initializeTemplate();
                             }
                         });
+                    }
+                });
+            } else {
+                //initial template
+                initializeTemplate();
+            }
+        }
+    });
+};
+
+
+initializeTemplate = function() {
+    //check if english language is in database
+    Template.find({}, function(err, results) {        
+        if (err) {            
+            console.log("template Error:" + err);
+        } else {
+            console.log("template:" + JSON.stringify(results));
+            if (results.length === 0) {
+                var templateRecord = {
+                    name: "default",
+                    defaultTemplate: true
+                };
+                
+                var tmp = new Template(templateRecord);
+                tmp.save(function(err) {
+                    if (err) {
+                        console.log("template save error: " + err);
+                    } else {
+                       //future use
                     }
                 });
             } else {

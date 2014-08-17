@@ -1,0 +1,129 @@
+.login-page-container{
+    float: left;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    width: 100%;
+
+}
+.title-wrapper{
+    float: left;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;    
+}
+
+.login-form-wrapper{
+    float: left;
+    width: 50%;    
+    padding: 0 0 0 0;
+    margin: 0 0 0 25%;
+    border-radius:7px;
+    -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+    border: #230fba solid 1px;
+    background: whitesmoke;
+}
+.login-element-row{
+    float: left;
+    width: 100%;       
+}
+
+.login-button-row{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 2% 0 2% 0;
+}
+
+.login-fail{
+    width: 100%;
+    color: red;
+    font-weight: bold;
+    font-size: 12pt;
+    text-align: center;
+    margin: 0 0 1% 0;
+}
+
+.login-botton-wrapper{
+    float: left;
+    width: 100%;
+    
+}
+.login-botton{
+    float: left;
+    width: 50%;
+    display: inline;
+    text-align: center;
+    padding: 1% 0 1% 0;
+   
+}
+.login-botton a{
+    color: #230fba;
+}
+
+.login-botton a:hover{
+    color: red;
+}
+.login-botton a:visited{
+    color: #230fba;
+}
+
+
+
+@media screen and (min-width: 1200px){
+    .login-page-container{
+        margin: 8% 0 0 0; 
+    }
+    .title-wrapper{
+        font-size: 14pt;
+    }
+
+}
+
+
+@media screen and (max-width: 1200px){
+    .login-page-container{
+        margin: 8% 0 0 0; 
+    }
+    .title-wrapper{
+        font-size: 14pt;
+    }
+}
+
+@media screen and (max-width: 1000px){
+    .login-page-container{
+        margin: 8% 0 0 0; 
+    }
+    .title-wrapper{
+        font-size: 12pt;
+    }
+}
+
+
+
+@media screen and (max-width: 800px){
+    .login-page-container{
+        margin: 8% 0 0 0; 
+    }
+    .title-wrapper{
+        font-size: 12pt;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .login-page-container{
+        margin: 8% 0 0 0; 
+    }
+    .title-wrapper{
+        font-size: 10pt;
+    }
+}
+
+
+@media screen and (max-width: 400px){
+    .login-page-container{
+        margin: 8% 0 0 0; 
+    }
+    .title-wrapper{
+        font-size: 10pt;
+    }
+}

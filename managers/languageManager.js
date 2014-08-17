@@ -184,7 +184,7 @@ handleDefault = function(json, callback) {
             console.log("found language set to default: " + JSON.stringify(results));
             if (!err && (results !== undefined && results !== null)) {
                 for (var cnt = 0; cnt < results.length; cnt++) {
-                    lan = results[cnt];
+                    var lan = results[cnt];
                     lan.defaultLanguage = false;
                     lan.save(function(err) {
                         if (err) {
