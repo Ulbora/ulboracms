@@ -20,10 +20,10 @@
         <tbody>
             <tr ng-repeat="article in articleList">
                 <td>
-                    <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                    <a href="#!article/{{article._id}}">{{article.title}}</a> 
                 </td>
                 <td>
-                    {{article.createdDate}}
+                    {{article.createdDate | date:'MM/dd/yyyy'}}
                 </td>
                 <td>
                     {{article.published}}
@@ -32,10 +32,10 @@
                     {{article.frontPage}}
                 </td>
                 <td>
-                    {{article.author.firstName}} {{article.author.lastName}}
+                    {{article.user.firstName}} {{article.user.lastName}}
                 </td>
                 <td>
-                    <span ng-controller="DeleteArticlesCtrl" ng-click="deleteArticle(article.id, article.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
+                    <span ng-controller="DeleteArticlesCtrl" ng-click="deleteArticle(article._id, article.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
                 </td>
             </tr>
         </tbody>

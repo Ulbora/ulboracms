@@ -66,46 +66,35 @@ ulboraCmsConfigurationControllers.controller('ConfigurationAddCtrl', ['$scope', 
     function ConfigurationAddCtrl($scope, Configuration, $location, $http, getToken) {
         $scope.submit = function() {
 
-            var defaultLanguage = false;
-            var defaultLan = $scope.defaultLanguage;
-            if (defaultLan === "true") {
-                defaultLanguage = true;
-            }
+            //var defaultLanguage = false;
+            // var defaultLan = $scope.defaultLanguage;
+            //if (defaultLan === "true") {
+            // defaultLanguage = true;
+            /// }
 
             var postData = {
                 "id": null,
-                "domainName" : $scope.domainName,
-                "metaData": {
-                    "id": null,
-                    "metaDescription": $scope.metaDesc,
-                    "metaKeyWords": $scope.metaKeywords,
-                    "metaRobotKeyWords": $scope.robotKeywords,
-                    "metaAuthorName": $scope.metaAuthor
-                },
-                "configurationTextList": [
-                    {
-                        "id": null,
-                        "siteName": $scope.siteName,
-                        "siteDescription": $scope.desc,
-                        "language": {
-                            "id": Number($scope.languageId)
-                        },
-                        "signOnMessage": $scope.signOnMessage,
-                        "rememberMeMessage": $scope.rememberMeMessage,
-                        "forgotPasswordMessage": $scope.forgotPasswordMessage,
-                        "usernameLabel": $scope.usernameLabel,
-                        "passwordLabel": $scope.passwordLabel,
-                        "loginButtonLabel": $scope.loginButtonLabel,
-                        "passwordRecoveryMessage": $scope.passwordRecoveryMessage,
-                        "passwordRecoveryButtonLabel": $scope.passwordRecoveryButtonLabel,
-                        "changePasswordMessage": $scope.changePasswordMessage,
-                        "oldPasswordLabel": $scope.oldPasswordLabel,
-                        "newPasswordLabel": $scope.newPasswordLabel,
-                        "confirmPasswordLabel": $scope.confirmPasswordLabel,
-                        "changePasswordButtonLabel": $scope.changePasswordButtonLabel,
-                        "logoutMessage": $scope.logoutMessage
-                    }
-                ]
+                "domainName": $scope.domainName,
+                "siteName": $scope.siteName,
+                "language": $scope.languageId,
+                "siteDesc": $scope.desc,
+                "registrationEmailActivationSubject": $scope.actEmailSub,
+                "registrationEmailActivationTitle": $scope.actEmailTitle,
+                "registrationEmailActivationGreeting": $scope.actEmailGreeting,
+                "registrationEmailActivationMessage": $scope.actEmailMessage,
+                "registrationEmailActivationUrl": $scope.actEmailUrl,
+                "registrationEmailWelcomeSubject": $scope.welcomeEmailSub,
+                "registrationEmailWelcomeTitle": $scope.welcomeEmailTitle,
+                "registrationEmailWelcomeGreeting": $scope.welcomeEmailGreeting,
+                "registrationEmailWelcomeMessage": $scope.welcomeEmailMessage,
+                "registrationEmailWelcomeUrl": $scope.welcomeEmailUrl,
+                "resetPasswordEmailSubject": $scope.passwordResetEmailSub,
+                "resetPasswordEmailTitle": $scope.passwordResetEmailTitle,
+                "resetPasswordEmailGreeting": $scope.passwordResetEmailGreeting,
+                "resetPasswordEmailMessage": $scope.passwordResetEmailMessage,
+                "resetPasswordEmailUrl": $scope.passwordResetEmailUrl
+
+
             };
 
             console.log("json request:" + JSON.stringify(postData));
@@ -141,16 +130,16 @@ ulboraCmsConfigurationControllers.controller('ConfigurationAddCtrl', ['$scope', 
 
 
 
-ulboraCmsConfigurationControllers.controller('NewConfigurationCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'ArticleValues',
-    function NewConfigurationCtrl($scope, checkCreds, $location, $http, getToken, ArticleValues) {
+ulboraCmsConfigurationControllers.controller('NewConfigurationCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'LanguageList',
+    function NewConfigurationCtrl($scope, checkCreds, $location, $http, getToken, LanguageList) {
         if (checkCreds() !== true) {
             $location.path('/loginForm');
         }
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        ArticleValues.getValues({},
+        LanguageList.getLanguageList({},
                 function success(response) {
                     //alert($scope.challenge.question);
-                    $scope.languageList = response.languageList;
+                    $scope.languageList = response;
                     console.log("Success:" + JSON.stringify(response));
                 },
                 function error(errorResponse) {
@@ -170,42 +159,32 @@ ulboraCmsConfigurationControllers.controller('NewConfigurationCtrl', ['$scope', 
 ulboraCmsConfigurationControllers.controller('ConfigurationEditCtrl', ['$scope', 'Configuration', '$location', '$http', 'getToken',
     function ConfigurationEditCtrl($scope, Configuration, $location, $http, getToken) {
         $scope.submit = function() {
-            
+
             var putData = {
                 "id": $scope.id,
-                "domainName" : $scope.domainName,
-                "metaData": {
-                    "id": $scope.metaId,
-                    "metaDescription": $scope.metaDesc,
-                    "metaKeyWords": $scope.metaKeywords,
-                    "metaRobotKeyWords": $scope.robotKeywords,
-                    "metaAuthorName": $scope.metaAuthor
-                },
-                "configurationTextList": [
-                    {
-                        "id": $scope.confTextId,
-                        "siteName": $scope.siteName,
-                        "siteDescription": $scope.desc,
-                        "language": {
-                            "id": Number($scope.languageId)
-                        },
-                        "signOnMessage": $scope.signOnMessage,
-                        "rememberMeMessage": $scope.rememberMeMessage,
-                        "forgotPasswordMessage": $scope.forgotPasswordMessage,
-                        "usernameLabel": $scope.usernameLabel,
-                        "passwordLabel": $scope.passwordLabel,
-                        "loginButtonLabel": $scope.loginButtonLabel,
-                        "passwordRecoveryMessage": $scope.passwordRecoveryMessage,
-                        "passwordRecoveryButtonLabel": $scope.passwordRecoveryButtonLabel,
-                        "changePasswordMessage": $scope.changePasswordMessage,
-                        "oldPasswordLabel": $scope.oldPasswordLabel,
-                        "newPasswordLabel": $scope.newPasswordLabel,
-                        "confirmPasswordLabel": $scope.confirmPasswordLabel,
-                        "changePasswordButtonLabel": $scope.changePasswordButtonLabel,
-                        "logoutMessage": $scope.logoutMessage
-                    }
-                ]
+                "domainName": $scope.domainName,
+                "siteName": $scope.siteName,
+                "language": $scope.languageId,
+                "siteDesc": $scope.desc,
+                "registrationEmailActivationSubject": $scope.actEmailSub,
+                "registrationEmailActivationTitle": $scope.actEmailTitle,
+                "registrationEmailActivationGreeting": $scope.actEmailGreeting,
+                "registrationEmailActivationMessage": $scope.actEmailMessage,
+                "registrationEmailActivationUrl": $scope.actEmailUrl,
+                "registrationEmailWelcomeSubject": $scope.welcomeEmailSub,
+                "registrationEmailWelcomeTitle": $scope.welcomeEmailTitle,
+                "registrationEmailWelcomeGreeting": $scope.welcomeEmailGreeting,
+                "registrationEmailWelcomeMessage": $scope.welcomeEmailMessage,
+                "registrationEmailWelcomeUrl": $scope.welcomeEmailUrl,
+                "resetPasswordEmailSubject": $scope.passwordResetEmailSub,
+                "resetPasswordEmailTitle": $scope.passwordResetEmailTitle,
+                "resetPasswordEmailGreeting": $scope.passwordResetEmailGreeting,
+                "resetPasswordEmailMessage": $scope.passwordResetEmailMessage,
+                "resetPasswordEmailUrl": $scope.passwordResetEmailUrl
+
+
             };
+
             console.log("json request:" + JSON.stringify(putData));
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
             Configuration.update({}, putData,
@@ -221,6 +200,7 @@ ulboraCmsConfigurationControllers.controller('ConfigurationEditCtrl', ['$scope',
                         } else {
                             //$location.path('/loginFailedForm');
                             console.log("Failed:" + JSON.stringify(response));
+                            alert("Possible duplicate");
                         }
                     },
                     function error(errorResponse) {
@@ -235,56 +215,67 @@ ulboraCmsConfigurationControllers.controller('ConfigurationEditCtrl', ['$scope',
     }]);
 
 
-ulboraCmsConfigurationControllers.controller('ConfigurationCtrl', ['$scope', 'checkCreds', '$location', "Configuration", '$routeParams', '$http', 'getToken',
-    function ConfigurationCtrl($scope, checkCreds, $location, Configuration, $routeParams, $http, getToken) {
+ulboraCmsConfigurationControllers.controller('ConfigurationCtrl', ['$scope', 'checkCreds', '$location', "Configuration", '$routeParams', '$http', 'getToken', 'LanguageList',
+    function ConfigurationCtrl($scope, checkCreds, $location, Configuration, $routeParams, $http, getToken, LanguageList) {
         if (checkCreds() !== true) {
             $location.path('/loginForm');
         }
 
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
 
-        var configId = $routeParams.a;
-        Configuration.get({id: configId},
-        function success(response) {
-            //alert($scope.challenge.question);
-            console.log("Success:" + JSON.stringify(response));
+        LanguageList.getLanguageList({},
+                function success(lanList) {
+                    //alert($scope.challenge.question);
+                    $scope.languageList = lanList;
+                    console.log("Success:" + JSON.stringify(lanList));
 
-            $scope.id = response.id;
-            $scope.domainName = response.domainName;
-            $scope.metaId = response.metaData.id;
-            $scope.metaDesc = response.metaData.metaDescription;
-            $scope.metaKeywords= response.metaData.metaKeyWords;
-            $scope.robotKeywords = response.metaData.metaRobotKeyWords;
-            $scope.metaAuthor = response.metaData.metaAuthorName;
-            for(var cnt = 0; cnt < response.configurationTextList.length; cnt++) {
-                $scope.confTextId = response.configurationTextList[cnt].id;
-                $scope.siteName = response.configurationTextList[cnt].siteName;
-                $scope.desc = response.configurationTextList[cnt].siteDescription;
-                $scope.languageId = response.configurationTextList[cnt].language.id;
-                $scope.signOnMessage = response.configurationTextList[cnt].signOnMessage;
-                $scope.rememberMeMessage = response.configurationTextList[cnt].rememberMeMessage;
-                $scope.forgotPasswordMessage = response.configurationTextList[cnt].forgotPasswordMessage;
-                $scope.usernameLabel = response.configurationTextList[cnt].usernameLabel;
-                $scope.passwordLabel = response.configurationTextList[cnt].passwordLabel;
-                $scope.loginButtonLabel = response.configurationTextList[cnt].loginButtonLabel;
-                $scope.passwordRecoveryMessage = response.configurationTextList[cnt].passwordRecoveryMessage;
-                $scope.passwordRecoveryButtonLabel = response.configurationTextList[cnt].passwordRecoveryButtonLabel;
-                $scope.changePasswordMessage = response.configurationTextList[cnt].changePasswordMessage;
-                $scope.oldPasswordLabel = response.configurationTextList[cnt].oldPasswordLabel;
-                $scope.newPasswordLabel = response.configurationTextList[cnt].newPasswordLabel;
-                $scope.confirmPasswordLabel = response.configurationTextList[cnt].confirmPasswordLabel;
-                $scope.changePasswordButtonLabel = response.configurationTextList[cnt].changePasswordButtonLabel;
-                $scope.logoutMessage = response.configurationTextList[cnt].logoutMessage;
-            }
-            $scope.languageList = response.languageList;
-            
+                    var configId = $routeParams.a;
+                    Configuration.get({id: configId},
+                    function success(response) {
+                        //alert($scope.challenge.question);
+                        console.log("Success:" + JSON.stringify(response));
 
-        },
+                        $scope.id = response._id;
+                        $scope.domainName = response.domainName;
+                        $scope.siteName = response.siteName;
+                        $scope.desc = response.siteDesc;
+                        $scope.languageId = response.language;
+
+                        $scope.actEmailSub = response.registrationEmailActivationSubject;
+                        $scope.actEmailTitle = response.registrationEmailActivationTitle;
+                        $scope.actEmailGreeting = response.registrationEmailActivationGreeting;
+                        $scope.actEmailMessage = response.registrationEmailActivationMessage;
+                        $scope.actEmailUrl = response.registrationEmailActivationUrl;
+
+                        $scope.welcomeEmailSub = response.registrationEmailWelcomeSubject;
+                        $scope.welcomeEmailTitle = response.registrationEmailWelcomeTitle;
+                        $scope.welcomeEmailGreeting = response.registrationEmailWelcomeGreeting
+                        $scope.welcomeEmailMessage = response.registrationEmailWelcomeMessage;
+                        $scope.welcomeEmailUrl = response.registrationEmailWelcomeUrl;
+
+
+                        $scope.passwordResetEmailSub = response.resetPasswordEmailSubject;
+                        $scope.passwordResetEmailTitle = response.resetPasswordEmailTitle;
+                        $scope.passwordResetEmailGreeting = response.resetPasswordEmailGreeting;
+                        $scope.passwordResetEmailMessage = response.resetPasswordEmailMessage;
+                        $scope.passwordResetEmailUrl = response.resetPasswordEmailUrl;
+
+
+                    },
+                            function error(errorResponse) {
+                                console.log("Error:" + JSON.stringify(errorResponse));
+                                //$location.path('/loginFailedForm');
+                            }
+                    );
+
+
+                },
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
-                    //$location.path('/loginFailedForm');
                 }
         );
+
+
 
         $scope.configurationActiveClass = "active";
     }]);

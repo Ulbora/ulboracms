@@ -16,15 +16,15 @@
         </thead>
         <tbody>
             <tr ng-repeat="conf in configurationList"  >
-                <td ng-repeat="ct in conf.configurationTextList">
-                   <a href="#!configuration/{{conf.id}}">{{ct.siteName}}</a> 
+                <td>
+                   <a href="#!configuration/{{conf._id}}">{{conf.siteName}}</a> 
                 </td>               
                 
-                <td ng-repeat="ct in conf.configurationTextList">
-                    {{ct.language.name}}
+                <td>
+                    {{conf.language.name}}
                 </td>
-                <td ng-repeat="ct in conf.configurationTextList">
-                    <span ng-controller="DeleteConfigurationCtrl" ng-click="deleteConfiguration(conf.id, ct.siteName)" class="glyphicon glyphicon-trash clickable-image"></span>                   
+                <td>
+                    <span ng-controller="DeleteConfigurationCtrl" ng-click="deleteConfiguration(conf._id, conf.siteName)" class="glyphicon glyphicon-trash clickable-image"></span>                   
                 </td>
                 
             </tr>

@@ -185,7 +185,8 @@ exports.list = function(callback) {
                     if (!lanListErr && lanList !== undefined && lanList !== null) {
                         var Article = db.getArticle();
                         var useArticle = false;
-                        Article.find({}, function(artErr, artList) {
+                        Article.find({}, 'category', function(artErr, artList) {
+                            //console.log("article:" + artList);
                             if (!artErr && artList !== undefined && artList !== null) {
                                 useArticle = true;
                             }
@@ -204,7 +205,7 @@ exports.list = function(callback) {
                                 cat.inUse = false;
                                 var catId = cat._id.toString();
                                 if (useArticle) {
-                                    for (var artCnt = 0; cnt < artList.length; artCnt++) {
+                                    for (var artCnt = 0; artCnt < artList.length; artCnt++) {
                                         var artCatId = artList[artCnt].category.toString();
                                         if(catId === artCatId){
                                             cat.inUse = true;

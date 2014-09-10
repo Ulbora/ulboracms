@@ -52,6 +52,7 @@ authenticate = function(req, res, role, callback) {
                         var Role = db.getRole();
                         Role.findById(foundUser.role, function(err, results) {   
                             var callbackUserCreds = {
+                                "id": "",
                                 "username" : "",
                                 "role" : ""
                             };
@@ -60,6 +61,7 @@ authenticate = function(req, res, role, callback) {
                                 var r = role[cnt];
                                 if (results.name === r) {
                                     roleAuthized = true;
+                                    callbackUserCreds.id = foundUser._id;
                                     callbackUserCreds.username = credentials[0];
                                     callbackUserCreds.role = results.name;
                                     break;

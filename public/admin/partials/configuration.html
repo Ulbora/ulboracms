@@ -8,9 +8,7 @@
         </div>
         <div class="config-form-wrapper">
             <form  ng-submit="submit()" ng-controller="ConfigurationEditCtrl">
-                <input type="hidden" ng-model="id"/>
-                <input type="hidden" ng-model="metaId"/>
-                <input type="hidden" ng-model="confTextId"/>
+                <input type="hidden" ng-model="id"/>                
                 <div class="config-element-wrapper">
                     <div class="support-label">
                         <label class="support-form-label" for="siteName">Site Name:</label>  
@@ -21,7 +19,7 @@
                 </div>
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="siteName">Domain Name:</label>  
+                        <label class="support-form-label" for="domainName">Domain Name:</label>  
                     </div>
                     <div class="support-element">
                         <input class="form-left-text-element" type="text" ng-model="domainName" name="domainName" placeholder="domain name"  required/>
@@ -38,176 +36,151 @@
 
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="languageId">Default:</label>  
+                        <label class="support-form-label" for="languageId">Language:</label>  
                     </div>
                     <div class="support-element">
-                       <select class="form-select-element-left" ng-model="languageId"  ng-options="lan.id as lan.name for lan in languageList" name="languageId" required>
+                       <select class="form-select-element-left" ng-model="languageId"  ng-options="lan._id as lan.name for lan in languageList" name="languageId" required>
                             </select>
                     </div>
                 </div>
                 
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="metaDesc">Meta Description:</label>  
+                        <label class="support-form-label" for="actEmailSub">Activation Email Subject:</label>  
                     </div>
                     <div class="support-element">
-                        <textarea class="form-left-text-element"  rows="2" ng-model="metaDesc" name="metaDesc" placeholder="Meta Description"  />
+                        <textarea class="form-left-text-element"  rows="2" ng-model="actEmailSub" name="actEmailSub" placeholder="Activation Email Subject"  />
                     </div>
                 </div>
                 
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="metaKeywords">Meta Keywords:</label>  
+                        <label class="support-form-label" for="actEmailTitle">Activation Email Title:</label>  
                     </div>
                     <div class="support-element">
-                        <textarea class="form-left-text-element"  rows="2" ng-model="metaKeywords" name="metaKeywords" placeholder="Meta Keywords" />
+                        <input class="form-left-text-element" type="text" ng-model="actEmailTitle" name="actEmailTitle" placeholder="Activation Email Title"  />
                     </div>
                 </div>
                 
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="metaAuthor">Meta Author:</label>  
+                        <label class="support-form-label" for="actEmailGreeting">Activation Email Greeting:</label>  
                     </div>
                     <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="metaAuthor" name="metaAuthor" placeholder="Meta Author"  />
+                        <input class="form-left-text-element" type="text" ng-model="actEmailGreeting" name="actEmailGreeting" placeholder="Activation Email Greeting"  />
+                    </div>
+                </div>
+
+                <div class="config-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="actEmailMessage">Activation Email Message:</label>  
+                    </div>
+                    <div class="support-element">
+                        <textarea class="form-left-text-element"  rows="2" ng-model="actEmailMessage" name="actEmailMessage" placeholder="Activation Email Message"  />
+                    </div>
+                </div>
+                
+                 <div class="config-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="actEmailUrl">Activation Email URL:</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="text" ng-model="actEmailUrl" name="actEmailUrl" placeholder="Activation Email URL"  />
+                    </div>
+                </div>
+                
+                
+                 <div class="config-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="welcomeEmailSub">Welcome Email Subject:</label>  
+                    </div>
+                    <div class="support-element">
+                        <textarea class="form-left-text-element"  rows="2" ng-model="welcomeEmailSub" name="welcomeEmailSub" placeholder="Welcome Email Subject"  />
                     </div>
                 </div>
                 
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="robotKeywords">Robot Keywords:</label>  
+                        <label class="support-form-label" for="welcomeEmailTitle">Welcome Email Title:</label>  
                     </div>
                     <div class="support-element">
-                        <textarea class="form-left-text-element"  rows="2" ng-model="robotKeywords" name="robotKeywords" placeholder="Robot Keywords"  />
-                    </div>
-                </div>
-                
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="signOnMessage">Sign-on Message:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="signOnMessage" name="signOnMessage" placeholder="Sign on message"  />
+                        <input class="form-left-text-element" type="text" ng-model="welcomeEmailTitle" name="welcomeEmailTitle" placeholder="Welcome Email Title"  />
                     </div>
                 </div>
                 
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="rememberMeMessage">Remember Me Message:</label>  
+                        <label class="support-form-label" for="welcomeEmailGreeting">Welcome Email Greeting:</label>  
                     </div>
                     <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="rememberMeMessage" name="rememberMeMessage" placeholder="Remember Me message"  />
+                        <input class="form-left-text-element" type="text" ng-model="welcomeEmailGreeting" name="welcomeEmailGreeting" placeholder="Welcome Email Greeting"  />
+                    </div>
+                </div>
+
+                <div class="config-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="welcomeEmailMessage">Welcome Email Message:</label>  
+                    </div>
+                    <div class="support-element">
+                        <textarea class="form-left-text-element"  rows="2" ng-model="welcomeEmailMessage" name="welcomeEmailMessage" placeholder="Welcome Email Message"  />
+                    </div>
+                </div>
+                
+                 <div class="config-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="welcomeEmailUrl">Welcome Email URL:</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" type="text" ng-model="welcomeEmailUrl" name="welcomeEmailUrl" placeholder="Welcome Email URL"  />
+                    </div>
+                </div>
+
+                 <div class="config-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="passwordResetEmailSub">Password Reset Email Subject:</label>  
+                    </div>
+                    <div class="support-element">
+                        <textarea class="form-left-text-element"  rows="2" ng-model="passwordResetEmailSub" name="passwordResetEmailSub" placeholder="Password Reset Email Subject"  />
                     </div>
                 </div>
                 
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="forgotPasswordMessage">Forgot Password Message:</label>  
+                        <label class="support-form-label" for="passwordResetEmailTitle">Welcome Email Title:</label>  
                     </div>
                     <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="forgotPasswordMessage" name="forgotPasswordMessage" placeholder="Forgot password message"  />
+                        <input class="form-left-text-element" type="text" ng-model="passwordResetEmailTitle" name="passwordResetEmailTitle" placeholder="Password Reset Email Title"  />
                     </div>
                 </div>
                 
                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="usernameLabel">Username Label:</label>  
+                        <label class="support-form-label" for="passwordResetEmailGreeting">Welcome Email Greeting:</label>  
                     </div>
                     <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="usernameLabel" name="usernameLabel" placeholder="Username label"  />
+                        <input class="form-left-text-element" type="text" ng-model="passwordResetEmailGreeting" name="passwordResetEmailGreeting" placeholder="Password Reset Email Greeting"  />
+                    </div>
+                </div>
+
+                <div class="config-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="passwordResetEmailMessage">Welcome Email Message:</label>  
+                    </div>
+                    <div class="support-element">
+                        <textarea class="form-left-text-element"  rows="2" ng-model="passwordResetEmailMessage" name="passwordResetEmailMessage" placeholder="Password Reset Email Message"  />
                     </div>
                 </div>
                 
-                <div class="config-element-wrapper">
+                 <div class="config-element-wrapper">
                     <div class="support-label">
-                        <label class="support-form-label" for="passwordLabel">Password Label:</label>  
+                        <label class="support-form-label" for="passwordResetEmailUrl">Welcome Email URL:</label>  
                     </div>
                     <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="passwordLabel" name="passwordLabel" placeholder="Username label"  />
+                        <input class="form-left-text-element" type="text" ng-model="passwordResetEmailUrl" name="passwordResetEmailUrl" placeholder="Password Reset Email URL"  />
                     </div>
                 </div>
                 
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="loginButtonLabel">Login Button Label:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="loginButtonLabel" name="loginButtonLabel" placeholder="Login button label"  />
-                    </div>
-                </div>
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="passwordRecoveryMessage">Password Recovery Message:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="passwordRecoveryMessage" name="passwordRecoveryMessage" placeholder="Password recovery message"  />
-                    </div>
-                </div>
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="passwordRecoveryButtonLabel">Password Recovery Button Label:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="passwordRecoveryButtonLabel" name="passwordRecoveryButtonLabel" placeholder="Password recovery botton label"  />
-                    </div>
-                </div>
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="changePasswordMessage">Change Password Message:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="changePasswordMessage" name="changePasswordMessage" placeholder="Change password message"  />
-                    </div>
-                </div>
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="oldPasswordLabel">Old Password Label:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="oldPasswordLabel" name="oldPasswordLabel" placeholder="Old password label"  />
-                    </div>
-                </div>
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="newPasswordLabel">New Password Label:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="newPasswordLabel" name="newPasswordLabel" placeholder="New password label"  />
-                    </div>
-                </div>
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="confirmPasswordLabel">Confirm Password Label:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="confirmPasswordLabel" name="confirmPasswordLabel" placeholder="Confirm password label"  />
-                    </div>
-                </div>
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="changePasswordButtonLabel">Change Password Button Label:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="changePasswordButtonLabel" name="changePasswordButtonLabel" placeholder="Change password button label"  />
-                    </div>
-                </div>
-                
-                <div class="config-element-wrapper">
-                    <div class="support-label">
-                        <label class="support-form-label" for="logoutMessage">Logout Message:</label>  
-                    </div>
-                    <div class="support-element">
-                        <input class="form-left-text-element" type="text" ng-model="logoutMessage" name="logoutMessage" placeholder="Logout message"  />
-                    </div>
-                </div>
+               
 
                 <div class="support-submit-button-row">
                     <button  type="submit" class="btn btn-default">Save</button>

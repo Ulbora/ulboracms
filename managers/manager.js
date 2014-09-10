@@ -13,6 +13,9 @@ var ROLE_USER = "ROLE_USER";
 var ACCESS_LEVEL_PUBLIC = "PUBLIC";
 var ACCESS_LEVEL_USER = "USER";
 
+var REQUIRE_PUBLISH_APPROVAL_RULE_NAME = "Require Publish Approval";
+var REQUIRE_PUBLISH_APPROVAL_RULE_KEY = 1;
+
 
 exports.ROLE_SUPER_ADMIN = ROLE_SUPER_ADMIN;
 exports.ROLE_ADMIN = ROLE_ADMIN;
@@ -21,6 +24,8 @@ exports.ROLE_USER = ROLE_USER;
 
 exports.ACCESS_LEVEL_PUBLIC = ACCESS_LEVEL_PUBLIC;
 exports.ACCESS_LEVEL_USER = ACCESS_LEVEL_USER;
+exports.REQUIRE_PUBLISH_APPROVAL_RULE_NAME = REQUIRE_PUBLISH_APPROVAL_RULE_NAME;
+exports.REQUIRE_PUBLISH_APPROVAL_RULE_KEY = REQUIRE_PUBLISH_APPROVAL_RULE_KEY;
 
 hashPasswordSync =function(username, pw) {
     return crypto.pbkdf2Sync(pw, username, 250, 128).toString('base64');    
@@ -63,7 +68,56 @@ exports.validateLanguage = function(id, callback){
 };
 
 
+exports.validateAccessLevel = function(id, callback) {
+    var AccessLevel = db.getAccessLevel();
+    AccessLevel.findById(id, function(err, results) {
+        console.log("varified access level: " + JSON.stringify(results));
+        if (!err && (results !== undefined && results !== null)) {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    });
+};
 
+exports.validateCategory = function(id, callback) {
+    var Category = db.getCategory();
+    Category.findById(id, function(err, results) {
+        console.log("varified category: " + JSON.stringify(results));
+        if (!err && (results !== undefined && results !== null)) {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    });
+};
+
+
+exports.validateSection = function(id, callback) {
+    var Section = db.getSection();
+    Section.findById(id, function(err, results) {
+        console.log("varified section: " + JSON.stringify(results));
+        if (!err && (results !== undefined && results !== null)) {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    });
+};
+
+/*
+exports.validateLocation = function(id, callback) {
+    var Location = db.getLocation();
+    Location.findById(id, function(err, results) {
+        console.log("varified Location: " + JSON.stringify(results));
+        if (!err && (results !== undefined && results !== null)) {
+            callback(true);
+        } else {
+            callback(false);
+        }
+    });
+};
+*/
 exports.validateRole = function(id, callback){
     var returnVal = {
         "success": false,

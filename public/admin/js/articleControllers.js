@@ -11,26 +11,27 @@ ulboraCmsArticleControllers.controller('ArticlesCtrl', ['$scope', 'checkCreds', 
         if (checkCreds() !== true) {
             $location.path('/loginForm');
         }
-
-        var searchDate = {
-            "orderParams": {
-                "title": false,
-                "createDate": false,
-                "author": false
-            },
-            "searchParams": {
-                "categoryId": null,
-                "sectionId": null,
-                "userId": null
-            }
-
-        };
+        /*
+         var searchDate = {
+         "orderParams": {
+         "title": false,
+         "createDate": false,
+         "author": false
+         },
+         "searchParams": {
+         "categoryId": null,
+         "sectionId": null,
+         "userId": null
+         }
+         
+         };
+         */
         //var header = "headers: {Authorization: 'Basic ' " + getToken() + "}";
-       //$http.defaults.headers.common['Authorization: Basic '] = getToken();
-       //$http.defaults.headers.common.authentication['Basic'] = getToken();
+        //$http.defaults.headers.common['Authorization: Basic '] = getToken();
+        //$http.defaults.headers.common.authentication['Basic'] = getToken();
         //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        ArticleList.getArticleList({}, searchDate,
+        ArticleList.getArticleList({},
                 function success(response) {
                     //alert($scope.challenge.question);
                     console.log("Success:" + JSON.stringify(response));
@@ -38,24 +39,24 @@ ulboraCmsArticleControllers.controller('ArticlesCtrl', ['$scope', 'checkCreds', 
                     $scope.articleList = response;
                     for (var cnt = 0; cnt < $scope.articleList.length; cnt++) {
                         //alert($scope.articleList[cnt].title);
-                        var createDateLong = $scope.articleList[cnt].createdDate;
-                        $scope.articleList[cnt].createdDate = DateUtil.stringifyDate(createDateLong);
+                        //var createDateLong = $scope.articleList[cnt].createdDate;
+                        //$scope.articleList[cnt].createdDate = DateUtil.stringifyDate(createDateLong);
 
                         if ($scope.articleList[cnt].published === true) {
                             //var updateDateLong = $scope.articleList[cnt].modifiedDate;
                             //$scope.articleList[cnt].modifiedDate = DateUtil.stringifyDate(updateDateLong);
                             //;
                             $scope.articleList[cnt].published = "Yes";
-                        }else{
+                        } else {
                             $scope.articleList[cnt].published = "No";
                         }
-                        
+
                         if ($scope.articleList[cnt].frontPage === true) {
                             //var updateDateLong = $scope.articleList[cnt].modifiedDate;
                             //$scope.articleList[cnt].modifiedDate = DateUtil.stringifyDate(updateDateLong);
                             //;
                             $scope.articleList[cnt].frontPage = "Yes";
-                        }else{
+                        } else {
                             $scope.articleList[cnt].frontPage = "No";
                         }
                     }
@@ -76,8 +77,9 @@ ulboraCmsArticleControllers.controller('ArticlesCtrl', ['$scope', 'checkCreds', 
         $scope.articleActiveClass = "active";
     }]);
 
-ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '$routeParams', 'checkCreds', '$location', 'Article', '$http', 'getToken',
-    function ArticleCtrl($scope, $rootScope, $routeParams, checkCreds, $location, Article, $http, getToken) {
+ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '$routeParams', 'checkCreds',
+    '$location', 'Article', '$http', 'getToken', 'ArticleValues',
+    function ArticleCtrl($scope, $rootScope, $routeParams, checkCreds, $location, Article, $http, getToken, ArticleValues) {
         if (checkCreds() !== true) {
             $location.path('/loginForm');
         }
@@ -98,93 +100,107 @@ ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '
         });
 
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+        var postData = {
+            "languageCode": "en-us"
+        };
+        ArticleValues.getValues({}, postData,
+                function success(valuesResponse) {
+                    $scope.articleValues = valuesResponse;
+                });
 
         var articleId = $routeParams.a;
         Article.get({id: articleId, lastVersion: true, version: -1},
         function success(response) {
             //alert($scope.challenge.question);
             console.log("Success:" + JSON.stringify(response));
-            
-            var tempArticleReq = response;
+
+            //var tempArticleReq = response;
             var result = "";
 
-            result = atob(tempArticleReq.article.textList[0].text);
-            
+            result = atob(response.articleText.text);
+
             //$scope.trueVal = "true";
-           // $scope.falseVal = "false";
+            // $scope.falseVal = "false";
 
             $scope.articleHtml = result;
-            $scope.articleTextId = tempArticleReq.article.textList[0].id;
-            console.log(result);//+ JSON.stringify(errorResponse));
-            $scope.article = tempArticleReq.article;
-            $scope.articleId = tempArticleReq.article.id;
-            $scope.title = tempArticleReq.article.title;
-            $scope.alias = tempArticleReq.article.alias;
+            $scope.articleTextId = response.articleText._id;
+            console.log("articleText" + result);//+ JSON.stringify(errorResponse));
+            $scope.article = response;
+            $scope.articleId = response._id;
+            $scope.title = response.title;
+            $scope.alias = response.alias;
 
-            $scope.languageSelectId = tempArticleReq.article.language.id;
-            $scope.languageId = tempArticleReq.article.language.id;
+            $scope.languageSelectId = response.language;
+            $scope.languageId = response.language;
             //$scope.languageSelectName = tempArticleReq.article.language.name;
-            $scope.languageList = tempArticleReq.languageList;
+            /////////////////$scope.languageList = tempArticleReq.languageList;
 
-            $scope.sectionSelectId = tempArticleReq.article.section.id;
-            $scope.sectionId = tempArticleReq.article.section.id;
-            $scope.sectionList = tempArticleReq.sectionList;
+            $scope.sectionSelectId = response.section;
+            $scope.sectionId = response.section;
+            //////////////////////////$scope.sectionList = tempArticleReq.sectionList;
 
-            $scope.categorySelectId = tempArticleReq.article.category.id;
-            $scope.categoryId = tempArticleReq.article.category.id;
-            $scope.categoryList = tempArticleReq.categoryList;
+            $scope.categorySelectId = response.category;
+            $scope.categoryId = response.category;
+            //////////////////////////$scope.categoryList = tempArticleReq.categoryList;
 
-            var tempLoc = tempArticleReq.article.location;
-            if (tempLoc !== null) {
-                $scope.locationSelectId = tempArticleReq.article.location.id;
-                $scope.locationId = tempArticleReq.article.location.id;
+            var tempLoc = response.articleLocationList;
+            if (tempLoc !== undefined && tempLoc !== null) {
+                // $scope.locationSelectId = tempLoc[0];
+                $scope.locationIds = tempLoc;
+                console.log("locationIds:" + tempLoc)
             } else {
                 $scope.locationSelectId = 0;
 
             }
 
 
-            $scope.locationList = tempArticleReq.locationList;
+            //////////////////////////////$scope.locationList = tempArticleReq.locationList;
 
 
-            $scope.accessLevelSelectId = tempArticleReq.article.accessLevel.id;
-            $scope.accessLevelId = tempArticleReq.article.accessLevel.id;
-            $scope.accessLevelList = tempArticleReq.accessLevelList;
-            $scope.metaId = tempArticleReq.article.metaData.id;
-            $scope.metaDescription = tempArticleReq.article.metaData.metaDescription;
-            $scope.metaKeyWords = tempArticleReq.article.metaData.metaKeyWords;
-            $scope.metaAuthorName = tempArticleReq.article.metaData.metaAuthorName;
-            $scope.metaRobotKeyWords = tempArticleReq.article.metaData.metaRobotKeyWords;
-            $scope.published = tempArticleReq.article.published.toString();
-           // if(tempArticleReq.article.published.toString() === true){
-              // $scope.publishedTrueValue = true;
-              // $scope.publishedFalseValue = false;
+            $scope.accessLevelSelectId = response.accessLevel;
+            $scope.accessLevelId = response.accessLevel;
+            /////////////////////////$scope.accessLevelList = tempArticleReq.accessLevelList;
+            $scope.metaId = response.metaData;
+            $scope.metaDescription = response.metaDesc;
+            $scope.metaKeyWords = response.metaKeyWords;
+            $scope.metaAuthorName = response.metaAuthorName;
+            $scope.metaRobotKeyWords = response.metaRobotKeyWords;
+            $scope.published = response.published.toString();
+            // if(tempArticleReq.article.published.toString() === true){
+            // $scope.publishedTrueValue = true;
+            // $scope.publishedFalseValue = false;
             //}else{
-              //  $scope.publishedValue = false;
+            //  $scope.publishedValue = false;
             //}
-             
-            
-            $scope.showTitle = tempArticleReq.article.showTitle.toString();
-            $scope.showSectionName = tempArticleReq.article.showSectionName.toString();
-            $scope.showCategoryName = tempArticleReq.article.showCategoryName.toString();
-            $scope.showAuthor = tempArticleReq.article.showAuthor.toString();
-            $scope.showCreationDate = tempArticleReq.article.showCreationDate.toString();
-            $scope.showModifiedDate = tempArticleReq.article.showModifiedDate.toString();
-            $scope.frontPage = tempArticleReq.article.frontPage.toString();
-            $scope.authorName = tempArticleReq.article.author.firstName + " " + tempArticleReq.article.author.lastName;
-            
-            var cDate = new Date(tempArticleReq.article.createdDate);            
-            $scope.createDate = cDate.getMonth()+"/"+cDate.getDate()+"/"+ cDate.getFullYear();
-            
-            var modDate = tempArticleReq.article.modifiedDate;   
-            if(modDate !== null){
-                var mDate = new Date(modDate);
-                $scope.modifiedDate = mDate.getMonth()+"/"+mDate.getDate()+"/"+ mDate.getFullYear();
+
+
+            $scope.showTitle = response.showTitle.toString();
+            $scope.showSectionName = response.showSectionName.toString();
+            $scope.showCategoryName = response.showCategoryName.toString();
+            $scope.showAuthor = response.showAuthor.toString();
+            $scope.showCreateDate = response.showCreateDate.toString();
+            $scope.showModifyDate = response.showModifyDate.toString();
+            $scope.allowComments = response.allowComments.toString();
+            $scope.frontPage = response.frontPage.toString();
+            $scope.authorName = response.user.firstName + " " + response.user.lastName;
+            if (response.tag !== undefined && response.tag !== null) {                
+                $scope.tagKeyWords = response.tag.keyWords;
+            }
+
+
+            //var cDate = new Date(tempArticleReq.article.createdDate);            
+            //$scope.createDate = cDate.getMonth()+"/"+cDate.getDate()+"/"+ cDate.getFullYear();
+            $scope.createDate = response.createdDate;
+            var modDate = response.modifiedDate;
+            if (modDate !== undefined && modDate !== null) {
+                //var mDate = new Date(modDate);
+                //$scope.modifiedDate = mDate.getMonth()+"/"+mDate.getDate()+"/"+ mDate.getFullYear();
+                $scope.modifiedDate = response.modifiedDate;
                 $scope.showModDate = "true";
-            }else{
+            } else {
                 $scope.showModDate = "false";
             }
-            
+
 
             //$scope.published = "false";
 
@@ -237,11 +253,11 @@ ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '
 
 
 
-ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope', 'Article', '$location', 'setCreds','$http', 'getToken',
+ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope', 'Article', '$location', 'setCreds', '$http', 'getToken',
     function ArticleEditCtrl($scope, $rootScope, Article, $location, setCreds, $http, getToken) {
         $scope.submit = function() {
             $rootScope.articleSaved = true;
-            
+
             //alert();
             //$rootScope.tmce.get('elm1').save();
             //tinymce.triggerSave();
@@ -249,56 +265,45 @@ ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope
             //alert(tinymce.activeEditor.getContent())
             //alert($scope.published);
             //alert(Boolean($scope.published));
-           
+
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-           
+
             var textUpdated = tinymce.activeEditor.getContent();
             setTimeout(function() {
                 //alert(tinyMCE.get('elm1'));
                 //alert(tinymce.get('elm1'));
                 var putData = {
-                    "id": Number($scope.articleId),
+                    "id": $scope.articleId,
                     "alias": $scope.alias,
                     "published": ($scope.published === "true"),
                     "showTitle": ($scope.showTitle === "true"),
                     "showSectionName": ($scope.showSectionName === "true"),
                     "showCategoryName": ($scope.showCategoryName === "true"),
                     "showAuthor": ($scope.showAuthor === "true"),
-                    "showCreationDate": ($scope.showCreationDate === "true"),
-                    "showModifiedDate": ($scope.showModifiedDate === "true"),
+                    "showCreateDate": ($scope.showCreateDate === "true"),
+                    "showModifyDate": ($scope.showModifyDate === "true"),
+                    "allowComments": ($scope.allowComments === "true"),
                     "title": $scope.title,
-                    "textList": [
-                        {
-                            "id": Number($scope.articleTextId),
-                            "text": btoa(textUpdated)
-
-                        }
-                    ],
-                    "section": {
-                        "id": Number($scope.sectionId)
-                    },
-                    "category": {
-                        "id": Number($scope.categoryId)
-                    },
-                    "accessLevel": {
-                        "id": Number($scope.accessLevelId)
-                    },
-                    "location": {
-                        "id": Number($scope.locationId)
-                    },
-                    "metaData": {
-                        "id": Number($scope.metaId),
-                        "metaDescription": $scope.metaDescription,
-                        "metaKeyWords": $scope.metaKeyWords,
-                        "metaRobotKeyWords": $scope.metaRobotKeyWords,
-                        "metaAuthorName": $scope.metaAuthorName
-                    },
-                    "language": {
-                        "id": Number($scope.languageId)
+                    "articleText": {
+                        "id": $scope.articleTextId,
+                        "text": btoa(textUpdated)
 
                     },
-                    "frontPage": ($scope.frontPage === "true")
+                    "section": $scope.sectionId,
+                    "category": $scope.categoryId,
+                    "accessLevel": $scope.accessLevelId,
+                    "locationList": $scope.locationIds,
+                    "metaDesc": $scope.metaDescription,
+                    "metaKeyWords": $scope.metaKeyWords,
+                    "metaRobotKeyWords": $scope.metaRobotKeyWords,
+                    "metaAuthorName": $scope.metaAuthorName,
+                    "language": $scope.languageId,
+                    "frontPage": ($scope.frontPage === "true"),
+                    "tag": {                        
+                        "keyWords": $scope.tagKeyWords
+                    }
                 };
+                console.log("locations:" + $scope.locationIds);                
                 console.log("json request:" + JSON.stringify(putData));
                 Article.update({}, putData,
                         function success(response) {

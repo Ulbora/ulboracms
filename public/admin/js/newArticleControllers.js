@@ -1,9 +1,7 @@
 'use strict';
-
 /* Article Controllers */
 
 var ulboraCmsNewArticleControllers = angular.module('ulboraCmsNewArticleControllers', []);
-
 ulboraCmsNewArticleControllers.controller('NewArticlesCtrl', ['$scope', '$rootScope', 'checkCreds', '$location', 'ArticleValues', '$http', 'getToken',
     function NewArticlesCtrl($scope, $rootScope, checkCreds, $location, ArticleValues, $http, getToken) {
         if (checkCreds() !== true) {
@@ -13,8 +11,6 @@ ulboraCmsNewArticleControllers.controller('NewArticlesCtrl', ['$scope', '$rootSc
         $scope.newArticleActiveClass = "active";
         //$scope.brandColor = "color: white;";
         $scope.tinymceWrapper = "mb-tinymce-hidden-wrapper";
-
-
         $scope.$on("$locationChangeStart", function(event) {
             if ($rootScope.articleSaved !== true) {
                 var c = confirm("Exit without saving?");
@@ -29,25 +25,27 @@ ulboraCmsNewArticleControllers.controller('NewArticlesCtrl', ['$scope', '$rootSc
 
         });
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        $scope.articleValues = ArticleValues.getValues({},
+        var postData = {
+            "languageCode": "en-us"
+        };
+        ArticleValues.getValues({}, postData,
                 function success(response) {
                     //alert($scope.challenge.question);
+                    $scope.articleValues = response;
                     $scope.published = "false";
                     $scope.showTitle = "true";
                     $scope.showSectionName = "false";
                     $scope.showCategoryName = "false";
                     $scope.showAuthor = "false";
-                    $scope.showCreationDate = "false";
-                    $scope.showModifiedDate = "false";
+                    $scope.showCreateDate = "false";
+                    $scope.showModifyDate = "false";
+                    $scope.allowComments = "false";
                     $scope.frontPage = "false";
-
                     setTimeout(function() {
 
                         $scope.$apply(function() {
                             $scope.tinymceWrapper = "mb-tinymce-wrapper";
                         });
-
-
                         tinymce.init({
                             selector: "textarea#elm1",
                             theme: "modern",
@@ -67,34 +65,18 @@ ulboraCmsNewArticleControllers.controller('NewArticlesCtrl', ['$scope', '$rootSc
                             //}
 
                         });
-
                     }, 500);
-
                     console.log("Success:" + JSON.stringify(response));
                 },
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
                 }
         );
-
-
-
-
-
-
-
-
-
-
     }]);
-
-
-
 ulboraCmsNewArticleControllers.controller('ArticleAddCtrl', ['$scope', '$rootScope', 'Article', '$location', 'setCreds', '$http', 'getToken',
     function ArticleAddCtrl($scope, $rootScope, Article, $location, setCreds, $http, getToken) {
         $scope.submit = function() {
             $rootScope.articleSaved = true;
-
             //alert();
             //$rootScope.tmce.get('elm1').save();
             //tinymce.triggerSave();
@@ -109,46 +91,38 @@ ulboraCmsNewArticleControllers.controller('ArticleAddCtrl', ['$scope', '$rootSco
             setTimeout(function() {
                 //alert(tinyMCE.get('elm1'));
                 //alert(tinymce.get('elm1'));
-                var postData = {                    
+                //var locList = [];
+                //locList.push($scope.locationId);
+                var postData = {
                     "alias": $scope.alias,
                     "published": ($scope.published === "true"),
                     "showTitle": ($scope.showTitle === "true"),
                     "showSectionName": ($scope.showSectionName === "true"),
                     "showCategoryName": ($scope.showCategoryName === "true"),
                     "showAuthor": ($scope.showAuthor === "true"),
-                    "showCreationDate": ($scope.showCreationDate === "true"),
-                    "showModifiedDate": ($scope.showModifiedDate === "true"),
+                    "showCreateDate": ($scope.showCreateDate === "true"),
+                    "showModifyDate": ($scope.showModifyDate === "true"),
+                    "allowComments": ($scope.allowComments === "true"),
                     "title": $scope.title,
-                    "textList": [
-                        {                            
-                            "text": btoa(textUpdated)
-
-                        }
-                    ],
-                    "section": {
-                        "id": Number($scope.sectionId)
-                    },
-                    "category": {
-                        "id": Number($scope.categoryId)
-                    },
-                    "accessLevel": {
-                        "id": Number($scope.accessLevelId)
-                    },
-                    "location": {
-                        "id": Number($scope.locationId)
-                    },
-                    "metaData": {                        
-                        "metaDescription": $scope.metaDescription,
-                        "metaKeyWords": $scope.metaKeyWords,
-                        "metaRobotKeyWords": $scope.metaRobotKeyWords,
-                        "metaAuthorName": $scope.metaAuthorName
-                    },
-                    "language": {
-                        "id": Number($scope.languageId)
+                    "articleText": {
+                        "text": btoa(textUpdated)
 
                     },
-                    "frontPage": ($scope.frontPage === "true")
+                    "section": $scope.sectionId,
+                    "category": $scope.categoryId,
+                    "accessLevel": $scope.accessLevelId,
+                    "locationList": $scope.locationIds,
+                    "metaDesc": $scope.metaDescription,
+                    "metaKeyWords": $scope.metaKeyWords,
+                    "metaRobotKeyWords": $scope.metaRobotKeyWords,
+                    "metaAuthorName": $scope.metaAuthorName,
+                    "language": $scope.languageId,
+                    "frontPage": ($scope.frontPage === "true"),
+                    "tag": {
+                        "keyWords": $scope.tagKeyWords
+                    }
                 };
+                console.log("locations:" + $scope.locationIds);
                 console.log("json request:" + JSON.stringify(postData));
                 Article.save({}, postData,
                         function success(response) {
@@ -172,8 +146,6 @@ ulboraCmsNewArticleControllers.controller('ArticleAddCtrl', ['$scope', '$rootSco
                         }
                 );
             }, 500);
-
             //$location.path('/articles');
         };
-
     }]);

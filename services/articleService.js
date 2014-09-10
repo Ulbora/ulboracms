@@ -12,7 +12,20 @@ var articleManager = require('../managers/articleManager');
  *      
  */
 exports.create = function(req, res) {
-
+    if (req.is('application/json')) {
+        var reqBody = req.body;
+        var bodyJson = JSON.stringify(reqBody);
+        console.log("body: " + bodyJson);
+        authenticate(req, res, service.adminAuthRole, function(creds) {
+            console.log("in auth callback");
+            articleManager.create(reqBody, creds, function(result) {
+                res.send(result);
+            });
+        });
+    } else {
+        res.status(415);
+        res.send({success: false});
+    }
 };
 
 
@@ -24,7 +37,20 @@ exports.create = function(req, res) {
  *      
  */
 exports.update = function(req, res) {
-
+    if (req.is('application/json')) {
+        var reqBody = req.body;
+        var bodyJson = JSON.stringify(reqBody);
+        console.log("body: " + bodyJson);
+        authenticate(req, res, service.adminAuthRole, function(creds) {
+            console.log("in auth callback");
+            articleManager.update(reqBody, creds, function(result) {
+                res.send(result);
+            });
+        });
+    } else {
+        res.status(415);
+        res.send({success: false});
+    }   
 };
 
 
@@ -36,7 +62,7 @@ exports.update = function(req, res) {
  *      
  */
 exports.delete = function(req, res) {
-
+    service.delete(req, res, articleManager, service.adminAuthRole);
 };
 
 
@@ -48,7 +74,7 @@ exports.delete = function(req, res) {
  *      
  */
 exports.get = function(req, res) {
-
+    service.get(req, res, articleManager, service.adminAuthRole);
 };
 
 
@@ -60,9 +86,40 @@ exports.get = function(req, res) {
  *      
  */
 exports.list = function(req, res) {
-
+    service.list(req, res, articleManager, service.adminAuthRole);
 };
 
+/*
+ * 
+ * @param {type} req
+ * @param {type} res
+ * @returns {undefined}/**
+ * 
+ * @param req
+ *      
+ * @param res
+ *      
+ */
+/*
+exports.list = function(req, res) {
+    if (req.is('application/json')) {
+        var reqBody = req.body;
+        var bodyJson = JSON.stringify(reqBody);
+        console.log("body: " + bodyJson);
+        authenticate(req, res, service.adminAuthRole, function() {
+            console.log("in auth callback");
+            articleManager.list(reqBody, function(result) {
+                res.send(result);
+            });
+        });
+    }else {
+        res.status(415);
+        res.send({success: false});
+    }
+
+    // service.list(req, res, articleManager, service.adminAuthRole);
+};
+ */
 
 
 /**

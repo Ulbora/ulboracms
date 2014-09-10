@@ -25,7 +25,7 @@
                             <label class="article-form-label" for="language">Language:</label> 
                         </div>
                         <div class="article-element">  
-                            <select class="form-select-element-left" ng-model="languageId"  ng-options="lan.id as lan.name for lan in languageList" name="languageId" required>
+                            <select class="form-select-element-left" ng-model="languageId"  ng-options="lan._id as lan.name for lan in articleValues.languageList" name="languageId" required>
                             </select>
                         </div>
                     </div>
@@ -44,7 +44,7 @@
                             <label class="article-form-label" for="section">Section:</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="sectionId"  ng-options="sec.id as sec.name for sec in sectionList" name="sectionId" required>
+                            <select class="form-select-element-left" ng-model="sectionId"  ng-options="sec._id as sec.name for sec in articleValues.sectionList" name="sectionId" required>
                             </select>
                         </div>
                     </div>
@@ -54,7 +54,7 @@
                             <label class="article-form-label" for="category">Category:</label> 
                         </div>
                         <div class="article-element">   
-                            <select class="form-select-element-left" ng-model="categoryId"  ng-options="cat.id as cat.name for cat in categoryList" name="categoryId" required>
+                            <select class="form-select-element-left" ng-model="categoryId"  ng-options="cat._id as cat.name for cat in articleValues.categoryList" name="categoryId" required>
                             </select>
                         </div>
                     </div>
@@ -92,6 +92,14 @@
                         </div>
                         <div class="article-element">
                             <input class="form-left-text-element" type="text" ng-model="metaRobotKeyWords" name="metaRobotKeyWords" placeholder="Meta Robot Keywords"/>
+                        </div>
+                    </div>                    
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="tagKeyWords">Tag Keywords:</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" type="text" ng-model="tagKeyWords" name="tagKeyWords" placeholder="Tag Keywords"/>
                         </div>
                     </div>
 
@@ -179,13 +187,13 @@
                     <div class="article-radio-element">
                         <div class="form-radio">
                             <label>
-                                <input type="radio" ng-model="showCreationDate"  name="showCreationDate" value="true" />
+                                <input type="radio" ng-model="showCreateDate"  name="showCreateDate" value="true" />
                                 Show Created
                             </label>
                         </div>
                         <div class="form-radio">
                             <label>
-                                <input type="radio" ng-model="showCreationDate"  name="showCreationDate" value="false" />
+                                <input type="radio" ng-model="showCreateDate"  name="showCreateDate" value="false" />
                                 Hide Created
                             </label>
                         </div>
@@ -195,14 +203,30 @@
                     <div class="article-radio-element">
                         <div class="form-radio">
                             <label>
-                                <input type="radio" ng-model="showModifiedDate"  name="showModifiedDate" value="true" />
+                                <input type="radio" ng-model="showModifyDate"  name="showModifyDate" value="true" />
                                 Show Modified
                             </label>
                         </div>
                         <div class="form-radio">
                             <label>
-                                <input type="radio" ng-model="showModifiedDate"  name="showModifiedDate" value="false" />
+                                <input type="radio" ng-model="showModifyDate"  name="showModifyDate" value="false" />
                                 Hide Modified
+                            </label>
+                        </div>
+
+                    </div>
+                    
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="allowComments"  name="allowComments" value="true" />
+                                Allow Comments
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="allowComments"  name="allowComments" value="false" />
+                                Comments Disabled
                             </label>
                         </div>
 
@@ -215,7 +239,7 @@
                             <label class="article-form-label" for="location">Location</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="locationId"  ng-options="loc.id as loc.name for loc in locationList" name="locationId" required>
+                            <select class="form-select-element-left" ng-multiple="true" ng-model="locationIds"  ng-options="loc._id as loc.name for loc in articleValues.locationList" name="location" multiple required>
                             </select>
                         </div>
                     </div>
@@ -225,7 +249,7 @@
                             <label class="article-form-label" for="accessLevel">Access Level:</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="accessLevelId"  ng-options="ac.id as ac.name for ac in accessLevelList" name="accessLevelId" required>
+                            <select class="form-select-element-left" ng-model="accessLevelId"  ng-options="ac._id as ac.name for ac in articleValues.accessLevelList" name="accessLevelId" required>
                             </select>
                         </div>
                     </div>
@@ -262,7 +286,7 @@
                             <label class="article-form-label">Created:</label> 
                         </div>
                         <div class="article-element">                    
-                            <span class="article-span-element">{{createDate}}</span>
+                            <span class="article-span-element">{{createDate | date:'MM/dd/yyyy'}}</span>
                         </div>
                     </div>
 
@@ -272,7 +296,7 @@
                                 <label class="article-form-label">Modified:</label> 
                             </div>
                             <div class="article-element">                    
-                                <span class="article-span-element">{{modifiedDate}}</span>
+                                <span class="article-span-element">{{modifiedDate | date:'MM/dd/yyyy'}}</span>
                             </div>
                         </div>
                     </div>

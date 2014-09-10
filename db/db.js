@@ -393,6 +393,38 @@ initializeTemplate = function() {
                     if (err) {
                         console.log("template save error: " + err);
                     } else {
+                       //rules declaration
+                       initializeRulesDeclaration();
+                    }
+                });
+            } else {
+                //rules declaration
+                initializeRulesDeclaration();
+            }
+        }
+    });
+};
+
+
+initializeRulesDeclaration = function() {
+    //check if english language is in database
+    RuleDeclaration.find({}, function(err, results) {        
+        if (err) {            
+            console.log("rules Error:" + err);
+        } else {
+            console.log("rules:" + JSON.stringify(results));
+            if (results.length === 0) {
+                var ruleDeclarationRecord = {
+                    name: manager.REQUIRE_PUBLISH_APPROVAL_RULE_NAME,
+                    ruleKey: manager.REQUIRE_PUBLISH_APPROVAL_RULE_KEY
+                };
+                
+                var rule = new RuleDeclaration(ruleDeclarationRecord);
+                console.log("rules obj:" + JSON.stringify(ruleDeclarationRecord));
+                rule.save(function(err) {
+                    if (err) {
+                        console.log("rule save error: " + err);
+                    } else {
                        //future use
                     }
                 });

@@ -169,7 +169,8 @@ exports.list = function(callback) {
                     if (!lanListErr && lanList !== undefined && lanList !== null) {
                         var Article = db.getArticle();
                         var useArticle = false;
-                        Article.find({}, function(artErr, artList) {
+                        Article.find({}, 'section', function(artErr, artList) {
+                            //console.log("article list:" + artList);
                             if (!artErr && artList !== undefined && artList !== null) {
                                 useArticle = true;
                             }
@@ -178,19 +179,20 @@ exports.list = function(callback) {
                                 var sec = results[cnt].toObject();
                                 for (var lanCnt = 0; lanCnt < lanList.length; lanCnt++) {
                                     var lanId = lanList[lanCnt]._id.toString();
-                                    var secLanId = results[cnt].language.toString();                                   
-                                    if (lanId === secLanId) {                                        
+                                    var secLanId = results[cnt].language.toString();
+                                    if (lanId === secLanId) {
                                         sec.language = lanList[lanCnt];
                                         console.log("found language: " + JSON.stringify(lanList[lanCnt]));
                                         break;
                                     }
                                 }
+
                                 sec.inUse = false;
                                 var secId = sec._id.toString();
                                 if (useArticle) {
-                                    for (var artCnt = 0; cnt < artList.length; artCnt++) {
+                                    for (var artCnt = 0; artCnt < artList.length; artCnt++) {
                                         var artSecId = artList[artCnt].section.toString();
-                                        if(secId === artSecId){
+                                        if (secId === artSecId) {
                                             sec.inUse = true;
                                             break;
                                         }

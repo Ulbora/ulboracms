@@ -12,12 +12,14 @@ var accessLevelService = require('./services/accessLevelService');
 var languageService = require('./services/languageService');
 var categoryService = require('./services/categoryService');
 var sectionService = require('./services/sectionService');
+var configurationService = require('./services/configurationService');
 var linksService = require('./services/linksService');
 var locationService = require('./services/locationService');
 var ulboraUserService = require('./services/ulboraUserService');
 var articleService = require('./services/articleService');
 var mediaService = require('./services/mediaService');
 var imageService = require('./services/imageService');
+var articleService = require('./services/articleService');
 
 
 
@@ -136,6 +138,14 @@ var nodeBlog = function() {
         self.app.delete('/rs/section/:id', sectionService.delete);
         self.app.get('/rs/section/:id', sectionService.get);
         self.app.post('/rs/section/list', sectionService.list);
+        
+        
+        //configuration
+        self.app.post('/rs/configuration', configurationService.create);
+        self.app.put('/rs/configuration', configurationService.update);
+        self.app.delete('/rs/configuration/:id', configurationService.delete);
+        self.app.get('/rs/configuration/:id', configurationService.get);
+        self.app.post('/rs/configuration/list', configurationService.list);
 
 
         //links
@@ -162,8 +172,7 @@ var nodeBlog = function() {
         self.app.post('/rs/user/pw', ulboraUserService.changePassword);
         self.app.post('/rs/user/roleList', ulboraUserService.roleList);
 
-        //article
-        self.app.post('/rs/article/values', articleService.values);
+              
 
 
         //media         
@@ -179,6 +188,16 @@ var nodeBlog = function() {
         self.app.post('/rs/media/list', function(req, res){
             mediaService.list(req, res, self.port);
         });
+        
+        
+        //article
+        self.app.post('/rs/article', articleService.create);
+        self.app.put('/rs/article', articleService.update);
+        self.app.delete('/rs/article/:id', articleService.delete);
+        self.app.get('/rs/article/:id', articleService.get);
+        self.app.post('/rs/article/list', articleService.list);
+        self.app.post('/rs/article/values', articleService.values);
+        
 
 
         self.app.get('/rs/test', auth, function(req, res) {
