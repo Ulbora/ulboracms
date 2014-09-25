@@ -109,7 +109,7 @@ ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '
                 });
 
         var articleId = $routeParams.a;
-        Article.get({id: articleId, lastVersion: true, version: -1},
+        Article.get({id: articleId},
         function success(response) {
             //alert($scope.challenge.question);
             console.log("Success:" + JSON.stringify(response));
@@ -172,7 +172,8 @@ ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '
             //}else{
             //  $scope.publishedValue = false;
             //}
-
+            //var tempDate = new Date();
+            //tempDate = tempDate.getTime();
 
             $scope.showTitle = response.showTitle.toString();
             $scope.showSectionName = response.showSectionName.toString();
@@ -181,9 +182,16 @@ ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '
             $scope.showCreateDate = response.showCreateDate.toString();
             $scope.showModifyDate = response.showModifyDate.toString();
             $scope.allowComments = response.allowComments.toString();
+            $scope.commentsRequireLogin = response.commentsRequireLogin.toString();
+            if (response.commentsStartDate !== undefined && response.commentsStartDate !== null &&
+                    response.commentsEndDate !== undefined && response.commentsEndDate !== null) {
+                $scope.commentsStartDate = new Date(response.commentsStartDate).toISOString().substring(0, 10);
+                $scope.commentsEndDate = new Date(response.commentsEndDate).toISOString().substring(0, 10);
+            }
+
             $scope.frontPage = response.frontPage.toString();
             $scope.authorName = response.user.firstName + " " + response.user.lastName;
-            if (response.tag !== undefined && response.tag !== null) {                
+            if (response.tag !== undefined && response.tag !== null) {
                 $scope.tagKeyWords = response.tag.keyWords;
             }
 
@@ -265,6 +273,17 @@ ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope
             //alert(tinymce.activeEditor.getContent())
             //alert($scope.published);
             //alert(Boolean($scope.published));
+            
+            var commentsStartDate = $scope.commentsStartDate;
+            var commentsEndDate = $scope.commentsEndDate;
+            if(commentsStartDate !== undefined && commentsStartDate !== null &&
+                    commentsEndDate !== undefined && commentsEndDate !== null){
+                commentsStartDate = new Date(commentsStartDate);
+                commentsEndDate = new Date(commentsEndDate);
+            }else{
+                commentsStartDate = null;
+                commentsEndDate = null;
+            }
 
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
 
@@ -283,6 +302,9 @@ ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope
                     "showCreateDate": ($scope.showCreateDate === "true"),
                     "showModifyDate": ($scope.showModifyDate === "true"),
                     "allowComments": ($scope.allowComments === "true"),
+                    "commentsRequireLogin": ($scope.commentsRequireLogin === "true"),
+                    "commentsStartDate" : commentsStartDate,
+                    "commentsEndDate" : commentsEndDate,
                     "title": $scope.title,
                     "articleText": {
                         "id": $scope.articleTextId,
@@ -299,11 +321,11 @@ ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope
                     "metaAuthorName": $scope.metaAuthorName,
                     "language": $scope.languageId,
                     "frontPage": ($scope.frontPage === "true"),
-                    "tag": {                        
+                    "tag": {
                         "keyWords": $scope.tagKeyWords
                     }
                 };
-                console.log("locations:" + $scope.locationIds);                
+                console.log("locations:" + $scope.locationIds);
                 console.log("json request:" + JSON.stringify(putData));
                 Article.update({}, putData,
                         function success(response) {

@@ -15,13 +15,16 @@ ulboraCmsProductFileControllers.controller('ProductFilesCtrl', ['$scope', 'check
         $scope.productName = $routeParams.b;
 
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        ArticleValues.getValues({},
+        var postData = {
+            "languageCode": "en-us"
+        };
+        ArticleValues.getValues({}, postData,
                 function success(values) {
                     //alert($scope.challenge.question);
                     console.log("Success:" + JSON.stringify(values));
-                    $scope.downloadKey = values.uploadKey;                    
+                    $scope.downloadKey = encodeURIComponent(values.uploadKey);                    
                     $scope.username = values.username;
-                    $scope.downloadLink = siteUrl + "downloadableFile/download";
+                    $scope.downloadLink = "../../rs/downloadableFile/download";
                     DownloadableFileList.getList({productId: productId},
                     function success(response) {
                         //alert($scope.challenge.question);
@@ -90,7 +93,7 @@ ulboraCmsProductFileControllers.controller('ProductFileEditCtrl', ['$scope', 'Do
             var productId = $scope.productId;
 
             var putData = {
-                "id": Number($scope.id),
+                "id": $scope.id,
                 "name": $scope.name,
                 "version": $scope.version
             };
@@ -137,11 +140,11 @@ ulboraCmsProductFileControllers.controller('ProductFileCtrl', ['$scope', 'checkC
             //alert($scope.challenge.question);
             console.log("Success:" + JSON.stringify(response));
 
-            $scope.id = response.id;
+            $scope.id = response._id;
             $scope.name = response.name;
             $scope.version = response.version;
-            $scope.productName = response.product.name;
-            $scope.productId = response.product.id;
+            //$scope.productName = response.product.name;
+            $scope.productId = response.product;
 
 
         },
@@ -167,16 +170,19 @@ ulboraCmsProductFileControllers.controller('ProductFileUploadCtrl', ['$scope', '
         var prodId = $routeParams.a;
         //alert(prodId);
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        ArticleValues.getValues({},
+        var postData = {
+            "languageCode": "en-us"
+        };
+        ArticleValues.getValues({}, postData,
                 function success(response) {
                     //alert($scope.challenge.question);
                     console.log("Success:" + JSON.stringify(response));
                     $scope.productId = prodId;
                     $scope.uploadKey = response.uploadKey;
-                    $scope.errorUrl = clientUrl;
-                    $scope.fileUrl = clientUrl + "/#!/product/" + prodId;
-                    $scope.username = response.username;
-                    $scope.api = siteUrl + "downloadableFile/upload";
+                    $scope.errorUrl = "admin/#!";
+                    $scope.fileUrl = "admin/#!product/" + prodId;
+                    $scope.username = response.username;                    
+                    $scope.api = "../../rs/downloadableFile/upload";
 
                 },
                 function error(errorResponse) {

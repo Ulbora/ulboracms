@@ -18,17 +18,17 @@
         <tbody>
             <tr ng-repeat="prod in productList">
                 <td>
-                   <a href="#!product/{{prod.id}}">{{prod.name}}</a> 
+                   <a href="#!product/{{prod._id}}">{{prod.name}}</a> 
                 </td>
                 <td>
-                    {{prod.description}}
+                    {{prod.desc}}
                 </td>
                 
                 <td>
-                    {{prod.language.name}}
+                    {{prod.language}}
                 </td>
                 <td>
-                    <span ng-controller="DeleteProductCtrl" ng-click="deleteProduct(prod.id, prod.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
+                    <span ng-controller="DeleteProductCtrl" ng-click="deleteProduct(prod._id, prod.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
                 </td>
                 
             </tr>

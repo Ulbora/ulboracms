@@ -52,6 +52,17 @@
         border: #230fba solid 1px;
 
     }
+    
+    .comment-form-wrapper{
+        float: left;
+        width: 60%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 20%;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
 
     .summary-cell{        
         height: 300px;
@@ -122,6 +133,17 @@
     }
 
     .config-form-wrapper{
+        float: left;
+        width: 60%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 20%;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
+    
+    .comment-form-wrapper{
         float: left;
         width: 60%;
         padding: 0 0 0 0;
@@ -209,6 +231,17 @@
         border: #230fba solid 1px;
 
     }
+    
+    .comment-form-wrapper{
+        float: left;
+        width: 80%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 10%;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
     .summary-cell{        
         height: 300px;
     }
@@ -277,6 +310,17 @@
     }
 
     .config-form-wrapper{
+        float: left;
+        width: 80%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 10%;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
+    
+    .comment-form-wrapper{
         float: left;
         width: 80%;
         padding: 0 0 0 0;
@@ -364,6 +408,17 @@
         border: #230fba solid 1px;
 
     }
+    
+    .comment-form-wrapper{
+        float: left;
+        width: 100%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
     .summary-cell{        
         height: 200px;
     }
@@ -440,6 +495,17 @@
         border: #230fba solid 1px;
 
     }
+    
+    .comment-form-wrapper{
+        float: left;
+        width: 100%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
     .summary-cell{        
         height: 150px;
     }
@@ -506,6 +572,17 @@
     }
 
     .config-form-wrapper{
+        float: left;
+        width: 100%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
+    
+    .comment-form-wrapper{
         float: left;
         width: 100%;
         padding: 0 0 0 0;
@@ -595,6 +672,17 @@
         border: #230fba solid 1px;
 
     }
+    
+    .comment-form-wrapper{
+        float: left;
+        width: 100%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
     .summary-cell{        
         height: 150px;           
     }
@@ -665,6 +753,17 @@
     }
 
     .config-form-wrapper{
+        float: left;
+        width: 100%;
+        padding: 0 0 0 0;
+        margin: 0 0 0 0;
+        border-radius:7px;
+        -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+        border: #230fba solid 1px;
+
+    }
+    
+    .comment-form-wrapper{
         float: left;
         width: 100%;
         padding: 0 0 0 0;
@@ -814,6 +913,38 @@
     border: #230fba solid 1px;
 }
 
+
+.comment-element-wrapper{
+    float: left;
+    width: 96%;  
+    margin: 1% 0 0 2%;
+    padding: 0 0 1% 0;
+    border-radius:7px;
+    -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+    border: #230fba solid 1px;
+}
+
+
+.comment-delete-element-wrapper{
+    float: left;
+    width: 96%;  
+    margin: 1% 0 0 2%;
+    padding: 1% 0 1% 0;
+    border-radius:7px;
+    -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+    border: #230fba solid 1px;
+}
+
+.mail-server-element-wrapper{
+    float: left;
+    width: 95%;  
+    margin: 1% 0 0 3%;
+    padding: 0 0 1% 0;
+    border-radius:7px;
+    -moz-border-radius:7px; /* Firefox 3.6 and earlier */
+    border: gainsboro solid 1px;
+}
+
 .summary-wrapper{
     float: left;
     width: 100%;
@@ -891,4 +1022,12 @@
     width: 100%;
     text-align: center;
     margin: 40% 0 10% 0;
+}
+
+.text-color-green{
+    color: green;
+}
+
+.text-color-red{
+    color: red;
 }

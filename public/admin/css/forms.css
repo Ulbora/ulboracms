@@ -154,6 +154,12 @@ textarea.form-left-text-element {
     padding: 0 0 0 0;
 }
 
+.comment-form-label{
+    float: left;    
+    margin: 0% 1% 0 3%;  
+    padding: 0 0 0 0;    
+}
+
 .upload-form-label{
     float: left;
     width: 100%;

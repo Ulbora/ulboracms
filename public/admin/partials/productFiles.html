@@ -19,7 +19,7 @@
         <tbody>
             <tr ng-repeat="prodFile in productFileList">
                 <td>
-                   <a href="#!productFile/{{prodFile.id}}">{{prodFile.name}}</a> 
+                   <a href="#!productFile/{{prodFile._id}}">{{prodFile.name}}</a> 
                 </td>
                 <td>
                     {{prodFile.version}}
@@ -29,10 +29,10 @@
                     {{prodFile.downloadCount}}
                 </td>
                 <td>
-                    <a href="{{downloadLink}}?id={{prodFile.id}}&username={{username}}&downloadKey={{downloadKey}}"><span class="glyphicon glyphicon-download clickable-image"></span></a>
+                    <a href="{{downloadLink}}?id={{prodFile._id}}&username={{username}}&downloadKey={{downloadKey}}"><span class="glyphicon glyphicon-download clickable-image"></span></a>
                 </td>
                 <td>
-                    <span ng-controller="DeleteProductFileCtrl" ng-click="deleteProductFile(prodFile.id, prodFile.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
+                    <span ng-controller="DeleteProductFileCtrl" ng-click="deleteProductFile(prodFile._id, prodFile.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
                 </td>
                 
             </tr>

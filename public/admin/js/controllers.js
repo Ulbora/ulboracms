@@ -63,6 +63,8 @@ ulboraCmsAdminControllers.controller('MainCtrl2', ['$scope', '$routeParams', 'ch
             $scope.menu = "m4";
         } else if (page === "5") {
             $scope.menu = "m5";
+        }else if (page === "6") {
+            $scope.menu = "m6";
         }
         
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();

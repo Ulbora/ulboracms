@@ -21,6 +21,8 @@ var ulboraCmsAdminApp = angular.module('ulboraCmsAdminApp', [
     "ulboraCmsProductControllers",
     "ulboraCmsProductFileControllers",
     "ulboraCmsAddonsControllers",
+    "ulboraCmsCommentsControllers",
+    "ulboraCmsMailServerControllers",
     "ngAnimate",
     'ngCookies'
 ]);
@@ -52,6 +54,14 @@ ulboraCmsAdminApp.config(['$routeProvider', '$locationProvider',
                 when('/uploadArticle', {
                     templateUrl: 'partials/uploadArticle.html',
                     controller: 'UploadArticleCtrl'
+                }).
+                when('/comments', {
+                    templateUrl: 'partials/comments.html',
+                    controller: 'CommentsCtrl'
+                }).
+                when('/comment/:a', {
+                    templateUrl: 'partials/comment.html',
+                    controller: 'CommentCtrl'
                 }).
                 when('/sections', {
                     templateUrl: 'partials/sections.html',
@@ -132,6 +142,10 @@ ulboraCmsAdminApp.config(['$routeProvider', '$locationProvider',
                 when('/newConfiguration', {
                     templateUrl: 'partials/newConfiguration.html',
                     controller: 'NewConfigurationCtrl'
+                }).
+                when('/mailServer', {
+                    templateUrl: 'partials/mailServer.html',
+                    controller: 'MailServerCtrl'
                 }).
                 when('/links', {
                     templateUrl: 'partials/links.html',

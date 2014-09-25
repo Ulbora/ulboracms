@@ -123,7 +123,7 @@
                             <label class="article-form-label" for="price">Price</label>  
                         </div>
                         <div class="article-element">
-                            <input class="form-left-text-element" type="number" onkeypress="return isNumberKey(event)" ng-model="price" name="price" placeholder="Price"/>
+                            <input class="form-left-text-element" type="text" onkeypress="return isNumberKey(event)" ng-model="price" name="price" placeholder="Price"/>
                         </div>
                     </div>
 
@@ -144,8 +144,8 @@
                             <label class="article-form-label" for="location">Location</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="locationId"  ng-options="loc.id as loc.name for loc in articleValues.locationList" name="locationId">
-                                <option value="">----</option>
+                            <select class="form-select-element-left" ng-model="locationIds"  ng-options="loc._id as loc.name for loc in articleValues.locationList" name="locationId" multiple required>
+                               
                             </select>
                         </div>
                     </div>
@@ -155,7 +155,7 @@
                             <label class="article-form-label" for="accessLevel">Access Level:</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="accessLevelId"  ng-options="acc.id as acc.name for acc in articleValues.accessLevelList" name="accessLevelId" required>
+                            <select class="form-select-element-left" ng-model="accessLevelId"  ng-options="acc._id as acc.name for acc in articleValues.accessLevelList" name="accessLevelId" required>
                             </select>
                         </div>
                     </div>
@@ -165,7 +165,7 @@
                             <label class="article-form-label" for="language">Language:</label> 
                         </div>
                         <div class="article-element">                    
-                            <select class="form-select-element-left" ng-model="languageId"  ng-options="lan.id as lan.name for lan in articleValues.languageList" name="languageId" required>
+                            <select class="form-select-element-left" ng-model="languageId"  ng-options="lan._id as lan.name for lan in articleValues.languageList" name="languageId" required>
                             </select>
                         </div>
                     </div>
@@ -177,7 +177,7 @@
                             <label class="article-form-label" for="section">Section:</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="sectionId"  ng-options="sec.id as sec.name for sec in articleValues.sectionList" name="sectionId" required>
+                            <select class="form-select-element-left" ng-model="sectionId"  ng-options="sec._id as sec.name for sec in articleValues.sectionList" name="sectionId" required>
                             </select>
                         </div>
                     </div>
@@ -187,7 +187,7 @@
                             <label class="article-form-label" for="category">Category:</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="categoryId"  ng-options="cat.id as cat.name for cat in articleValues.categoryList" name="categoryId" required>
+                            <select class="form-select-element-left" ng-model="categoryId"  ng-options="cat._id as cat.name for cat in articleValues.categoryList" name="categoryId" required>
                             </select>
                         </div>
                     </div>

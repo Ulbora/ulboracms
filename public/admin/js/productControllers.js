@@ -31,7 +31,7 @@ ulboraCmsProductControllers.controller('ProductsCtrl', ['$scope', 'checkCreds', 
 
 ulboraCmsProductControllers.controller('DeleteProductCtrl', ['$scope', 'Product', '$location', '$route', '$http', 'getToken',
     function DeleteProductCtrl($scope, Product, $location, $route, $http, getToken) {
-        $scope.deleteProduct = function(id, name) {
+        $scope.deleteProduct = function (id, name) {
             var doDelete = confirm("Delete " + name);
             if (doDelete === true) {
                 $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
@@ -63,40 +63,32 @@ ulboraCmsProductControllers.controller('DeleteProductCtrl', ['$scope', 'Product'
 
 ulboraCmsProductControllers.controller('ProductAddCtrl', ['$scope', 'Product', '$location', '$http', 'getToken',
     function ProductAddCtrl($scope, Product, $location, $http, getToken) {
-        $scope.submit = function() {
+        $scope.submit = function () {
             var acc = $scope.accessLevelId;
             var cat = $scope.categoryId;
             var sec = $scope.sectionId;
             var lan = $scope.languageId;
+
             if (acc !== "" && acc !== undefined && cat !== "" && cat !== undefined && sec !== ""
                     && sec !== undefined && lan !== "" && lan !== undefined) {
                 var postData = {
                     "published": false,
                     "name": $scope.name,
-                    "description": $scope.desc,
-                    "promoLink": $scope.promo,
+                    "desc": $scope.desc,
+                    "promoVideoLink": $scope.promo,
                     "externalLink": $scope.extLink,
-                    "metaData": {
-                        "metaDescription": $scope.metaDescription,
-                        "metaKeyWords": $scope.metaKeyWords,
-                        "metaRobotKeyWords": $scope.metaRobotKeyWords,
-                        "metaAuthorName": $scope.metaAuthorName
-                    },
-                    "accessLevel": {
-                        "id": Number($scope.accessLevelId)
-                    },
-                    "category": {
-                        "id": Number($scope.categoryId)
-                    },
-                    "section": {
-                        "id": Number($scope.sectionId)
-                    },
-                    "language": {
-                        "id": Number($scope.languageId)
-                    },
-                    "location": {
-                        "id": Number($scope.locationId)
-                    }
+                    "metaDes": $scope.metaDescription,
+                    "metaKeyWords": $scope.metaKeyWords,
+                    "metaRobotKeyWords": $scope.metaRobotKeyWords,
+                    "metaAuthorName": $scope.metaAuthorName,
+                    "accessLevel": $scope.accessLevelId,
+                    "category": $scope.categoryId,
+                    "section": $scope.sectionId,
+                    "language": $scope.languageId,
+                    "locationList": $scope.locationIds,
+                    "price": Number($scope.price),
+                    "currencyCode": $scope.currencyCode,
+                    "imageLocation": $scope.imageLocation
                 };
 
                 console.log("json request:" + JSON.stringify(postData));
@@ -137,7 +129,10 @@ ulboraCmsProductControllers.controller('NewProductCtrl', ['$scope', 'checkCreds'
             $location.path('/loginForm');
         }
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        ArticleValues.getValues({},
+        var postData = {
+            "languageCode": "en-us"
+        };
+        ArticleValues.getValues({}, postData,
                 function success(response) {
                     //alert($scope.challenge.question);
                     $scope.published = "false";
@@ -148,6 +143,7 @@ ulboraCmsProductControllers.controller('NewProductCtrl', ['$scope', 'checkCreds'
                     $scope.showCreationDate = "false";
                     $scope.showModifiedDate = "false";
                     $scope.frontPage = "false";
+                    $scope.imageLocation = "";
                     $scope.articleValues = response;
 
                     console.log("Success:" + JSON.stringify(response));
@@ -169,83 +165,58 @@ ulboraCmsProductControllers.controller('NewProductCtrl', ['$scope', 'checkCreds'
 
 ulboraCmsProductControllers.controller('ProductEditCtrl', ['$scope', 'Product', '$location', '$http', 'getToken',
     function ProductEditCtrl($scope, Product, $location, $http, getToken) {
-        $scope.submit = function() {
-            
-            var published = false;
-            var pubed = $scope.published;
-            if(pubed === "true"){
-                published = true;
-            }
-            var newPriceId = Number($scope.priceId);
-            if(newPriceId === 0){
-                newPriceId = null;
-            }
-            var newPrice = Number($scope.price);
-            if(newPrice === 0){
-                newPrice = null;
-            }
-            
-            var putData = {
-                "id": Number($scope.productId),
-                "published": published,
-                "name": $scope.name,
-                "description": $scope.desc,
-                "promoLink": $scope.promo,
-                "externalLink": $scope.extLink,
-                "metaData": {
-                    "id": Number($scope.metaId),
-                    "metaDescription": $scope.metaDescription,
+        $scope.submit = function () {
+            var price = Number($scope.price);
+            if (price === undefined || price === null || isNaN(price)) {
+                alert("Enter valid price");
+            } else {
+                var putData = {
+                    "id": $scope.productId,
+                    "published": ($scope.published === "true"),
+                    "name": $scope.name,
+                    "desc": $scope.desc,
+                    "promoVideoLink": $scope.promo,
+                    "externalLink": $scope.extLink,
+                    "metaDesc": $scope.metaDescription,
                     "metaKeyWords": $scope.metaKeyWords,
                     "metaRobotKeyWords": $scope.metaRobotKeyWords,
-                    "metaAuthorName": $scope.metaAuthorName
-                },
-                "accessLevel": {
-                    "id": Number($scope.accessLevelId)
-                },
-                "category": {
-                    "id": Number($scope.categoryId)
-                },
-                "section": {
-                    "id": Number($scope.sectionId)
-                },
-                "language": {
-                    "id": Number($scope.languageId)
-                },
-                "location": {
-                    "id": Number($scope.locationId)
-                },
-                "price": {
-                    "id": newPriceId,
-                    "price": newPrice,
-                    "currencyCode": $scope.currencyCode
-                },
-                "imageLocation" : $scope.imageLocation 
-            };
+                    "metaAuthorName": $scope.metaAuthorName,
+                    "accessLevel": $scope.accessLevelId,
+                    "category": $scope.categoryId,
+                    "section": $scope.sectionId,
+                    "language": $scope.languageId,
+                    "locationList": $scope.locationIds,
+                    "price": Number($scope.price),
+                    "currencyCode": $scope.currencyCode,
+                    "imageLocation": $scope.imageLocation
+                };
 
-            console.log("json request:" + JSON.stringify(putData));
-            $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-            Product.update({}, putData,
-                    function success(response) {
-                        console.log("Success:" + JSON.stringify(response));
-                        if (response.success === true) {
-                            // set cookie
-                            //setCreds($scope.username, $scope.password);
-                            //$location.path('/');
+                console.log("json request:" + JSON.stringify(putData));
+                $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+                Product.update({}, putData,
+                        function success(response) {
                             console.log("Success:" + JSON.stringify(response));
-                            $location.path('/products');
-                        } else {
+                            if (response.success === true) {
+                                // set cookie
+                                //setCreds($scope.username, $scope.password);
+                                //$location.path('/');
+                                console.log("Success:" + JSON.stringify(response));
+                                $location.path('/products');
+                            } else {
+                                //$location.path('/loginFailedForm');
+                                console.log("Failed:" + JSON.stringify(response));
+                            }
+                        },
+                        function error(errorResponse) {
+                            console.log("Error:" + JSON.stringify(errorResponse));
+                            alert("Failed");
                             //$location.path('/loginFailedForm');
-                            console.log("Failed:" + JSON.stringify(response));
+                            $location.path('/products');
                         }
-                    },
-                    function error(errorResponse) {
-                        console.log("Error:" + JSON.stringify(errorResponse));
-                        alert("Failed");
-                        //$location.path('/loginFailedForm');
-                        $location.path('/products');
-                    }
-            );
-            
+                );
+
+            }
+
         };
 
     }]);
@@ -264,44 +235,54 @@ ulboraCmsProductControllers.controller('ProductCtrl', ['$scope', 'checkCreds', '
             //alert($scope.challenge.question);
             console.log("Success:" + JSON.stringify(response));
 
-            $scope.productId = response.id;
+            $scope.productId = response._id;
             $scope.name = response.name;
-            $scope.desc = response.description;
+            $scope.desc = response.desc;
             if (response.published === true) {
                 $scope.published = "true";
             } else {
                 $scope.published = "false";
             }
 
-            $scope.promo = response.promoLink;
+            $scope.promo = response.promoVideoLink;
             $scope.extLink = response.externalLink;
-            $scope.metaId = response.metaData.id;
-            $scope.metaDescription = response.metaData.metaDescription;
-            $scope.metaKeyWords = response.metaData.metaKeyWords;
-            $scope.metaAuthorName = response.metaData.metaAuthorName;
-            $scope.metaRobotKeyWords = response.metaData.metaRobotKeyWords;
-            $scope.languageId = response.language.id;
-            $scope.sectionId = response.section.id;
-            $scope.categoryId = response.category.id;
-            if (response.location !== null) {
-                $scope.locationId = response.location.id;
+            $scope.metaDescription = response.metaDesc;
+            $scope.metaKeyWords = response.metaKeyWords;
+            $scope.metaAuthorName = response.metaAuthorName;
+            $scope.metaRobotKeyWords = response.metaRobotKeyWords;
+            $scope.languageId = response.language;
+            $scope.sectionId = response.section;
+            $scope.categoryId = response.category;
+            //if (response.location !== null) {
+            //$scope.locationId = response.location.id;
+            // }
+            var tempLoc = response.productLocationList;
+            if (tempLoc !== undefined && tempLoc !== null) {
+                // $scope.locationSelectId = tempLoc[0];
+                $scope.locationIds = tempLoc;
+                console.log("locationIds:" + tempLoc)
+            } else {
+                $scope.locationSelectId = 0;
+
             }
-            $scope.accessLevelId = response.accessLevel.id;
-            
-            if(response.price !== null){
-                $scope.priceId = response.price.id;
-                $scope.price = response.price.price;
-                $scope.currencyCode = response.price.currencyCode;
-            }else{
-                $scope.priceId = null;
-                $scope.price = null;
-                $scope.currencyCode = null;
-            }          
-            
+            $scope.accessLevelId = response.accessLevel;
+
+            //if (response.price !== null) {
+
+            $scope.price = response.price;
+            $scope.currencyCode = response.currencyCode;
+            //} else {
+            //  $scope.priceId = null;
+            //$scope.price = null;
+            //$scope.currencyCode = null;
+            //}
+
             $scope.imageLocation = response.imageLocation;
 
-
-            ArticleValues.getValues({},
+            var postData = {
+                "languageCode": "en-us"
+            };
+            ArticleValues.getValues({}, postData,
                     function success(values) {
                         //alert($scope.challenge.question);                   
                         $scope.articleValues = values;

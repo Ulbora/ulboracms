@@ -43,6 +43,32 @@ ulboraCmsAdminServices.factory('Article', ['$resource',
     }]);
 //delete: {method: 'DELETE', cache : false, isArray: false, headers: {Authorization: 'Basic ' + getToken()}}
 
+ulboraCmsAdminServices.factory('Comment', ['$resource',
+    function($resource) {
+        return $resource("../rs/comment/:id", {}, {
+            get: {method: 'GET', cache: false, isArray: false},
+            save: {method: 'POST', cache: false, isArray: false},
+            update: {method: 'PUT', cache: false, isArray: false},
+            delete: {method: 'DELETE', cache: false, isArray: false}
+        });
+    }]);
+
+ulboraCmsAdminServices.factory('CommentList', ['$resource',
+    function($resource) {
+        return $resource("../rs/comment/list", {}, {
+            getCommentList: {method: 'POST', cache: false, isArray: true}
+        });
+    }]);
+
+
+ulboraCmsAdminServices.factory('MailServer', ['$resource',
+    function($resource) {
+        return $resource("../rs/mailServer", {}, {
+            get: {method: 'GET', cache: false, isArray: false},
+            update: {method: 'PUT', cache: false, isArray: false}
+        });
+    }]);
+
 ulboraCmsAdminServices.factory('SectionList', ['$resource',
     function($resource) {
         return $resource("../rs/section/list", {}, {

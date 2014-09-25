@@ -43,7 +43,7 @@ exports.create = function(body, files, callback) {
                     var m = new Media(mediaJson);
                     m.save(function(err) {
                         if (err) {
-                            returnVal.message = "save failed";
+                            returnVal = errorLink;
                             console.log("media save error: " + err);
                         } else {
                             returnVal = returnLink;

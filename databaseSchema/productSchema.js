@@ -16,7 +16,9 @@ var productSchema = new mongoose.Schema({
     accessLevel: {type: mongoose.Schema.ObjectId, required: true, ref: "AccessLevel"},
     category: {type: mongoose.Schema.ObjectId, required: true, ref: "Category"},
     section: {type: mongoose.Schema.ObjectId, required: true, ref: "Section"},
-    language: {type: mongoose.Schema.ObjectId, required: true, ref: "Language"}
+    language: {type: mongoose.Schema.ObjectId, required: true, ref: "Language"},
+    currencyCode: {type: String, required: true, trim: true},
+    price: {type: Number, required: true}
 });
 module.exports = productSchema;
 

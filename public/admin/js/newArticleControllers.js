@@ -41,6 +41,7 @@ ulboraCmsNewArticleControllers.controller('NewArticlesCtrl', ['$scope', '$rootSc
                     $scope.showModifyDate = "false";
                     $scope.allowComments = "false";
                     $scope.frontPage = "false";
+                    $scope.commentsRequireLogin = "true";
                     setTimeout(function() {
 
                         $scope.$apply(function() {
@@ -84,10 +85,19 @@ ulboraCmsNewArticleControllers.controller('ArticleAddCtrl', ['$scope', '$rootSco
             //alert(tinymce.activeEditor.getContent())
             //alert($scope.published);
             //alert(Boolean($scope.published));
-
+            
+            
+            var commentsStartDate = $scope.commentsStartDate;
+            var commentsEndDate = $scope.commentsEndDate;
+            if(commentsStartDate !== undefined && commentsStartDate !== null &&
+                    commentsEndDate !== undefined && commentsEndDate !== null){
+                commentsStartDate = new Date(commentsStartDate);
+                commentsEndDate = new Date(commentsEndDate);
+            }
+            
 
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-            var textUpdated = tinymce.activeEditor.getContent();
+            var textUpdated = tinymce.activeEditor.getContent();            
             setTimeout(function() {
                 //alert(tinyMCE.get('elm1'));
                 //alert(tinymce.get('elm1'));
@@ -103,6 +113,9 @@ ulboraCmsNewArticleControllers.controller('ArticleAddCtrl', ['$scope', '$rootSco
                     "showCreateDate": ($scope.showCreateDate === "true"),
                     "showModifyDate": ($scope.showModifyDate === "true"),
                     "allowComments": ($scope.allowComments === "true"),
+                    "commentsRequireLogin": ($scope.commentsRequireLogin === "true"),
+                    "commentsStartDate" : commentsStartDate,
+                    "commentsEndDate" : commentsEndDate,
                     "title": $scope.title,
                     "articleText": {
                         "text": btoa(textUpdated)

@@ -49,6 +49,7 @@ var tagSchema = require('../databaseSchema/tagSchema');
 var userSchema = require('../databaseSchema/userSchema');
 var workflowRuleSchema = require('../databaseSchema/workflowRuleSchema');
 var templateSchema = require('../databaseSchema/templateSchema');
+var mailServerSchema = require('../databaseSchema/mailServerSchema');
 
 
 
@@ -78,6 +79,7 @@ var ProductLocation = mongoose.model('ProductLocation', productLocationSchema);
 var ProductPrice = mongoose.model('ProductPrice', productPriceSchema);
 var DownloadableFile = mongoose.model('DownloadableFile', downloadableFileSchema);
 var Template = mongoose.model('Template', templateSchema);
+var MailServer = mongoose.model('MailServer', mailServerSchema);
 
 
 exports.getAccessLevel = function() {
@@ -158,6 +160,9 @@ exports.getDownloadableFile = function() {
 exports.getTemplate = function() {
     return Template;
 };
+exports.getMailServer = function() {
+    return MailServer;
+};
 
 //initialize the mongoDB database with needed records required for startup
 exports.initializeMongoDb = function() {
@@ -166,8 +171,8 @@ exports.initializeMongoDb = function() {
 };
 
 initializeDatabaseVersion = function() {
-    DatabaseVersion.find({}, function(err, results) {        
-        if (err) {            
+    DatabaseVersion.find({}, function(err, results) {
+        if (err) {
             console.log("databaseVersion Error:" + err);
         } else {
             console.log("DatabaseVersion:" + JSON.stringify(results));
@@ -194,8 +199,8 @@ initializeDatabaseVersion = function() {
 
 initializeRoles = function() {
     //check if roles are in database
-    Role.find({}, function(err, results) {        
-        if (err) {            
+    Role.find({}, function(err, results) {
+        if (err) {
             console.log("Role Error:" + err);
         } else {
             console.log("Role:" + JSON.stringify(results));
@@ -258,8 +263,8 @@ initializeDefaultUsers = function() {
         } else {
             console.log("role:" + JSON.stringify(roleResults));
             var superAdmimRole = roleResults.toObject();
-            User.find({}, function(err, results) {                
-                if (err) {                    
+            User.find({}, function(err, results) {
+                if (err) {
                     console.log("user Error:" + err);
                 } else {
                     console.log("user:" + JSON.stringify(results));
@@ -296,8 +301,8 @@ initializeDefaultUsers = function() {
 
 initializeAccessLevels = function() {
     //check if accessLevel or in database
-    AccessLevel.find({}, function(err, results) {        
-        if (err) {            
+    AccessLevel.find({}, function(err, results) {
+        if (err) {
             console.log("accessLevels Error:" + err);
         } else {
             console.log("accessLevels:" + JSON.stringify(results));
@@ -334,8 +339,8 @@ initializeAccessLevels = function() {
 
 initializeLanguage = function() {
     //check if english language is in database
-    Language.find({}, function(err, results) {        
-        if (err) {            
+    Language.find({}, function(err, results) {
+        if (err) {
             console.log("language Error:" + err);
         } else {
             console.log("language:" + JSON.stringify(results));
@@ -377,8 +382,8 @@ initializeLanguage = function() {
 
 initializeTemplate = function() {
     //check if english language is in database
-    Template.find({}, function(err, results) {        
-        if (err) {            
+    Template.find({}, function(err, results) {
+        if (err) {
             console.log("template Error:" + err);
         } else {
             console.log("template:" + JSON.stringify(results));
@@ -387,14 +392,14 @@ initializeTemplate = function() {
                     name: "default",
                     defaultTemplate: true
                 };
-                
+
                 var tmp = new Template(templateRecord);
                 tmp.save(function(err) {
                     if (err) {
                         console.log("template save error: " + err);
                     } else {
-                       //rules declaration
-                       initializeRulesDeclaration();
+                        //rules declaration
+                        initializeRulesDeclaration();
                     }
                 });
             } else {
@@ -408,8 +413,8 @@ initializeTemplate = function() {
 
 initializeRulesDeclaration = function() {
     //check if english language is in database
-    RuleDeclaration.find({}, function(err, results) {        
-        if (err) {            
+    RuleDeclaration.find({}, function(err, results) {
+        if (err) {
             console.log("rules Error:" + err);
         } else {
             console.log("rules:" + JSON.stringify(results));
@@ -418,14 +423,51 @@ initializeRulesDeclaration = function() {
                     name: manager.REQUIRE_PUBLISH_APPROVAL_RULE_NAME,
                     ruleKey: manager.REQUIRE_PUBLISH_APPROVAL_RULE_KEY
                 };
-                
+
                 var rule = new RuleDeclaration(ruleDeclarationRecord);
                 console.log("rules obj:" + JSON.stringify(ruleDeclarationRecord));
                 rule.save(function(err) {
                     if (err) {
                         console.log("rule save error: " + err);
                     } else {
-                       //future use
+                        //mail server
+                        initializeMailServer();
+                    }
+                });
+            } else {
+                //mail server
+                initializeMailServer();
+            }
+        }
+    });
+};
+
+
+
+initializeMailServer = function() {
+    //check if english language is in database
+    MailServer.find({}, function(err, results) {
+        if (err) {
+            console.log("mail server Error:" + err);
+        } else {
+            console.log("mail server:" + JSON.stringify(results));
+            if (results.length === 0) {
+                var mserv = {
+                    smtpHost: null,
+                    smtpPort: null,
+                    username: null,
+                    password: null,
+                    authMethod: null,
+                    tls: null
+                };
+
+                var mserver = new MailServer(mserv);
+                console.log("mail server:" + JSON.stringify(mserv));
+                mserver.save(function(err) {
+                    if (err) {
+                        console.log("mail server save error: " + err);
+                    } else {
+                        //future use
                     }
                 });
             } else {

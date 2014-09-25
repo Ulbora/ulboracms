@@ -44,41 +44,40 @@
                             <input class="form-left-text-element" type="text" ng-model="extLink" name="extLink" placeholder="External Link"/>
                         </div>
                     </div>
-
-                    <div class="article-element-wrapper">
-                        <div class="article-element-label">
-                            <label class="article-form-label" for="language">Language:</label> 
-                        </div>
-                        <div class="article-element">                    
-                            <select class="form-select-element-left" ng-model="languageId"  ng-options="lan.id as lan.name for lan in articleValues.languageList" name="languageId" required>
-                            </select>
-                        </div>
-                    </div>
-
                     
-
-                    <div class="article-element-wrapper">
+                     <div class="article-element-wrapper">
                         <div class="article-element-label">
-                            <label class="article-form-label" for="section">Section:</label> 
+                            <label class="article-form-label" for="imageLocation">Image Location</label>  
                         </div>
-                        <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="sectionId"  ng-options="sec.id as sec.name for sec in articleValues.sectionList" name="sectionId" required>
-                            </select>
+                        <div class="article-element">
+                            <input class="form-left-text-element"  type="text" ng-model="imageLocation" name="imageLocation" placeholder="Image Location"/>
                         </div>
                     </div>
-
-                    <div class="article-element-wrapper">
-                        <div class="article-element-label">
-                            <label class="article-form-label" for="category">Category:</label> 
-                        </div>
-                        <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="categoryId"  ng-options="cat.id as cat.name for cat in articleValues.categoryList" name="categoryId" required>
-                            </select>
-                        </div>
+                    
+                    
+                     <div class="product-image-wrapper">
+                        <img class="p-thumbnail"  alt="No Image" src="{{imageLocation}}" />
                     </div>
+
+                   
 
                 </div>
-                <div class="article-settings-c2">                    
+                <div class="article-settings-c2">    
+                    <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input  type="radio" ng-model="published" value="true"/>
+                                Published
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input  type="radio" ng-model="published" value="false"/>
+                                Not Published
+                            </label>
+                        </div>
+
+                    </div>
                                         
                     <div class="article-element-wrapper">
                         <div class="article-element-label">
@@ -115,6 +114,24 @@
                             <input class="form-left-text-element" type="text" ng-model="metaRobotKeyWords" name="metaRobotKeyWords" placeholder="Meta Robot Keywords"/>
                         </div>
                     </div>
+                    
+                     <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="price">Price</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" type="number" onkeypress="return isNumberKey(event)" ng-model="price" name="price" placeholder="Price" required/>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="currencyCode">Currency Code</label>  
+                        </div>
+                        <div class="article-element">
+                            <input class="form-left-text-element" maxlength="3" type="text" ng-model="currencyCode" name="currencyCode" placeholder="Currency Code" required/>
+                        </div>
+                    </div>               
 
                 </div>
                 <div class="article-settings-c3">
@@ -123,7 +140,7 @@
                             <label class="article-form-label" for="location">Location</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="locationId"  ng-options="loc.id as loc.name for loc in articleValues.locationList" name="locationId" required>
+                            <select class="form-select-element-left" ng-model="locationIds"  ng-options="loc._id as loc.name for loc in articleValues.locationList" name="locationId" multiple required>
                             </select>
                         </div>
                     </div>
@@ -133,7 +150,39 @@
                             <label class="article-form-label" for="accessLevel">Access Level:</label> 
                         </div>
                         <div class="article-element"> 
-                            <select class="form-select-element-left" ng-model="accessLevelId"  ng-options="acc.id as acc.name for acc in articleValues.accessLevelList" name="accessLevelId" required>
+                            <select class="form-select-element-left" ng-model="accessLevelId"  ng-options="acc._id as acc.name for acc in articleValues.accessLevelList" name="accessLevelId" required>
+                            </select>
+                        </div>
+                    </div>
+                    
+                     <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="language">Language:</label> 
+                        </div>
+                        <div class="article-element">                    
+                            <select class="form-select-element-left" ng-model="languageId"  ng-options="lan._id as lan.name for lan in articleValues.languageList" name="languageId" required>
+                            </select>
+                        </div>
+                    </div>
+
+                    
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="section">Section:</label> 
+                        </div>
+                        <div class="article-element"> 
+                            <select class="form-select-element-left" ng-model="sectionId"  ng-options="sec._id as sec.name for sec in articleValues.sectionList" name="sectionId" required>
+                            </select>
+                        </div>
+                    </div>
+
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="category">Category:</label> 
+                        </div>
+                        <div class="article-element"> 
+                            <select class="form-select-element-left" ng-model="categoryId"  ng-options="cat._id as cat.name for cat in articleValues.categoryList" name="categoryId" required>
                             </select>
                         </div>
                     </div>

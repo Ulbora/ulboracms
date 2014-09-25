@@ -233,6 +233,22 @@
                         </div>
 
                     </div>
+                    
+                     <div class="article-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="commentsRequireLogin"  name="commentsRequireLogin" value="false" />
+                                Anonymous Comments
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="commentsRequireLogin"  name="commentsRequireLogin" value="true" />
+                                Login Required
+                            </label>
+                        </div>
+
+                    </div>
 
                 </div>
                 <div class="article-settings-c3">
@@ -274,7 +290,23 @@
 
                     </div>
 
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="commentsStartDate">Comments Start:</label> 
+                        </div>
+                        <div class="article-element">                    
+                            <input type="date" ng-model="commentsStartDate" name="commentsStartDate">
+                        </div>
+                    </div>
                     
+                    <div class="article-element-wrapper">
+                        <div class="article-element-label">
+                            <label class="article-form-label" for="commentsEndDate">Comments End</label> 
+                        </div>
+                        <div class="article-element">                    
+                            <input type="date" ng-model="commentsEndDate" name="commentsEndDate">
+                        </div>
+                    </div>
 
                 </div>
 

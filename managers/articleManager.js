@@ -78,6 +78,9 @@ exports.create = function(json, creds, callback) {
                                                                                 if (articleText.version === undefined || articleText.version === null) {
                                                                                     articleText.version = 1;
                                                                                 }
+                                                                                if (articleText.text === "") {
+                                                                                    articleText.text = " ";
+                                                                                }
                                                                                 articleText.article = art._id;
                                                                                 var ArticleText = db.getArticleText();
                                                                                 var artText = new ArticleText(articleText);
@@ -239,6 +242,10 @@ exports.update = function(json, creds, callback) {
                                                                         console.log("article text=" + JSON.stringify(articleText));
                                                                         delete json.articleText;
                                                                         /////json.user = creds.id;
+                                                                        if (articleText.text === "") {
+                                                                            articleText.text = " ";
+                                                                        }
+
                                                                         var tag = json.tag;
                                                                         delete json.tag;
                                                                         var Article = db.getArticle();
@@ -270,6 +277,9 @@ exports.update = function(json, creds, callback) {
                                                                                     art.showTitle = json.showTitle;
                                                                                     art.fullPage = json.fullPage;
                                                                                     art.allowComments = json.allowComments;
+                                                                                    art.commentsRequireLogin =  json.commentsRequireLogin;
+                                                                                    art.commentsStartDate = json.commentsStartDate;
+                                                                                    art.commentsEndDate = json.commentsEndDate;
                                                                                     art.accessLevel = json.accessLevel;
                                                                                     art.category = json.category;
                                                                                     art.section = json.section;
@@ -559,7 +569,7 @@ exports.get = function(id, callback) {
  */
 exports.list = function(callback) {
     var Article = db.getArticle();
-    Article.find({}, null, {sort: {name: 1}}, function(artErr, results) {
+    Article.find({}, null, {sort: {title: 1}}, function(artErr, results) {
         console.log("found article list: " + JSON.stringify(results));
         if (artErr) {
             callback({});

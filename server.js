@@ -16,10 +16,14 @@ var configurationService = require('./services/configurationService');
 var linksService = require('./services/linksService');
 var locationService = require('./services/locationService');
 var ulboraUserService = require('./services/ulboraUserService');
-var articleService = require('./services/articleService');
+//var articleService = require('./services/articleService');
 var mediaService = require('./services/mediaService');
 var imageService = require('./services/imageService');
 var articleService = require('./services/articleService');
+var commentService = require('./services/commentService');
+var mailServerService = require('./services/mailServerService');
+var productService = require('./services/productService');
+var downloadableFileService = require('./services/downloadableFileService');
 
 
 
@@ -197,6 +201,41 @@ var nodeBlog = function() {
         self.app.get('/rs/article/:id', articleService.get);
         self.app.post('/rs/article/list', articleService.list);
         self.app.post('/rs/article/values', articleService.values);
+        
+        
+        //comment
+        self.app.post('/rs/comment', commentService.create);
+        self.app.put('/rs/comment', commentService.update);
+        self.app.delete('/rs/comment/:id', commentService.delete);
+        self.app.get('/rs/comment/:id', commentService.get);
+        self.app.post('/rs/comment/list', commentService.list);
+        
+        
+        //mailServer        
+        self.app.put('/rs/mailServer', mailServerService.update);        
+        self.app.get('/rs/mailServer', mailServerService.get);
+                
+        
+         //product
+        self.app.post('/rs/product', productService.create);
+        self.app.put('/rs/product', productService.update);
+        self.app.delete('/rs/product/:id', productService.delete);
+        self.app.get('/rs/product/:id', productService.get);
+        self.app.post('/rs/product/list', productService.list);
+        
+        
+        //downloadableFile         
+        self.app.post('/rs/downloadableFile/upload', downloadableFileService.create); 
+        self.app.get('/rs/downloadableFile/download', downloadableFileService.download);
+        self.app.put('/rs/downloadableFile', downloadableFileService.update);
+        //self.app.get('/rs/media/:id', mediaService.get);
+        self.app.get('/rs/downloadableFile/:id', function(req, res){
+            downloadableFileService.get(req, res, self.port);
+        });
+        self.app.delete('/rs/downloadableFile/:id', downloadableFileService.delete);
+        //self.app.post('/rs/media/list', mediaService.list);
+        self.app.post('/rs/downloadableFile/list', downloadableFileService.list);
+        
         
 
 
