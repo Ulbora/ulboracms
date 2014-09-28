@@ -25,7 +25,7 @@ exports.update = function(json, callback) {
                 results.smtpPort = json.smtpPort;
                 results.secure = json.secure;
                 results.username = json.username;
-                results.password = json.password;
+                results.password = manager.aes256Encrypt(json.password);
                 results.ignoreTLS = json.ignoreTLS;
                 results.debug = json.debug;
                 results.authMethod = json.authMethod;
@@ -59,7 +59,7 @@ exports.get = function(callback) {
         console.log("found mail server: " + JSON.stringify(results));
         if (!err && (results !== undefined && results !== null && results.length > 0)) {
             var m = results[0].toObject();
-            m.password = "";
+            m.password = manager.aes256Decrypt(m.password); ;
             callback(m);
         } else {
             callback({});

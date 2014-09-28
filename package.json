@@ -19,7 +19,10 @@
   },
   "dependencies" : {
     "express" : "~3.4.4",
-    "mongoose" : "*"
+    "mongoose" : "*",
+    "atob": "*",
+    "btoa": "*",
+    "node-rest-client": "*"
   },
   "bundleDependencies" : [ ],
   "private" : true,

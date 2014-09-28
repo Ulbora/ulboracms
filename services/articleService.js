@@ -16,7 +16,7 @@ exports.create = function(req, res) {
         var reqBody = req.body;
         var bodyJson = JSON.stringify(reqBody);
         console.log("body: " + bodyJson);
-        authenticate(req, res, service.adminAuthRole, function(creds) {
+        authenticate(req, res, service.authorAuthRole, function(creds) {
             console.log("in auth callback");
             articleManager.create(reqBody, creds, function(result) {
                 res.send(result);
@@ -41,7 +41,7 @@ exports.update = function(req, res) {
         var reqBody = req.body;
         var bodyJson = JSON.stringify(reqBody);
         console.log("body: " + bodyJson);
-        authenticate(req, res, service.adminAuthRole, function(creds) {
+        authenticate(req, res, service.authorAuthRole, function(creds) {
             console.log("in auth callback");
             articleManager.update(reqBody, creds, function(result) {
                 res.send(result);
@@ -74,7 +74,7 @@ exports.delete = function(req, res) {
  *      
  */
 exports.get = function(req, res) {
-    service.get(req, res, articleManager, service.adminAuthRole);
+    service.get(req, res, articleManager, service.authorAuthRole);
 };
 
 
@@ -86,7 +86,7 @@ exports.get = function(req, res) {
  *      
  */
 exports.list = function(req, res) {
-    service.list(req, res, articleManager, service.adminAuthRole);
+    service.list(req, res, articleManager, service.authorAuthRole);
 };
 
 /*

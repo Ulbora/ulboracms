@@ -10,7 +10,7 @@ var manager = require('../managers/manager');
  * @param json
  *      
  */
-exports.create = function(json, creds, callback) {
+exports.create = function (json, creds, callback) {
     var returnVal = {
         success: false,
         message: ""
@@ -20,35 +20,49 @@ exports.create = function(json, creds, callback) {
         if (json.article !== undefined && json.article !== null &&
                 json.text !== undefined && json.text !== null) {
             var Article = db.getArticle();
-            Article.findById(json.articleId, function(artErr, art) {
+            Article.findById(json.articleId, function (artErr, art) {
                 if (artErr) {
                     returnVal.message = "bad article";
                     console.log("article error: " + artErr);
                     callback(returnVal);
                 } else {
-                    if (!json.anonymousComments) {
-                        json.commenter = creds.id;
-                    }
-                    var Comment = db.getComment();
-                    var com = new Comment(json);
-                    com.save(function(comErr) {
-                        if (comErr) {
-                            returnVal.message = "comment save failed";
-                            console.log("comment save error: " + comErr);
-                            callback(returnVal);
+                    if (art !== undefined && art !== null) {
+                        var allowComment = false;
+                        if (art.commentsRequireLogin && creds !== undefined && creds !== null) {
+                            json.commenter = creds.id;
+                            allowComment = true;
+                        } else if (!art.commentsRequireLogin) {
+                            allowComment = true;
+                        }
+                        //if (!json.anonymousComments) {
+                        //json.commenter = creds.id;
+                        //}
+                        if (allowComment) {
+                            var Comment = db.getComment();
+                            var com = new Comment(json);
+                            com.save(function (comErr) {
+                                if (comErr) {
+                                    returnVal.message = "comment save failed";
+                                    console.log("comment save error: " + comErr);
+                                    callback(returnVal);
+                                } else {
+                                    returnVal.success = true;
+                                    callback(returnVal);
+                                }
+                            });
                         } else {
-                            returnVal.success = true;
                             callback(returnVal);
                         }
-                    });
+                    } else {
+                        returnVal.message = "bad article";
+                        callback(returnVal);
+                    }
                 }
-
             });
         } else {
             returnVal.message = "bad article";
             callback(returnVal);
         }
-
     } else {
         callback(returnVal);
     }
@@ -60,7 +74,7 @@ exports.create = function(json, creds, callback) {
  * @param json
  *      
  */
-exports.update = function(json, creds, callback) {
+exports.update = function (json, creds, callback) {
     var returnVal = {
         success: false,
         message: ""
@@ -70,12 +84,12 @@ exports.update = function(json, creds, callback) {
         if (json.id !== undefined && json.id !== null &&
                 json.text !== undefined && json.text !== null && json.text.length > 0) {
             var Comment = db.getComment();
-            Comment.findById(json.id, function(comErr, comResults) {
+            Comment.findById(json.id, function (comErr, comResults) {
                 console.log("found comment: " + JSON.stringify(comResults));
                 if (!comErr && (comResults !== undefined && comResults !== null)) {
                     comResults.text = json.text;
                     comResults.approved = json.approved;
-                    comResults.save(function(err) {
+                    comResults.save(function (err) {
                         if (err) {
                             console.log("comment save error: " + err);
                         } else {
@@ -105,7 +119,7 @@ exports.update = function(json, creds, callback) {
  * @param id
  *      
  */
-exports.delete = function(id, callback) {
+exports.delete = function (id, callback) {
     var returnVal = {
         success: false,
         message: ""
@@ -114,7 +128,7 @@ exports.delete = function(id, callback) {
     if (isOk) {
         console.log("id: " + id);
         var Comment = db.getComment();
-        Comment.findById(id, function(comErr, comResults) {
+        Comment.findById(id, function (comErr, comResults) {
             console.log("found comment: " + JSON.stringify(comResults));
             if (!comErr && (comResults !== undefined && comResults !== null)) {
                 comResults.remove();
@@ -136,12 +150,12 @@ exports.delete = function(id, callback) {
  * @param id
  *      
  */
-exports.get = function(id, callback) {
+exports.get = function (id, callback) {
     var isOk = manager.securityCheck(id);
     if (isOk) {
         console.log("id: " + id);
         var Comment = db.getComment();
-        Comment.findById(id, function(comErr, comResults) {
+        Comment.findById(id, function (comErr, comResults) {
             console.log("found comment: " + JSON.stringify(comResults));
             if (!comErr && (comResults !== undefined && comResults !== null)) {
                 var c = {
@@ -152,11 +166,11 @@ exports.get = function(id, callback) {
                     approved: false
                 }
                 var Article = db.getArticle();
-                Article.findById(comResults.article, function(artErr, article) {
+                Article.findById(comResults.article, function (artErr, article) {
                     if (!artErr && (article !== undefined && article !== null)) {
                         if (comResults.commenter !== undefined && comResults.commenter !== null) {
                             var User = db.getUser();
-                            User.findById(comResults.commenter, function(userErr, foundUser) {
+                            User.findById(comResults.commenter, function (userErr, foundUser) {
                                 if (!userErr && (foundUser !== undefined && foundUser !== null)) {
                                     c._id = comResults._id;
                                     c.text = comResults.text;
@@ -199,10 +213,10 @@ exports.get = function(id, callback) {
  * @param json
  *      
  */
-exports.list = function(callback) {
+exports.list = function (callback) {
     console.log("in comment manager");
     var Comment = db.getComment();
-    Comment.find({}, null, {sort: {article: 1}}, function(comErr, commentList) {
+    Comment.find({}, null, {sort: {article: 1}}, function (comErr, commentList) {
         console.log("found comment list: " + JSON.stringify(commentList));
         if (comErr) {
             callback({});
@@ -218,7 +232,7 @@ exports.list = function(callback) {
                     }
                 }
                 var Article = db.getArticle();
-                Article.find({_id: {$in: artList}}, null, {sort: {title: 1}}, function(artErr, articleList) {
+                Article.find({_id: {$in: artList}}, null, {sort: {title: 1}}, function (artErr, articleList) {
                     if (!artErr && articleList !== undefined && articleList !== null) {
                         for (var cnt = 0; cnt < commentList.length; cnt++) {
                             var c = null;

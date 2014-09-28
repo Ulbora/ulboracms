@@ -26,7 +26,7 @@ exports.create = function(req, res) {
                     });
                 //});
             }else{                
-                authenticate(req, res, service.adminAuthRole, function(creds) {
+                authenticate(req, res, service.userAuthRole, function(creds) {
                     console.log("in auth callback");
                     commentManager.create(reqBody, creds, function(result) {
                         res.send(result);

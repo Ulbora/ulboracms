@@ -24,6 +24,7 @@ var commentService = require('./services/commentService');
 var mailServerService = require('./services/mailServerService');
 var productService = require('./services/productService');
 var downloadableFileService = require('./services/downloadableFileService');
+var addOnService = require('./services/addOnService');
 
 
 
@@ -237,6 +238,14 @@ var nodeBlog = function() {
         self.app.post('/rs/downloadableFile/list', downloadableFileService.list);
         
         
+        
+        //product
+        self.app.post('/rs/addons', addOnService.create);
+        self.app.put('/rs/addons', addOnService.update);
+        self.app.delete('/rs/addons/:id', addOnService.delete);
+        self.app.get('/rs/addons/:id', addOnService.get);
+        self.app.post('/rs/addons/list', addOnService.list);
+        self.app.post('/rs/addons/call', addOnService.call);
 
 
         self.app.get('/rs/test', auth, function(req, res) {

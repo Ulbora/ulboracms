@@ -71,7 +71,8 @@ ulboraCmsAddonsControllers.controller('AddonsAddCtrl', ['$scope', 'Addons', '$lo
                 "url": $scope.url,
                 "basicAuth": basicAuth,
                 "username": $scope.username,
-                "password": $scope.password
+                "password": $scope.password,
+                "requireUserLogin": $scope.requireUserLogin
 
             };
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
@@ -107,7 +108,6 @@ ulboraCmsAddonsControllers.controller('AddonsAddCtrl', ['$scope', 'Addons', '$lo
                     $scope.authBlock = "auth-off";
                 };
 
-
     }]);
 
 ulboraCmsAddonsControllers.controller('NewAddonsCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken',
@@ -117,6 +117,7 @@ ulboraCmsAddonsControllers.controller('NewAddonsCtrl', ['$scope', 'checkCreds', 
         }
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
         $scope.basicAuth = "true";
+        $scope.requireUserLogin = "true";
 
 
         $scope.newAddonActiveClass = "active";
@@ -139,7 +140,8 @@ ulboraCmsLanguageControllers.controller('AddonEditCtrl', ['$scope', 'Addons', '$
                 "url": $scope.url,
                 "basicAuth": basicAuth,
                 "username": $scope.username,
-                "password": $scope.password
+                "password": $scope.password,
+                "requireUserLogin": $scope.requireUserLogin
             };
             console.log("json request:" + JSON.stringify(putData));
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
@@ -190,8 +192,8 @@ ulboraCmsLanguageControllers.controller('AddonCtrl', ['$scope', 'checkCreds', '$
             //alert($scope.challenge.question);
             console.log("Success:" + JSON.stringify(response));
 
-            $scope.addonId = response.id;
-            $scope.addonShowId = response.id;
+            $scope.addonId = response._id;
+            $scope.addonShowId = response._id;
             $scope.name = response.name;
             $scope.url = response.url;
             var basicAuth = "false";
@@ -204,6 +206,12 @@ ulboraCmsLanguageControllers.controller('AddonCtrl', ['$scope', 'checkCreds', '$
             $scope.basicAuth = basicAuth;
             $scope.username = response.username;
             $scope.password = response.password;
+            if(response.requireUserLogin){
+                $scope.requireUserLogin = "true";
+            }else{
+                $scope.requireUserLogin = "false";
+            }
+            
 
         },
                 function error(errorResponse) {

@@ -5,7 +5,8 @@ var addonsSchema = new mongoose.Schema({
     url: {type: String, required: true, trim: true},
     basicAuth: {type: Boolean, default: false},
     username: {type: String, required: false, trim: true},
-    password: {type: String, required: false}
+    password: {type: String, required: false},
+    requireUserLogin: {type: Boolean, default: true}
 });
 module.exports = addonsSchema;
     

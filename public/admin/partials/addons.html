@@ -19,16 +19,16 @@
             <tr ng-repeat="a in addonsList" >
                 
                 <td>
-                   <a href="#!addon/{{a.id}}">{{a.name}}</a> 
+                   <a href="#!addon/{{a._id}}">{{a.name}}</a> 
                 </td>
                 <td>
-                    {{a.id}}
+                    {{a._id}}
                 </td>
                  <td>
                    {{a.url}}
                 </td>
                 <td>
-                    <span ng-controller="DeleteAddonCtrl" ng-click="delete(a.id, a.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
+                    <span ng-controller="DeleteAddonCtrl" ng-click="delete(a._id, a.name)" class="glyphicon glyphicon-trash clickable-image"></span>                   
                 </td>
                 
             </tr>

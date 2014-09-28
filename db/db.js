@@ -86,7 +86,7 @@ exports.getAccessLevel = function() {
     return AccessLevel;
 };
 exports.getAddons = function() {
-    return addons;
+    return Addons;
 };
 exports.getLocation = function() {
     return Location;
