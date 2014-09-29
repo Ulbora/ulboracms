@@ -38,7 +38,6 @@ exports.doPost = function (json, callback) {
         returnVal.jsonResponse = data;
         callback(returnVal);
     });
-
 };
 
 exports.doPut = function (json, callback) {

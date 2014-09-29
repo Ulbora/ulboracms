@@ -283,7 +283,7 @@ ulboraCmsAdminServices.factory('User', ['$resource',
 ulboraCmsAdminServices.factory('AdminSummary', ['$resource',
     function($resource) {
         return $resource("../rs/admin/summary", {}, {
-            get: {method: 'POST', cache: false, isArray: false}
+            get: {method: 'GET', cache: false, isArray: false}
         });
     }]);
 
@@ -301,5 +301,23 @@ ulboraCmsAdminServices.factory('Addons', ['$resource',
             save: {method: 'POST', cache: false, isArray: false},
             update: {method: 'PUT', cache: false, isArray: false},
             delete: {method: 'DELETE', cache: false, isArray: false}
+        });
+    }]);
+
+
+ulboraCmsAdminServices.factory('Template', ['$resource',
+    function($resource) {
+        return $resource("../rs/template/:id", {}, {
+            get: {method: 'GET', cache: false, isArray: false},
+            save: {method: 'POST', cache: false, isArray: false},
+            update: {method: 'PUT', cache: false, isArray: false},
+            delete: {method: 'DELETE', cache: false, isArray: false}
+        });
+    }]);
+
+ulboraCmsAdminServices.factory('TemplateList', ['$resource',
+    function($resource) {
+        return $resource("../rs/template/list", {}, {
+            getList: {method: 'POST', cache: false, isArray: true}
         });
     }]);

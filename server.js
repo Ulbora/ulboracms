@@ -25,6 +25,8 @@ var mailServerService = require('./services/mailServerService');
 var productService = require('./services/productService');
 var downloadableFileService = require('./services/downloadableFileService');
 var addOnService = require('./services/addOnService');
+var templateService = require('./services/templateService');
+var adminService = require('./services/adminService');
 
 
 
@@ -109,6 +111,8 @@ var nodeBlog = function() {
         self.app.use(express.logger('dev'));
         self.app.use(express.bodyParser());
         self.app.use(express.static(__dirname + '/public'));
+        self.app.set('view engine', 'ejs');
+        self.app.set("views", __dirname +"/");
         var auth = express.basicAuth(un, pw);
         db.initializeMongoDb();
 
@@ -239,13 +243,24 @@ var nodeBlog = function() {
         
         
         
-        //product
+        //addons
         self.app.post('/rs/addons', addOnService.create);
         self.app.put('/rs/addons', addOnService.update);
         self.app.delete('/rs/addons/:id', addOnService.delete);
         self.app.get('/rs/addons/:id', addOnService.get);
         self.app.post('/rs/addons/list', addOnService.list);
         self.app.post('/rs/addons/call', addOnService.call);
+        
+        
+        //templates  
+        self.app.post('/rs/template', templateService.create);    
+        self.app.put('/rs/template', templateService.update);        
+        self.app.get('/rs/template/:id', templateService.get);
+        self.app.delete('/rs/template/:id', templateService.delete);
+        self.app.post('/rs/template/list', templateService.list);
+        
+        //admin summary
+        self.app.get('/rs/admin/summary', adminService.summary);
 
 
         self.app.get('/rs/test', auth, function(req, res) {
@@ -314,10 +329,24 @@ var initializeWebApp = function(self) {
 
     self.app.get('/', function(req, res) {
         getDefaultTemplate(function(template) {
-            res.sendfile("public/templates/" + template + "/index.html");
+            var requestedPage =req.originalUrl;
+            console.log("requested page: " + requestedPage);
+            res.render("public/templates/" + template + "/index.ejs");
         });
 
     });
+    
+    
+    self.app.get('/*.html', function(req, res) {
+        getDefaultTemplate(function(template) {
+            var requestedPage =req.originalUrl;
+            var revisedPage = requestedPage.replace("html", "ejs");
+            console.log("requested page: " + requestedPage);
+            res.render("public/templates/" + template + revisedPage);
+        });
+
+    });
+    
 
     self.app.get('/css/*', function(req, res) {
         getDefaultTemplate(function(template) {

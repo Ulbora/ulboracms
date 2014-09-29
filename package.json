@@ -22,7 +22,8 @@
     "mongoose" : "*",
     "atob": "*",
     "btoa": "*",
-    "node-rest-client": "*"
+    "node-rest-client": "*",
+    "ejs": "*"
   },
   "bundleDependencies" : [ ],
   "private" : true,

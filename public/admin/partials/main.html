@@ -43,7 +43,7 @@
                         <tbody>
                             <tr ng-repeat="article in articleList">
                                 <td>
-                                    <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                                    <a href="#!article/{{article._id}}">{{article.title}}</a> 
                                 </td>
                                 <td>
                                     {{article.modifiedDate}}
@@ -98,7 +98,7 @@
                         <tbody>
                             <tr ng-repeat="article in frontPageList">
                                 <td>
-                                    <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                                    <a href="#!article/{{article._id}}">{{article.title}}</a> 
                                 </td>
                                 <td>
                                     {{article.modifiedDate}}

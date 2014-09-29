@@ -23,6 +23,7 @@ var ulboraCmsAdminApp = angular.module('ulboraCmsAdminApp', [
     "ulboraCmsAddonsControllers",
     "ulboraCmsCommentsControllers",
     "ulboraCmsMailServerControllers",
+    "ulboraCmsTemplateControllers",
     "ngAnimate",
     'ngCookies'
 ]);
@@ -206,6 +207,18 @@ ulboraCmsAdminApp.config(['$routeProvider', '$locationProvider',
                 when('/newAddon', {
                     templateUrl: 'partials/newAddon.html',
                     controller: 'NewAddonsCtrl'
+                }).
+                when('/templates', {
+                    templateUrl: 'partials/templates.html',
+                    controller: 'TemplatesCtrl'
+                }).
+                when('/template/:a', {
+                    templateUrl: 'partials/template.html',
+                    controller: 'TemplateCtrl'
+                }).
+                when('/newTemplate', {
+                    templateUrl: 'partials/newTemplate.html',
+                    controller: 'NewTemplateCtrl'
                 });
 
         $locationProvider.html5Mode(false).hashPrefix('!');
