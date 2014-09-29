@@ -64,7 +64,7 @@ exports.update = function (json, callback) {
                 }
             });
         } else {
-            addTemplate(json, function (addResults) {
+            updateTemplate(json, function (addResults) {
                 callback(addResults);
             });
         }
@@ -184,6 +184,7 @@ updateTemplate = function (json, callback) {
         if (!err && (results !== undefined && results !== null)) {
             results.name = json.name;
             results.defaultTemplate = json.defaultTemplate;
+            results.angularTemplate = json.angularTemplate;
             results.save(function (err) {
                 if (err) {
                     returnVal.message = "update failed";

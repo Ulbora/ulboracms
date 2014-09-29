@@ -30,7 +30,7 @@ var adminService = require('./services/adminService');
 
 
 
-var nodeBlog = function() {
+var nodeBlog = function () {
 
     //  Scope.
     var self = this;
@@ -43,7 +43,7 @@ var nodeBlog = function() {
     /**
      *  Set up server IP address and port # using env variables/defaults.
      */
-    self.setupVariables = function() {
+    self.setupVariables = function () {
         //  Set the environment variables we need.
         self.ipaddress = process.env.OPENSHIFT_NODEJS_IP;
         self.port = process.env.OPENSHIFT_NODEJS_PORT || 8080;
@@ -66,7 +66,7 @@ var nodeBlog = function() {
      *  Terminate server on receipt of the specified signal.
      *  @param {string} sig  Signal to terminate on.
      */
-    self.terminator = function(sig) {
+    self.terminator = function (sig) {
         if (typeof sig === "string") {
             console.log('%s: Received %s - terminating sample app ...',
                     Date(Date.now()), sig);
@@ -79,17 +79,17 @@ var nodeBlog = function() {
     /**
      *  Setup termination handlers (for exit and a list of signals).
      */
-    self.setupTerminationHandlers = function() {
+    self.setupTerminationHandlers = function () {
         //  Process on exit and signals.
-        process.on('exit', function() {
+        process.on('exit', function () {
             self.terminator();
         });
 
         // Removed 'SIGPIPE' from the list - bugz 852598.
         ['SIGHUP', 'SIGINT', 'SIGQUIT', 'SIGILL', 'SIGTRAP', 'SIGABRT',
             'SIGBUS', 'SIGFPE', 'SIGUSR1', 'SIGSEGV', 'SIGUSR2', 'SIGTERM'
-        ].forEach(function(element, index, array) {
-            process.on(element, function() {
+        ].forEach(function (element, index, array) {
+            process.on(element, function () {
                 self.terminator(element);
             });
         });
@@ -105,14 +105,14 @@ var nodeBlog = function() {
      *  Initialize the server (express) and create the routes and register
      *  the handlers.
      */
-    self.initializeServer = function() {
+    self.initializeServer = function () {
 
         self.app = express();
         self.app.use(express.logger('dev'));
         self.app.use(express.bodyParser());
         self.app.use(express.static(__dirname + '/public'));
         self.app.set('view engine', 'ejs');
-        self.app.set("views", __dirname +"/");
+        self.app.set("views", __dirname + "/");
         var auth = express.basicAuth(un, pw);
         db.initializeMongoDb();
 
@@ -147,8 +147,8 @@ var nodeBlog = function() {
         self.app.delete('/rs/section/:id', sectionService.delete);
         self.app.get('/rs/section/:id', sectionService.get);
         self.app.post('/rs/section/list', sectionService.list);
-        
-        
+
+
         //configuration
         self.app.post('/rs/configuration', configurationService.create);
         self.app.put('/rs/configuration', configurationService.update);
@@ -181,7 +181,7 @@ var nodeBlog = function() {
         self.app.post('/rs/user/pw', ulboraUserService.changePassword);
         self.app.post('/rs/user/roleList', ulboraUserService.roleList);
 
-              
+
 
 
         //media         
@@ -189,16 +189,16 @@ var nodeBlog = function() {
         self.app.get('/image/get/:id', imageService.get);
         self.app.put('/rs/media', mediaService.update);
         //self.app.get('/rs/media/:id', mediaService.get);
-        self.app.get('/rs/media/:id', function(req, res){
+        self.app.get('/rs/media/:id', function (req, res) {
             mediaService.get(req, res, self.port);
         });
         self.app.delete('/rs/media/:id', mediaService.delete);
         //self.app.post('/rs/media/list', mediaService.list);
-        self.app.post('/rs/media/list', function(req, res){
+        self.app.post('/rs/media/list', function (req, res) {
             mediaService.list(req, res, self.port);
         });
-        
-        
+
+
         //article
         self.app.post('/rs/article', articleService.create);
         self.app.put('/rs/article', articleService.update);
@@ -206,43 +206,43 @@ var nodeBlog = function() {
         self.app.get('/rs/article/:id', articleService.get);
         self.app.post('/rs/article/list', articleService.list);
         self.app.post('/rs/article/values', articleService.values);
-        
-        
+
+
         //comment
         self.app.post('/rs/comment', commentService.create);
         self.app.put('/rs/comment', commentService.update);
         self.app.delete('/rs/comment/:id', commentService.delete);
         self.app.get('/rs/comment/:id', commentService.get);
         self.app.post('/rs/comment/list', commentService.list);
-        
-        
+
+
         //mailServer        
-        self.app.put('/rs/mailServer', mailServerService.update);        
+        self.app.put('/rs/mailServer', mailServerService.update);
         self.app.get('/rs/mailServer', mailServerService.get);
-                
-        
-         //product
+
+
+        //product
         self.app.post('/rs/product', productService.create);
         self.app.put('/rs/product', productService.update);
         self.app.delete('/rs/product/:id', productService.delete);
         self.app.get('/rs/product/:id', productService.get);
         self.app.post('/rs/product/list', productService.list);
-        
-        
+
+
         //downloadableFile         
-        self.app.post('/rs/downloadableFile/upload', downloadableFileService.create); 
+        self.app.post('/rs/downloadableFile/upload', downloadableFileService.create);
         self.app.get('/rs/downloadableFile/download', downloadableFileService.download);
         self.app.put('/rs/downloadableFile', downloadableFileService.update);
         //self.app.get('/rs/media/:id', mediaService.get);
-        self.app.get('/rs/downloadableFile/:id', function(req, res){
+        self.app.get('/rs/downloadableFile/:id', function (req, res) {
             downloadableFileService.get(req, res, self.port);
         });
         self.app.delete('/rs/downloadableFile/:id', downloadableFileService.delete);
         //self.app.post('/rs/media/list', mediaService.list);
         self.app.post('/rs/downloadableFile/list', downloadableFileService.list);
-        
-        
-        
+
+
+
         //addons
         self.app.post('/rs/addons', addOnService.create);
         self.app.put('/rs/addons', addOnService.update);
@@ -250,20 +250,20 @@ var nodeBlog = function() {
         self.app.get('/rs/addons/:id', addOnService.get);
         self.app.post('/rs/addons/list', addOnService.list);
         self.app.post('/rs/addons/call', addOnService.call);
-        
-        
+
+
         //templates  
-        self.app.post('/rs/template', templateService.create);    
-        self.app.put('/rs/template', templateService.update);        
+        self.app.post('/rs/template', templateService.create);
+        self.app.put('/rs/template', templateService.update);
         self.app.get('/rs/template/:id', templateService.get);
         self.app.delete('/rs/template/:id', templateService.delete);
         self.app.post('/rs/template/list', templateService.list);
-        
+
         //admin summary
         self.app.get('/rs/admin/summary', adminService.summary);
 
 
-        self.app.get('/rs/test', auth, function(req, res) {
+        self.app.get('/rs/test', auth, function (req, res) {
             //var w = test();
             res.send([{code: 2, name: "ken"}, {name: 'wine2'}]);
         });
@@ -290,7 +290,7 @@ var nodeBlog = function() {
          
          });
          */
-        self.app.post('/rs/blogTest', function(req, res) {
+        self.app.post('/rs/blogTest', function (req, res) {
             var reqBody = req.body;
             console.log("new Blog: " + JSON.stringify(reqBody));
             res.json(req.body);
@@ -301,7 +301,7 @@ var nodeBlog = function() {
     /**
      *  Initializes the sample application.
      */
-    self.initialize = function() {
+    self.initialize = function () {
         self.setupVariables();
         self.setupTerminationHandlers();
 
@@ -313,9 +313,9 @@ var nodeBlog = function() {
     /**
      *  Start the server (starts up the sample application).
      */
-    self.start = function() {
+    self.start = function () {
         //  Start the app on the specific interface (and port).
-        self.app.listen(self.port, self.ipaddress, function() {
+        self.app.listen(self.port, self.ipaddress, function () {
             console.log('%s: Node server started on %s:%d ...',
                     Date(Date.now()), self.ipaddress, self.port);
         });
@@ -325,81 +325,95 @@ var nodeBlog = function() {
 
 };
 
-var initializeWebApp = function(self) {
+var initializeWebApp = function (self) {
 
-    self.app.get('/', function(req, res) {
-        getDefaultTemplate(function(template) {
-            var requestedPage =req.originalUrl;
+    self.app.get('/', function (req, res) {
+        getDefaultTemplate(function (template) {
+            var requestedPage = req.originalUrl;
             console.log("requested page: " + requestedPage);
-            res.render("public/templates/" + template + "/index.ejs");
-        });
+            if (template.angularTemplate) {
+                res.sendfile("public/templates/" + template.name + "/index.html");
+            } else {
+                res.render("public/templates/" + template.name + "/index.ejs");
+            }
 
-    });
-    
-    
-    self.app.get('/*.html', function(req, res) {
-        getDefaultTemplate(function(template) {
-            var requestedPage =req.originalUrl;
-            var revisedPage = requestedPage.replace("html", "ejs");
-            console.log("requested page: " + requestedPage);
-            res.render("public/templates/" + template + revisedPage);
-        });
-
-    });
-    
-
-    self.app.get('/css/*', function(req, res) {
-        getDefaultTemplate(function(template) {
-            res.redirect('templates/' + template + req.originalUrl);
         });
 
     });
 
-    self.app.get('/font/*', function(req, res) {
-        getDefaultTemplate(function(template) {
-            res.redirect('templates/' + template + req.originalUrl);
+
+    self.app.get('/*.html', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                var requestedPage = req.originalUrl;
+                var revisedPage = requestedPage.replace("html", "ejs");
+                console.log("requested page: " + requestedPage);
+                res.render("public/templates/" + template.name + revisedPage);
+            }else{
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
+
+
+    self.app.get('/css/*', function (req, res) {
+        getDefaultTemplate(function (template) {
+            res.redirect('templates/' + template.name + req.originalUrl);
         });
 
     });
 
-    self.app.get('/img/*', function(req, res) {
-        getDefaultTemplate(function(template) {
-            res.redirect('templates/' + template + req.originalUrl);
+    self.app.get('/font/*', function (req, res) {
+        getDefaultTemplate(function (template) {
+            res.redirect('templates/' + template.name + req.originalUrl);
         });
 
     });
 
-    self.app.get('/js/*', function(req, res) {
-        getDefaultTemplate(function(template) {
-            res.redirect('templates/' + template + req.originalUrl);
+    self.app.get('/img/*', function (req, res) {
+        getDefaultTemplate(function (template) {
+            res.redirect('templates/' + template.name + req.originalUrl);
         });
 
     });
 
-    self.app.get('/lib-css/*', function(req, res) {
-        getDefaultTemplate(function(template) {
-            res.redirect('templates/' + template + req.originalUrl);
+    self.app.get('/js/*', function (req, res) {
+        getDefaultTemplate(function (template) {
+            res.redirect('templates/' + template.name + req.originalUrl);
         });
 
     });
 
-    self.app.get('/partials/*', function(req, res) {
-        getDefaultTemplate(function(template) {
-            res.redirect('templates/' + template + req.originalUrl);
+    self.app.get('/lib-css/*', function (req, res) {
+        getDefaultTemplate(function (template) {
+            res.redirect('templates/' + template.name + req.originalUrl);
+        });
+
+    });
+
+    self.app.get('/partials/*', function (req, res) {
+        getDefaultTemplate(function (template) {
+            res.redirect('templates/' + template.name + req.originalUrl);
         });
 
     });
 
 };
 
-var getDefaultTemplate = function(callback) {
+var getDefaultTemplate = function (callback) {
     var Template = db.getTemplate();
-    Template.findOne({defaultTemplate: true}, function(err, results) {
+    Template.findOne({defaultTemplate: true}, function (err, results) {
+        var t = {
+            name: "default",
+            angularTemplate: false
+        }
         console.log("found template set to default: " + JSON.stringify(results));
         if (!err && (results !== undefined && results !== null)) {
-            callback(results.name);
+            t.name = results.name;
+            t.angularTemplate = results.angularTemplate;
+            callback(t);
         } else {
-            callback("default");
+            callback(t);
         }
     });
 };

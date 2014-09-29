@@ -60,6 +60,11 @@ ulboraCmsTemplateControllers.controller('TemplateCtrl', ['$scope', 'checkCreds',
                     }else{
                         $scope.defaultTemplate = "false";
                     }
+                    if(response.angularTemplate){
+                        $scope.angularTemplate = "true";
+                    }else{
+                        $scope.angularTemplate = "false";
+                    }
 
 
                 },
@@ -83,11 +88,17 @@ ulboraCmsTemplateControllers.controller('TemplateEditCtrl', ['$scope', 'Template
             if($scope.defaultTemplate === "true"){
                 defaultTemplate = true;
             }
+            
+            var angularTemplate = false;
+            if($scope.angularTemplate === "true"){
+                angularTemplate = true;
+            }
 
             var putData = {
                 "id": $scope.templateId,
                 "name": $scope.name,                
-                "defaultTemplate": defaultTemplate
+                "defaultTemplate": defaultTemplate,
+                "angularTemplate": angularTemplate
             };
             console.log("json request:" + JSON.stringify(putData));
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
@@ -127,10 +138,16 @@ ulboraCmsTemplateControllers.controller('TemplateAddCtrl', ['$scope', 'Template'
             if(defaultTemp === "true"){
                 defaultTemplate = true;
             }
+            
+            var angularTemplate = false;
+            if($scope.angularTemplate === "true"){
+                angularTemplate = true;
+            }
 
             var postData = {
                 "name": $scope.name,                
-                "defaultTemplate" : defaultTemplate
+                "defaultTemplate" : defaultTemplate,
+                "angularTemplate": angularTemplate
             };
             console.log("json request:" + JSON.stringify(postData));
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
