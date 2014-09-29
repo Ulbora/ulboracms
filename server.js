@@ -334,7 +334,7 @@ var initializeWebApp = function (self) {
             if (template.angularTemplate) {
                 res.sendfile("public/templates/" + template.name + "/index.html");
             } else {
-                res.render("public/templates/" + template.name + "/index.ejs");
+                res.render("public/templates/" + template.name + "/index.ejs", {name: "ken"});
             }
 
         });
@@ -348,7 +348,7 @@ var initializeWebApp = function (self) {
                 var requestedPage = req.originalUrl;
                 var revisedPage = requestedPage.replace("html", "ejs");
                 console.log("requested page: " + requestedPage);
-                res.render("public/templates/" + template.name + revisedPage);
+                res.render("public/templates/" + template.name + revisedPage, {name: "ken"});
             }else{
                 res.redirect('templates/' + template.name + req.originalUrl);
             }
