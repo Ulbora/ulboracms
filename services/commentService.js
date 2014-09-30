@@ -26,7 +26,7 @@ exports.create = function(req, res) {
                     });
                 //});
             }else{                
-                authenticate(req, res, service.userAuthRole, function(creds) {
+                service.authenticate(req, res, service.userAuthRole, function(creds) {
                     console.log("in auth callback");
                     commentManager.create(reqBody, creds, function(result) {
                         res.send(result);
@@ -58,7 +58,7 @@ exports.update = function(req, res) {
         var reqBody = req.body;
         var bodyJson = JSON.stringify(reqBody);
         console.log("body: " + bodyJson);
-        authenticate(req, res, service.adminAuthRole, function(creds) {
+        service.authenticate(req, res, service.adminAuthRole, function(creds) {
             console.log("in auth callback");
             commentManager.update(reqBody, creds, function(result) {
                 res.send(result);

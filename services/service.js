@@ -29,7 +29,7 @@ var userAuthRole = [
 
 exports.userAuthRole = userAuthRole;
 
-authenticate = function(req, res, role, callback) {
+authenticate = function (req, res, role, callback) {
     console.log("in auth");
     var token = req.header("authorization");
     //console.log("token:" + token);
@@ -40,7 +40,7 @@ authenticate = function(req, res, role, callback) {
             console.log("clear text:" + clearText);
             var credentials = clearText.split(':');
             var User = db.getUser();
-            User.findOne({username: credentials[0]}, function(err, results) {
+            User.findOne({username: credentials[0]}, function (err, results) {
                 console.log("found user in auth:" + results);
                 var loginInSuccess = false;
                 var roleAuthized = false;
@@ -50,11 +50,11 @@ authenticate = function(req, res, role, callback) {
                         loginInSuccess = true;
                         console.log("correct password: " + loginInSuccess);
                         var Role = db.getRole();
-                        Role.findById(foundUser.role, function(err, results) {   
+                        Role.findById(foundUser.role, function (err, results) {
                             var callbackUserCreds = {
                                 "id": "",
-                                "username" : "",
-                                "role" : ""
+                                "username": "",
+                                "role": ""
                             };
                             console.log("Role:" + JSON.stringify(results));
                             for (var cnt = 0; cnt < role.length; cnt++) {
@@ -99,18 +99,60 @@ authenticate = function(req, res, role, callback) {
     }
 };
 
+
 exports.authenticate = authenticate;
 
 
+
+authenticatePassave = function (req, res, callback) {
+    console.log("in auth");
+    var callbackUserCreds = {
+        "id": "",
+        "username": "",
+        "loggedIn": false
+    };
+    var token = req.header("authorization");
+    //console.log("token:" + token);
+    if (token !== undefined && token !== null) {
+        var tokenArray = token.split(' ');
+        if (tokenArray !== undefined && tokenArray !== null && tokenArray.length === 2) {
+            var clearText = new Buffer(tokenArray[1], 'base64').toString();
+            console.log("clear text:" + clearText);
+            var credentials = clearText.split(':');
+            var User = db.getUser();
+            User.findOne({username: credentials[0]}, function (err, results) {
+                console.log("found user in auth:" + results);                
+                if (!err && results !== undefined && results !== null) {
+                    var foundUser = results.toObject();
+                    if (foundUser.password === manager.hashPasswordSync(credentials[0], credentials[1]) && foundUser.enabled) {                        
+                        console.log("correct password: " + loginInSuccess);
+                        callbackUserCreds.loggedIn = true;
+                    }
+                    callbackUserCreds.id = foundUser._id;
+                    callbackUserCreds.username = foundUser.username;
+                } else {
+                    callback(callbackUserCreds);
+                }
+            });
+        } else {
+            callback(callbackUserCreds);
+        }
+    } else {
+        callback(callbackUserCreds);
+    }
+};
+
+exports.authenticatePassave = authenticatePassave;
+
 //generic create
-exports.create = function(req, res, manager, roles) {
+exports.create = function (req, res, manager, roles) {
     if (req.is('application/json')) {
         var reqBody = req.body;
         var bodyJson = JSON.stringify(reqBody);
         console.log("body: " + bodyJson);
-        authenticate(req, res, roles, function() {
+        authenticate(req, res, roles, function () {
             console.log("in auth callback");
-            manager.create(reqBody, function(result) {
+            manager.create(reqBody, function (result) {
                 res.send(result);
             });
         });
@@ -118,7 +160,7 @@ exports.create = function(req, res, manager, roles) {
         res.status(415);
         res.send({success: false});
     }
-    
+
 
 };
 
@@ -129,14 +171,14 @@ exports.create = function(req, res, manager, roles) {
  * @param res
  *      
  */
-exports.update = function(req, res, manager, roles) {
+exports.update = function (req, res, manager, roles) {
     if (req.is('application/json')) {
         var reqBody = req.body;
         var bodyJson = JSON.stringify(reqBody);
         console.log("body: " + bodyJson);
-        authenticate(req, res, roles, function() {
+        authenticate(req, res, roles, function () {
             console.log("in auth callback");
-            manager.update(reqBody, function(result) {
+            manager.update(reqBody, function (result) {
                 res.send(result);
             });
         });
@@ -153,15 +195,15 @@ exports.update = function(req, res, manager, roles) {
  * @param res
  *      
  */
-exports.delete = function(req, res, manager, roles) {
-    authenticate(req, res, roles, function() {
+exports.delete = function (req, res, manager, roles) {
+    authenticate(req, res, roles, function () {
         console.log("in auth callback");
         var id = req.params.id;
         if (id !== null && id !== undefined) {
-            manager.delete(id, function(result) {
+            manager.delete(id, function (result) {
                 res.send(result);
             });
-        }else{
+        } else {
             res.send({success: false});
         }
 
@@ -176,15 +218,15 @@ exports.delete = function(req, res, manager, roles) {
  * @param res
  *      
  */
-exports.get = function(req, res, manager, roles) {
-    authenticate(req, res, roles, function() {
+exports.get = function (req, res, manager, roles) {
+    authenticate(req, res, roles, function () {
         console.log("in auth callback");
         var id = req.params.id;
         if (id !== null && id !== undefined) {
-            manager.get(id, function(result) {
+            manager.get(id, function (result) {
                 res.send(result);
             });
-        }else{
+        } else {
             res.send({});
         }
 
@@ -199,10 +241,10 @@ exports.get = function(req, res, manager, roles) {
  * @param res
  *      
  */
-exports.list = function(req, res, manager, roles) {
-    authenticate(req, res, roles, function() {
+exports.list = function (req, res, manager, roles) {
+    authenticate(req, res, roles, function () {
         console.log("in auth callback");
-        manager.list(function(result) {
+        manager.list(function (result) {
             res.send(result);
         });
     });
