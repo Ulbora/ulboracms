@@ -19,8 +19,7 @@ ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location'
             "frontPage": true,
             "links": true,
             "articles": true,
-            "products": false,
-            "apiKey": 4,
+            "products": true,            
             "searchFilter": [
                 {
                     "sectionName": "MainPage",
@@ -59,8 +58,8 @@ ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location'
                         $scope.showNews = false;
                     }
 
-                    for (var cnt = 0; cnt < response.articleLocations.Frontpage.length; cnt++) {
-                        $scope.content.articleLocations.Frontpage[cnt].textList[0].text = $sce.trustAsHtml(atob(response.articleLocations.Frontpage[cnt].textList[0].text));
+                    for (var cnt = 0; cnt < response.articleLocations.FrontPage.length; cnt++) {
+                        $scope.content.articleLocations.FrontPage[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.FrontPage[cnt].articleText.text));
 
                     }
                     console.log("Html:");
@@ -90,7 +89,7 @@ ulboraCmsControllers.controller('ArticleCtrl', ['$scope', 'checkCreds', '$locati
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
 
         var articleId = $routeParams.a;
-        Article.get({id: articleId, apiKey: 3, lastVersion: true, version: -1},
+        Article.get({id: articleId},
         function success(response) {
             //alert($scope.challenge.question);
             console.log("Success:" + JSON.stringify(response));
@@ -98,7 +97,7 @@ ulboraCmsControllers.controller('ArticleCtrl', ['$scope', 'checkCreds', '$locati
 
             var result = "";
 
-            result = atob(response.textList[0].text);
+            result = atob(response.articleText.text);
 
 
             $scope.articleHtml = $sce.trustAsHtml(result);
@@ -145,10 +144,8 @@ ulboraCmsControllers.controller('NewsCtrl', ['$scope', 'checkCreds', '$location'
         var postData = {
             "frontPage": false,
             "links": true,
-            "articles": true,
-            "articlesText": true,
-            "products": false,
-            "apiKey": 4,
+            "articles": true,            
+            "products": false,            
             "searchFilter": [
                 {
                     "sectionName": "News",
@@ -182,7 +179,7 @@ ulboraCmsControllers.controller('NewsCtrl', ['$scope', 'checkCreds', '$location'
                     }
 
                     for (var cnt = 0; cnt < response.articleLocations.Center.length; cnt++) {
-                        $scope.content.articleLocations.Center[cnt].textList[0].text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].textList[0].text));
+                        $scope.content.articleLocations.Center[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].articleText.text));
 
                     }
                     console.log("Html:");

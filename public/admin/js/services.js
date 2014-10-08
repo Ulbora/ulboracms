@@ -6,7 +6,7 @@ var ulboraCmsAdminServices = angular.module('ulboraCmsAdminServices', ['ngResour
 
 ulboraCmsAdminServices.factory('Challenge', ['$resource',
     function($resource) {
-        return $resource("../rsuser/getChallenge", {}, {
+        return $resource("../rs/user/getChallenge", {}, {
             getChallenge: {method: 'GET', params: {languageCode: "en_US"}, isArray: false}
         });
     }]);

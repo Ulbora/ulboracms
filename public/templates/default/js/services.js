@@ -6,14 +6,14 @@ var ulboraCmsServices = angular.module('ulboraCmsServices', ['ngResource', 'ngCo
 
 ulboraCmsServices.factory('Content', ['$resource', 
     function($resource) {
-        return $resource(siteUrl + "content", {}, {
+        return $resource("../rs/content", {}, {
             getContent: {method: 'POST', cache : false, isArray: false}
         });
     }]);
 
 ulboraCmsServices.factory('Article', ['$resource', 
     function($resource) {
-        return $resource(siteUrl + "content/article", {}, {
+        return $resource("../rs/content/article/:id", {}, {
             get: {method: 'GET', cache : false, isArray: false}            
         });
     }]);

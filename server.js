@@ -27,6 +27,7 @@ var downloadableFileService = require('./services/downloadableFileService');
 var addOnService = require('./services/addOnService');
 var templateService = require('./services/templateService');
 var adminService = require('./services/adminService');
+var contentService = require('./services/contentService');
 
 
 
@@ -261,6 +262,11 @@ var nodeBlog = function () {
 
         //admin summary
         self.app.get('/rs/admin/summary', adminService.summary);
+        
+        //content
+        self.app.post('/rs/content', contentService.getContentList);
+        self.app.get('/rs/content/article/:id', contentService.getArticle);
+        
 
 
         self.app.get('/rs/test', auth, function (req, res) {
@@ -334,7 +340,7 @@ var initializeWebApp = function (self) {
             if (template.angularTemplate) {
                 res.sendfile("public/templates/" + template.name + "/index.html");
             } else {
-                res.render("public/templates/" + template.name + "/index.ejs", {name: "ken"});
+                res.render("public/templates/" + template.name + "/index", {name: "ken"});
             }
 
         });
@@ -349,12 +355,21 @@ var initializeWebApp = function (self) {
                 var revisedPage = requestedPage.replace("html", "ejs");
                 console.log("requested page: " + requestedPage);
                 res.render("public/templates/" + template.name + revisedPage, {name: "ken"});
-            }else{
+            } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
             }
         });
     });
 
+    // this if for mix angular and standard templates
+    self.app.get('/page', function (req, res) {
+        getDefaultTemplate(function (template) {
+            var requestedPage = req.originalUrl;
+            console.log("requested page: " + requestedPage);
+            res.sendfile("public/templates/" + template.name + "/appIndex.html");
+        });
+
+    });
 
     self.app.get('/css/*', function (req, res) {
         getDefaultTemplate(function (template) {

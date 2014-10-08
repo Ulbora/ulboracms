@@ -82,96 +82,96 @@ var Template = mongoose.model('Template', templateSchema);
 var MailServer = mongoose.model('MailServer', mailServerSchema);
 
 
-exports.getAccessLevel = function() {
+exports.getAccessLevel = function () {
     return AccessLevel;
 };
-exports.getAddons = function() {
+exports.getAddons = function () {
     return Addons;
 };
-exports.getLocation = function() {
+exports.getLocation = function () {
     return Location;
 };
-exports.getLanguage = function() {
+exports.getLanguage = function () {
     return Language;
 };
-exports.getCategory = function() {
+exports.getCategory = function () {
     return Category;
 };
-exports.getSection = function() {
+exports.getSection = function () {
     return Section;
 };
-exports.getRole = function() {
+exports.getRole = function () {
     return Role;
 };
-exports.getLink = function() {
+exports.getLink = function () {
     return Link;
 };
-exports.getFeed = function() {
+exports.getFeed = function () {
     return Feed;
 };
-exports.getConfiguration = function() {
+exports.getConfiguration = function () {
     return Configuration;
 };
-exports.getDatabaseVersion = function() {
+exports.getDatabaseVersion = function () {
     return DatabaseVersion;
 };
-exports.getMedia = function() {
+exports.getMedia = function () {
     return Media;
 };
-exports.getRuleDeclaration = function() {
+exports.getRuleDeclaration = function () {
     return RuleDeclaration;
 };
-exports.getWorkflowRule = function() {
+exports.getWorkflowRule = function () {
     return WorkflowRule;
 };
-exports.getUser = function() {
+exports.getUser = function () {
     return User;
 };
-exports.getArticle = function() {
+exports.getArticle = function () {
     return Article;
 };
-exports.getArticleText = function() {
+exports.getArticleText = function () {
     return ArticleText;
 };
-exports.getComment = function() {
+exports.getComment = function () {
     return Comment;
 };
-exports.getArticleLocation = function() {
+exports.getArticleLocation = function () {
     return ArticleLocation;
 };
-exports.getTag = function() {
+exports.getTag = function () {
     return Tag;
 };
-exports.getFrontPage = function() {
+exports.getFrontPage = function () {
     return FrontPage;
 };
-exports.getProduct = function() {
+exports.getProduct = function () {
     return Product;
 };
-exports.getProductLocation = function() {
+exports.getProductLocation = function () {
     return ProductLocation;
 };
-exports.getProductPrice = function() {
+exports.getProductPrice = function () {
     return ProductPrice;
 };
-exports.getDownloadableFile = function() {
+exports.getDownloadableFile = function () {
     return DownloadableFile;
 };
-exports.getTemplate = function() {
+exports.getTemplate = function () {
     return Template;
 };
-exports.getMailServer = function() {
+exports.getMailServer = function () {
     return MailServer;
 };
 
 //initialize the mongoDB database with needed records required for startup
-exports.initializeMongoDb = function() {
+exports.initializeMongoDb = function () {
     //check if databaseVersion record is set
     initializeDatabaseVersion();
 };
 
-initializeDatabaseVersion = function() {
-    DatabaseVersion.find({}, function(err, results) {
+initializeDatabaseVersion = function () {
+    DatabaseVersion.find({}, function (err, results) {
         if (err) {
             console.log("databaseVersion Error:" + err);
         } else {
@@ -181,7 +181,7 @@ initializeDatabaseVersion = function() {
                     version: "1.0.0"
                 };
                 var dbVer = new DatabaseVersion(versionRecord);
-                dbVer.save(function(err) {
+                dbVer.save(function (err) {
                     if (err) {
                         console.log("databaseVersion save error: " + err);
                     } else {
@@ -197,9 +197,9 @@ initializeDatabaseVersion = function() {
     });
 };
 
-initializeRoles = function() {
+initializeRoles = function () {
     //check if roles are in database
-    Role.find({}, function(err, results) {
+    Role.find({}, function (err, results) {
         if (err) {
             console.log("Role Error:" + err);
         } else {
@@ -218,22 +218,22 @@ initializeRoles = function() {
                     name: manager.ROLE_USER
                 };
                 var role = new Role(superAdminRecord);
-                role.save(function(err) {
+                role.save(function (err) {
                     if (err) {
                         console.log("super admin role save error: " + err);
                     } else {
                         role = new Role(adminRecord);
-                        role.save(function(err) {
+                        role.save(function (err) {
                             if (err) {
                                 console.log("admin role save error: " + err);
                             } else {
                                 role = new Role(authorRecord);
-                                role.save(function(err) {
+                                role.save(function (err) {
                                     if (err) {
                                         console.log("author role save error: " + err);
                                     } else {
                                         role = new Role(userRecord);
-                                        role.save(function(err) {
+                                        role.save(function (err) {
                                             if (err) {
                                                 console.log("user role save error: " + err);
                                             } else {
@@ -255,15 +255,15 @@ initializeRoles = function() {
     });
 };
 
-initializeDefaultUsers = function() {
+initializeDefaultUsers = function () {
     //check if default users are in database
-    Role.findOne({name: manager.ROLE_SUPER_ADMIN}, function(err, roleResults) {
+    Role.findOne({name: manager.ROLE_SUPER_ADMIN}, function (err, roleResults) {
         if (err) {
             console.log("lookup super admin role error:" + err);
         } else {
             console.log("role:" + JSON.stringify(roleResults));
             var superAdmimRole = roleResults.toObject();
-            User.find({}, function(err, results) {
+            User.find({}, function (err, results) {
                 if (err) {
                     console.log("user Error:" + err);
                 } else {
@@ -280,7 +280,7 @@ initializeDefaultUsers = function() {
                             role: superAdmimRole
                         };
                         var u = new User(adminUserRecord);
-                        u.save(function(err) {
+                        u.save(function (err) {
                             if (err) {
                                 console.log("super admin user save error: " + err);
                             } else {
@@ -299,9 +299,9 @@ initializeDefaultUsers = function() {
     });
 };
 
-initializeAccessLevels = function() {
+initializeAccessLevels = function () {
     //check if accessLevel or in database
-    AccessLevel.find({}, function(err, results) {
+    AccessLevel.find({}, function (err, results) {
         if (err) {
             console.log("accessLevels Error:" + err);
         } else {
@@ -314,12 +314,12 @@ initializeAccessLevels = function() {
                     name: manager.ACCESS_LEVEL_USER
                 };
                 var acc = new AccessLevel(publicAccessLevelRecord);
-                acc.save(function(err) {
+                acc.save(function (err) {
                     if (err) {
                         console.log("public accessLevels save error: " + err);
                     } else {
                         acc = new AccessLevel(userAccessLevelRecord);
-                        acc.save(function(err) {
+                        acc.save(function (err) {
                             if (err) {
                                 console.log("user accessLevels save error: " + err);
                             } else {
@@ -337,9 +337,9 @@ initializeAccessLevels = function() {
     });
 };
 
-initializeLanguage = function() {
+initializeLanguage = function () {
     //check if english language is in database
-    Language.find({}, function(err, results) {
+    Language.find({}, function (err, results) {
         if (err) {
             console.log("language Error:" + err);
         } else {
@@ -356,12 +356,12 @@ initializeLanguage = function() {
                     code: "es-pr"
                 };
                 var lan = new Language(englishLanguageRecord);
-                lan.save(function(err) {
+                lan.save(function (err) {
                     if (err) {
                         console.log("english language save error: " + err);
                     } else {
                         lan = new Language(spanishLanguageRecord);
-                        lan.save(function(err) {
+                        lan.save(function (err) {
                             if (err) {
                                 console.log("spanish language save error: " + err);
                             } else {
@@ -380,9 +380,9 @@ initializeLanguage = function() {
 };
 
 
-initializeTemplate = function() {
-    //check if english language is in database
-    Template.find({}, function(err, results) {
+initializeTemplate = function () {
+    //check if in database
+    Template.find({}, function (err, results) {
         if (err) {
             console.log("template Error:" + err);
         } else {
@@ -394,7 +394,7 @@ initializeTemplate = function() {
                 };
 
                 var tmp = new Template(templateRecord);
-                tmp.save(function(err) {
+                tmp.save(function (err) {
                     if (err) {
                         console.log("template save error: " + err);
                     } else {
@@ -411,9 +411,9 @@ initializeTemplate = function() {
 };
 
 
-initializeRulesDeclaration = function() {
-    //check if english language is in database
-    RuleDeclaration.find({}, function(err, results) {
+initializeRulesDeclaration = function () {
+    //check if in database
+    RuleDeclaration.find({}, function (err, results) {
         if (err) {
             console.log("rules Error:" + err);
         } else {
@@ -426,7 +426,7 @@ initializeRulesDeclaration = function() {
 
                 var rule = new RuleDeclaration(ruleDeclarationRecord);
                 console.log("rules obj:" + JSON.stringify(ruleDeclarationRecord));
-                rule.save(function(err) {
+                rule.save(function (err) {
                     if (err) {
                         console.log("rule save error: " + err);
                     } else {
@@ -444,9 +444,9 @@ initializeRulesDeclaration = function() {
 
 
 
-initializeMailServer = function() {
-    //check if english language is in database
-    MailServer.find({}, function(err, results) {
+initializeMailServer = function () {
+    //check if in database
+    MailServer.find({}, function (err, results) {
         if (err) {
             console.log("mail server Error:" + err);
         } else {
@@ -463,16 +463,106 @@ initializeMailServer = function() {
 
                 var mserver = new MailServer(mserv);
                 console.log("mail server:" + JSON.stringify(mserv));
-                mserver.save(function(err) {
+                mserver.save(function (err) {
                     if (err) {
                         console.log("mail server save error: " + err);
                     } else {
-                        //future use
+                        initialSections();
                     }
                 });
             } else {
-                //future use
+                initialSections();
             }
+        }
+    });
+};
+
+initialSections = function () {
+    //check if is in database
+    Language.findOne({code: "en-us"}, function (lanErr, lan) {
+        if (!lanErr && lan !== undefined && lan !== null) {
+            Section.find({}, function (err, results) {
+                if (err) {
+                    console.log("section Error:" + err);
+                } else {
+                    console.log("sections:" + JSON.stringify(results));
+                    if (results.length === 0) {
+                        
+                            var secVal = {
+                                name: null,
+                                language: null
+                            };
+                            secVal.name = "About";
+                            secVal.language = lan._id;
+
+                            var sec = new Section(secVal);
+                            console.log("section:" + JSON.stringify(secVal));
+                            sec.save();
+                            
+                            
+                            secVal.name = "Contacts"; 
+                            sec = new Section(secVal);
+                            console.log("section:" + JSON.stringify(secVal));
+                            sec.save();
+                            
+                            secVal.name = "MainPage"; 
+                            sec = new Section(secVal);
+                            console.log("section:" + JSON.stringify(secVal));
+                            sec.save();
+                            
+                            secVal.name = "News"; 
+                            sec = new Section(secVal);
+                            console.log("section:" + JSON.stringify(secVal));
+                            sec.save();
+                            
+                            initialCategories();
+
+                    } else {
+                        initialCategories();
+                    }
+                }
+            });
+        }
+    });
+};
+
+
+initialCategories = function () {
+    //check if is in database
+    Language.findOne({code: "en-us"}, function (lanErr, lan) {
+        if (!lanErr && lan !== undefined && lan !== null) {
+            Category.find({}, function (err, results) {
+                if (err) {
+                    console.log("category Error:" + err);
+                } else {
+                    console.log("catagory:" + JSON.stringify(results));
+                    if (results.length === 0) {
+                        
+                            var catVal = {
+                                name: null,
+                                language: null
+                            };
+                            catVal.name = "News";
+                            catVal.language = lan._id;
+
+                            var cat = new Category(catVal);
+                            console.log("category:" + JSON.stringify(catVal));
+                            cat.save();
+                            
+                            
+                            catVal.name = "NewsFlash"; 
+                            cat = new Category(catVal);
+                            console.log("category:" + JSON.stringify(catVal));
+                            cat.save();                            
+                           
+                            
+                            //future use
+
+                    } else {
+                        //future use
+                    }
+                }
+            });
         }
     });
 };
