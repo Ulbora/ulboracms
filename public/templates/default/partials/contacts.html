@@ -9,7 +9,7 @@
                 <div class="main-cell-body">
                     <div  ng-repeat="article in content.articleLocations.Left">
                         <div class="main-cell-row">
-                            <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                            <a href="#!article/{{article._id}}">{{article.title}}</a> 
                         </div>
                     </div>
                 </div>
@@ -22,15 +22,12 @@
                         {{article.title}}
                     </div>
                     <div class="main-cell-body"> 
-                        <div ng-bind-html="article.textList[0].text"></div>                     
+                        <div ng-bind-html="article.articleText.text"></div>                     
                     </div>
-                    <div class="main-center" ng-switch on="article.pageBreak">
-                        <div class="read-more-link" ng-switch-when="true">
-                            <a href="#!article/{{article.id}}">Read More...</a> 
-                        </div>
-                         <div class="read-more-link" ng-switch-when="false">
-                            <a href="#!article/{{article.id}}">View</a> 
-                        </div>
+                    <div class="main-center" ng-switch on="article.fullPage">
+                        <div class="read-more-link" ng-switch-when="false">
+                            <a href="#!article/{{article._id}}">Read More...</a> 
+                        </div>                        
 
                     </div>
                     <div ng-switch on="$index < (content.articleLocations.Frontpage.length - 1)">
@@ -47,7 +44,7 @@
                 <div class="main-cell-body">
                     <div  ng-repeat="article in content.articleLocations.Right">
                         <div class="main-cell-row">
-                            <a href="#!article/{{article.id}}">{{article.title}}</a> 
+                            <a href="#!article/{{article._id}}">{{article.title}}</a> 
                         </div>
                     </div>
                 </div>

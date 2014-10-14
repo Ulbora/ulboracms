@@ -1,20 +1,44 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <title>Ulbora CMS Admin Site</title>             
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <% include head%> 
+    <body> 
+        <div class="top-menu">
+            <div class="top-menu-space">
+                <div class="logo">Ulbora CMS</div>
+                
+            </div>
+            <div class="top-menu-menu">
+                <nav>
+                    <ul>
+                        <li><a class="active"  href="/">Home</a></li>
+                        <li><a class="" href="/about.html">About</a></li>
+                        <li><a class="" href="/contacts.html">Contacts</a></li>
+                        <li><a class="" href="/blog.html">Blog</a></li>
+                        <li><a class="" href="/login.html">Login</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>   
+        <div id="container" class="container">  
+            <% for(var i=0; i<content.articleLocations.FrontPage.length; i++) {%>                
+                <div class="article-wrapper">
+                    <%if (content.articleLocations.FrontPage[i].showTitle) { %>
+                        <div class="article-title"><%= content.articleLocations.FrontPage[i].title %></div>
+                    <% } %>
+                    
+                    <div class="article">
+                        <%- content.articleLocations.FrontPage[i].articleText.text %>
+                    </div> 
+                    <%if (!content.articleLocations.FrontPage[i].fullPage) { %>
+                        <div class="article-read-more"><a class="" href="/article.html?id=<%= content.articleLocations.FrontPage[i]._id %>">Read More...</a></div>
+                    <% } %>
+                </div>
 
-        <link rel="stylesheet" href="lib-css/bootstrap.min.css"  media="screen"/> 
-        <link rel="stylesheet" href="css/body.css"  media="screen"/> 
-
-
-        <script src="js/libs/jquery-1.10.2.min.js"></script>  
-        <script src="js/libs/spin.min.js"></script>
-        <script src="js/libs/bootstrap.min.js"></script>
-
-    </head>
-    <body>
-        <div><%= name %></div>
+            <% } %>            
+            
+        </div>
+        <div class="footer-long">
+            Copyright 2014 Ulbora CMS | TOS | Powered by Ulbora CMS
+        </div>
     </body>
 </html>

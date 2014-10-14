@@ -23,7 +23,9 @@
     "atob": "*",
     "btoa": "*",
     "node-rest-client": "*",
-    "ejs": "*"
+    "consolidate": "*",
+    "ejs": "*",
+    "handlebars": "*"
   },
   "bundleDependencies" : [ ],
   "private" : true,

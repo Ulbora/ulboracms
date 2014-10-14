@@ -1,0 +1,191 @@
+.top-menu{
+    float: left;
+    width: 100%;   
+    /*background: dimgrey;*/
+    background: #eee;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;  
+    text-align: center;
+    border-bottom: #3A464F 1px solid;
+    box-shadow: 0px 5px 5px #888888;
+}
+.top-menu-space{
+    width: 100%;
+    float: left;
+    text-align: left;    
+
+}
+.logo{
+    float: left;
+    color: black;    
+    font-family: serif;   
+}
+.top-menu-menu{    
+    float: left; 
+    text-align: center;
+
+}
+
+nav {    
+
+}
+
+nav ul {
+    margin: 0;
+    padding: 0;
+    list-style: none;    
+}
+nav ul li {
+    display: block;
+    position: relative;
+    float: left;
+}
+
+nav ul li a {
+    display: block;
+    text-decoration: none;
+    padding: 7px 15px 3px 15px;
+    /*background: #2C5463;*/
+    /*background: dimgrey;*/
+    background: #adadad;
+    color: #ffffff;  
+    margin-left: 1px;
+    white-space: nowrap;
+    height:30px; /* Width and height of top-level nav items */
+    width:90px;
+    text-align:center;
+
+}
+nav ul li a:hover { 
+    /*background: #617F8A; */
+    /*background: #95A9B1;*/
+    background: #ccc;
+    color: black;
+}
+
+nav li:hover ul {
+    display: block;
+    position: absolute;
+    height:30px;
+}
+
+nav li:hover li {
+    float: none;
+    font-size: 11px;
+
+}
+
+nav li:hover a { 
+    background: #3A464F; 
+    height:30px; /* Height of lower-level nav items is shorter than main level */
+}
+
+nav li:hover li a:hover { 
+    background: #95A9B1; 
+}
+
+nav ul li ul li a {
+    text-align:left; /* Top-level items are centered, but nested list items are left-aligned */
+}
+
+.active{
+    background: #ccc;
+}
+
+@media screen and (min-width: 1200px){
+    .top-menu{
+        height: 100px;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;  
+    }
+    .top-menu-space{
+        height: 60px;
+        padding: 0 0 0 0;        
+    }
+    .top-menu-menu{
+        padding: 0 0 0 0;  
+        width: 60%;
+        margin: 0 0 0 20%;
+    }
+    .logo{
+        font-size: 26pt;
+        margin: 1% 0 0 6%;
+        text-shadow: 1px 2px lightyellow;
+    }
+}
+
+@media screen and (max-width: 1200px){
+    .top-menu{
+        height: 100px;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;  
+    }
+    .top-menu-space{
+        height: 60px;
+        padding: 0 0 0 0;        
+    }
+    .top-menu-menu{
+        padding: 0 0 0 0; 
+        width: 60%;
+        margin: 0 0 0 20%;
+    }
+    .logo{
+        font-size: 22pt;
+        margin: 1% 0 0 6%;
+        text-shadow: 1px 2px lightyellow;
+    }
+}
+
+@media screen and (max-width: 770px){
+    .top-menu{
+        height: 75px;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;  
+    }
+    .top-menu-space{
+        height: 40px;
+        padding: 0 0 0 0;        
+    }
+    .top-menu-menu{
+        padding: 0 0 0 0; 
+        width: 90%;
+        margin: 0 0 0 5%;
+    }
+    nav ul li a {
+        font-size: 10px;
+        width:60px;
+        padding: 7px 10px 3px 10px;
+    }
+    .logo{
+        font-size: 14pt;
+        margin: 1% 0 0 6%;
+        text-shadow: 1px 2px lightyellow;
+    }
+}
+
+@media screen and (max-width: 480px){
+    .top-menu{
+        height: 75px;
+        margin: 0 0 0 0;
+        padding: 0 0 0 0;  
+    }
+    .top-menu-space{
+        height: 40px;
+        padding: 0 0 0 0;        
+    }
+    .top-menu-menu{
+        padding: 0 0 0 0; 
+        width: 100%;
+        margin: 0 0 0 0%;
+    }
+    nav ul li a {
+        font-size: 10px;
+        width:60px;
+        padding: 7px 10px 3px 10px;
+    }
+    .logo{
+        font-size: 14pt;
+        margin: 1% 0 0 6%;
+        text-shadow: 1px 2px lightyellow;
+    }
+}

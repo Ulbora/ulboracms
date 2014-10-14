@@ -213,8 +213,7 @@ ulboraCmsControllers.controller('AboutCtrl', ['$scope', 'checkCreds', '$location
             "links": true,
             "articles": true,
             "articlesText": true,
-            "products": false,
-            "apiKey": 4,
+            "products": false,            
             "searchFilter": [
                 {
                     "sectionName": "About",
@@ -252,7 +251,7 @@ ulboraCmsControllers.controller('AboutCtrl', ['$scope', 'checkCreds', '$location
                     }
 
                     for (var cnt = 0; cnt < response.articleLocations.Center.length; cnt++) {
-                        $scope.content.articleLocations.Center[cnt].textList[0].text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].textList[0].text));
+                        $scope.content.articleLocations.Center[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].articleText.text));
 
                     }
                     console.log("Html:");
@@ -285,8 +284,7 @@ ulboraCmsControllers.controller('ContactsCtrl', ['$scope', 'checkCreds', '$locat
             "links": true,
             "articles": true,
             "articlesText": true,
-            "products": false,
-            "apiKey": 4,
+            "products": false,            
             "searchFilter": [
                 {
                     "sectionName": "Contacts",
@@ -324,7 +322,7 @@ ulboraCmsControllers.controller('ContactsCtrl', ['$scope', 'checkCreds', '$locat
                     }
 
                     for (var cnt = 0; cnt < response.articleLocations.Center.length; cnt++) {
-                        $scope.content.articleLocations.Center[cnt].textList[0].text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].textList[0].text));
+                        $scope.content.articleLocations.Center[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].articleText.text));
 
                     }
                     console.log("Html:");

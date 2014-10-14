@@ -1,16 +1,44 @@
 <!DOCTYPE html>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
 <html>
-    <head>
-        <title>TODO supply a title</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    </head>
-    <body>
-        <div>About</div>
+    <% include head%> 
+    <body> 
+        <div class="top-menu">
+            <div class="top-menu-space">
+                <div class="logo">Ulbora CMS</div>
+                
+            </div>
+            <div class="top-menu-menu">
+                <nav>
+                    <ul>
+                        <li><a class=""  href="/">Home</a></li>
+                        <li><a class="active" href="/about.html">About</a></li>
+                        <li><a class="" href="/contacts.html">Contacts</a></li>
+                        <li><a class="" href="/blog.html">Blog</a></li>
+                        <li><a class="" href="/login.html">Login</a></li>
+                    </ul>
+                </nav>
+            </div>
+        </div>   
+        <div id="container" class="container">  
+            <% for(var i=0; i<content.articleLocations.Center.length; i++) {%>                
+                <div class="article-wrapper">
+                    <%if (content.articleLocations.Center[i].showTitle) { %>
+                        <div class="article-title"><%= content.articleLocations.Center[i].title %></div>
+                    <% } %>
+                    
+                    <div class="article">
+                        <%- content.articleLocations.Center[i].articleText.text %>
+                    </div> 
+                    <%if (!content.articleLocations.Center[i].fullPage) { %>
+                        <div class="article-read-more">Read More...</div>
+                    <% } %>
+                </div>
+
+            <% } %>            
+            
+        </div>
+        <div class="footer-long">
+            Copyright 2014 Ulbora CMS | TOS | Powered by Ulbora CMS
+        </div>
     </body>
 </html>

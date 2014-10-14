@@ -1,0 +1,18 @@
+{
+    "frontPage": false,
+    "links": true,
+    "articles": true,
+    "articlesText": true,
+    "products": false,
+    "searchFilter": [
+        {
+            "sectionName": "About",
+            "categoryName": null
+        },
+        {
+            "sectionName": null,
+            "categoryName": "NewsFlash"
+        }
+    ]
+}
+        

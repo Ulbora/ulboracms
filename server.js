@@ -1,6 +1,7 @@
 #!/bin/env node
 var express = require('express');
 var fs = require('fs');
+//var engines = require('consolidate');
 
 var un = 'node';//change this to something private
 var pw = 'password';//change this to something private
@@ -28,6 +29,8 @@ var addOnService = require('./services/addOnService');
 var templateService = require('./services/templateService');
 var adminService = require('./services/adminService');
 var contentService = require('./services/contentService');
+
+var contentController = require('./controllers/contentController');
 
 
 
@@ -112,7 +115,20 @@ var nodeBlog = function () {
         self.app.use(express.logger('dev'));
         self.app.use(express.bodyParser());
         self.app.use(express.static(__dirname + '/public'));
+        //out of the box ejs---------------
         self.app.set('view engine', 'ejs');
+        //--------------------------------------
+
+        //---consolidate.js ejs implementation----
+        //self.app.engine('ejs', engines.ejs);
+        //self.app.set('view engine', 'ejs');
+        //-----------------------------------------
+
+        //---consolidate.js implementation----
+        //self.app.engine('hbs', engines.handlebars);
+        //self.app.set('view engine', 'hbs');
+        //-----------------------------------------
+
         self.app.set("views", __dirname + "/");
         var auth = express.basicAuth(un, pw);
         db.initializeMongoDb();
@@ -262,11 +278,11 @@ var nodeBlog = function () {
 
         //admin summary
         self.app.get('/rs/admin/summary', adminService.summary);
-        
+
         //content
         self.app.post('/rs/content', contentService.getContentList);
         self.app.get('/rs/content/article/:id', contentService.getArticle);
-        
+
 
 
         self.app.get('/rs/test', auth, function (req, res) {
@@ -340,7 +356,22 @@ var initializeWebApp = function (self) {
             if (template.angularTemplate) {
                 res.sendfile("public/templates/" + template.name + "/index.html");
             } else {
-                res.render("public/templates/" + template.name + "/index", {name: "ken"});
+                //__dirname + 
+                fs.readFile(__dirname + "/public/templates/" + template.name + "/json/index.json", function (err, data) {
+                    if (!err) {
+                        var filter = JSON.parse(data);
+                        console.log("filter data: " + JSON.stringify(filter));
+                        console.log("filter data frontpage: " + filter.frontPage);
+                        contentController.getContentList(req, filter, function (results) {
+                            console.log("content results: " + JSON.stringify(results));
+                            res.render("public/templates/" + template.name + "/index", {content: results});
+                        });
+                    } else {
+                        res.render("public/templates/" + template.name + "/index", {name: "kenneth"});
+                    }
+
+                });
+
             }
 
         });
@@ -352,9 +383,27 @@ var initializeWebApp = function (self) {
         getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 var requestedPage = req.originalUrl;
+                var indexOfPeriod = requestedPage.indexOf(".");
+                var filerName = requestedPage.substring(0, indexOfPeriod);
+                console.log("filter name: " + filerName);
                 var revisedPage = requestedPage.replace("html", "ejs");
-                console.log("requested page: " + requestedPage);
-                res.render("public/templates/" + template.name + revisedPage, {name: "ken"});
+                //var revisedPage = requestedPage.replace("html", "hbs");
+                fs.readFile(__dirname + "/public/templates/" + template.name + "/json/" + filerName + ".json", function (err, data) {
+                    if (!err) {
+                        var filter = JSON.parse(data);
+                        console.log("filter data: " + JSON.stringify(filter));
+                        console.log("filter data frontpage: " + filter.frontPage);
+                        contentController.getContentList(req, filter, function (results) {
+                            console.log("content results: " + JSON.stringify(results));
+                            res.render("public/templates/" + template.name + revisedPage, {content: results});
+                        });
+                    } else {
+                        console.log("requested page: " + requestedPage);
+                        res.render("public/templates/" + template.name + revisedPage, {content: []});
+                    }
+
+                });
+
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
             }
