@@ -114,6 +114,8 @@ var nodeBlog = function () {
         self.app = express();
         self.app.use(express.logger('dev'));
         self.app.use(express.bodyParser());
+        self.app.use(express.cookieParser('7320s932h79993Ah4'));
+        self.app.use(express.cookieSession());
         self.app.use(express.static(__dirname + '/public'));
         //out of the box ejs---------------
         self.app.set('view engine', 'ejs');
@@ -352,6 +354,7 @@ var initializeWebApp = function (self) {
     self.app.get('/', function (req, res) {
         getDefaultTemplate(function (template) {
             var requestedPage = req.originalUrl;
+            var loggedIn = (req.session.loggedIn);
             console.log("requested page: " + requestedPage);
             if (template.angularTemplate) {
                 res.sendfile("public/templates/" + template.name + "/index.html");
@@ -362,12 +365,12 @@ var initializeWebApp = function (self) {
                         var filter = JSON.parse(data);
                         console.log("filter data: " + JSON.stringify(filter));
                         console.log("filter data frontpage: " + filter.frontPage);
-                        contentController.getContentList(req, filter, function (results) {
+                        contentController.getContentList(req, filter, loggedIn, function (results) {
                             console.log("content results: " + JSON.stringify(results));
-                            res.render("public/templates/" + template.name + "/index", {content: results});
+                            res.render("public/templates/" + template.name + "/index", {content: results, loggedIn: loggedIn});
                         });
                     } else {
-                        res.render("public/templates/" + template.name + "/index", {name: "kenneth"});
+                        res.render("public/templates/" + template.name + "/index", {});
                     }
 
                 });
@@ -382,6 +385,7 @@ var initializeWebApp = function (self) {
     self.app.get('/*.html', function (req, res) {
         getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
+                var loggedIn = (req.session.loggedIn);
                 var requestedPage = req.originalUrl;
                 var indexOfPeriod = requestedPage.indexOf(".");
                 var filerName = requestedPage.substring(0, indexOfPeriod);
@@ -393,9 +397,9 @@ var initializeWebApp = function (self) {
                         var filter = JSON.parse(data);
                         console.log("filter data: " + JSON.stringify(filter));
                         console.log("filter data frontpage: " + filter.frontPage);
-                        contentController.getContentList(req, filter, function (results) {
+                        contentController.getContentList(req, filter, loggedIn, function (results) {
                             console.log("content results: " + JSON.stringify(results));
-                            res.render("public/templates/" + template.name + revisedPage, {content: results});
+                            res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn});
                         });
                     } else {
                         console.log("requested page: " + requestedPage);
@@ -409,6 +413,91 @@ var initializeWebApp = function (self) {
             }
         });
     });
+
+
+    self.app.get('/article', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                var loggedIn = (req.session.loggedIn);
+                var requestedPage = req.originalUrl;
+                var indexOfQuestion = requestedPage.indexOf("?");
+                requestedPage = requestedPage.substring(0, indexOfQuestion);
+                var revisedPage = requestedPage.replace("html", "ejs");
+                contentController.getArticle(req, loggedIn, function (results) {
+                    console.log("content results: " + JSON.stringify(results));
+                    res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn});
+                });
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
+
+    self.app.post('/login', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                contentController.login(req, function (results) {
+                    console.log("login results: " + results);
+                    if (results) {
+                        if (req.cookies !== undefined && req.cookies.rememberme ) {
+                            res.cookie('rememberme', true, {expires: new Date(Date.now() + 900000), httpOnly: true});                            
+                        }
+                        req.session.loggedIn = true;
+                        res.redirect("/");
+                        //res.render("public/templates/" + template.name + revisedPage, {content: results});
+                    }else{
+                        res.render("public/templates/" + template.name + "/login.ejs", {loginFailed: true, message: "Login failed"});
+                    }
+
+                });
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
+
+    self.app.get('/login', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                 var loggedIn = (req.session.loggedIn);
+                // contentController.login(req, function (results) {
+                //console.log("content results: " + JSON.stringify(results));
+                var u = "";
+                var p = "";
+                if (req.cookies.rememberme) {
+                    u = req.cookies.username;
+                    p = req.cookies.password;
+                }
+                res.render("public/templates/" + template.name + "/login.ejs", {username: u, password: p, loginFailed: false, loggedIn: loggedIn});
+                //res.cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true });
+
+                //});
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
+    
+    self.app.get('/logout', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                // contentController.login(req, function (results) {
+                //console.log("content results: " + JSON.stringify(results));
+                
+                res.cookie('rememberme', false);
+                req.session.loggedIn = false;
+                res.redirect("/");
+                //res.render("public/templates/" + template.name + "/login.ejs", {username: u, password: p, loginFailed: false});
+                //res.cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true });
+
+                //});
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
+    //// add comment section here-------------------------
+
 
     // this if for mix angular and standard templates
     self.app.get('/page', function (req, res) {

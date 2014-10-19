@@ -125,11 +125,12 @@ authenticatePassave = function (req, res, callback) {
                 if (!err && results !== undefined && results !== null) {
                     var foundUser = results.toObject();
                     if (foundUser.password === manager.hashPasswordSync(credentials[0], credentials[1]) && foundUser.enabled) {                        
-                        console.log("correct password: " + loginInSuccess);
+                        console.log("correct password: " + "true");
                         callbackUserCreds.loggedIn = true;
                     }
                     callbackUserCreds.id = foundUser._id;
                     callbackUserCreds.username = foundUser.username;
+                    callback(callbackUserCreds);
                 } else {
                     callback(callbackUserCreds);
                 }

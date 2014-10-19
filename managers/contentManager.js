@@ -15,83 +15,127 @@ exports.getArticle = function (id, creds, callback) {
     var isOk = manager.securityCheck(id);
     if (isOk) {
         console.log("id: " + id);
-        var Article = db.getArticle();
-        Article.findById(id, function (artErr, results) {
-            console.log("found article: " + JSON.stringify(results));
-            if (!artErr && (results !== undefined && results !== null)) {
-                findPublicAccessLevel(function (publicAccessLevel) {
-                    var useArticle = false;
-                    if (results.accessLevel.toString() === publicAccessLevel.toString() && results.published) {
-                        useArticle = true;
-                    } else if (creds !== null && creds.loggedIn && results.published) {
-                        useArticle = true;
-                    }
-                    if (useArticle) {
-                        results.hits += 1;
-                        results.save();
-                        var a = results.toObject();
-                        var ArticleText = db.getArticleText();
-                        ArticleText.findOne({article: results._id, active: true}, null, function (artTxtErr, articleTextResults) {
-                            if (!artTxtErr && (articleTextResults !== undefined && articleTextResults !== null)) {
-                                var binaryText = articleTextResults.text;
-                                //console.log("binary text: " + binaryText);
-                                //console.log("binary text to string: " + binaryText.toString());
-                                a.articleText = articleTextResults.toObject();
-                                a.articleText.text = binaryText.toString();
-                                //console.log("binary converted obj text: " + a.articleText.text);
-                                var FrontPage = db.getFrontPage();
-                                FrontPage.find({article: results._id}, function (fpErr, frontPageResults) {
-                                    if (!fpErr && (frontPageResults !== undefined && frontPageResults !== null && frontPageResults.length > 0)) {
-                                        a.frontPage = true;
-                                    } else {
-                                        a.frontPage = false;
-                                    }
-                                    var ArticleLocation = db.getArticleLocation();
-                                    ArticleLocation.find({article: results._id}, function (artLocErr, artLocResults) {
-                                        if (!artLocErr && (artLocResults !== undefined && artLocResults !== null)) {
-                                            var artLocList = [];
-                                            for (var artLocCnt = 0; artLocCnt < artLocResults.length; artLocCnt++) {
-                                                artLocList.push(artLocResults[artLocCnt].location);
-                                            }
-                                            a.articleLocationList = artLocList;
+        var User = db.getUser();
+        User.find({}, function (userListErr, userList) {
+            var userMap = [];
+            if (!userListErr && userList !== undefined && userList !== null) {                
+                for (var um = 0; um < userList.length; um++) {
+                    var umo = userList[um].toObject();
+                    umo.password = "";
+                    userMap[umo._id] = umo;
+                }
+            }
+            var Article = db.getArticle();
+            Article.findById(id, function (artErr, results) {
+                console.log("found article: " + JSON.stringify(results));
+                if (!artErr && (results !== undefined && results !== null)) {
+                    findPublicAccessLevel(function (publicAccessLevel) {
+                        var useArticle = false;
+                        if (results.accessLevel.toString() === publicAccessLevel.toString() && results.published) {
+                            useArticle = true;
+                        } else if (creds !== null && creds.loggedIn && results.published) {
+                            useArticle = true;
+                        }
+                        if (useArticle) {
+                            results.hits += 1;
+                            results.save();
+                            var a = results.toObject();
+                            var ArticleText = db.getArticleText();
+                            ArticleText.findOne({article: results._id, active: true}, null, function (artTxtErr, articleTextResults) {
+                                if (!artTxtErr && (articleTextResults !== undefined && articleTextResults !== null)) {
+                                    var binaryText = articleTextResults.text;
+                                    //console.log("binary text: " + binaryText);
+                                    //console.log("binary text to string: " + binaryText.toString());
+                                    a.articleText = articleTextResults.toObject();
+                                    a.articleText.text = binaryText.toString();
+                                    //console.log("binary converted obj text: " + a.articleText.text);
+                                    var FrontPage = db.getFrontPage();
+                                    FrontPage.find({article: results._id}, function (fpErr, frontPageResults) {
+                                        if (!fpErr && (frontPageResults !== undefined && frontPageResults !== null && frontPageResults.length > 0)) {
+                                            a.frontPage = true;
+                                        } else {
+                                            a.frontPage = false;
                                         }
-                                        var Tag = db.getTag();
-                                        Tag.findOne({article: results._id}, function (tagErr, tagResults) {
-                                            if (!tagErr && (tagResults !== undefined && tagResults !== null)) {
-                                                a.tag = tagResults;
-                                            }
-                                            var User = db.getUser();
-                                            User.findById(results.user, function (userErr, foundUser) {
-                                                if (!userErr && (foundUser !== undefined && foundUser !== null)) {
-                                                    a.user = foundUser;
-                                                    callback(a);
-                                                } else {
-                                                    callback({});
+                                        var ArticleLocation = db.getArticleLocation();
+                                        ArticleLocation.find({article: results._id}, function (artLocErr, artLocResults) {
+                                            var Comment = db.getComment();
+                                            Comment.find({article: results._id}, null, {sort: {_id: 1}}, function (commentErr, commentList) {
+                                                if (!artLocErr && (artLocResults !== undefined && artLocResults !== null)) {
+                                                    var artLocList = [];
+                                                    for (var artLocCnt = 0; artLocCnt < artLocResults.length; artLocCnt++) {
+                                                        artLocList.push(artLocResults[artLocCnt].location);
+                                                    }
+                                                    a.articleLocationList = artLocList;
                                                 }
+                                                if (!commentErr && commentList !== undefined && commentList !== null) {
+                                                    var finalCommentList = [];
+                                                    var cMap = [];
+                                                    var subCommentList = [];
+                                                    for (var c = 0; c < commentList.length; c++) {
+                                                        var tempC = commentList[c].toObject();
+                                                        tempC.subCommentList = [];
+                                                        cMap[tempC._id] = tempC;
+                                                    }
+                                                    for (var c2 = 0; c2 < commentList.length; c2++) {
+                                                        var tempC2 = commentList[c2].toObject();
+                                                        if (tempC2.otherComment !== undefined && tempC2.otherComment !== null) {
+                                                            cMap[tempC2.otherComment].subCommentList.push(tempC2)
+                                                            subCommentList[tempC2._id] = tempC2;
+                                                        }
+                                                    }
+                                                    for (var c3 = 0; c3 < commentList.length; c3++) {
+                                                        var tempC3 = commentList[c3].toObject();
+                                                        if (subCommentList[tempC3._id] === undefined && tempC3.approved) {
+                                                            var tempCommenter = userMap[tempC3.commenter];
+                                                            var foundComment = cMap[tempC3._id];
+                                                            foundComment.commenter = tempCommenter;
+                                                            finalCommentList.push(foundComment);
+                                                        }
+                                                    }
+                                                    a.commentList = finalCommentList;
+                                                    console.log("article object with comments: " + JSON.stringify(a));
+                                                }
+                                                var Tag = db.getTag();
+                                                Tag.findOne({article: results._id}, function (tagErr, tagResults) {
+                                                    if (!tagErr && (tagResults !== undefined && tagResults !== null)) {
+                                                        a.tag = tagResults;
+                                                    }
+                                                    //var User = db.getUser();
+                                                    User.findById(results.user, function (userErr, foundUser) {
+                                                        if (!userErr && (foundUser !== undefined && foundUser !== null)) {
+                                                            a.user = foundUser;
+                                                            callback(a);
+                                                        } else {
+                                                            callback({});
+                                                        }
+
+                                                    });
+                                                    //console.log("article object: " + JSON.stringify(a));
+
+                                                });
 
                                             });
-                                            //console.log("article object: " + JSON.stringify(a));
 
                                         });
 
                                     });
 
-                                });
+                                } else {
+                                    callback({});
+                                }
+                            });
+                        } else {
+                            callback({});
+                        }
 
-                            } else {
-                                callback({});
-                            }
-                        });
-                    } else {
-                        callback({});
-                    }
+                    });
 
-                });
-
-            } else {
-                callback({});
-            }
+                } else {
+                    callback({});
+                }
+            });
         });
+
     } else {
         callback({});
     }

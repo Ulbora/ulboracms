@@ -22,7 +22,10 @@
         <div id="container" class="container">  
             <div class="login-outer-form-wrapper">
                 <div class="login-form-wrapper">
-                    <form>                        
+                    <%if (loginFailed) { %>
+                        <div class="failed-login"><%= message %></div>
+                    <% } %>
+                    <form action="/login" method="post">                        
                             <div class="login-label" >
                                 <label for="username">Username:</label>
                             </div>

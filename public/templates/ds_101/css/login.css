@@ -31,6 +31,13 @@
     margin: 3% 0 2% 0;
 }
 
+.failed-login{
+    float: left;
+    width: 100%;
+    text-align: center;
+    font-weight: bold;
+    color: red;
+}
 
 
 

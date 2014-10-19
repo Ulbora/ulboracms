@@ -50,6 +50,12 @@
     width: 100%;
     background: #888888;
 }
+.comment-link{
+    float: left;
+    width: 100%;
+    text-align: center;
+    color: blue;
+}
 
 @media screen and (min-width: 1200px){
     .article-wrapper{
