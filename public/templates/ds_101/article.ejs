@@ -33,12 +33,13 @@
             <%if (content.allowComments && (!content.commentsRequireLogin || loggedIn)) { %>
                 <div class="comments">
                 <div class="comment-form-wrapper">
-                    <form>
+                    <form action="/comment" method="post">
                         <div class="comment-form-label">
                             <label for="commentText">Add Comment:</label>
                         </div>
+                        <input name="article" type="hidden" value="<%= content._id %>"/>
                         <div class="comment-form-entry-box">
-                            <textarea class="comment-form-textarea" name="commentText" placeholder="Comment" required></textarea>
+                            <textarea class="comment-form-textarea" name="text" placeholder="Comment" required></textarea>
                         </div>
 
                         <div class="comment-form_button">

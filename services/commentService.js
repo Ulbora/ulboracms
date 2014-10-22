@@ -13,8 +13,8 @@ var commentManager = require('../managers/commentManager');
  */
 exports.create = function(req, res) {
     if (req.is('application/json')) {
-        var isOk = manager.securityCheck(json);
-        if (isOk) {
+        //var isOk = manager.securityCheck(json);
+       // if (isOk) {
             var reqBody = req.body;
             var bodyJson = JSON.stringify(reqBody);
                 console.log("body: " + bodyJson);
@@ -34,10 +34,10 @@ exports.create = function(req, res) {
                 });
             }
 
-        } else {
-            returnVal.message = "bad input";
-            callback(returnVal);
-        }
+        //} else {
+            //returnVal.message = "bad input";
+            //callback(returnVal);
+        //}
 
     } else {
         res.status(415);

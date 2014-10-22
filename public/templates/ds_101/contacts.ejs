@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html>
+    <% include head%> 
+    <body> 
+        <div class="top-menu">
+            <div class="top-menu-space">
+                <div class="logo">Ulbora CMS</div>
+                
+            </div>
+            <div class="top-menu-menu">
+                <nav>
+                    <ul>
+                        <li><a class=""  href="/">Home</a></li>
+                        <li><a class="" href="/about.html">About</a></li>
+                        <li><a class="active" href="/contacts.html">Contacts</a></li>
+                        <li><a class="" href="/blog.html">Blog</a></li>
+                        <%if (loggedIn) { %>
+                            <li><a class="" href="/logout">Logout</a></li>
+                        <% }else{ %>
+                            <li><a class="" href="/login">Login</a></li>
+                        <% } %>
+                    </ul>
+                </nav>
+            </div>
+        </div>   
+        <div id="container" class="container">  
+            <% for(var i=0; i<content.articleLocations.Center.length; i++) {%>                
+                <div class="article-wrapper">
+                    <%if (content.articleLocations.Center[i].showTitle) { %>
+                        <div class="article-title"><%= content.articleLocations.Center[i].title %></div>
+                    <% } %>
+                    
+                    <div class="article">
+                        <%- content.articleLocations.Center[i].articleText.text %>
+                    </div> 
+                    <%if (!content.articleLocations.Center[i].fullPage) { %>
+                        <div class="article-read-more"><a class="" href="/article?id=<%= content.articleLocations.Center[i]._id %>">Read More...</a></div>
+                    <% } %>
+                </div>
+
+            <% } %>            
+            
+        </div>
+        <div class="footer-long">
+            Copyright 2014 Ulbora CMS | TOS | Powered by Ulbora CMS
+        </div>
+    </body>
+</html>

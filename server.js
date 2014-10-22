@@ -438,11 +438,12 @@ var initializeWebApp = function (self) {
             if (!template.angularTemplate) {
                 contentController.login(req, function (results) {
                     console.log("login results: " + results);
-                    if (results) {
+                    if (results.loggedIn) {
                         if (req.cookies !== undefined && req.cookies.rememberme ) {
                             res.cookie('rememberme', true, {expires: new Date(Date.now() + 900000), httpOnly: true});                            
                         }
                         req.session.loggedIn = true;
+                        req.session.userId = results.id;
                         res.redirect("/");
                         //res.render("public/templates/" + template.name + revisedPage, {content: results});
                     }else{
@@ -497,7 +498,44 @@ var initializeWebApp = function (self) {
         });
     });
     //// add comment section here-------------------------
+    self.app.post('/comment', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                var loggedIn = (req.session.loggedIn);
+                var userId = req.session.userId;
+                var reqBody = req.body; 
+                var articleId = null;
+                if(reqBody !== undefined && reqBody !== null && reqBody.userId !== undefined && reqBody.userId !== null){
+                    articleId = reqBody.article;
+                }
+                contentController.addComment(req, loggedIn, userId, function (results) {
+                    console.log("comment add results: " + JSON.stringify(results));
+                    if (results.success) {
+                       // if (req.cookies !== undefined && req.cookies.rememberme ) {
+                            //res.cookie('rememberme', true, {expires: new Date(Date.now() + 900000), httpOnly: true});                            
+                       // }
+                        //req.session.loggedIn = true;
+                        if(articleId !== null){
+                            res.redirect("/article?id="+ articleId);
+                        }else{
+                            res.redirect("/");
+                        }                        
+                        //res.render("public/templates/" + template.name + revisedPage, {content: results});
+                    }else{
+                        //res.render("public/templates/" + template.name + "/login.ejs", {loginFailed: true, message: "Login failed"});
+                        if(articleId !== null){
+                            res.redirect("/article?id="+ articleId);
+                        }else{
+                            res.redirect("/");
+                        }
+                    }
 
+                });
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
 
     // this if for mix angular and standard templates
     self.app.get('/page', function (req, res) {

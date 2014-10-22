@@ -2,6 +2,7 @@
 var db = require('../db/db');
 var manager = require('../managers/manager');
 var contentManager = require('../managers/contentManager');
+var commentManager = require('../managers/commentManager');
 var publicUserManager = require('../managers/publicUserManager');
 var atob = require('atob');//base64 to json
 
@@ -65,20 +66,54 @@ exports.login = function (req, callback) {
         username: null,
         password: null
     };
+    var creds = {
+        id: null,
+        loggedIn: false
+    };
     var u = req.body.username;
     var p = req.body.password;
     if (u !== undefined && u !== null && p !== undefined && p !== null) {
         json.username = u;
-        json.password = p;        
+        json.password = p;
         console.log("login request: " + json);
-        publicUserManager.login(json, function (loginStatus) {            
+        publicUserManager.login(json, function (loginStatus) {
             //console.log("login success: " + returnVal);
             console.log("exit service login success: " + loginStatus);
-            callback(loginStatus);
+
+            if (loginStatus) {
+                var User = db.getUser();
+                User.findOne({username: json.username}, function (err, results) {
+                    if (!err && results !== undefined && results !== null) {
+                        creds.id = results._id;
+                        creds.loggedIn = loginStatus;
+                    }
+                    callback(creds);
+                });
+            } else {
+                callback(creds);
+            }
+
         });
     } else {
-        callback(false);
+        callback(creds);
     }
 
+
+};
+
+exports.addComment = function (req, loggedIn, userId, callback) {
+    var creds = null;
+    var reqBody = req.body;
+    var bodyJson = JSON.stringify(reqBody);
+    console.log("comment body: " + bodyJson);
+    if (loggedIn && userId !== undefined && userId !== null) {
+        creds = {
+            id: userId,
+            loggedIn: loggedIn
+        };
+    }
+    commentManager.create(reqBody, creds, function (result) {
+        callback(result);
+    });
 
 };

@@ -20,13 +20,14 @@ exports.create = function (json, creds, callback) {
         if (json.article !== undefined && json.article !== null &&
                 json.text !== undefined && json.text !== null) {
             var Article = db.getArticle();
-            Article.findById(json.articleId, function (artErr, art) {
+            Article.findById(json.article, function (artErr, art) {
                 if (artErr) {
                     returnVal.message = "bad article";
                     console.log("article error: " + artErr);
                     callback(returnVal);
                 } else {
                     if (art !== undefined && art !== null) {
+                        console.log("comments in manager: " + JSON.stringify(json));
                         var allowComment = false;
                         if (art.commentsRequireLogin && creds !== undefined && creds !== null) {
                             json.commenter = creds.id;
@@ -37,6 +38,7 @@ exports.create = function (json, creds, callback) {
                         //if (!json.anonymousComments) {
                         //json.commenter = creds.id;
                         //}
+                        console.log("allow comments: " + allowComment);
                         if (allowComment) {
                             var Comment = db.getComment();
                             var com = new Comment(json);
