@@ -1,7 +1,5 @@
 .login-outer-form-wrapper{
-    float: left;
-    width: 50%;
-    margin: 5% 0 0 25%;
+    float: left;    
     border: #3A464F 1px solid;
     box-shadow: 0px 5px 5px #888888;
 }
@@ -42,19 +40,31 @@
 
 
 @media screen and (min-width: 1200px){
-    
+    .login-outer-form-wrapper{       
+        width: 50%;
+        margin: 5% 0 0 25%;          
+    }
 
 }
 
 @media screen and (max-width: 1200px){
-   
+   .login-outer-form-wrapper{       
+        width: 50%;
+        margin: 5% 0 0 25%;         
+    }
 }
 
 @media screen and (max-width: 770px){
-   
+   .login-outer-form-wrapper{       
+        width: 50%;
+        margin: 5% 0 0 25%;       
+    }
 }
 
 
 @media screen and (max-width: 480px){
-   
+   .login-outer-form-wrapper{       
+        width: 70%;
+        margin: 5% 0 0 15%;       
+    }
 }

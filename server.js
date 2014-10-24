@@ -505,7 +505,7 @@ var initializeWebApp = function (self) {
                 var userId = req.session.userId;
                 var reqBody = req.body; 
                 var articleId = null;
-                if(reqBody !== undefined && reqBody !== null && reqBody.userId !== undefined && reqBody.userId !== null){
+                if(reqBody !== undefined && reqBody !== null){
                     articleId = reqBody.article;
                 }
                 contentController.addComment(req, loggedIn, userId, function (results) {
