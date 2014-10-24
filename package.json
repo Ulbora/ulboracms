@@ -1,7 +1,7 @@
 {
   "name" : "UlboraCmsMean",
   "version" : "1.0.0",
-  "description" : "UlboraCmsMean",
+  "description" : "UlboraCms",
   "keywords" : [ "Ulbora CMS", "Node.js", "Ken", "Williamson", "micbutton.com" ],
   "author" : {
     "name" : "Ken Williamson",

@@ -390,16 +390,26 @@ initializeTemplate = function () {
             if (results.length === 0) {
                 var templateRecord = {
                     name: "default",
-                    defaultTemplate: true
+                    defaultTemplate: false
                 };
-
                 var tmp = new Template(templateRecord);
                 tmp.save(function (err) {
                     if (err) {
                         console.log("template save error: " + err);
                     } else {
-                        //rules declaration
-                        initializeRulesDeclaration();
+                        var template2Record = {
+                            name: "ds_101",
+                            defaultTemplate: true
+                        };
+                        var tmp2 = new Template(template2Record);
+                        tmp2.save(function (err) {
+                            if (err) {
+                                console.log("template2 save error: " + err);
+                            } else {
+                                //rules declaration
+                                initializeRulesDeclaration();
+                            }
+                        });                        
                     }
                 });
             } else {
@@ -487,35 +497,35 @@ initialSections = function () {
                 } else {
                     console.log("sections:" + JSON.stringify(results));
                     if (results.length === 0) {
-                        
-                            var secVal = {
-                                name: null,
-                                language: null
-                            };
-                            secVal.name = "About";
-                            secVal.language = lan._id;
 
-                            var sec = new Section(secVal);
-                            console.log("section:" + JSON.stringify(secVal));
-                            sec.save();
-                            
-                            
-                            secVal.name = "Contacts"; 
-                            sec = new Section(secVal);
-                            console.log("section:" + JSON.stringify(secVal));
-                            sec.save();
-                            
-                            secVal.name = "MainPage"; 
-                            sec = new Section(secVal);
-                            console.log("section:" + JSON.stringify(secVal));
-                            sec.save();
-                            
-                            secVal.name = "News"; 
-                            sec = new Section(secVal);
-                            console.log("section:" + JSON.stringify(secVal));
-                            sec.save();
-                            
-                            initialCategories();
+                        var secVal = {
+                            name: null,
+                            language: null
+                        };
+                        secVal.name = "About";
+                        secVal.language = lan._id;
+
+                        var sec = new Section(secVal);
+                        console.log("section:" + JSON.stringify(secVal));
+                        sec.save();
+
+
+                        secVal.name = "Contacts";
+                        sec = new Section(secVal);
+                        console.log("section:" + JSON.stringify(secVal));
+                        sec.save();
+
+                        secVal.name = "MainPage";
+                        sec = new Section(secVal);
+                        console.log("section:" + JSON.stringify(secVal));
+                        sec.save();
+
+                        secVal.name = "News";
+                        sec = new Section(secVal);
+                        console.log("section:" + JSON.stringify(secVal));
+                        sec.save();
+
+                        initialCategories();
 
                     } else {
                         initialCategories();
@@ -537,26 +547,26 @@ initialCategories = function () {
                 } else {
                     console.log("catagory:" + JSON.stringify(results));
                     if (results.length === 0) {
-                        
-                            var catVal = {
-                                name: null,
-                                language: null
-                            };
-                            catVal.name = "News";
-                            catVal.language = lan._id;
 
-                            var cat = new Category(catVal);
-                            console.log("category:" + JSON.stringify(catVal));
-                            cat.save();
-                            
-                            
-                            catVal.name = "NewsFlash"; 
-                            cat = new Category(catVal);
-                            console.log("category:" + JSON.stringify(catVal));
-                            cat.save();                            
-                           
-                            
-                            //future use
+                        var catVal = {
+                            name: null,
+                            language: null
+                        };
+                        catVal.name = "News";
+                        catVal.language = lan._id;
+
+                        var cat = new Category(catVal);
+                        console.log("category:" + JSON.stringify(catVal));
+                        cat.save();
+
+
+                        catVal.name = "NewsFlash";
+                        cat = new Category(catVal);
+                        console.log("category:" + JSON.stringify(catVal));
+                        cat.save();
+
+
+                        //future use
 
                     } else {
                         //future use

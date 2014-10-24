@@ -83,7 +83,7 @@ exports.call = function (req, res) {
                 res.send(result);
             });
         } else {
-            authenticate(req, res, service.userAuthRole, function (creds) {
+            service.authenticate(req, res, service.userAuthRole, function (creds) {
                 console.log("in auth callback");
                 addOnManager.call(reqBody, creds, function (result) {
                     res.send(result);

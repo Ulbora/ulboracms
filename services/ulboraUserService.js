@@ -17,7 +17,7 @@ exports.create = function (req, res){
         var reqBody = req.body;
         var bodyJson = JSON.stringify(reqBody);
         console.log("body: " + bodyJson);
-        authenticate(req, res, service.adminAuthRole, function(creds) {
+        service.authenticate(req, res, service.adminAuthRole, function(creds) {
             console.log("in auth callback");
             ulboraUserManager.create(reqBody, creds, function(result) {
                 res.send(result);
@@ -42,7 +42,7 @@ exports.update = function (req, res){
         var reqBody = req.body;
         var bodyJson = JSON.stringify(reqBody);
         console.log("body: " + bodyJson);
-        authenticate(req, res, service.adminAuthRole, function(creds) {
+        service.authenticate(req, res, service.adminAuthRole, function(creds) {
             console.log("in auth callback");
             ulboraUserManager.update(reqBody, creds, function(result) {
                 res.send(result);
@@ -63,7 +63,7 @@ exports.update = function (req, res){
     *      
  */
 exports.delete = function (req, res){
-  authenticate(req, res, service.adminAuthRole, function(creds) {
+  service.authenticate(req, res, service.adminAuthRole, function(creds) {
         console.log("in auth callback");
         var id = req.params.id;
         if (id !== null && id !== undefined) {
@@ -86,7 +86,7 @@ exports.delete = function (req, res){
     *      
  */
 exports.get = function (req, res){
-  authenticate(req, res, service.adminAuthRole, function(creds) {
+  service.authenticate(req, res, service.adminAuthRole, function(creds) {
         console.log("in auth callback");
         var id = req.params.id;
         if (id !== null && id !== undefined) {
@@ -109,7 +109,7 @@ exports.get = function (req, res){
     *      
  */
 exports.list = function (req, res){
-  authenticate(req, res, service.adminAuthRole, function(creds) {
+  service.authenticate(req, res, service.adminAuthRole, function(creds) {
         console.log("in auth callback");
         ulboraUserManager.list(creds, function(result) {
             res.send(result);
@@ -130,7 +130,7 @@ exports.changePassword = function (req, res){
         var reqBody = req.body;
         var bodyJson = JSON.stringify(reqBody);
         console.log("body: " + bodyJson);
-        authenticate(req, res, service.userAuthRole, function(creds) {
+        service.authenticate(req, res, service.userAuthRole, function(creds) {
             console.log("in auth callback");
             ulboraUserManager.changePassword(reqBody, creds, function(result) {
                 res.send(result);
@@ -151,7 +151,7 @@ exports.changePassword = function (req, res){
     *      
  */
 exports.roleList = function (req, res){
-  authenticate(req, res, service.adminAuthRole, function() {
+  service.authenticate(req, res, service.adminAuthRole, function() {
         console.log("in auth callback");
         ulboraUserManager.roleList(function(result) {
             res.send(result);

@@ -65,7 +65,7 @@ exports.delete = function(req, res) {
  */
 exports.get = function(req, res, port) {
     //console.log("url:"+ req.host+":"+port);
-    authenticate(req, res, service.adminAuthRole, function() {
+    service.authenticate(req, res, service.adminAuthRole, function() {
         console.log("in auth callback");
         var imageUrl = req.host + ":" + port;
         //console.log("imageUrl:"+ imageUrl);
@@ -90,7 +90,7 @@ exports.get = function(req, res, port) {
  *      
  */
 exports.list = function(req, res, port) {
-    authenticate(req, res, service.adminAuthRole, function() {
+    service.authenticate(req, res, service.adminAuthRole, function() {
         console.log("in auth callback");
         var imageUrl = req.host + ":" + port;
         console.log("imageUrl:" + imageUrl);

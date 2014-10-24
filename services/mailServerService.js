@@ -27,7 +27,7 @@ exports.update = function(req, res) {
  *      
  */
 exports.get = function(req, res) {
-    authenticate(req, res, service.adminAuthRole, function() {
+    service.authenticate(req, res, service.adminAuthRole, function() {
         console.log("in auth callback");
         mailServerManager.get(function(result) {
             res.send(result);
