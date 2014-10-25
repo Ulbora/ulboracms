@@ -11,5 +11,5 @@ Beta 1 will be released shortly.
 
 
 
-[travis-image]: https://img.shields.io/travis/ulbora/ulboracms.svg?style=flat
-[travis-url]: https://travis-ci.org/ulbora/ulboracms
+[travis-image]: https://img.shields.io/travis/Ulbora/ulboracms.svg?style=flat
+[travis-url]: https://travis-ci.org/Ulbora/ulboracms
