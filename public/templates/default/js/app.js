@@ -31,7 +31,7 @@ ulboraCmsApp.config(['$routeProvider', '$locationProvider',
                     controller: 'ContactsCtrl'
                 }).when('/register', {
                     templateUrl: 'partials/register.html',
-                    controller: 'RegistrationCtrl'
+                    controller: 'RegistrationNewCtrl'
                 }).when('/changePassword', {
                     templateUrl: 'partials/changePassword.html',
                     controller: 'PasswordChangeCtrl'

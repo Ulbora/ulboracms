@@ -405,8 +405,8 @@ ulboraCmsControllers.controller('LogOutCtrl', ['$scope', 'deleteCreds', '$locati
 
     }]);
 
-ulboraCmsControllers.controller('RegistrationCtrl', ['$scope', 'Challenge', 'Registration', '$location',
-    function RegistrationCtrl($scope, Challenge, Registration, $location) {
+ulboraCmsControllers.controller('RegistrationNewCtrl', ['$scope', 'Challenge', '$location',
+    function RegistrationNewCtrl($scope, Challenge, $location) {
         Challenge.getChallenge({},
                 function success(response) {
                     //alert($scope.challenge.question);
@@ -417,7 +417,14 @@ ulboraCmsControllers.controller('RegistrationCtrl', ['$scope', 'Challenge', 'Reg
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
                 }
-        );
+        );        
+
+    }]);
+
+
+ulboraCmsControllers.controller('RegistrationCtrl', ['$scope', 'Registration', '$location',
+    function RegistrationCtrl($scope, Registration, $location) {
+        
 
         $scope.submit = function() {
 

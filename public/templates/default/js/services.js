@@ -26,8 +26,8 @@ ulboraCmsServices.factory('Login', ['$resource',
 
 ulboraCmsServices.factory('Challenge', ['$resource',
     function($resource) {
-        return $resource(siteUrl + "public/challenge", {}, {
-            getChallenge: {method: 'GET', params: {languageCode: "en_US"}, isArray: false}
+        return $resource("../../rs/public/challenge", {}, {
+            getChallenge: {method: 'GET', cache : false, isArray: false}
         });
     }]);
 
