@@ -10,7 +10,7 @@ var publicUserManager = require('../managers/publicUserManager');
  * @param res
  *      
  */
-exports.activate = function(req, res) {
+exports.activate = function (req, res) {
 
 };
 
@@ -22,8 +22,12 @@ exports.activate = function(req, res) {
  * @param res
  *      
  */
-exports.getMicbuttionChallenge = function(req, res) {
-
+exports.getMicbuttionChallenge = function (req, res) {
+    var browserLan = req.headers["accept-language"];
+    publicUserManager.getMicbuttionChallenge(browserLan, function (response) {
+        console.log("micbutton challenge:" + JSON.stringify(response));
+        res.send(response);
+    });
 };
 
 
@@ -35,13 +39,13 @@ exports.getMicbuttionChallenge = function(req, res) {
  *      
  */
 //PublicService.prototype.login = function(req, res) {
-exports.login = function(req, res) {
+exports.login = function (req, res) {
     var returnVal = false;
     if (req.is('application/json')) {
         var reqBody = req.body;
         var json = JSON.stringify(reqBody);
         console.log("login request: " + json);
-        publicUserManager.login(reqBody, function(loginStatus) {
+        publicUserManager.login(reqBody, function (loginStatus) {
             returnVal = loginStatus;
             //console.log("login success: " + returnVal);
             console.log("exit service login success: " + returnVal);
@@ -63,7 +67,7 @@ exports.login = function(req, res) {
  * @param res
  *      
  */
-exports.register = function(req, res) {
+exports.register = function (req, res) {
 
 };
 
@@ -75,7 +79,7 @@ exports.register = function(req, res) {
  * @param res
  *      
  */
-exports.resetPassword = function(req, res) {
+exports.resetPassword = function (req, res) {
 
 };
 

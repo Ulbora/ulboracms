@@ -237,3 +237,19 @@ function getSalt(shiftDown) {
 ;
 
 
+exports.browserLanguageParser = function (browserLan) {
+    var returnVal = {
+        blan: "",
+        browLan: ""
+    };
+    if (browserLan !== undefined && browserLan !== null) {
+        returnVal.browLan = browserLan.replace("_", "-");
+        var indexOfComma = returnVal.browLan.indexOf(",");
+        returnVal.browLan = returnVal.browLan.substring(0, indexOfComma);
+        returnVal.browLan = returnVal.browLan.toLowerCase();
+        var ind = returnVal.browLan.indexOf("-");
+        returnVal.blan = returnVal.browLan.substring(0, ind);
+    }
+    return returnVal;
+};
+

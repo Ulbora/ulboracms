@@ -170,8 +170,11 @@ exports.getContentList = function (json, creds, browserLan, callback) {
         links: []
     };
     if (isOk) {
+        var parsedLan = manager.browserLanguageParser(browserLan);
+        /*
         var blan = "";
         var browLan = "";
+        
         if (browserLan !== undefined && browserLan !== null) {
             browLan = browserLan.replace("_", "-");
             var indexOfComma = browLan.indexOf(",");
@@ -180,6 +183,7 @@ exports.getContentList = function (json, creds, browserLan, callback) {
             var ind = browLan.indexOf("-");
             blan = browLan.substring(0, ind);
         }
+        */
         // get language like blan
         var Language = db.getLanguage();
         var useLan = false;
@@ -191,8 +195,8 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                     var lanCode = lanList[lanCnt].code;
                     lanCode = lanCode.replace("_", "-");
                     lanCode = lanCode.toLowerCase();
-                    console.log("browLan=" + browLan + " lanCode=" + lanCode);
-                    if (lanCode === browLan || lanCode === blan) {
+                    console.log("browLan=" + parsedLan.browLan + " lanCode=" + lanCode);
+                    if (lanCode === parsedLan.browLan || lanCode === parsedLan.blan) {
                         useLan = true;
                         useLanId = lanList[lanCnt]._id;
                         break;
