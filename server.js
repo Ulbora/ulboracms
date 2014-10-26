@@ -142,6 +142,7 @@ var nodeBlog = function () {
         self.app.post('/rs/public/login', publicService.login);
         self.app.get('/rs/public/challenge', publicService.getMicbuttionChallenge);
         self.app.post('/rs/public/register', publicService.register);
+        self.app.get('/rs/public/activate', publicService.activate);
         //self.app.post('/rs/accessLevel', accessLevelService.create);//just for test
 
 

@@ -10,8 +10,33 @@ var emailSender = require('../mailSender/mailSender');
  * @param json
  *      
  */
-exports.activate = function (json) {
-
+exports.activate = function (json, callback) {    
+    var success = "<div style='float: left; width: 100%; text-align: center; margin: 20% 0 0 0; color: green; font-size: 14pt;'>Success</div>";
+    var fail = "<div style='float: left; width: 100%; text-align: center; margin: 20% 0 0 0; color: red; font-size: 14pt;'>Failed</div>";
+    var returnVal = fail;
+    var isOk = manager.securityCheck(json);
+    if (isOk) {
+        var User = db.getUser();
+        User.findOne({username: json.username}, function (usrErr, results) {
+            if (!usrErr && results !== undefined && results !== null) {
+                if (json.code === results.activationCode) {
+                    results.enabled = true;
+                    results.save(function (err) {
+                        if (err) {
+                            console.log("user update error: " + err);
+                        } else {
+                            returnVal = success;
+                        }
+                        callback(returnVal);
+                    });
+                }else{
+                     callback(returnVal);
+                }
+            }
+        });
+    } else {
+        callback(returnVal);
+    }
 };
 
 
@@ -115,7 +140,7 @@ exports.register = function (json, callback) {
                     json.emailAddress !== null && json.emailAddress.length > 5 &&
                     json.username !== undefined && json.username !== null &&
                     json.password !== undefined && json.password !== null) {
-                
+
                 // generate activation code
                 var actCode = manager.generateActivationCode(json.emailAddress);
                 console.log("user activation code: " + actCode);
@@ -148,7 +173,7 @@ exports.register = function (json, callback) {
                                     } else {
                                         returnVal.success = true;
                                         // send activation code email
-                                        emailSender.sendActivationEmail(json.emailAddress, actCode);
+                                        emailSender.sendActivationEmail(json.username, json.emailAddress, actCode);
                                     }
                                     callback(returnVal);
                                 });
@@ -171,15 +196,15 @@ exports.register = function (json, callback) {
     }
 
 
-    
-
-
-    
 
 
 
 
-    
+
+
+
+
+
 
 
 

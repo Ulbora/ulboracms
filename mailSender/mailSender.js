@@ -4,7 +4,7 @@ var db = require('../db/db');
 var manager = require('../managers/manager');
 
 
-exports.sendActivationEmail = function (toEmail, code) {
+exports.sendActivationEmail = function (username, toEmail, code) {
     var Language = db.getLanguage();
     Language.findOne({defaultLanguage: true}, function (lanErr, lanResults) {
         console.log("found language set to default: " + JSON.stringify(lanResults));
@@ -18,7 +18,7 @@ exports.sendActivationEmail = function (toEmail, code) {
                             from: confResults.registrationEmailActivationFromEmailAddress, // sender address
                             to: toEmail, // list of receivers
                             subject: confResults.registrationEmailActivationSubject, // Subject line
-                            text: confResults.registrationEmailActivationMessage + " " + confResults.registrationEmailActivationUrl + code, // plaintext body
+                            text: confResults.registrationEmailActivationMessage + " " + confResults.registrationEmailActivationUrl + "?username="+ username + "&code=" + code, // plaintext body
                             html: '' // html body
                         };
                         transporter.sendMail(mailOptions, function (error, info) {

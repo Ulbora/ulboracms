@@ -11,7 +11,16 @@ var publicUserManager = require('../managers/publicUserManager');
  *      
  */
 exports.activate = function (req, res) {
-
+    var username = req.query.username;
+    var code = req.query.code;
+    var json = {
+        username: username,
+        code: code
+    };
+    publicUserManager.activate(json, function (response) {
+        console.log("micbutton challenge:" + JSON.stringify(response));
+        res.send(response);
+    });
 };
 
 
