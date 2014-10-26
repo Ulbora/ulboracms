@@ -253,3 +253,17 @@ exports.browserLanguageParser = function (browserLan) {
     return returnVal;
 };
 
+exports.generateActivationCode = function (email) {
+    var random1 = Math.floor((Math.random() * 1000) + 100);
+    random1 += "_";
+
+    var random2 = Math.floor((Math.random() * 5000) + 1000);
+    random2 += "_";
+
+    var random3 = Math.floor((Math.random() * 8000) + 4000);
+    random3 += "_";
+
+    var returnVal = email.substring(0, 1) + email.substring(1, 2) + "_" + random1 + email.substring(0, 1) + email.substring(1, 2)
+            + "_" + random2 + email.substring(0, 1) + "_" + random3 + email.substring(2, 3);
+    return returnVal;
+};

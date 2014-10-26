@@ -19,7 +19,7 @@ ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location'
             "frontPage": true,
             "links": true,
             "articles": true,
-            "products": true,            
+            "products": true,
             "searchFilter": [
                 {
                     "sectionName": "MainPage",
@@ -144,8 +144,8 @@ ulboraCmsControllers.controller('NewsCtrl', ['$scope', 'checkCreds', '$location'
         var postData = {
             "frontPage": false,
             "links": true,
-            "articles": true,            
-            "products": false,            
+            "articles": true,
+            "products": false,
             "searchFilter": [
                 {
                     "sectionName": "News",
@@ -213,7 +213,7 @@ ulboraCmsControllers.controller('AboutCtrl', ['$scope', 'checkCreds', '$location
             "links": true,
             "articles": true,
             "articlesText": true,
-            "products": false,            
+            "products": false,
             "searchFilter": [
                 {
                     "sectionName": "About",
@@ -284,7 +284,7 @@ ulboraCmsControllers.controller('ContactsCtrl', ['$scope', 'checkCreds', '$locat
             "links": true,
             "articles": true,
             "articlesText": true,
-            "products": false,            
+            "products": false,
             "searchFilter": [
                 {
                     "sectionName": "Contacts",
@@ -352,7 +352,7 @@ ulboraCmsControllers.controller('LoginCtrl', ['$scope', 'checkCreds', 'setCreds'
         //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
         $scope.loginActiveClass = "active";
 
-        $scope.submit = function() {
+        $scope.submit = function () {
             var postDate = {
                 "username": $scope.username,
                 "password": $scope.password
@@ -417,33 +417,27 @@ ulboraCmsControllers.controller('RegistrationNewCtrl', ['$scope', 'Challenge', '
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
                 }
-        );        
+        );
 
     }]);
 
 
 ulboraCmsControllers.controller('RegistrationCtrl', ['$scope', 'Registration', '$location',
     function RegistrationCtrl($scope, Registration, $location) {
-        
 
-        $scope.submit = function() {
+        $scope.submit = function () {
 
             var pw = $scope.password;
             var confirm = $scope.confirm;
             if (pw === confirm) {
                 var postDate = {
                     "answer": $scope.answer,
-                    "key": $scope.key,
-                    "apiKey": 3,
-                    "ulboraUser": {
-                        "firstName": $scope.firstName,
-                        "lastName": $scope.lastName,
-                        "emailAddress": $scope.email,
-                        "user": {
-                            "username": $scope.username,
-                            "password": $scope.password
-                        }
-                    }
+                    "key": $scope.key,                    
+                    "firstName": $scope.firstName,
+                    "lastName": $scope.lastName,
+                    "emailAddress": $scope.email,                    
+                    "username": $scope.username,
+                    "password": $scope.password                           
                 };
 
                 Registration.save({}, postDate,
@@ -487,7 +481,7 @@ ulboraCmsControllers.controller('PasswordResetCtrl', ['$scope', 'Challenge', 'Pa
                 }
         );
 
-        $scope.submit = function() {
+        $scope.submit = function () {
 
             //var pw = $scope.password;
             //var confirm = $scope.confirm;
@@ -541,7 +535,7 @@ ulboraCmsControllers.controller('PasswordChangeCtrl', ['$scope', 'User', '$locat
 
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
 
-        $scope.submit = function() {
+        $scope.submit = function () {
 
             var pw = $scope.password;
             var confirm = $scope.confirm;

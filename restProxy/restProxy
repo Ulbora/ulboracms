@@ -28,7 +28,7 @@ exports.doPost = function (json, callback) {
     };
 
     console.log("addon post url: " + json.url);
-    console.log("addon post request: " + json.jsonRequest);
+    console.log("addon post request: " + JSON.stringify(json.jsonRequest));
     client.post(json.url, args, function (data, res) {
         // parsed response body as js object
         console.log("data: " + data);

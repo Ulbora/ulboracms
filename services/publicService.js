@@ -68,7 +68,21 @@ exports.login = function (req, res) {
  *      
  */
 exports.register = function (req, res) {
+    if (req.is('application/json')) {
+        var reqBody = req.body;
+        var json = JSON.stringify(reqBody);
+        console.log("registration request: " + json);
+        publicUserManager.register(reqBody, function (regStatus) {
+            //returnVal = regStatus;
+            //console.log("login success: " + returnVal);
+            console.log("exit service registration success: " + JSON.stringify(regStatus));
+            res.send(regStatus);
+        });
 
+    } else {
+        res.status(415);
+        res.send({success: false});
+    }
 };
 
 
