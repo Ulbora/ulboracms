@@ -18,7 +18,7 @@ exports.sendActivationEmail = function (toEmail, code) {
                             from: confResults.registrationEmailActivationFromEmailAddress, // sender address
                             to: toEmail, // list of receivers
                             subject: confResults.registrationEmailActivationSubject, // Subject line
-                            text: confResults.registrationEmailActivationMessage + code, // plaintext body
+                            text: confResults.registrationEmailActivationMessage + " " + confResults.registrationEmailActivationUrl + code, // plaintext body
                             html: '' // html body
                         };
                         transporter.sendMail(mailOptions, function (error, info) {
