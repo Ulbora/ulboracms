@@ -1,5 +1,4 @@
-#!/usr/bin/env node
-
+//rest client
 var Client = require('node-rest-client').Client;
 
 //client = new Client();

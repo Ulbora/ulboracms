@@ -25,7 +25,8 @@
     "node-rest-client": "*",
     "consolidate": "*",
     "ejs": "*",
-    "handlebars": "*"
+    "handlebars": "*",
+    "nodemailer": "*"
   },
   "bundleDependencies" : [ ],
   "private" : true,
