@@ -22,7 +22,7 @@ ulboraCmsMailServerControllers.controller('MailServerCtrl', ['$scope', "$routePa
                     $scope.smtpPort = response.smtpPort;
                     $scope.secure = response.secure.toString();
                     $scope.username = response.username;
-                    $scope.password = "****";
+                    $scope.password = response.password;
                     $scope.ignoreTLS = response.ignoreTLS.toString();
                     $scope.debug = response.debug.toString();
                     if (response.authMethod === undefined || response.authMethod === null || response.authMethod.length === 0) {
@@ -63,30 +63,30 @@ ulboraCmsMailServerControllers.controller('MailServerEditCtrl', ['$scope', "$rou
 
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
 
-        $scope.submit = function() {
+        $scope.submit = function () {
             var submitForm = true;
-            var password = null;
+            var password = $scope.password;;
             var username = $scope.username;
-            if(username === undefined || username === null){
+            if (username === undefined || username === null) {
                 username = "";
-            }            
-            if($scope.password === "****"){
-                password = "";
-            }else if($scope.password.length === 0){
-                submitForm = false;
-                alert("Password Required");
-            }else{
-                password = $scope.password;
             }
-            if(isNaN($scope.smtpPort !== "" && $scope.smtpPort)){
+            //if($scope.password === "****"){
+            // password = "";
+            //}else if($scope.password.length === 0){
+            // submitForm = false;
+            // alert("Password Required");
+            //}else{
+            //password = $scope.password;
+            // }
+            if (isNaN($scope.smtpPort !== "" && $scope.smtpPort)) {
                 submitForm = false;
                 alert("Port must be a number");
             }
-            if(($scope.secure === "true") && username.length === 0){
+            if (($scope.secure === "true") && username.length === 0) {
                 submitForm = false;
                 alert("Username required");
             }
-            
+
             if (submitForm) {
                 var putData = {
                     "id": $scope.mailServerId,

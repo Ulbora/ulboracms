@@ -3,6 +3,7 @@
 var db = require('../db/db');
 var manager = require('../managers/manager');
 var proxy = require('../restProxy/restProxy');
+var emailSender = require('../mailSender/mailSender');
 
 /**
  * 
@@ -147,7 +148,7 @@ exports.register = function (json, callback) {
                                     } else {
                                         returnVal.success = true;
                                         // send activation code email
-                                        
+                                        emailSender.sendActivationEmail(json.emailAddress, actCode);
                                     }
                                     callback(returnVal);
                                 });

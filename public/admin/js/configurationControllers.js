@@ -83,16 +83,19 @@ ulboraCmsConfigurationControllers.controller('ConfigurationAddCtrl', ['$scope', 
                 "registrationEmailActivationGreeting": $scope.actEmailGreeting,
                 "registrationEmailActivationMessage": $scope.actEmailMessage,
                 "registrationEmailActivationUrl": $scope.actEmailUrl,
+                "registrationEmailActivationFromEmailAddress": $scope.actEmailFrom,
                 "registrationEmailWelcomeSubject": $scope.welcomeEmailSub,
                 "registrationEmailWelcomeTitle": $scope.welcomeEmailTitle,
                 "registrationEmailWelcomeGreeting": $scope.welcomeEmailGreeting,
                 "registrationEmailWelcomeMessage": $scope.welcomeEmailMessage,
                 "registrationEmailWelcomeUrl": $scope.welcomeEmailUrl,
+                "registrationEmailWelcomeFromEmailAddress": $scope.welcomeEmailFrom,
                 "resetPasswordEmailSubject": $scope.passwordResetEmailSub,
                 "resetPasswordEmailTitle": $scope.passwordResetEmailTitle,
                 "resetPasswordEmailGreeting": $scope.passwordResetEmailGreeting,
                 "resetPasswordEmailMessage": $scope.passwordResetEmailMessage,
-                "resetPasswordEmailUrl": $scope.passwordResetEmailUrl
+                "resetPasswordEmailUrl": $scope.passwordResetEmailUrl,
+                "resetPasswordEmailFromEmailAddress": $scope.passwordResetEmailFrom
 
 
             };
@@ -171,16 +174,19 @@ ulboraCmsConfigurationControllers.controller('ConfigurationEditCtrl', ['$scope',
                 "registrationEmailActivationGreeting": $scope.actEmailGreeting,
                 "registrationEmailActivationMessage": $scope.actEmailMessage,
                 "registrationEmailActivationUrl": $scope.actEmailUrl,
+                "registrationEmailActivationFromEmailAddress": $scope.actEmailFrom,
                 "registrationEmailWelcomeSubject": $scope.welcomeEmailSub,
                 "registrationEmailWelcomeTitle": $scope.welcomeEmailTitle,
                 "registrationEmailWelcomeGreeting": $scope.welcomeEmailGreeting,
                 "registrationEmailWelcomeMessage": $scope.welcomeEmailMessage,
                 "registrationEmailWelcomeUrl": $scope.welcomeEmailUrl,
+                "registrationEmailWelcomeFromEmailAddress": $scope.welcomeEmailFrom,
                 "resetPasswordEmailSubject": $scope.passwordResetEmailSub,
                 "resetPasswordEmailTitle": $scope.passwordResetEmailTitle,
                 "resetPasswordEmailGreeting": $scope.passwordResetEmailGreeting,
                 "resetPasswordEmailMessage": $scope.passwordResetEmailMessage,
-                "resetPasswordEmailUrl": $scope.passwordResetEmailUrl
+                "resetPasswordEmailUrl": $scope.passwordResetEmailUrl,
+                "resetPasswordEmailFromEmailAddress": $scope.passwordResetEmailFrom
 
 
             };
@@ -246,12 +252,14 @@ ulboraCmsConfigurationControllers.controller('ConfigurationCtrl', ['$scope', 'ch
                         $scope.actEmailGreeting = response.registrationEmailActivationGreeting;
                         $scope.actEmailMessage = response.registrationEmailActivationMessage;
                         $scope.actEmailUrl = response.registrationEmailActivationUrl;
+                        $scope.actEmailFrom = response.registrationEmailActivationFromEmailAddress;
 
                         $scope.welcomeEmailSub = response.registrationEmailWelcomeSubject;
                         $scope.welcomeEmailTitle = response.registrationEmailWelcomeTitle;
-                        $scope.welcomeEmailGreeting = response.registrationEmailWelcomeGreeting
+                        $scope.welcomeEmailGreeting = response.registrationEmailWelcomeGreeting;
                         $scope.welcomeEmailMessage = response.registrationEmailWelcomeMessage;
                         $scope.welcomeEmailUrl = response.registrationEmailWelcomeUrl;
+                        $scope.welcomeEmailFrom = response.registrationEmailWelcomeFromEmailAddress;
 
 
                         $scope.passwordResetEmailSub = response.resetPasswordEmailSubject;
@@ -259,6 +267,7 @@ ulboraCmsConfigurationControllers.controller('ConfigurationCtrl', ['$scope', 'ch
                         $scope.passwordResetEmailGreeting = response.resetPasswordEmailGreeting;
                         $scope.passwordResetEmailMessage = response.resetPasswordEmailMessage;
                         $scope.passwordResetEmailUrl = response.resetPasswordEmailUrl;
+                        $scope.passwordResetEmailFrom = response.resetPasswordEmailFromEmailAddress;
 
 
                     },

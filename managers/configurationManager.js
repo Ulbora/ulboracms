@@ -85,18 +85,21 @@ exports.update = function(json, callback) {
                                 conf.registrationEmailActivationGreeting = json.registrationEmailActivationGreeting;
                                 conf.registrationEmailActivationMessage = json.registrationEmailActivationMessage;
                                 conf.registrationEmailActivationUrl = json.registrationEmailActivationUrl;
+                                conf.registrationEmailActivationFromEmailAddress = json.registrationEmailActivationFromEmailAddress;
 
                                 conf.registrationEmailWelcomeSubject = json.registrationEmailWelcomeSubject;
                                 conf.registrationEmailWelcomeTitle = json.registrationEmailWelcomeTitle;
                                 conf.registrationEmailWelcomeGreeting = json.registrationEmailWelcomeGreeting;
                                 conf.registrationEmailWelcomeMessage = json.registrationEmailWelcomeMessage;
                                 conf.registrationEmailWelcomeUrl = json.registrationEmailWelcomeUrl;
+                                conf.registrationEmailWelcomeFromEmailAddress = json.registrationEmailWelcomeFromEmailAddress;
 
                                 conf.resetPasswordEmailSubject = json.resetPasswordEmailSubject;
                                 conf.resetPasswordEmailTitle = json.resetPasswordEmailTitle;
                                 conf.resetPasswordEmailGreeting = json.resetPasswordEmailGreeting;
                                 conf.resetPasswordEmailMessage = json.resetPasswordEmailMessage;
                                 conf.resetPasswordEmailUrl = json.resetPasswordEmailUrl;
+                                conf.resetPasswordEmailFromEmailAddress = json.resetPasswordEmailFromEmailAddress;
 
                                 conf.language = json.language;
 

@@ -59,7 +59,7 @@ exports.get = function(callback) {
         console.log("found mail server: " + JSON.stringify(results));
         if (!err && (results !== undefined && results !== null && results.length > 0)) {
             var m = results[0].toObject();
-            m.password = manager.aes256Decrypt(m.password); ;
+            m.password = manager.aes256Decrypt(m.password);
             callback(m);
         } else {
             callback({});
