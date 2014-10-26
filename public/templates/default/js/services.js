@@ -33,7 +33,7 @@ ulboraCmsServices.factory('Challenge', ['$resource',
 
 ulboraCmsServices.factory('Registration', ['$resource',
     function($resource) {
-        return $resource(siteUrl + "public/register", {}, {
+        return $resource("../../rs/public/register", {}, {
             //save: {method: 'POST', params: {}, isArray: false}
         });
     }]);
