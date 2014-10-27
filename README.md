@@ -2,7 +2,7 @@ UlboraCmsMEAN
 ==============
 [![Build Status][travis-image]][travis-url]
 
-This is UlboraCMS MEAN stack version 2.0.0 beta.
+This is UlboraCMS MEAN stack version.
 This is currently beta version 2.0.0.
 
 Release version 2.0.0 will be released later this year.
