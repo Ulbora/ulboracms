@@ -1,4 +1,4 @@
-UlboraCMS 2.0
+UlboraCMS 2.0 
 ==============
 
 [![Build Status][travis-image]][travis-url]
@@ -11,7 +11,6 @@ UlboraCMS lets you choose either Angular templates or templates built with conve
 You can build multiple templates with UlboraCMS and switch between the templates through the admin screen. Templates can even contain both Angular and convention server-side technology.
 
 
-This is UlboraCMS MEAN stack version.
 
 This is currently beta version 2.0.0.
 
