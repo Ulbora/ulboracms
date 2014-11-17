@@ -4,7 +4,7 @@ UlboraCMS 2.0
 [![Build Status][travis-image]][travis-url]
 
 
-UlboraCMS 2.0 is the first MEAN stack CMS and blog platform.
+[UlboraCMS 2.0](http://www.ulboracms.org) is the first production quality MEAN stack CMS and blog platform.
 
 UlboraCMS lets you choose either Angular templates or templates built with conventional server-side template engines like EJS or Jade.
 
