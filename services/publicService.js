@@ -103,6 +103,21 @@ exports.register = function (req, res) {
  *      
  */
 exports.resetPassword = function (req, res) {
+     if (req.is('application/json')) {
+        var reqBody = req.body;
+        var json = JSON.stringify(reqBody);
+        console.log("reset password request: " + json);
+        publicUserManager.resetPassword(reqBody, function (regStatus) {
+            //returnVal = regStatus;
+            //console.log("login success: " + returnVal);
+            console.log("exit service reset password success: " + JSON.stringify(regStatus));
+            res.send(regStatus);
+        });
+
+    } else {
+        res.status(415);
+        res.send({success: false});
+    }
 
 };
 

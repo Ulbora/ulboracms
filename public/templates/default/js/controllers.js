@@ -432,12 +432,12 @@ ulboraCmsControllers.controller('RegistrationCtrl', ['$scope', 'Registration', '
             if (pw === confirm) {
                 var postDate = {
                     "answer": $scope.answer,
-                    "key": $scope.key,                    
+                    "key": $scope.key,
                     "firstName": $scope.firstName,
                     "lastName": $scope.lastName,
-                    "emailAddress": $scope.email,                    
+                    "emailAddress": $scope.email,
                     "username": $scope.username,
-                    "password": $scope.password                           
+                    "password": $scope.password
                 };
 
                 Registration.save({}, postDate,
@@ -489,12 +489,9 @@ ulboraCmsControllers.controller('PasswordResetCtrl', ['$scope', 'Challenge', 'Pa
             var postDate = {
                 "answer": $scope.answer,
                 "key": $scope.key,
-                "ulboraUser": {
-                    "emailAddress": $scope.email,
-                    "user": {
-                        "username": $scope.username
-                    }
-                }
+                "emailAddress": $scope.email,
+                "username": $scope.username
+               
             };
 
             Password.reset({}, postDate,

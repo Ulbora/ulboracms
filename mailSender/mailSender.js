@@ -38,6 +38,41 @@ exports.sendActivationEmail = function (username, toEmail, code) {
 };
 
 
+
+exports.sendResetPasswordEmail = function (toEmail, password) {
+    var Language = db.getLanguage();
+    Language.findOne({defaultLanguage: true}, function (lanErr, lanResults) {
+        console.log("found language set to default: " + JSON.stringify(lanResults));
+        if (!lanErr && (lanResults !== undefined && lanResults !== null)) {
+            var Configuration = db.getConfiguration();
+            Configuration.findOne({language: lanResults._id}, function (confErr, confResults) {
+                console.log("found existing configuration: " + JSON.stringify(confResults));
+                if (!confErr && (confResults !== undefined && confResults !== null)) {
+                    createTransport(function (transporter) {
+                        var mailOptions = {
+                            from: confResults.resetPasswordEmailFromEmailAddress, // sender address
+                            to: toEmail, // list of receivers
+                            subject: confResults.resetPasswordEmailSubject, // Subject line
+                            text: confResults.resetPasswordEmailMessage + " new password: "+ password , // plaintext body
+                            html: '' // html body
+                        };
+                        transporter.sendMail(mailOptions, function (error, info) {
+                            if (error) {
+                                console.log("email error message:" + error);
+                            } else {
+                                console.log('Message sent: ' + info.response);
+                            }
+                        });
+
+                    });
+                }
+            });
+        }
+    });
+
+};
+
+
 createTransport = function (callback) {
     var MailServer = db.getMailServer();
     MailServer.find({}, function (err, results) {

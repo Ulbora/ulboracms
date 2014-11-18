@@ -10,7 +10,7 @@ var emailSender = require('../mailSender/mailSender');
  * @param json
  *      
  */
-exports.activate = function (json, callback) {    
+exports.activate = function (json, callback) {
     var success = "<div style='float: left; width: 100%; text-align: center; margin: 20% 0 0 0; color: green; font-size: 14pt;'>Success</div>";
     var fail = "<div style='float: left; width: 100%; text-align: center; margin: 20% 0 0 0; color: red; font-size: 14pt;'>Failed</div>";
     var returnVal = fail;
@@ -29,8 +29,8 @@ exports.activate = function (json, callback) {
                         }
                         callback(returnVal);
                     });
-                }else{
-                     callback(returnVal);
+                } else {
+                    callback(returnVal);
                 }
             }
         });
@@ -196,19 +196,6 @@ exports.register = function (json, callback) {
     }
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 };
 
 
@@ -217,8 +204,61 @@ exports.register = function (json, callback) {
  * @param json
  *      
  */
-exports.resetPassword = function (json) {
+exports.resetPassword = function (json, callback) {
+    var returnVal = {
+        success: false,
+        message: ""
+    };
+    var isOk = manager.securityCheck(json);
+    if (isOk) {
+        var mbReq = {
+            answer: json.answer,
+            key: json.key
+        };
+        // validate micbutton challenge
+        validateMicbuttonChallenge(mbReq, function (micbuttonSuccess) {
+            if (micbuttonSuccess && json.emailAddress !== undefined &&
+                    json.emailAddress !== null && json.emailAddress.length > 5 &&
+                    json.username !== undefined && json.username !== null) {
+                var User = db.getUser();
+                User.findOne({username: json.username}, function (userErr, userResults) {
+                    if (!userErr && (userResults !== undefined && userResults !== null)) {
+                        //var foundUser = userResults.toObject();
+                        if (userResults.emailAddress === json.emailAddress) {
+                            var pw = manager.generatePassword(userResults.emailAddress);
+                            console.log("new password: "+ pw);
+                            var ePw = manager.hashPasswordSync(json.username, pw);                           
+                            userResults.password = ePw;
+                            userResults.save(function (err) {
+                                if (err) {
+                                    returnVal.message = "save failed";
+                                    console.log("user save error: " + err);
+                                } else {
+                                    returnVal.success = true;
+                                    // send activation code email
+                                    emailSender.sendResetPasswordEmail(json.emailAddress, pw);
+                                }
+                                callback(returnVal);
+                            });
 
+                        } else {
+                            returnVal.message = "user failed";
+                            callback(returnVal);
+                        }
+
+                    } else {
+                        returnVal.message = "user failed";
+                        callback(returnVal);
+                    }
+                });
+            } else {
+                callback(returnVal);
+            }
+
+        });
+    } else {
+        callback(returnVal);
+    }
 };
 
 

@@ -143,6 +143,7 @@ var nodeBlog = function () {
         self.app.get('/rs/public/challenge', publicService.getMicbuttionChallenge);
         self.app.post('/rs/public/register', publicService.register);
         self.app.get('/rs/public/activate', publicService.activate);
+        self.app.post('/rs/public/resetPassword', publicService.resetPassword);
         //self.app.post('/rs/accessLevel', accessLevelService.create);//just for test
 
 
@@ -442,14 +443,14 @@ var initializeWebApp = function (self) {
                 contentController.login(req, function (results) {
                     console.log("login results: " + results);
                     if (results.loggedIn) {
-                        if (req.cookies !== undefined && req.cookies.rememberme ) {
-                            res.cookie('rememberme', true, {expires: new Date(Date.now() + 900000), httpOnly: true});                            
+                        if (req.cookies !== undefined && req.cookies.rememberme) {
+                            res.cookie('rememberme', true, {expires: new Date(Date.now() + 900000), httpOnly: true});
                         }
                         req.session.loggedIn = true;
                         req.session.userId = results.id;
                         res.redirect("/");
                         //res.render("public/templates/" + template.name + revisedPage, {content: results});
-                    }else{
+                    } else {
                         res.render("public/templates/" + template.name + "/login.ejs", {loginFailed: true, message: "Login failed"});
                     }
 
@@ -463,7 +464,7 @@ var initializeWebApp = function (self) {
     self.app.get('/login', function (req, res) {
         getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
-                 var loggedIn = (req.session.loggedIn);
+                var loggedIn = (req.session.loggedIn);
                 // contentController.login(req, function (results) {
                 //console.log("content results: " + JSON.stringify(results));
                 var u = "";
@@ -481,13 +482,52 @@ var initializeWebApp = function (self) {
             }
         });
     });
-    
+
+
+
+    self.app.post('/register', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                contentController.register(req, function (results) {
+                    console.log("register results: " + JSON.stringify(results));
+                    var page;
+                    if(results.success) {
+                        page = "/registrationSuccess.ejs";
+                    }else{
+                        page = "/registrationFailed.ejs";
+                    }
+                    res.render("public/templates/" + template.name + page);
+                });
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
+
+
+
+    self.app.get('/register', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                contentController.getMicbuttionChallenge(req, function (results) {
+                    var chal = JSON.parse(results);
+                    var question = chal.question;
+                    var key = chal.key;
+                    res.render("public/templates/" + template.name + "/register.ejs", {question: question, key: key});
+                });
+
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
+
     self.app.get('/logout', function (req, res) {
         getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 // contentController.login(req, function (results) {
                 //console.log("content results: " + JSON.stringify(results));
-                
+
                 res.cookie('rememberme', false);
                 req.session.loggedIn = false;
                 res.redirect("/");
@@ -506,29 +546,29 @@ var initializeWebApp = function (self) {
             if (!template.angularTemplate) {
                 var loggedIn = (req.session.loggedIn);
                 var userId = req.session.userId;
-                var reqBody = req.body; 
+                var reqBody = req.body;
                 var articleId = null;
-                if(reqBody !== undefined && reqBody !== null){
+                if (reqBody !== undefined && reqBody !== null) {
                     articleId = reqBody.article;
                 }
                 contentController.addComment(req, loggedIn, userId, function (results) {
                     console.log("comment add results: " + JSON.stringify(results));
                     if (results.success) {
-                       // if (req.cookies !== undefined && req.cookies.rememberme ) {
-                            //res.cookie('rememberme', true, {expires: new Date(Date.now() + 900000), httpOnly: true});                            
-                       // }
+                        // if (req.cookies !== undefined && req.cookies.rememberme ) {
+                        //res.cookie('rememberme', true, {expires: new Date(Date.now() + 900000), httpOnly: true});                            
+                        // }
                         //req.session.loggedIn = true;
-                        if(articleId !== null){
-                            res.redirect("/article?id="+ articleId);
-                        }else{
+                        if (articleId !== null) {
+                            res.redirect("/article?id=" + articleId);
+                        } else {
                             res.redirect("/");
-                        }                        
+                        }
                         //res.render("public/templates/" + template.name + revisedPage, {content: results});
-                    }else{
+                    } else {
                         //res.render("public/templates/" + template.name + "/login.ejs", {loginFailed: true, message: "Login failed"});
-                        if(articleId !== null){
-                            res.redirect("/article?id="+ articleId);
-                        }else{
+                        if (articleId !== null) {
+                            res.redirect("/article?id=" + articleId);
+                        } else {
                             res.redirect("/");
                         }
                     }

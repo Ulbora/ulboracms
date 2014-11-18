@@ -8,7 +8,7 @@
     float: left;
     width: 70%;
     margin: 2% 0 2% 15%;
-    
+
 }
 .login-label{
     float: left;
@@ -36,6 +36,26 @@
     font-weight: bold;
     color: red;
 }
+.login-links{
+    float: left;
+    width: 100%;
+
+}
+.login-link-cell{
+    float: left;
+    width: 50%;
+    display: inline;
+    text-align: center;
+}
+.login-link-cell a{
+    color: black;
+}
+.login-link-cell a:visited{
+    color: black;
+}
+.login-link-cell a:hover{
+    color: red;
+}
 
 
 
@@ -48,14 +68,14 @@
 }
 
 @media screen and (max-width: 1200px){
-   .login-outer-form-wrapper{       
+    .login-outer-form-wrapper{       
         width: 50%;
         margin: 5% 0 0 25%;         
     }
 }
 
 @media screen and (max-width: 770px){
-   .login-outer-form-wrapper{       
+    .login-outer-form-wrapper{       
         width: 50%;
         margin: 5% 0 0 25%;       
     }
@@ -63,7 +83,7 @@
 
 
 @media screen and (max-width: 480px){
-   .login-outer-form-wrapper{       
+    .login-outer-form-wrapper{       
         width: 70%;
         margin: 5% 0 0 15%;       
     }

@@ -20,20 +20,20 @@ ulboraCmsServices.factory('Article', ['$resource',
 
 ulboraCmsServices.factory('Login', ['$resource',
     function($resource) {
-        return $resource("../../rs/public/login", {}, {
+        return $resource("../rs/public/login", {}, {
         });
     }]);
 
 ulboraCmsServices.factory('Challenge', ['$resource',
     function($resource) {
-        return $resource("../../rs/public/challenge", {}, {
+        return $resource("../rs/public/challenge", {}, {
             getChallenge: {method: 'GET', cache : false, isArray: false}
         });
     }]);
 
 ulboraCmsServices.factory('Registration', ['$resource',
     function($resource) {
-        return $resource("../../rs/public/register", {}, {
+        return $resource("../rs/public/register", {}, {
             //save: {method: 'POST', params: {}, isArray: false}
         });
     }]);
@@ -41,7 +41,7 @@ ulboraCmsServices.factory('Registration', ['$resource',
 
 ulboraCmsServices.factory('Password', ['$resource',
     function($resource) {
-        return $resource(siteUrl + "public/resetPassword", {}, {
+        return $resource("../rs/public/resetPassword", {}, {
             reset: {method: 'POST', params: {}, isArray: false}
         });
     }]);
@@ -49,7 +49,7 @@ ulboraCmsServices.factory('Password', ['$resource',
 
 ulboraCmsServices.factory('User', ['$resource',
     function($resource) {
-        return $resource(siteUrl + "ulboraUser/pw", {}, {
+        return $resource("../rs/user/pw", {}, {
             changePassword: {method: 'POST', params: {}, isArray: false}
         });
     }]);

@@ -117,3 +117,31 @@ exports.addComment = function (req, loggedIn, userId, callback) {
     });
 
 };
+
+exports.getMicbuttionChallenge = function (req, callback) {
+    var browserLan = req.headers["accept-language"];
+    publicUserManager.getMicbuttionChallenge(browserLan, function (response) {
+        console.log("micbutton challenge:" + JSON.stringify(response));
+        callback(response);
+    });
+};
+
+exports.register = function (req, callback) {
+    var returnVal = {
+        success: false
+    };
+    var reqBody = req.body;    
+    if (reqBody.password !== undefined && reqBody.password !== null &&
+            reqBody.confirm !== undefined && reqBody.confirm !== null &&
+            reqBody.password === reqBody.confirm) {        
+        console.log("registration request: " + JSON.stringify(reqBody));
+        publicUserManager.register(reqBody, function (regStatus) {
+            console.log("exit registration success: " + JSON.stringify(regStatus));
+            callback(regStatus);
+        });
+    } else {
+        console.log("exit registration failed: " + JSON.stringify(reqBody));
+        callback(returnVal);
+    }
+
+};

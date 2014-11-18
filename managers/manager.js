@@ -267,3 +267,19 @@ exports.generateActivationCode = function (email) {
             + "_" + random2 + email.substring(0, 1) + "_" + random3 + email.substring(2, 3);
     return returnVal;
 };
+
+
+exports.generatePassword = function (email) {
+    var random1 = Math.floor((Math.random() * 100) + 10);
+    //random1 += "_";
+
+    var random2 = Math.floor((Math.random() * 500) + 100);
+    //random2 += "_";
+
+    var random3 = Math.floor((Math.random() * 800) + 400);
+    //random3 += "_";
+
+    var returnVal = email.substring(0, 1) + email.substring(1, 2) + random1 + email.substring(0, 1) + email.substring(1, 2)
+             + random2 + email.substring(0, 1)  + random3 + email.substring(2, 3);
+    return returnVal;
+};

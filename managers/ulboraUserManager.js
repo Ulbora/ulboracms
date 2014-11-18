@@ -89,7 +89,7 @@ exports.update = function(json, creds, callback) {
                             returnVal.message = "Bad role"
                             callback(returnVal);
                         }
-                        if (json.password !== undefined && json.password !== null) {
+                        if (json.password !== undefined && json.password !== null && json.password !== "") {
                             foundUser.password = manager.hashPasswordSync(foundUser.username, json.password);
                         }
                         if (json.firstName !== undefined && json.firstName !== null) {
