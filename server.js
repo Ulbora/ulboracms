@@ -521,6 +521,23 @@ var initializeWebApp = function (self) {
             }
         });
     });
+    
+    
+     self.app.get('/resetPassword', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                contentController.getMicbuttionChallenge(req, function (results) {
+                    var chal = JSON.parse(results);
+                    var question = chal.question;
+                    var key = chal.key;
+                    res.render("public/templates/" + template.name + "/resetPassword.ejs", {question: question, key: key});
+                });
+
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
 
     self.app.get('/logout', function (req, res) {
         getDefaultTemplate(function (template) {
