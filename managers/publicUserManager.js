@@ -226,7 +226,7 @@ exports.resetPassword = function (json, callback) {
                         //var foundUser = userResults.toObject();
                         if (userResults.emailAddress === json.emailAddress) {
                             var pw = manager.generatePassword(userResults.emailAddress);
-                            console.log("new password: "+ pw);
+                            //console.log("new password: "+ pw);
                             var ePw = manager.hashPasswordSync(json.username, pw);                           
                             userResults.password = ePw;
                             userResults.save(function (err) {

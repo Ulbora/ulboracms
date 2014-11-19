@@ -491,9 +491,9 @@ var initializeWebApp = function (self) {
                 contentController.register(req, function (results) {
                     console.log("register results: " + JSON.stringify(results));
                     var page;
-                    if(results.success) {
+                    if (results.success) {
                         page = "/registrationSuccess.ejs";
-                    }else{
+                    } else {
                         page = "/registrationFailed.ejs";
                     }
                     res.render("public/templates/" + template.name + page);
@@ -510,9 +510,17 @@ var initializeWebApp = function (self) {
         getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 contentController.getMicbuttionChallenge(req, function (results) {
-                    var chal = JSON.parse(results);
-                    var question = chal.question;
-                    var key = chal.key;
+                    var question = "";
+                    var key = "";
+                    try {
+                        if (results !== {}) {
+                            var chal = JSON.parse(results);
+                            question = chal.question;
+                            key = chal.key;
+                        }
+                    } catch (err) {
+                        console.log(err);
+                    }
                     res.render("public/templates/" + template.name + "/register.ejs", {question: question, key: key});
                 });
 
@@ -521,9 +529,9 @@ var initializeWebApp = function (self) {
             }
         });
     });
-    
-    
-     self.app.get('/resetPassword', function (req, res) {
+
+
+    self.app.get('/resetPassword', function (req, res) {
         getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 contentController.getMicbuttionChallenge(req, function (results) {
