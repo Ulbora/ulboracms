@@ -130,10 +130,10 @@ exports.register = function (req, callback) {
     var returnVal = {
         success: false
     };
-    var reqBody = req.body;    
+    var reqBody = req.body;
     if (reqBody.password !== undefined && reqBody.password !== null &&
             reqBody.confirm !== undefined && reqBody.confirm !== null &&
-            reqBody.password === reqBody.confirm) {        
+            reqBody.password === reqBody.confirm) {
         console.log("registration request: " + JSON.stringify(reqBody));
         publicUserManager.register(reqBody, function (regStatus) {
             console.log("exit registration success: " + JSON.stringify(regStatus));
@@ -144,4 +144,14 @@ exports.register = function (req, callback) {
         callback(returnVal);
     }
 
+};
+
+
+exports.resetPassword = function (req, callback) {
+    var reqBody = req.body;
+    console.log("registration request: " + JSON.stringify(reqBody));
+    publicUserManager.resetPassword(reqBody, function (regStatus) {
+        console.log("exit registration success: " + JSON.stringify(regStatus));
+        callback(regStatus);
+    });
 };

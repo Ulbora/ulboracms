@@ -529,7 +529,26 @@ var initializeWebApp = function (self) {
             }
         });
     });
+    
+    self.app.post('/resetPassword', function (req, res) {
+        getDefaultTemplate(function (template) {
+            if (!template.angularTemplate) {
+                contentController.resetPassword(req, function (results) {
+                    console.log("resetPassword results: " + JSON.stringify(results));
+                    var page;
+                    if (results.success) {
+                        page = "/registrationSuccess.ejs";
+                    } else {
+                        page = "/registrationFailed.ejs";
+                    }
+                    res.render("public/templates/" + template.name + page);
+                });
 
+            } else {
+                res.redirect('templates/' + template.name + req.originalUrl);
+            }
+        });
+    });
 
     self.app.get('/resetPassword', function (req, res) {
         getDefaultTemplate(function (template) {
