@@ -286,7 +286,7 @@ var nodeBlog = function () {
         self.app.get('/rs/admin/summary', adminService.summary);
 
         //content
-        self.app.post('/rs/content', contentService.getContentList);
+        self.app.post('/rs/content', contentService.getContentList);        
         self.app.get('/rs/content/article/:id', contentService.getArticle);
 
 
