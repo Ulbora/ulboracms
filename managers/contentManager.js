@@ -252,7 +252,7 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                             }
                             returnVal.articleLocations.FrontPage = fpList;
                             if (json.articles) {
-                                doArticles(json.searchFilter, returnVal, locationList, useLan, useLanId, publicAccessLevel, creds, function () {
+                                doArticles(json.searchFilter, json.searchDateFilter, returnVal, locationList, useLan, useLanId, publicAccessLevel, creds, function () {
                                     //do products
                                     if (json.products) {
                                         doProducts(json.searchFilter, returnVal, locationList, useLan, useLanId, function () {
@@ -317,7 +317,7 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                         });
                     } else {
                         if (json.articles) {
-                            doArticles(json.searchFilter, returnVal, locationList, useLan, useLanId, publicAccessLevel, creds, function () {
+                            doArticles(json.searchFilter, json.searchDateFilter, returnVal, locationList, useLan, useLanId, publicAccessLevel, creds, function () {
                                 //do products
                                 if (json.products) {
                                     doProducts(json.searchFilter, returnVal, locationList, useLan, useLanId, function () {
@@ -444,7 +444,7 @@ doFrontPage = function (callback) {
     });
 };
 
-doArticles = function (searchFilter, returnVal, locationList, useLan, useLanId, publicAccessLevel, creds, callback) {
+doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, useLan, useLanId, publicAccessLevel, creds, callback) {
     console.log("in do article--------------------------------------------------------------------------");
     console.log("locationList: " + JSON.stringify(locationList));
     var ArticleLocation = db.getArticleLocation();
@@ -518,7 +518,17 @@ doArticles = function (searchFilter, returnVal, locationList, useLan, useLanId, 
                                             addArt = true;
                                         }
                                         if (addArt) {
-                                            filteredArticleList.push(a);
+                                            if (searchDateFilter !== undefined && searchDateFilter !== null) {
+                                                var ad = a.createdDate;
+                                                var month = ad.getMonth();
+                                                var year = ad.getFullYear();
+                                                if (searchDateFilter.month === month && searchDateFilter.year === year) {
+                                                    filteredArticleList.push(a);
+                                                }
+                                            } else {
+                                                filteredArticleList.push(a);
+                                            }
+
                                         }
 
                                     }
@@ -575,24 +585,27 @@ doArticles = function (searchFilter, returnVal, locationList, useLan, useLanId, 
                                 var fcnt = 0;
                                 var mapArray = [];
                                 console.log("locationArticleList: " + JSON.stringify(locationArticleList));
-                                for (var locACnt = 0; locACnt < locationArticleList.length; locACnt++) {
-                                    var al1 = locationArticleList[locACnt];
-                                    processArticle(al1, false, function (aComplete) {
-                                        //if to check for existing article at position  
-                                        for (var pcnt = 0; pcnt < aComplete.position.length; pcnt++) {
-                                            if (mapArray.indexOf(aComplete.position[pcnt] + aComplete._id) < 0) {
-                                                returnVal.articleLocations[aComplete.position[pcnt]].push(aComplete);
-                                                mapArray.push(aComplete.position[pcnt] + aComplete._id);
+                                if (locationArticleList.length === 0) {
+                                    callback();
+                                } else {
+                                    for (var locACnt = 0; locACnt < locationArticleList.length; locACnt++) {
+                                        var al1 = locationArticleList[locACnt];
+                                        processArticle(al1, false, function (aComplete) {
+                                            //if to check for existing article at position  
+                                            for (var pcnt = 0; pcnt < aComplete.position.length; pcnt++) {
+                                                if (mapArray.indexOf(aComplete.position[pcnt] + aComplete._id) < 0) {
+                                                    returnVal.articleLocations[aComplete.position[pcnt]].push(aComplete);
+                                                    mapArray.push(aComplete.position[pcnt] + aComplete._id);
+                                                }
+                                                fcnt++;
+                                                if (fcnt === locationArticleList.length) {
+                                                    callback();
+                                                }
                                             }
-                                            fcnt++;
-                                            if (fcnt === locationArticleList.length) {
-                                                callback();
-                                            }
-                                        }
 
-                                    });
+                                        });
+                                    }
                                 }
-
 
                             } else {
                                 callback();

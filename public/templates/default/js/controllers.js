@@ -20,6 +20,10 @@ ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location'
             "links": true,
             "articles": true,
             "products": true,
+            //"searchDateFilter": { // used to search by date
+                //"month": 1,
+                //"year": 2000
+            //},
             "searchFilter": [
                 {
                     "sectionName": "MainPage",
@@ -491,7 +495,7 @@ ulboraCmsControllers.controller('PasswordResetCtrl', ['$scope', 'Challenge', 'Pa
                 "key": $scope.key,
                 "emailAddress": $scope.email,
                 "username": $scope.username
-               
+
             };
 
             Password.reset({}, postDate,
