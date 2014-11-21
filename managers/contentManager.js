@@ -18,7 +18,7 @@ exports.getArticle = function (id, creds, callback) {
         var User = db.getUser();
         User.find({}, function (userListErr, userList) {
             var userMap = [];
-            if (!userListErr && userList !== undefined && userList !== null) {                
+            if (!userListErr && userList !== undefined && userList !== null) {
                 for (var um = 0; um < userList.length; um++) {
                     var umo = userList[um].toObject();
                     umo.password = "";
@@ -167,23 +167,24 @@ exports.getContentList = function (json, creds, browserLan, callback) {
         },
         productLocations: {
         },
-        links: []
+        links: [],
+        dates: []
     };
     if (isOk) {
         var parsedLan = manager.browserLanguageParser(browserLan);
         /*
-        var blan = "";
-        var browLan = "";
-        
-        if (browserLan !== undefined && browserLan !== null) {
-            browLan = browserLan.replace("_", "-");
-            var indexOfComma = browLan.indexOf(",");
-            browLan = browLan.substring(0, indexOfComma);
-            browLan = browLan.toLowerCase();
-            var ind = browLan.indexOf("-");
-            blan = browLan.substring(0, ind);
-        }
-        */
+         var blan = "";
+         var browLan = "";
+         
+         if (browserLan !== undefined && browserLan !== null) {
+         browLan = browserLan.replace("_", "-");
+         var indexOfComma = browLan.indexOf(",");
+         browLan = browLan.substring(0, indexOfComma);
+         browLan = browLan.toLowerCase();
+         var ind = browLan.indexOf("-");
+         blan = browLan.substring(0, ind);
+         }
+         */
         // get language like blan
         var Language = db.getLanguage();
         var useLan = false;
@@ -258,7 +259,10 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                                             //do links
                                             if (json.links) {
                                                 doLinks(returnVal, useLan, useLanId, function () {
-                                                    callback(returnVal);
+                                                    //callback(returnVal);
+                                                    doDates(returnVal, useLan, useLanId, function () {
+                                                        callback(returnVal);
+                                                    });
                                                 });
                                             } else {
                                                 callback(returnVal);
@@ -268,7 +272,10 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                                         //do links
                                         if (json.links) {
                                             doLinks(returnVal, useLan, useLanId, function () {
-                                                callback(returnVal);
+                                                //callback(returnVal);
+                                                doDates(returnVal, useLan, useLanId, function () {
+                                                    callback(returnVal);
+                                                });
                                             });
                                         } else {
                                             callback(returnVal);
@@ -282,7 +289,10 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                                         //do links
                                         if (json.links) {
                                             doLinks(returnVal, useLan, useLanId, function () {
-                                                callback(returnVal);
+                                                //callback(returnVal);
+                                                doDates(returnVal, useLan, useLanId, function () {
+                                                    callback(returnVal);
+                                                });
                                             });
                                         } else {
                                             callback(returnVal);
@@ -292,7 +302,10 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                                     //do links
                                     if (json.links) {
                                         doLinks(returnVal, useLan, useLanId, function () {
-                                            callback(returnVal);
+                                            //callback(returnVal);
+                                            doDates(returnVal, useLan, useLanId, function () {
+                                                callback(returnVal);
+                                            });
                                         });
                                     } else {
                                         callback(returnVal);
@@ -311,7 +324,10 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                                         //do links
                                         if (json.links) {
                                             doLinks(returnVal, useLan, useLanId, function () {
-                                                callback(returnVal);
+                                                //callback(returnVal);
+                                                doDates(returnVal, useLan, useLanId, function () {
+                                                    callback(returnVal);
+                                                });
                                             });
                                         } else {
                                             callback(returnVal);
@@ -321,7 +337,10 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                                     //do links
                                     if (json.links) {
                                         doLinks(returnVal, useLan, useLanId, function () {
-                                            callback(returnVal);
+                                            //callback(returnVal);
+                                            doDates(returnVal, useLan, useLanId, function () {
+                                                callback(returnVal);
+                                            });
                                         });
                                     } else {
                                         callback(returnVal);
@@ -336,7 +355,10 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                                     //do links
                                     if (json.links) {
                                         doLinks(returnVal, useLan, useLanId, function () {
-                                            callback(returnVal);
+                                            //callback(returnVal);
+                                            doDates(returnVal, useLan, useLanId, function () {
+                                                callback(returnVal);
+                                            });
                                         });
                                     } else {
                                         callback(returnVal);
@@ -346,7 +368,10 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                                 //do links
                                 if (json.links) {
                                     doLinks(returnVal, useLan, useLanId, function () {
-                                        callback(returnVal);
+                                        //callback(returnVal);
+                                        doDates(returnVal, useLan, useLanId, function () {
+                                            callback(returnVal);
+                                        });
                                     });
                                 } else {
                                     callback(returnVal);
@@ -714,6 +739,44 @@ doLinks = function (returnVal, useLan, useLanId, callback) {
                     returnVal.links.push(l);
                 }
             }
+            callback();
+        } else {
+            callback();
+        }
+    });
+};
+
+doDates = function (returnVal, useLan, useLanId, callback) {
+    var Article = db.getArticle();
+    var q = {
+        published: true
+    };
+    if (useLan) {
+        q.language = useLanId;
+    }
+    var filterMap = [];
+
+    Article.find(q, null, {sort: {createdDate: -1}}, function (artErr, articleList) {
+        console.log("articles: " + JSON.stringify(articleList));
+        if (!artErr && articleList !== undefined && articleList !== null) {
+            for (var aCnt = 0; aCnt < articleList.length; aCnt++) {
+                var d = articleList[aCnt].createdDate;
+                var month = d.getMonth()
+                var year = d.getFullYear();
+                var key = month + year;
+                var c = filterMap[key];
+                if (c === undefined) {
+                    var mObj = {
+                        dateLabel: manager.MONTH_NAMES[month] + " " + year,
+                        month: month,
+                        year: year
+                    }
+                    returnVal.dates.push(mObj);
+                    filterMap[key] = true;
+                }
+            }
+            callback();
+        } else {
             callback();
         }
     });

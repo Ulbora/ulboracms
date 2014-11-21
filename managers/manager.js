@@ -16,6 +16,8 @@ var ACCESS_LEVEL_USER = "USER";
 var REQUIRE_PUBLISH_APPROVAL_RULE_NAME = "Require Publish Approval";
 var REQUIRE_PUBLISH_APPROVAL_RULE_KEY = 1;
 
+var MONTH_NAMES = ["January", "Febuary", "March", "April", "May", "June", "July", "August", "September", "Octember", "November", "December"]
+
 var algorithm = 'aes256';
 var key = 'hggr77tyurEhR';
 
@@ -23,6 +25,7 @@ exports.ROLE_SUPER_ADMIN = ROLE_SUPER_ADMIN;
 exports.ROLE_ADMIN = ROLE_ADMIN;
 exports.ROLE_AUTHOR = ROLE_AUTHOR;
 exports.ROLE_USER = ROLE_USER;
+exports.MONTH_NAMES = MONTH_NAMES;
 
 exports.ACCESS_LEVEL_PUBLIC = ACCESS_LEVEL_PUBLIC;
 exports.ACCESS_LEVEL_USER = ACCESS_LEVEL_USER;
