@@ -1,6 +1,9 @@
 //mongoDB files
+var conf = require('../configuration');
 var mongoose = require('mongoose');
-var mongoConnectString = "mongodb://localhost/ulboracms";
+//var mongoConnectString = "mongodb://localhost/ulboracms";
+var mongoConnectString = "mongodb://";//localhost/ulboracms";
+mongoConnectString += (conf.HOST + "/" + conf.DATABASE_NAME);
 //this is specific to RedHat's OpenShift 
 if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
     mongoConnectString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
@@ -566,6 +569,54 @@ initialCategories = function () {
                         cat.save();
 
 
+                        initialLocations();
+
+                    } else {
+                        initialLocations();
+                    }
+                }
+            });
+        }
+    });
+};
+
+
+initialLocations = function () {
+    //check if is in database
+   // Location.findOne({code: "en-us"}, function (lanErr, lan) {
+        //if (!lanErr && lan !== undefined && lan !== null) {
+            Location.find({}, function (err, results) {
+                if (err) {
+                    console.log("Location Error:" + err);
+                } else {
+                    console.log("Location:" + JSON.stringify(results));
+                    if (results.length === 0) {
+
+                        var locVal = {
+                            name: null
+                        };
+                        locVal.name = "Center";                        
+
+                        var loc = new Location(locVal);
+                        console.log("Location:" + JSON.stringify(locVal));
+                        loc.save();
+
+
+                        locVal.name = "Right";
+                        loc = new Location(locVal);
+                        console.log("Location:" + JSON.stringify(locVal));
+                        loc.save();
+                        
+                        locVal.name = "Left";
+                        loc = new Location(locVal);
+                        console.log("Location:" + JSON.stringify(locVal));
+                        loc.save();
+
+                        locVal.name = "TopMenu";
+                        loc = new Location(locVal);
+                        console.log("Location:" + JSON.stringify(locVal));
+                        loc.save();
+
                         //future use
 
                     } else {
@@ -573,6 +624,6 @@ initialCategories = function () {
                     }
                 }
             });
-        }
-    });
+        //}
+    //});
 };

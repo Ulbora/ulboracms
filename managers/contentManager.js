@@ -420,17 +420,21 @@ doFrontPage = function (callback) {
                     }
                     console.log("processed article:----------------- " + processedArticleList);
                     var paLen = 0;
-                    for (var paCnt = 0; paCnt < processedArticleList.length; paCnt++) {
-                        var pa = processedArticleList[paCnt];
-                        processArticle(pa, true, function (aComplete) {
-                            console.log("article in process article callback: " + aComplete);
-                            returnVal.push(aComplete);
-                            paLen++;
-                            if (paLen === processedArticleList.length) {
-                                console.log("frontpage articleList returned from service: " + JSON.stringify(returnVal));
-                                callback(returnVal);
-                            }
-                        });
+                    if (processedArticleList.length === 0) {
+                        callback(returnVal);
+                    } else {
+                        for (var paCnt = 0; paCnt < processedArticleList.length; paCnt++) {
+                            var pa = processedArticleList[paCnt];
+                            processArticle(pa, true, function (aComplete) {
+                                console.log("article in process article callback: " + aComplete);
+                                returnVal.push(aComplete);
+                                paLen++;
+                                if (paLen === processedArticleList.length) {
+                                    console.log("frontpage articleList returned from service: " + JSON.stringify(returnVal));
+                                    callback(returnVal);
+                                }
+                            });
+                        }
                     }
 
                 } else {
