@@ -278,6 +278,7 @@ exports.update = function(json, creds, callback) {
                                                                                     art.fullPage = json.fullPage;
                                                                                     art.allowComments = json.allowComments;
                                                                                     art.commentsRequireLogin =  json.commentsRequireLogin;
+                                                                                    art.createdDate = json.createdDate;
                                                                                     art.commentsStartDate = json.commentsStartDate;
                                                                                     art.commentsEndDate = json.commentsEndDate;
                                                                                     art.accessLevel = json.accessLevel;

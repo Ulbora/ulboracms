@@ -198,7 +198,7 @@ ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '
 
             //var cDate = new Date(tempArticleReq.article.createdDate);            
             //$scope.createDate = cDate.getMonth()+"/"+cDate.getDate()+"/"+ cDate.getFullYear();
-            $scope.createDate = response.createdDate;
+            $scope.createdDate = new Date(response.createdDate).toISOString().substring(0, 10);// response.createdDate;
             var modDate = response.modifiedDate;
             if (modDate !== undefined && modDate !== null) {
                 //var mDate = new Date(modDate);
@@ -274,6 +274,13 @@ ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope
             //alert($scope.published);
             //alert(Boolean($scope.published));
             
+            var createdDate = $scope.createdDate;
+            if(createdDate !== undefined && createdDate !== null){
+                createdDate = new Date(createdDate);
+            }//else{
+                //alert("Create Date Required");
+            //}
+            
             var commentsStartDate = $scope.commentsStartDate;
             var commentsEndDate = $scope.commentsEndDate;
             if(commentsStartDate !== undefined && commentsStartDate !== null &&
@@ -303,6 +310,7 @@ ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope
                     "showModifyDate": ($scope.showModifyDate === "true"),
                     "allowComments": ($scope.allowComments === "true"),
                     "commentsRequireLogin": ($scope.commentsRequireLogin === "true"),
+                    "createdDate": createdDate,
                     "commentsStartDate" : commentsStartDate,
                     "commentsEndDate" : commentsEndDate,
                     "title": $scope.title,
