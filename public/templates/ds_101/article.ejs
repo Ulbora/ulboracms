@@ -27,17 +27,17 @@
             <div class="article-wrapper">
                 <div class="article-title">Ulbora CMS</div>
                 <div class="article">
-                    <%- content.articleText.text %>
+                    <%- article.articleText.text %>
                 </div>                
             </div> 
-            <%if (content.allowComments && (!content.commentsRequireLogin || loggedIn)) { %>
+            <%if (article.allowComments && (!article.commentsRequireLogin || loggedIn)) { %>
                 <div class="comments">
                 <div class="comment-form-wrapper">
                     <form action="/comment" method="post">
                         <div class="comment-form-label">
                             <label for="commentText">Add Comment:</label>
                         </div>
-                        <input name="article" type="hidden" value="<%= content._id %>"/>
+                        <input name="article" type="hidden" value="<%= article._id %>"/>
                         <div class="comment-form-entry-box">
                             <textarea class="comment-form-textarea" name="text" placeholder="Comment" required></textarea>
                         </div>
@@ -48,19 +48,19 @@
                     </form>
                 </div>
                 <div class="comments-list">
-                    <% for(var i=0; i<content.commentList.length; i++) {%>  
+                    <% for(var i=0; i<article.commentList.length; i++) {%>  
                         <div class="comment-entry">
                             <div class="comment-user">
-                                <%= content.commentList[i].commenter.firstName %> <%= content.commentList[i].commenter.lastName %>
+                                <%= article.commentList[i].commenter.firstName %> <%= article.commentList[i].commenter.lastName %>
                             </div>
                             <div class="comment-text">
-                                <%= content.commentList[i].text %>
+                                <%= article.commentList[i].text %>
                             </div>                        
                         </div>                        
                     <% } %> 
                 </div>
             </div>
-            <% }else if(content.allowComments && !loggedIn){ %>
+            <% }else if(article.allowComments && !loggedIn){ %>
                 <div class="comment-link">Comments Require Login</div>
             <% } %>
             

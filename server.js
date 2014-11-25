@@ -286,7 +286,7 @@ var nodeBlog = function () {
         self.app.get('/rs/admin/summary', adminService.summary);
 
         //content
-        self.app.post('/rs/content', contentService.getContentList);        
+        self.app.post('/rs/content', contentService.getContentList);
         self.app.get('/rs/content/article/:id', contentService.getArticle);
 
 
@@ -434,14 +434,14 @@ var initializeWebApp = function (self) {
                             var filter = JSON.parse(data);
                             contentController.getContentList(req, filter, loggedIn, function (articleList) {
                                 console.log("content results: " + JSON.stringify(articleList));
-                                res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn, articleList: articleList});
+                                res.render("public/templates/" + template.name + revisedPage, {article: results, loggedIn: loggedIn, content: articleList});
                             });
-                        }else{
+                        } else {
                             console.log(err);
-                            res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn, articleList: []});
+                            res.render("public/templates/" + template.name + revisedPage, {article: results, loggedIn: loggedIn, content: []});
                         }
-                        
-                    });                    
+
+                    });
                 });
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
@@ -485,7 +485,19 @@ var initializeWebApp = function (self) {
                     u = req.cookies.username;
                     p = req.cookies.password;
                 }
-                res.render("public/templates/" + template.name + "/login.ejs", {username: u, password: p, loginFailed: false, loggedIn: loggedIn});
+                fs.readFile(__dirname + "/public/templates/" + template.name + "/json/login.json", function (err, data) {
+                    if (!err) {
+                        var filter = JSON.parse(data);
+                        contentController.getContentList(req, filter, loggedIn, function (articleList) {
+                            console.log("content results: " + JSON.stringify(articleList));
+                            res.render("public/templates/" + template.name + "/login.ejs", {username: u, password: p, loginFailed: false, loggedIn: loggedIn, content: articleList});
+                        });
+                    } else {
+                        console.log(err);
+                        res.render("public/templates/" + template.name + "/login.ejs", {username: u, password: p, loginFailed: false, loggedIn: loggedIn, content: []});
+                    }
+                });
+                //res.render("public/templates/" + template.name + "/login.ejs", {username: u, password: p, loginFailed: false, loggedIn: loggedIn});
                 //res.cookie('rememberme', '1', { expires: new Date(Date.now() + 900000), httpOnly: true });
 
                 //});
@@ -533,7 +545,22 @@ var initializeWebApp = function (self) {
                     } catch (err) {
                         console.log(err);
                     }
-                    res.render("public/templates/" + template.name + "/register.ejs", {question: question, key: key});
+                    fs.readFile(__dirname + "/public/templates/" + template.name + "/json/register.json", function (err, data) {
+                        if (!err) {
+                            var filter = JSON.parse(data);
+                            var loggedIn = false;
+                            contentController.getContentList(req, filter, loggedIn, function (articleList) {
+                                console.log("content results: " + JSON.stringify(articleList));
+                                res.render("public/templates/" + template.name + "/register.ejs", {question: question, key: key, content: articleList});
+                            });
+                        } else {
+                            console.log(err);
+                            res.render("public/templates/" + template.name + "/register.ejs", {question: question, key: key, content: []});
+                        }
+                    });
+
+
+                    //res.render("public/templates/" + template.name + "/register.ejs", {question: question, key: key});
                 });
 
             } else {
@@ -541,7 +568,7 @@ var initializeWebApp = function (self) {
             }
         });
     });
-    
+
     self.app.post('/resetPassword', function (req, res) {
         getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
@@ -569,7 +596,20 @@ var initializeWebApp = function (self) {
                     var chal = JSON.parse(results);
                     var question = chal.question;
                     var key = chal.key;
-                    res.render("public/templates/" + template.name + "/resetPassword.ejs", {question: question, key: key});
+                    fs.readFile(__dirname + "/public/templates/" + template.name + "/json/resetPassword.json", function (err, data) {
+                        if (!err) {
+                            var filter = JSON.parse(data);
+                            var loggedIn = false;
+                            contentController.getContentList(req, filter, loggedIn, function (articleList) {
+                                console.log("content results: " + JSON.stringify(articleList));
+                                res.render("public/templates/" + template.name + "/resetPassword.ejs", {question: question, key: key, content: articleList});
+                            });
+                        } else {
+                            console.log(err);
+                            res.render("public/templates/" + template.name + "/resetPassword.ejs", {question: question, key: key, content: []});
+                        }
+                    });
+                    //res.render("public/templates/" + template.name + "/resetPassword.ejs", {question: question, key: key});
                 });
 
             } else {
