@@ -844,13 +844,16 @@ processArticle = function (art, frontPage, callback) {
                 //console.log("binary text: " + binaryText);
                 //console.log("binary text to string: " + binaryText.toString());
                 var tempTxt = atob(binaryText.toString());
+                console.log("article text before processing: " + tempTxt);
                 var pbIndex = tempTxt.indexOf(pageBreak);
+                console.log("index of page break: " + pbIndex);
                 if (pbIndex > 0) {
                     tempTxt = tempTxt.substring(0, pbIndex);
                     a.fullPage = false;
                 } else {
                     a.fullPage = true;
                 }
+                /*
                 if (!a.fullPage) {
                     var indexOfPEnd = tempTxt.indexOf(pEnd);
                     var indexOfDEnd = tempTxt.indexOf(dEnd);
@@ -861,7 +864,7 @@ processArticle = function (art, frontPage, callback) {
                         indexOfDEnd += 6;
                         tempTxt = tempTxt.substring(0, indexOfDEnd);
                     }
-                }
+                }*/
 
                 //console.log("article text: " + binaryText);
                 console.log("article text: " + tempTxt);

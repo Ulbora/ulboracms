@@ -429,7 +429,19 @@ var initializeWebApp = function (self) {
                 var revisedPage = requestedPage.replace("html", "ejs");
                 contentController.getArticle(req, loggedIn, function (results) {
                     console.log("content results: " + JSON.stringify(results));
-                    res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn});
+                    fs.readFile(__dirname + "/public/templates/" + template.name + "/json/article.json", function (err, data) {
+                        if (!err) {
+                            var filter = JSON.parse(data);
+                            contentController.getContentList(req, filter, loggedIn, function (articleList) {
+                                console.log("content results: " + JSON.stringify(articleList));
+                                res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn, articleList: articleList});
+                            });
+                        }else{
+                            console.log(err);
+                            res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn, articleList: []});
+                        }
+                        
+                    });                    
                 });
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
