@@ -26,7 +26,8 @@
     "consolidate": "*",
     "ejs": "*",
     "handlebars": "*",
-    "nodemailer": "*"
+    "nodemailer": "*",
+    "rss": "*"
   },
   "bundleDependencies" : [ ],
   "private" : true,

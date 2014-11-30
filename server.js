@@ -29,12 +29,13 @@ var addOnService = require('./services/addOnService');
 var templateService = require('./services/templateService');
 var adminService = require('./services/adminService');
 var contentService = require('./services/contentService');
+var feedService = require('./services/feedService');
 
 var contentController = require('./controllers/contentController');
 
+var refreshRssCache = false;
 
-
-var nodeBlog = function () {
+var ulboracms = function () {
 
     //  Scope.
     var self = this;
@@ -223,9 +224,21 @@ var nodeBlog = function () {
 
 
         //article
-        self.app.post('/rs/article', articleService.create);
-        self.app.put('/rs/article', articleService.update);
-        self.app.delete('/rs/article/:id', articleService.delete);
+        //self.app.post('/rs/article', articleService.create);
+        self.app.post('/rs/article', function (req, res) {
+            refreshRssCache = true;
+            articleService.create(req, res);
+        });
+        //self.app.put('/rs/article', articleService.update);
+        self.app.put('/rs/article', function (req, res) {
+            refreshRssCache = true;
+            articleService.update(req, res);
+        });
+        //self.app.delete('/rs/article/:id', articleService.delete);
+        self.app.delete('/rs/article/:id', function (req, res) {
+            refreshRssCache = true;
+            articleService.delete(req, res);
+        });
         self.app.get('/rs/article/:id', articleService.get);
         self.app.post('/rs/article/list', articleService.list);
         self.app.post('/rs/article/values', articleService.values);
@@ -289,6 +302,16 @@ var nodeBlog = function () {
         self.app.post('/rs/content', contentService.getContentList);
         self.app.get('/rs/content/article/:id', contentService.getArticle);
 
+        //self.app.get('/rss', feedService.rssFeed);
+        self.app.get('/rss', function (req, res) {
+            var doCache = false;
+            if(refreshRssCache){
+                doCache = true;
+                refreshRssCache = false;
+            }            
+            feedService.rssFeed(req, res, doCache);
+        });
+
 
 
         self.app.get('/rs/test', auth, function (req, res) {
@@ -296,10 +319,7 @@ var nodeBlog = function () {
             res.send([{code: 2, name: "ken"}, {name: 'wine2'}]);
         });
 
-        //self.app.post('/NodeBlog/blog', auth, blogPost.saveBlog);
-        //self.app.post('/NodeBlog/comment', auth, blogPost.saveComment);
-        //self.app.get('/NodeBlog/blogList', blogPost.findBlogList);
-        //self.app.get('/NodeBlog/blog/:id', blogPost.findBlog);
+
         /*
          self.app.post('/UlboraCms/login', function(req, res) {
          var reqBody = req.body;
@@ -751,7 +771,7 @@ var getDefaultTemplate = function (callback) {
 /**
  *  main():  Main code.
  */
-var zapp = new nodeBlog();
+var zapp = new ulboracms();
 zapp.initialize();
 zapp.start();
 
