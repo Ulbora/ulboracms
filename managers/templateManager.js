@@ -54,7 +54,7 @@ exports.update = function (json, callback) {
     if (isOk) {
         if (json.defaultTemplate) {
             removeDefaultTemplate(function (deleteSuccess) {
-                console.log("adding template: " + deleteSuccess);
+                console.log("updating template: " + deleteSuccess);
                 if (deleteSuccess) {
                     updateTemplate(json, function (addResults) {
                         callback(addResults);
@@ -160,6 +160,12 @@ addTemplate = function (json, callback) {
         success: false,
         message: ""
     };
+    if (json.defaultTemplate === undefined || json.defaultTemplate === null) {
+        json.defaultTemplate = false;
+    }
+    if (json.angularTemplate === undefined || json.angularTemplate === null) {
+        json.angularTemplate = false;
+    }
     var Template = db.getTemplate();
     var temp = new Template(json);
     temp.save(function (err) {
@@ -178,22 +184,39 @@ updateTemplate = function (json, callback) {
         success: false,
         message: ""
     };
+    console.log("json1: " + JSON.stringify(json));
+    if (json.defaultTemplate === undefined || json.defaultTemplate === null) {
+        json.defaultTemplate = false;
+    }
+    if (json.angularTemplate === undefined || json.angularTemplate === null) {
+        json.angularTemplate = false;
+    }
     var Template = db.getTemplate();
     Template.findById(json.id, function (err, results) {
         console.log("found template: " + JSON.stringify(results));
         if (!err && (results !== undefined && results !== null)) {
-            results.name = json.name;
-            results.defaultTemplate = json.defaultTemplate;
-            results.angularTemplate = json.angularTemplate;
-            results.save(function (err) {
-                if (err) {
-                    returnVal.message = "update failed";
-                    console.log("template update error: " + err);
-                } else {
-                    returnVal.success = true;
-                }
+            var abortUpdate = false;
+            if (results.defaultTemplate && !json.defaultTemplate) {
+                abortUpdate = true;
+            }
+            if (!abortUpdate) {
+                results.name = json.name;
+                console.log("json2: " + JSON.stringify(json));
+                results.defaultTemplate = json.defaultTemplate;
+                results.angularTemplate = json.angularTemplate;
+                console.log("results: " + JSON.stringify(results));
+                results.save(function (err) {
+                    if (err) {
+                        returnVal.message = "update failed";
+                        console.log("template update error: " + err);
+                    } else {
+                        returnVal.success = true;
+                    }
+                    callback(returnVal);
+                });
+            } else {
                 callback(returnVal);
-            });
+            }
         } else {
             callback(returnVal);
         }
@@ -205,16 +228,26 @@ removeDefaultTemplate = function (callback) {
     Template.find({defaultTemplate: true}, function (err, results) {
         console.log("found default templates in create: " + JSON.stringify(results));
         if (!err && (results !== undefined && results !== null)) {
+            var doCallback = false;
+            if (results.length === 0) {
+                callback(true);
+            }
             for (var cnt = 0; cnt < results.length; cnt++) {
+                if (cnt === (results.length - 1)) {
+                    doCallback = true;
+                }
                 var temp = results[cnt];
                 temp.defaultTemplate = false;
                 temp.save(function (err) {
                     if (err) {
                         console.log("template update error: " + err);
                     }
+                    if (doCallback) {
+                        callback(true);
+                    }
                 });
             }
-            callback(true);
+
         } else {
             callback(false);
         }

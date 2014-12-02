@@ -185,7 +185,7 @@ ulboraCmsTemplateControllers.controller('NewTemplateCtrl', ['$scope', 'checkCred
         }
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
         $scope.defaultTemplate = "false";
-
+        $scope.angularTemplate = "false";
 
         $scope.newTemplateActiveClass = "active";
 
