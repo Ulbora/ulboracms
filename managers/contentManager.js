@@ -98,7 +98,14 @@ exports.getArticle = function (id, creds, callback) {
                                                 var Tag = db.getTag();
                                                 Tag.findOne({article: results._id}, function (tagErr, tagResults) {
                                                     if (!tagErr && (tagResults !== undefined && tagResults !== null)) {
-                                                        a.tag = tagResults;
+                                                        var tagObj = tagResults.toObject();
+                                                        var keyWords = [];
+                                                        if(tagObj.keyWords !== undefined && tagObj.keyWords !== null){
+                                                            keyWords = tagObj.keyWords.split(",");
+                                                        }
+                                                        tagObj.keyWords = keyWords;
+                                                        a.tag = tagObj;
+                                                        
                                                     }
                                                     //var User = db.getUser();
                                                     User.findById(results.user, function (userErr, foundUser) {
