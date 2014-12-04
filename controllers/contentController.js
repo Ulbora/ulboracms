@@ -7,11 +7,32 @@ var publicUserManager = require('../managers/publicUserManager');
 var atob = require('atob');//base64 to json
 
 exports.getContentList = function (req, filter, loggedIn, callback) {
+    var returnVal = {};
     var creds = {
         loggedIn: loggedIn
     };
     console.log("filter data in content list: " + JSON.stringify(filter));
     var browserLan = req.headers["accept-language"];
+
+    var useMonth = false;
+    var useYear = false;
+    var month = req.query.month;
+    var year = req.query.year;
+    if (month !== undefined && month !== null) {
+        month = parseInt(month);
+        useMonth = true;
+    }
+    if (year !== undefined && year !== null) {
+        year = parseInt(year);
+        useYear = true;
+    }
+    if (useMonth && useYear) {
+        var searchDateFilter = {
+            month: month,
+            year: year
+        };
+        filter.searchDateFilter = searchDateFilter;
+    }
     var locations = [];
     locations.push("FrontPage");
     var Location = db.getLocation();
@@ -25,23 +46,28 @@ exports.getContentList = function (req, filter, loggedIn, callback) {
         contentManager.getContentList(filter, creds, browserLan, function (result) {
             console.log("in callback");
             console.log("articleLocation: " + JSON.stringify(result));
-            for (var lcnt = 0; lcnt < locations.length; lcnt++) {
-                var locName = locations[lcnt];
-                console.log("location:" + locName);
-                for (var cnt = 0; cnt < result.articleLocations[locName].length; cnt++) {
-                    console.log("location array all:" + JSON.stringify(result.articleLocations));
-                    console.log("location array:" + JSON.stringify(result.articleLocations[locName]));
-                    console.log("location before conversion html:" + result.articleLocations[locName][cnt].articleText.text);
-                    if (result.articleLocations[locName][cnt].articleText.processed === undefined || result.articleLocations[locName][cnt].articleText.processed === null) {
-                        result.articleLocations[locName][cnt].articleText.text = atob(result.articleLocations[locName][cnt].articleText.text);
-                        console.log("location after conversion html:" + result.articleLocations[locName][cnt].articleText.text);
-                        result.articleLocations[locName][cnt].articleText.processed = true;
-                    }
+            if (result !== undefined && result !== null) {
+                for (var lcnt = 0; lcnt < locations.length; lcnt++) {
+                    var locName = locations[lcnt];
+                    console.log("location:" + locName);
+                    for (var cnt = 0; cnt < result.articleLocations[locName].length; cnt++) {
+                        console.log("location array all:" + JSON.stringify(result.articleLocations));
+                        console.log("location array:" + JSON.stringify(result.articleLocations[locName]));
+                        console.log("location before conversion html:" + result.articleLocations[locName][cnt].articleText.text);
+                        if (result.articleLocations[locName][cnt].articleText.processed === undefined || result.articleLocations[locName][cnt].articleText.processed === null) {
+                            result.articleLocations[locName][cnt].articleText.text = atob(result.articleLocations[locName][cnt].articleText.text);
+                            console.log("location after conversion html:" + result.articleLocations[locName][cnt].articleText.text);
+                            result.articleLocations[locName][cnt].articleText.processed = true;
+                        }
 
+                    }
                 }
+                returnVal = result;
+            } else {
+                callback(returnVal);
             }
 
-            callback(result);
+            callback(returnVal);
         });
     });
 
@@ -50,14 +76,20 @@ exports.getContentList = function (req, filter, loggedIn, callback) {
 
 
 exports.getArticle = function (req, loggedIn, callback) {
+    var returnVal = {};
     var creds = {
         loggedIn: loggedIn
     };
     var id = req.query.id;
     contentManager.getArticle(id, creds, function (results) {
-        results.articleText.text = atob(results.articleText.text);
-        results.user.password = "";
-        callback(results);
+        if (results !== undefined && results !== null && results.articleText !== undefined && results.articleText !== null) {
+            console.log("article: " + JSON.stringify(results));
+            results.articleText.text = atob(results.articleText.text);
+            results.user.password = "";
+            callback(results);
+        } else {
+            callback(returnVal);
+        }
     });
 };
 

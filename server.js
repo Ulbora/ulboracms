@@ -118,6 +118,8 @@ var ulboracms = function () {
         self.app.use(express.cookieParser('7320s932h79993Ah4'));
         self.app.use(express.cookieSession());
         self.app.use(express.static(__dirname + '/public'));
+
+
         //out of the box ejs---------------
         self.app.set('view engine', 'ejs');
         //--------------------------------------
@@ -305,10 +307,10 @@ var ulboracms = function () {
         //self.app.get('/rss', feedService.rssFeed);
         self.app.get('/rss', function (req, res) {
             var doCache = false;
-            if(refreshRssCache){
+            if (refreshRssCache) {
                 doCache = true;
                 refreshRssCache = false;
-            }            
+            }
             feedService.rssFeed(req, res, doCache);
         });
 
@@ -343,6 +345,9 @@ var ulboracms = function () {
             console.log("new Blog: " + JSON.stringify(reqBody));
             res.json(req.body);
         });
+
+        self.app.use(errorHander);
+
     };
 
 
@@ -413,6 +418,10 @@ var initializeWebApp = function (self) {
                 var requestedPage = req.originalUrl;
                 var indexOfPeriod = requestedPage.indexOf(".");
                 var filerName = requestedPage.substring(0, indexOfPeriod);
+                filerName = filerName.replace("/", "");
+                if (requestedPage.length > indexOfPeriod + 5) {
+                    requestedPage = requestedPage.substring(0, indexOfPeriod + 5);
+                }
                 console.log("filter name: " + filerName);
                 var revisedPage = requestedPage.replace("html", "ejs");
                 //var revisedPage = requestedPage.replace("html", "hbs");
@@ -426,8 +435,18 @@ var initializeWebApp = function (self) {
                             res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn});
                         });
                     } else {
-                        console.log("requested page: " + requestedPage);
-                        res.render("public/templates/" + template.name + revisedPage, {content: []});
+                        try {
+                            console.log("requested page: " + requestedPage);
+                            res.render("public/templates/" + template.name + revisedPage, {content: []}, function(err, html){
+                                if(err){
+                                    errorHander(req,res);
+                                }
+                            });
+                        } catch (e) {
+                            console.log("page error: " + e);
+                            errorHander(req,res);
+                        }
+
                     }
 
                 });
@@ -454,7 +473,11 @@ var initializeWebApp = function (self) {
                             var filter = JSON.parse(data);
                             contentController.getContentList(req, filter, loggedIn, function (articleList) {
                                 console.log("content results: " + JSON.stringify(articleList));
-                                res.render("public/templates/" + template.name + revisedPage, {article: results, loggedIn: loggedIn, content: articleList});
+                                if(results._id !== undefined && results._id !== null){
+                                    res.render("public/templates/" + template.name + revisedPage, {article: results, loggedIn: loggedIn, content: articleList});
+                                }else{
+                                    errorHander(req,res);
+                                }                                
                             });
                         } else {
                             console.log(err);
@@ -766,6 +789,11 @@ var getDefaultTemplate = function (callback) {
             callback(t);
         }
     });
+};
+
+var errorHander = function (req, res) {
+    //res.status(404).send('Something broke!');
+    res.status(404).sendfile("public/error.html");
 };
 
 /**

@@ -46,9 +46,13 @@ exports.securityCheck = function (obj) {
     var returnVal = true;
     if (obj !== undefined || obj !== null) {
         var json = JSON.stringify(obj)
-        var n = json.indexOf("function");
-        if (n > -1) {
-            console.log("Security Alert: " + json);
+        if (json !== undefined && json !== null) {
+            var n = json.indexOf("function");
+            if (n > -1) {
+                console.log("Security Alert: " + json);
+                returnVal = false;
+            }
+        } else {
             returnVal = false;
         }
     } else {
@@ -283,6 +287,6 @@ exports.generatePassword = function (email) {
     //random3 += "_";
 
     var returnVal = email.substring(0, 1) + email.substring(1, 2) + random1 + email.substring(0, 1) + email.substring(1, 2)
-             + random2 + email.substring(0, 1)  + random3 + email.substring(2, 3);
+            + random2 + email.substring(0, 1) + random3 + email.substring(2, 3);
     return returnVal;
 };
