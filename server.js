@@ -33,7 +33,10 @@ var feedService = require('./services/feedService');
 
 var contentController = require('./controllers/contentController');
 
+var refreshCache = false;
 var refreshRssCache = false;
+var cashedPages = [];
+
 
 var ulboracms = function () {
 
@@ -228,16 +231,19 @@ var ulboracms = function () {
         //article
         //self.app.post('/rs/article', articleService.create);
         self.app.post('/rs/article', function (req, res) {
+            refreshCache = true;
             refreshRssCache = true;
             articleService.create(req, res);
         });
         //self.app.put('/rs/article', articleService.update);
         self.app.put('/rs/article', function (req, res) {
+            refreshCache = true;
             refreshRssCache = true;
             articleService.update(req, res);
         });
         //self.app.delete('/rs/article/:id', articleService.delete);
         self.app.delete('/rs/article/:id', function (req, res) {
+            refreshCache = true;
             refreshRssCache = true;
             articleService.delete(req, res);
         });
@@ -302,6 +308,8 @@ var ulboracms = function () {
 
         //content
         self.app.post('/rs/content', contentService.getContentList);
+
+
         self.app.get('/rs/content/article/:id', contentService.getArticle);
 
         //self.app.get('/rss', feedService.rssFeed);
@@ -389,20 +397,31 @@ var initializeWebApp = function (self) {
                 res.sendfile("public/templates/" + template.name + "/index.html");
             } else {
                 //__dirname + 
-                fs.readFile(__dirname + "/public/templates/" + template.name + "/json/index.json", function (err, data) {
-                    if (!err) {
-                        var filter = JSON.parse(data);
-                        console.log("filter data: " + JSON.stringify(filter));
-                        console.log("filter data frontpage: " + filter.frontPage);
-                        contentController.getContentList(req, filter, loggedIn, function (results) {
-                            console.log("content results: " + JSON.stringify(results));
-                            res.render("public/templates/" + template.name + "/index", {content: results, loggedIn: loggedIn});
-                        });
-                    } else {
-                        res.render("public/templates/" + template.name + "/index", {});
+                //console.log("cachedPages: " + JSON.stringify(cashedPages["index"]));
+                if (!refreshCache && cashedPages["index"] !== undefined && cashedPages["index"] !== null) {
+                    res.render("public/templates/" + template.name + "/index", {content: cashedPages["index"], loggedIn: loggedIn});
+                } else {
+                    if (refreshCache) {
+                        cashedPages = [];
                     }
+                    console.log("cachedPages: " + JSON.stringify(cashedPages["index"]));
+                    refreshCache = false;
+                    fs.readFile(__dirname + "/public/templates/" + template.name + "/json/index.json", function (err, data) {
+                        if (!err) {
+                            var filter = JSON.parse(data);
+                            console.log("filter data: " + JSON.stringify(filter));
+                            console.log("filter data frontpage: " + filter.frontPage);
+                            contentController.getContentList(req, filter, loggedIn, function (results) {
+                                cashedPages["index"] = results;
+                                console.log("content results: " + JSON.stringify(results));
+                                res.render("public/templates/" + template.name + "/index", {content: results, loggedIn: loggedIn});
+                            });
+                        } else {
+                            res.render("public/templates/" + template.name + "/index", {});
+                        }
 
-                });
+                    });
+                }
 
             }
 
@@ -423,33 +442,44 @@ var initializeWebApp = function (self) {
                     requestedPage = requestedPage.substring(0, indexOfPeriod + 5);
                 }
                 console.log("filter name: " + filerName);
+                
                 var revisedPage = requestedPage.replace("html", "ejs");
                 //var revisedPage = requestedPage.replace("html", "hbs");
-                fs.readFile(__dirname + "/public/templates/" + template.name + "/json/" + filerName + ".json", function (err, data) {
-                    if (!err) {
-                        var filter = JSON.parse(data);
-                        console.log("filter data: " + JSON.stringify(filter));
-                        console.log("filter data frontpage: " + filter.frontPage);
-                        contentController.getContentList(req, filter, loggedIn, function (results) {
-                            console.log("content results: " + JSON.stringify(results));
-                            res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn});
-                        });
-                    } else {
-                        try {
-                            console.log("requested page: " + requestedPage);
-                            res.render("public/templates/" + template.name + revisedPage, {content: []}, function(err, html){
-                                if(err){
-                                    errorHander(req,res);
-                                }
+                if (!refreshCache && cashedPages[filerName] !== undefined && cashedPages[filerName] !== null) {
+                    res.render("public/templates/" + template.name + revisedPage, {content: cashedPages[filerName], loggedIn: loggedIn});
+                } else {
+                    if (refreshCache) {
+                        cashedPages = [];
+                    }
+                    refreshCache = false;
+                    fs.readFile(__dirname + "/public/templates/" + template.name + "/json/" + filerName + ".json", function (err, data) {
+                        if (!err) {
+                            var filter = JSON.parse(data);
+                            console.log("filter data: " + JSON.stringify(filter));
+                            console.log("filter data frontpage: " + filter.frontPage);
+                            contentController.getContentList(req, filter, loggedIn, function (results) {
+                                cashedPages[filerName] = results;
+                                //console.log("cachedPages: " + cashedPages);
+                                console.log("content results: " + JSON.stringify(results));
+                                res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn});
                             });
-                        } catch (e) {
-                            console.log("page error: " + e);
-                            errorHander(req,res);
+                        } else {
+                            try {
+                                console.log("requested page: " + requestedPage);
+                                res.render("public/templates/" + template.name + revisedPage, {content: []}, function (err, html) {
+                                    if (err) {
+                                        errorHander(req, res);
+                                    }
+                                });
+                            } catch (e) {
+                                console.log("page error: " + e);
+                                errorHander(req, res);
+                            }
+
                         }
 
-                    }
-
-                });
+                    });
+                }
 
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
@@ -473,11 +503,11 @@ var initializeWebApp = function (self) {
                             var filter = JSON.parse(data);
                             contentController.getContentList(req, filter, loggedIn, function (articleList) {
                                 console.log("content results: " + JSON.stringify(articleList));
-                                if(results._id !== undefined && results._id !== null){
+                                if (results._id !== undefined && results._id !== null) {
                                     res.render("public/templates/" + template.name + revisedPage, {article: results, loggedIn: loggedIn, content: articleList});
-                                }else{
-                                    errorHander(req,res);
-                                }                                
+                                } else {
+                                    errorHander(req, res);
+                                }
                             });
                         } else {
                             console.log(err);
