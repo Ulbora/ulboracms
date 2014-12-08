@@ -37,7 +37,7 @@ authenticate = function (req, res, role, callback) {
         var tokenArray = token.split(' ');
         if (tokenArray !== undefined && tokenArray !== null && tokenArray.length === 2) {
             var clearText = new Buffer(tokenArray[1], 'base64').toString();
-            console.log("clear text:" + clearText);
+            //console.log("clear text:" + clearText);
             var credentials = clearText.split(':');
             var User = db.getUser();
             User.findOne({username: credentials[0]}, function (err, results) {
@@ -117,7 +117,7 @@ authenticatePassave = function (req, res, callback) {
         var tokenArray = token.split(' ');
         if (tokenArray !== undefined && tokenArray !== null && tokenArray.length === 2) {
             var clearText = new Buffer(tokenArray[1], 'base64').toString();
-            console.log("clear text:" + clearText);
+            //console.log("clear text:" + clearText);
             var credentials = clearText.split(':');
             var User = db.getUser();
             User.findOne({username: credentials[0]}, function (err, results) {
