@@ -1,5 +1,5 @@
 var HOST = "localhost";
-var DATABASE_NAME = "ulboracms2";
+var DATABASE_NAME = "ulboracms";
 
 
 exports.HOST = HOST;
