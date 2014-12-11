@@ -445,7 +445,7 @@ var initializeWebApp = function (self) {
                 
                 var revisedPage = requestedPage.replace("html", "ejs");
                 //var revisedPage = requestedPage.replace("html", "hbs");
-                if (!refreshCache && cashedPages[filerName] !== undefined && cashedPages[filerName] !== null) {
+                if (!refreshCache && cashedPages[filerName] !== undefined && cashedPages[filerName] !== null && filerName !== "archive") {
                     res.render("public/templates/" + template.name + revisedPage, {content: cashedPages[filerName], loggedIn: loggedIn});
                 } else {
                     if (refreshCache) {
@@ -458,7 +458,9 @@ var initializeWebApp = function (self) {
                             console.log("filter data: " + JSON.stringify(filter));
                             console.log("filter data frontpage: " + filter.frontPage);
                             contentController.getContentList(req, filter, loggedIn, function (results) {
-                                cashedPages[filerName] = results;
+                                if(filerName !== "archive"){
+                                    cashedPages[filerName] = results;
+                                }   
                                 //console.log("cachedPages: " + cashedPages);
                                 console.log("content results: " + JSON.stringify(results));
                                 res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn});
