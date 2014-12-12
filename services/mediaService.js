@@ -63,11 +63,11 @@ exports.delete = function(req, res) {
  * @param res
  *      
  */
-exports.get = function(req, res, port) {
+exports.get = function(req, res) {
     //console.log("url:"+ req.host+":"+port);
     service.authenticate(req, res, service.adminAuthRole, function() {
         console.log("in auth callback");
-        var imageUrl = req.host + ":" + port;
+        var imageUrl = req.get("Host");//host + ":" + port;
         //console.log("imageUrl:"+ imageUrl);
         var id = req.params.id;
         if (id !== null && id !== undefined) {
@@ -89,10 +89,10 @@ exports.get = function(req, res, port) {
  * @param res
  *      
  */
-exports.list = function(req, res, port) {
+exports.list = function(req, res) {
     service.authenticate(req, res, service.adminAuthRole, function() {
         console.log("in auth callback");
-        var imageUrl = req.host + ":" + port;
+        var imageUrl = req.get("Host");//host + ":" + port;
         console.log("imageUrl:" + imageUrl);
         mediaManager.list(imageUrl, function(result) {
             res.send(result);

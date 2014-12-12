@@ -217,15 +217,15 @@ var ulboracms = function () {
         self.app.post('/rs/media/upload', mediaService.create);
         self.app.get('/image/get/:id', imageService.get);
         self.app.put('/rs/media', mediaService.update);
-        //self.app.get('/rs/media/:id', mediaService.get);
-        self.app.get('/rs/media/:id', function (req, res) {
-            mediaService.get(req, res, self.port);
-        });
+        self.app.get('/rs/media/:id', mediaService.get);
+        //self.app.get('/rs/media/:id', function (req, res) {
+            //mediaService.get(req, res, self.port);
+        //});
         self.app.delete('/rs/media/:id', mediaService.delete);
-        //self.app.post('/rs/media/list', mediaService.list);
-        self.app.post('/rs/media/list', function (req, res) {
-            mediaService.list(req, res, self.port);
-        });
+        self.app.post('/rs/media/list', mediaService.list);
+        //self.app.post('/rs/media/list', function (req, res) {
+            //mediaService.list(req, res, self.port);
+        //});
 
 
         //article
