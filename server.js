@@ -538,7 +538,7 @@ var initializeWebApp = function (self) {
                         res.redirect("/");
                         //res.render("public/templates/" + template.name + revisedPage, {content: results});
                     } else {
-                        res.render("public/templates/" + template.name + "/login.ejs", {loginFailed: true, message: "Login failed"});
+                        res.render("public/templates/" + template.name + "/login.ejs", {loginFailed: true, message: "Login failed", content: []});
                     }
 
                 });
