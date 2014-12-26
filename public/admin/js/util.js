@@ -6,6 +6,13 @@ function mediaUpdate() {
     document.getElementById("mediaForm").submit();
 }
 
+function templateUpdate() {
+    //alert("test");
+    //alert(document.getElementById("actionUrl").value);
+    var uploadTemplateUrl = document.getElementById("actionUrl").value;
+    document.getElementById("templateForm").setAttribute("action", uploadTemplateUrl);
+    document.getElementById("templateForm").submit();
+}
 function productFileUpdate() {
     //alert("test");
     //alert(document.getElementById("actionUrl").value);

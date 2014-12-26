@@ -302,6 +302,7 @@ var ulboracms = function () {
         self.app.get('/rs/template/:id', templateService.get);
         self.app.delete('/rs/template/:id', templateService.delete);
         self.app.post('/rs/template/list', templateService.list);
+        self.app.post('/rs/template/upload', templateService.upload);
 
         //admin summary
         self.app.get('/rs/admin/summary', adminService.summary);

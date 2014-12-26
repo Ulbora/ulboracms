@@ -65,4 +65,24 @@ exports.list = function(req, res) {
 };
 
 
+exports.upload = function(req, res) {
+    var reqBody = req.body;
+    //if (req.is('application/json')) {
+    if (reqBody !== undefined && reqBody !== null) {
+        //var reqBody = req.body;
+        var bodyJson = JSON.stringify(reqBody);
+        console.log("body: " + bodyJson);
+        //authenticate(req, res, service.authorAuthRole, function() {
+        //console.log("in auth callback");
+        templateManager.upload(reqBody, req.files, function(result) {
+            res.redirect(result);
+        });
+        //});
+    } else {
+        res.status(415);
+        res.send({success: false});
+    }
+
+};
+
 

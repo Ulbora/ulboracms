@@ -154,6 +154,88 @@ exports.list = function (callback) {
     });
 };
 
+exports.upload = function (body, files, callback) {
+    var returnVal = "";
+    //var templateJson = {
+    //name: "",
+    //extension: "",
+    //fileSize: 0,
+    //fileData: null
+    //};
+    var errorLink = body.errorLink;
+    var isOk = manager.securityCheck(body);
+    if (isOk) {
+        var username = body.username;
+        //var name = body.name;
+        var angularTemplate = body.angularTemplate;
+        var uploadKey = body.uploadKey;
+        var returnLink = body.returnLink;
+        
+        if (files !== undefined && files !== null &&
+                username !== undefined && username !== null &&
+                uploadKey !== undefined && uploadKey !== null &&
+                manager.validateFileUploadKey(username, uploadKey)) {
+            var fs = require('fs');
+            fs.readFile(files.file.path, function (err, data) {
+                if (!err && data !== undefined && data !== null) {
+                    var fileName = files.file.name;
+                    var indexOfDot = fileName.lastIndexOf(".");
+                    //var extension = fileName.substring(++indexOfDot);
+                    var name = fileName.substring(0, indexOfDot);
+                    //mediaJson.extension = extension;
+                    //mediaJson.fileSize = files.file.size;
+                    //mediaJson.fileData = data;
+                    installTemplate(fileName, data, function (success) {
+                        if (success) {
+                            var templateJson = {
+                                name: null,
+                                defaultTemplate: false,
+                                angularTemplate: null
+                            };
+                            templateJson.name = name;
+                            templateJson.angularTemplate = angularTemplate;
+                            addTemplate(templateJson, function (addResults) {
+                                if (addResults.success) {
+                                    returnVal = returnLink;
+                                    callback(returnVal);
+                                } else {
+                                    returnVal = errorLink;
+                                    callback(returnVal);
+                                }
+
+                            });
+                        } else {
+                            returnVal = errorLink;
+                            callback(returnVal);
+                        }
+                    });
+
+                    var templateJson = {
+                        name: null,
+                        defaultTemplate: false,
+                        angularTemplate: null
+                    };
+                    templateJson.name = name;
+                    templateJson.angularTemplate = angularTemplate;
+                    addTemplate(templateJson, function (addResults) {
+                        callback(addResults);
+                    });
+
+                } else {
+                    returnVal = errorLink;
+                    callback(returnVal);
+                }
+            });
+        } else {
+            returnVal = errorLink;
+            callback(returnVal);
+        }
+    } else {
+        returnVal = errorLink;
+        callback(returnVal);
+    }
+};
+
 
 addTemplate = function (json, callback) {
     var returnVal = {
@@ -252,4 +334,8 @@ removeDefaultTemplate = function (callback) {
             callback(false);
         }
     });
+};
+
+installTemplate = function (fileName, data, callback) {
+
 };

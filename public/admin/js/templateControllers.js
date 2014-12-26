@@ -50,24 +50,24 @@ ulboraCmsTemplateControllers.controller('TemplateCtrl', ['$scope', 'checkCreds',
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
         var templateId = $routeParams.a;
         Template.get({id: templateId},
-                function success(response) {
-                    //alert($scope.challenge.question);
-                    console.log("Success:" + JSON.stringify(response));
-                    $scope.templateId = response._id;
-                    $scope.name = response.name;
-                    if(response.defaultTemplate){
-                        $scope.defaultTemplate = "true";
-                    }else{
-                        $scope.defaultTemplate = "false";
-                    }
-                    if(response.angularTemplate){
-                        $scope.angularTemplate = "true";
-                    }else{
-                        $scope.angularTemplate = "false";
-                    }
+        function success(response) {
+            //alert($scope.challenge.question);
+            console.log("Success:" + JSON.stringify(response));
+            $scope.templateId = response._id;
+            $scope.name = response.name;
+            if (response.defaultTemplate) {
+                $scope.defaultTemplate = "true";
+            } else {
+                $scope.defaultTemplate = "false";
+            }
+            if (response.angularTemplate) {
+                $scope.angularTemplate = "true";
+            } else {
+                $scope.angularTemplate = "false";
+            }
 
 
-                },
+        },
                 function error(errorResponse) {
                     console.log("Error:" + JSON.stringify(errorResponse));
                     //$location.path('/loginFailedForm');
@@ -83,20 +83,20 @@ ulboraCmsTemplateControllers.controller('TemplateCtrl', ['$scope', 'checkCreds',
 ulboraCmsTemplateControllers.controller('TemplateEditCtrl', ['$scope', 'Template', '$location', '$http', 'getToken',
     function TemplateEditCtrl($scope, Template, $location, $http, getToken) {
         $scope.submit = function () {
-            
+
             var defaultTemplate = false;
-            if($scope.defaultTemplate === "true"){
+            if ($scope.defaultTemplate === "true") {
                 defaultTemplate = true;
             }
-            
+
             var angularTemplate = false;
-            if($scope.angularTemplate === "true"){
+            if ($scope.angularTemplate === "true") {
                 angularTemplate = true;
             }
 
             var putData = {
                 "id": $scope.templateId,
-                "name": $scope.name,                
+                "name": $scope.name,
                 "defaultTemplate": defaultTemplate,
                 "angularTemplate": angularTemplate
             };
@@ -131,22 +131,22 @@ ulboraCmsTemplateControllers.controller('TemplateEditCtrl', ['$scope', 'Template
 
 ulboraCmsTemplateControllers.controller('TemplateAddCtrl', ['$scope', 'Template', '$location', '$http', 'getToken',
     function TemplateAddCtrl($scope, Template, $location, $http, getToken) {
-        $scope.submit = function() {
-            
+        $scope.submit = function () {
+
             var defaultTemplate = false;
             var defaultTemp = $scope.defaultTemplate;
-            if(defaultTemp === "true"){
+            if (defaultTemp === "true") {
                 defaultTemplate = true;
             }
-            
+
             var angularTemplate = false;
-            if($scope.angularTemplate === "true"){
+            if ($scope.angularTemplate === "true") {
                 angularTemplate = true;
             }
 
             var postData = {
-                "name": $scope.name,                
-                "defaultTemplate" : defaultTemplate,
+                "name": $scope.name,
+                "defaultTemplate": defaultTemplate,
                 "angularTemplate": angularTemplate
             };
             console.log("json request:" + JSON.stringify(postData));
@@ -191,11 +191,48 @@ ulboraCmsTemplateControllers.controller('NewTemplateCtrl', ['$scope', 'checkCred
 
     }]);
 
+ulboraCmsTemplateControllers.controller('UploadTemplateCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', "ArticleValues",
+    function UploadTemplateCtrl($scope, checkCreds, $location, $http, getToken, ArticleValues) {
+        if (checkCreds() !== true) {
+            $location.path('/loginForm');
+        }
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+        $scope.defaultTemplate = "false";
+        $scope.angularTemplate = "false";
+
+        $scope.uploadTemplateActiveClass = "active";
+
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+        var postData = {
+            "languageCode": "en-us"
+        };
+
+        ArticleValues.getValues({}, postData,
+                function success(response) {
+                    //alert($scope.challenge.question);
+                    console.log("Success:" + JSON.stringify(response));
+
+                    $scope.uploadKey = response.uploadKey;
+                    $scope.errorUrl = "admin/#!";
+                    $scope.templatesUrl = "admin/#!templates";
+                    $scope.username = response.username;
+                    $scope.api = "../../rs/template/upload";
+
+                },
+                function error(errorResponse) {
+                    console.log("Error:" + JSON.stringify(errorResponse));
+                    //$location.path('/loginFailedForm');
+                }
+        );
+
+
+    }]);
+
 
 
 ulboraCmsTemplateControllers.controller('DeleteTemplateCtrl', ['$scope', '$rootScope', 'Template', '$location', '$route', '$http', 'getToken',
     function DeleteTemplateCtrl($scope, $rootScope, Template, $location, $route, $http, getToken) {
-        $scope.delete = function(id, name) {
+        $scope.delete = function (id, name) {
             var doDelete = confirm("Delete " + name);
             if (doDelete === true) {
                 $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();

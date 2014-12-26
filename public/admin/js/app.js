@@ -219,6 +219,10 @@ ulboraCmsAdminApp.config(['$routeProvider', '$locationProvider',
                 when('/newTemplate', {
                     templateUrl: 'partials/newTemplate.html',
                     controller: 'NewTemplateCtrl'
+                }).
+                when('/uploadTemplate', {
+                    templateUrl: 'partials/uploadTemplate.html',
+                    controller: 'UploadTemplateCtrl'
                 });
 
         $locationProvider.html5Mode(false).hashPrefix('!');
