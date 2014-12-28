@@ -3,6 +3,13 @@
 
 var db = require('../db/db');
 var manager = require('../managers/manager');
+var exec = require('child_process').exec;
+var fs = require('fs');
+var tar = require('tar');
+var zlib = require('zlib');
+var path = require('path');
+var mkdirp = require('mkdirp'); // used to create directory tree
+
 
 
 /**
@@ -154,14 +161,9 @@ exports.list = function (callback) {
     });
 };
 
-exports.upload = function (body, files, callback) {
+exports.upload = function (dirname, body, files, callback) {
     var returnVal = "";
-    //var templateJson = {
-    //name: "",
-    //extension: "",
-    //fileSize: 0,
-    //fileData: null
-    //};
+    
     var errorLink = body.errorLink;
     var isOk = manager.securityCheck(body);
     if (isOk) {
@@ -170,22 +172,24 @@ exports.upload = function (body, files, callback) {
         var angularTemplate = body.angularTemplate;
         var uploadKey = body.uploadKey;
         var returnLink = body.returnLink;
-        
+
         if (files !== undefined && files !== null &&
                 username !== undefined && username !== null &&
                 uploadKey !== undefined && uploadKey !== null &&
                 manager.validateFileUploadKey(username, uploadKey)) {
+            console.log("validated upload key");
             var fs = require('fs');
             fs.readFile(files.file.path, function (err, data) {
                 if (!err && data !== undefined && data !== null) {
                     var fileName = files.file.name;
+                    console.log("fileName: " + fileName);
                     var indexOfDot = fileName.lastIndexOf(".");
                     //var extension = fileName.substring(++indexOfDot);
                     var name = fileName.substring(0, indexOfDot);
-                    //mediaJson.extension = extension;
-                    //mediaJson.fileSize = files.file.size;
-                    //mediaJson.fileData = data;
-                    installTemplate(fileName, data, function (success) {
+                    var indexOfDotTar = name.lastIndexOf(".tar");
+                    name = name.substring(0, indexOfDotTar);
+                    
+                    installTemplate(dirname, fileName, data, function (success) {
                         if (success) {
                             var templateJson = {
                                 name: null,
@@ -208,20 +212,9 @@ exports.upload = function (body, files, callback) {
                             returnVal = errorLink;
                             callback(returnVal);
                         }
-                    });
-
-                    var templateJson = {
-                        name: null,
-                        defaultTemplate: false,
-                        angularTemplate: null
-                    };
-                    templateJson.name = name;
-                    templateJson.angularTemplate = angularTemplate;
-                    addTemplate(templateJson, function (addResults) {
-                        callback(addResults);
-                    });
-
+                    });                   
                 } else {
+                    console.log("template read error: " + err);
                     returnVal = errorLink;
                     callback(returnVal);
                 }
@@ -336,6 +329,46 @@ removeDefaultTemplate = function (callback) {
     });
 };
 
-installTemplate = function (fileName, data, callback) {
+installTemplate = function (dirname, fileName, data, callback) {
+    var returnVal = false;
 
+    saveTemplateFile(dirname, fileName, data, function (saveResult) {
+        if (saveResult) {
+            returnVal = true;
+            var tarball = dirname + "/public/templates/" + fileName;
+            var dest = dirname + "/public/templates";
+
+            fs.createReadStream(tarball)
+                    .on("error", function (err) {
+                        console.log(err);
+                        returnVal = false;
+                    })
+                    .pipe(zlib.Unzip())
+                    .pipe(tar.Extract({path: dest}))
+                    .on("end", function () {
+                        callback(returnVal);
+                    });
+
+        } else {
+            callback(returnVal);
+        }
+    });
 };
+
+saveTemplateFile = function (dirname, fileName, data, callback) {
+    var returnVal = false;
+    var savePath = dirname + "/public/templates/" + fileName;
+    console.log("saving: " + savePath);
+    fs.writeFile(savePath, data, {flag: "wx", encoding: "binary"}, function (err) {
+        if (!err) {
+            returnVal = true;
+            callback(returnVal);
+        } else {
+            console.log(err);
+            callback(returnVal);
+        }
+    });
+};
+
+
+

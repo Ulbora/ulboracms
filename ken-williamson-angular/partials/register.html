@@ -1,0 +1,76 @@
+<div ng-include src="'partials/menu.html'"></div>   
+<!-- Ulbora CMS Template and theme -->
+<div id="container" class="container">  
+    <div class="register-outer-form-wrapper">
+        <div class="register-title">Registration</div>
+        <div class="register-form-wrapper">
+            <form  ng-submit="submit()" ng-controller="RegistrationCtrl">                        
+                <div class="register-label" >
+                    <label class="support-form-label" for="username">Username:</label>
+                </div>
+                <div class="register-element">
+                    <input class="form-left-text-element" ng-model="username" type="text" name="username" placeholder="username"  required/>                          
+                </div>
+                <div class="register-label">
+                    <label class="support-form-label" for="password">Password</label>
+                </div>
+                <div class="register-element">
+                    <input class="form-left-text-element" type="password" ng-model="password" name="password" placeholder="password"  required/>                          
+                </div>
+                <div class="register-label">
+                    <label class="support-form-label" for="confirm">Confirm</label>
+                </div>
+                <div class="register-element">
+                    <input class="form-left-text-element" type="password" ng-model="confirm" name="confirm" placeholder="password"  required/>                          
+                </div>
+
+                <div class="register-label" >
+                    <label class="support-form-label" for="firstName">First Name</label>
+                </div>
+                <div class="register-element">
+                    <input class="form-left-text-element" type="text" ng-model="firstName" name="firstName" placeholder="first name"  required/>                          
+                </div>
+
+                <div class="register-label" >
+                    <label class="support-form-label" for="lastName">Last Name</label>
+                </div>
+                <div class="register-element">
+                    <input class="form-left-text-element" type="text" ng-model="lastName" name="lastName" placeholder="last name"  required/>                          
+                </div>
+
+                <div class="register-label" >
+                    <label class="support-form-label" for="email">Email</label>
+                </div>
+                <div class="register-element">
+                    <input class="form-left-text-element" type="email" ng-model="email" name="email" placeholder="email"  required/>                          
+                </div>
+
+                <div class="register-label" >
+                    <label class="support-form-label" for="question">Question</label>
+                </div>
+                <div class="register-element">
+                    <input class="form-left-text-element" disabled="disabled" type="text" ng-model="challenge.question" name="question"/>                          
+                </div>
+
+                <div class="register-label" >
+                    <label class="support-form-label" for="answer">Answer</label>
+                </div>
+                <div class="register-element">
+                    <input class="form-left-text-element" id="answer" type="text" ng-model="answer" name="answer" required/>  
+                    <input id="key" type="hidden" name="key" ng-model="key" /> 
+                </div>
+
+                <div class="register-button">
+                    <button type="submit" class="">Register</button>
+                </div>                       
+            </form>                      
+        </div>                
+    </div>              
+</div>
+
+<div ng-switch on="showfooter">
+    <div ng-switch-when="true" >
+        <div ng-include src="'partials/footer.html'"></div>    
+    </div>
+</div>
+

@@ -21,6 +21,9 @@ var MONTH_NAMES = ["January", "Febuary", "March", "April", "May", "June", "July"
 var algorithm = 'aes256';
 var key = 'hggr77tyurEhR';
 
+var LINUX_OS = "Linux";
+var WINDOWS_OS = "Windows";
+
 exports.ROLE_SUPER_ADMIN = ROLE_SUPER_ADMIN;
 exports.ROLE_ADMIN = ROLE_ADMIN;
 exports.ROLE_AUTHOR = ROLE_AUTHOR;
@@ -31,6 +34,10 @@ exports.ACCESS_LEVEL_PUBLIC = ACCESS_LEVEL_PUBLIC;
 exports.ACCESS_LEVEL_USER = ACCESS_LEVEL_USER;
 exports.REQUIRE_PUBLISH_APPROVAL_RULE_NAME = REQUIRE_PUBLISH_APPROVAL_RULE_NAME;
 exports.REQUIRE_PUBLISH_APPROVAL_RULE_KEY = REQUIRE_PUBLISH_APPROVAL_RULE_KEY;
+
+
+exports.LINUX_OS = LINUX_OS;
+exports.WINDOWS_OS = WINDOWS_OS;
 
 hashPasswordSync = function (username, pw) {
     return crypto.pbkdf2Sync(pw, username, 250, 128).toString('base64');

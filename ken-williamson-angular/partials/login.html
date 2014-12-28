@@ -1,0 +1,36 @@
+<div ng-include src="'partials/menu.html'"></div>   
+<!-- Ulbora CMS Template and theme -->
+<div id="container" class="container">  
+    <div class="login-outer-form-wrapper">
+        <div class="login-form-wrapper">            
+            <div class="failed-login">{{loginFailMessage}}</div>           
+            <form ng-submit="submit()" ng-controller="LoginCtrl">                        
+                <div class="login-label" >
+                    <label for="username">Username:</label>
+                </div>
+                <div class="login-element">
+                    <input type="text" ng-model="username" name="username" placeholder="username"/>                          
+                </div>
+                <div class="login-label">
+                    <label for="username">Password</label>
+                </div>
+                <div class="login-element">
+                    <input type="password" ng-model="password" name="password" placeholder="password"/>                          
+                </div>
+
+                <div class="login-button">
+                    <button type="submit" class="">Sign In</button>
+                </div>
+            </form>   
+        </div>
+        <div class="login-links">
+            <div class="login-link-cell"><a href="#!register">Register</a></div>
+            <div class="login-link-cell"><a href="#!resetPassword">Reset Password</a></div>
+        </div>
+    </div>              
+</div>
+<div ng-switch on="showfooter">
+    <div ng-switch-when="true" >
+        <div ng-include src="'partials/footer.html'"></div>    
+    </div>
+</div>

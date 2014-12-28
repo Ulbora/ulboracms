@@ -1,0 +1,65 @@
+<div ng-include src="'partials/menu.html'"></div>   
+<div id="container" class="container">  
+    <!-- Ulbora CMS Template and theme -->
+    <div ng-switch on="showContent">
+        <div ng-switch-when="true" >
+            <div class="article-wrapper">
+                <div class="article-title">{{article.title}}</div>
+                <div class="article">
+                    <div ng-bind-html="articleHtml"></div>   
+                </div> 
+                <div class="article-tags" ng-switch on="showTags">            
+                    <p ng-switch-when="true">Tags: 
+                        <span ng-repeat="keyword in article.tag.keyWords" ng-switch="(article.tag.keyWords.length -1) === {{$index}}">
+                            <a href="#!article/{{article._id}}"
+                               rel="tag">{{keyword}}</a> <span ng-switch-when="false">,</span>
+                        </span>
+                    </p>
+                </div>
+            </div> 
+
+            <div ng-switch on="showComments">
+                <div class="comments" ng-switch-when="true">
+                    <div class="comment-form-wrapper">
+                        <form action="/comment" method="post">
+                            <div class="comment-form-label">
+                                <label for="commentText">Add Comment:</label>
+                            </div>
+                            <input name="article" type="hidden" value="{{article._id}}"/>
+                            <div class="comment-form-entry-box">
+                                <textarea class="comment-form-textarea" name="text" placeholder="Comment" required></textarea>
+                            </div>
+
+                            <div class="comment-form_button">
+                                <button type="submit" class="form-button">Submit</button>
+                            </div>
+                        </form>
+                    </div>
+                    <div class="comments-list" ng-repeat="comment in article.commentList">
+
+                        <div class="comment-entry">
+                            <div class="comment-user">
+                                {{comment.commenter.firstName}} {{comment.commenter.lastName}}
+                            </div>
+                            <div class="comment-text">
+                                {{comment.text}}
+                            </div>                        
+                        </div>                        
+
+                    </div>
+                </div>        
+            </div> 
+            <div ng-switch on="showCommentLoginRequied">
+                <div class="comment-link" ng-switch-when="true">
+                    Comments Require Login
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div> 
+<div ng-switch on="showContent">
+    <div ng-switch-when="true" >
+        <div ng-include src="'partials/footer.html'"></div>    
+    </div>
+</div>

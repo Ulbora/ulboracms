@@ -65,7 +65,7 @@ exports.list = function(req, res) {
 };
 
 
-exports.upload = function(req, res) {
+exports.upload = function(dirname, req, res) {
     var reqBody = req.body;
     //if (req.is('application/json')) {
     if (reqBody !== undefined && reqBody !== null) {
@@ -74,7 +74,7 @@ exports.upload = function(req, res) {
         console.log("body: " + bodyJson);
         //authenticate(req, res, service.authorAuthRole, function() {
         //console.log("in auth callback");
-        templateManager.upload(reqBody, req.files, function(result) {
+        templateManager.upload(dirname, reqBody, req.files, function(result) {
             res.redirect(result);
         });
         //});

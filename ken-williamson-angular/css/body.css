@@ -1,0 +1,46 @@
+html{
+    height:100%;
+    min-height:100%;
+}
+
+body{
+    font-family: Arial;    
+    font-size: 12pt;    
+    /*background: gainsboro;*/
+    background-image: url("../img/GoldenGateBridge.jpg"); 
+    background-position: center;
+    background-attachment: fixed;
+    background-repeat: repeat-y;
+    margin: 0 0 0 0;
+    padding: 0 0 0 0;
+    color: darkslategray;
+    min-height:100%;
+
+}
+
+@media screen and (min-width: 1200px){
+    body{     
+        background-size: 120%; 
+    }
+}
+
+@media screen and (max-width: 1200px){
+    body{     
+        background-size: 130%; 
+    }
+}
+
+@media screen and (max-width: 800px){
+    body{     
+        /*background: threedlightshadow;*/
+        background-size: 250%; 
+    }
+}
+
+@media screen and (max-width: 480px){
+    body{     
+        /*background: threedlightshadow;*/
+        background-size: 250%; 
+
+    }
+}

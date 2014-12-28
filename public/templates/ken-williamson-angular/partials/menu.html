@@ -1,0 +1,23 @@
+<div class="top-menu">
+    <div class="top-menu-space">
+        <div class="logo">Ken Williamson</div>
+        <div class="logo-img"><img alt="Ken-Williamson.com" src="img/kwilliamson_1.5.jpeg"/></div>
+
+    </div>
+    <div class="top-menu-menu">
+        <nav>
+            <ul ng-switch on="loggedIn">
+                <li class="{{homeActiveClass}}" ><a  href="/">Home</a></li>   
+                <li ng-repeat="item in content.articleLocations.TopMenu" ng-switch="item.title === '{{menuLinkName}}'">
+                    <a ng-switch-when="false" href="#!menuArticle/{{item._id}}/{{ item.title}}">{{ item.title}}</a>
+                    <a ng-switch-when="true" class="activeLink" href="#!menuArticle/{{item._id}}/{{ item.title}}">{{ item.title}}</a>
+                </li>  
+                <li ng-switch-when="true"><a class="" href="#!logOut">Logout</a></li>
+                <li class="{{loginActiveClass}}" ng-switch-when="false"><a href="#!login">Login</a></li> 
+
+
+            </ul>
+        </nav>
+
+    </div>
+</div>   
