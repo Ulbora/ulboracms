@@ -3,7 +3,6 @@
 
 var db = require('../db/db');
 var manager = require('../managers/manager');
-var exec = require('child_process').exec;
 var fs = require('fs');
 var tar = require('tar');
 var zlib = require('zlib');
