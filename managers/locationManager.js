@@ -10,7 +10,7 @@ var manager = require('../managers/manager');
  * @param json
  *      
  */
-exports.create = function(json, callback) {
+exports.create = function (json, callback) {
     var returnVal = {
         success: false,
         message: ""
@@ -18,11 +18,11 @@ exports.create = function(json, callback) {
     var isOk = manager.securityCheck(json);
     if (isOk) {
         var Location = db.getLocation();
-        Location.findOne({name: json.name}, function(err, results) {
+        Location.findOne({name: json.name}, function (err, results) {
             console.log("found location in create: " + JSON.stringify(results));
             if (!err && (results === undefined || results === null)) {
                 var loc = new Location(json);
-                loc.save(function(err) {
+                loc.save(function (err) {
                     if (err) {
                         returnVal.message = "save failed";
                         console.log("location save error: " + err);
@@ -48,8 +48,38 @@ exports.create = function(json, callback) {
  * @param json
  *      
  */
-exports.update = function(json, callback) {
-    // not currently used
+exports.update = function (json, callback) {
+    var returnVal = {
+        success: false,
+        message: ""
+    };
+    var isOk = manager.securityCheck(json);
+    if (isOk) {
+        var Location = db.getLocation();
+        Location.findById(json.id, function (err, results) {
+            console.log("found location in update: " + JSON.stringify(results));
+            if (!err && (results !== undefined && results !== null)) {
+                var loc = results;
+                loc.name = json.name;
+                loc.menu = json.menu;
+                loc.save(function (err) {
+                    if (err) {
+                        console.log("location save error: " + err);
+                    } else {
+                        returnVal.success = true;
+                    }
+                    callback(returnVal);
+                });
+
+
+            } else {
+                returnVal.message = "location not found";
+                callback(returnVal);
+            }
+        });
+    } else {
+        callback(returnVal);
+    }
 };
 
 
@@ -58,7 +88,7 @@ exports.update = function(json, callback) {
  * @param id
  *      
  */
-exports.delete = function(id, callback) {
+exports.delete = function (id, callback) {
     var returnVal = {
         success: false,
         message: ""
@@ -67,7 +97,7 @@ exports.delete = function(id, callback) {
     if (isOk) {
         console.log("id: " + id);
         var Location = db.getLocation();
-        Location.findById(id, function(err, results) {
+        Location.findById(id, function (err, results) {
             console.log("found location for delete: " + JSON.stringify(results));
             if (!err && (results !== undefined && results !== null)) {
                 results.remove();
@@ -88,17 +118,17 @@ exports.delete = function(id, callback) {
  * @param id
  *      
  */
-exports.get = function(id, callback) {
+exports.get = function (id, callback) {
     var isOk = manager.securityCheck(id);
     if (isOk) {
         console.log("id: " + id);
         var Location = db.getLocation();
-        Location.findById(id, function(err, location) {
+        Location.findById(id, function (err, location) {
             console.log("found location: " + JSON.stringify(location));
             if (!err && (location !== undefined && location !== null)) {
                 var loc = location.toObject();
                 var ArticleLocation = db.getArticleLocation();
-                ArticleLocation.find({location: location._id}, function(err, articleLocations) {
+                ArticleLocation.find({location: location._id}, function (err, articleLocations) {
                     console.log("found article locations: " + JSON.stringify(articleLocations));
                     if (!err && (articleLocations !== undefined && articleLocations !== null)) {
                         loc.articleList = articleLocations;
@@ -106,7 +136,7 @@ exports.get = function(id, callback) {
                         loc.articleList = [];
                     }
                     var ProductLocation = db.getProductLocation();
-                    ProductLocation.find({location: location._id}, function(err, productLocations) {
+                    ProductLocation.find({location: location._id}, function (err, productLocations) {
                         console.log("found product locations: " + JSON.stringify(productLocations));
                         if (!err && (productLocations !== undefined && productLocations !== null)) {
                             loc.productList = productLocations;
@@ -133,9 +163,9 @@ exports.get = function(id, callback) {
  * @param json
  *      
  */
-exports.list = function(callback) {
+exports.list = function (callback) {
     var Location = db.getLocation();
-    Location.find({}, null, {sort: {name: 1}}, function(err, results) {
+    Location.find({}, null, {sort: {name: 1}}, function (err, results) {
         console.log("found location list: " + JSON.stringify(results));
         if (err) {
             callback({});

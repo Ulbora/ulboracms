@@ -64,11 +64,14 @@ ulboraCmsLocationControllers.controller('DeleteLocationCtrl', ['$scope', 'Locati
 ulboraCmsLocationControllers.controller('LocationAddCtrl', ['$scope', 'Location', '$location', '$http', 'getToken',
     function LocationAddCtrl($scope, Location, $location, $http, getToken) {
         $scope.submit = function() {
-            
+            var menu = false;
+            if($scope.menu === "true"){
+                menu = true;
+            }
           
             var postData = {
-                "name": $scope.name
-                
+                "name": $scope.name,
+                "menu": menu
             };
             console.log("json request:" + JSON.stringify(postData));
             $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
@@ -105,7 +108,7 @@ ulboraCmsLocationControllers.controller('NewLocationCtrl', ['$scope', 'checkCred
             $location.path('/loginForm');
         }
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-
+        $scope.menu = "false";
 
         $scope.newLocationActiveClass = "active";
 
@@ -128,7 +131,13 @@ ulboraCmsLocationControllers.controller('LocationCtrl', ['$scope', 'checkCreds',
             console.log("Success:" + JSON.stringify(response));
             
             
-            $scope.locationName = response.name;
+            $scope.name = response.name;
+            $scope.id = response._id;
+            if(response.menu){
+                $scope.menu = "true";
+            }else{
+                $scope.menu = "false";
+            }
             //$scope.articleList = response.usageList.articleList;
             //$scope.productList = response.usageList.productList;
             $scope.articleList = response.articleList;
@@ -167,3 +176,44 @@ ulboraCmsLocationControllers.controller('LocationCtrl', ['$scope', 'checkCreds',
 
 
 
+
+ulboraCmsLocationControllers.controller('LocationEditCtrl', ['$scope', 'Location', '$location', '$http', 'getToken',
+    function LocationEditCtrl($scope, Location, $location, $http, getToken) {
+        $scope.submit = function() {
+            var menu = false;
+            if($scope.menu === "true"){
+                menu = true;
+            }          
+            var putData = {
+                "id": $scope.id,
+                "name": $scope.name,
+                "menu": menu
+            };
+            console.log("json request:" + JSON.stringify(putData));
+            $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+            Location.update({}, putData,
+                    function success(response) {
+                        console.log("Success:" + JSON.stringify(response));
+                        if (response.success === true) {
+                            // set cookie
+                            //setCreds($scope.username, $scope.password);
+                            //$location.path('/');
+                            console.log("Success:" + JSON.stringify(response));
+                            $location.path('/locations');
+                        } else {
+                            //$location.path('/loginFailedForm');
+                            console.log("Failed:" + JSON.stringify(response));
+                        }
+                    },
+                    function error(errorResponse) {
+                        console.log("Error:" + JSON.stringify(errorResponse));
+                        //$location.path('/loginFailedForm');
+                        $location.path('/locations');
+                    }
+            );
+
+
+            //$location.path('/articles');
+        };
+
+    }]);

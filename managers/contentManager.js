@@ -100,12 +100,12 @@ exports.getArticle = function (id, creds, callback) {
                                                     if (!tagErr && (tagResults !== undefined && tagResults !== null)) {
                                                         var tagObj = tagResults.toObject();
                                                         var keyWords = [];
-                                                        if(tagObj.keyWords !== undefined && tagObj.keyWords !== null){
+                                                        if (tagObj.keyWords !== undefined && tagObj.keyWords !== null) {
                                                             keyWords = tagObj.keyWords.split(",");
                                                         }
                                                         tagObj.keyWords = keyWords;
                                                         a.tag = tagObj;
-                                                        
+
                                                     }
                                                     //var User = db.getUser();
                                                     User.findById(results.user, function (userErr, foundUser) {
@@ -547,6 +547,7 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                 ///////////////
                                 console.log("filteredArticleList: " + JSON.stringify(filteredArticleList));
                                 var locationArticleList = [];
+                                var sortableLocationList = [];
                                 for (var faCnt = 0; faCnt < filteredArticleList.length; faCnt++) {
                                     var fa = filteredArticleList[faCnt];
                                     fa.position = [];
@@ -561,11 +562,17 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                                         if (useLan) {
                                                             if (useLanId.toString() === fa.language.toString()) {
                                                                 fa.position.push(locationList[lCnt].name);
+                                                                if (sortableLocationList.indexOf(locationList[lCnt].name) < 0) {
+                                                                    sortableLocationList.push(locationList[lCnt].name);
+                                                                }
                                                                 locationArticleList.push(fa);
                                                                 //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                             }
                                                         } else {
                                                             fa.position.push(locationList[lCnt].name);
+                                                            if (sortableLocationList.indexOf(locationList[lCnt].name) < 0) {
+                                                                sortableLocationList.push(locationList[lCnt].name);
+                                                            }
                                                             locationArticleList.push(fa);
                                                             //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                         }
@@ -573,11 +580,17 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                                         if (useLan) {
                                                             if (useLanId.toString() === fa.language.toString()) {
                                                                 fa.position.push(locationList[lCnt].name);
+                                                                if (sortableLocationList.indexOf(locationList[lCnt].name) < 0) {
+                                                                    sortableLocationList.push(locationList[lCnt].name);
+                                                                }
                                                                 locationArticleList.push(fa);
                                                                 //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                             }
                                                         } else {
                                                             fa.position.push(locationList[lCnt].name);
+                                                            if (sortableLocationList.indexOf(locationList[lCnt].name) < 0) {
+                                                                sortableLocationList.push(locationList[lCnt].name);
+                                                            }
                                                             locationArticleList.push(fa);
                                                             // returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                         }
@@ -592,7 +605,7 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                         //}
                                     }
                                 }
-
+                                console.log("sortableLocationList: " + JSON.stringify(sortableLocationList));
                                 var fcnt = 0;
                                 var mapArray = [];
                                 console.log("locationArticleList: " + JSON.stringify(locationArticleList));
@@ -861,17 +874,17 @@ processArticle = function (art, frontPage, callback) {
                     a.fullPage = true;
                 }
                 /*
-                if (!a.fullPage) {
-                    var indexOfPEnd = tempTxt.indexOf(pEnd);
-                    var indexOfDEnd = tempTxt.indexOf(dEnd);
-                    if (indexOfPEnd > indexOfDEnd) {
-                        indexOfPEnd += 4;
-                        tempTxt = tempTxt.substring(0, indexOfPEnd);
-                    } else if (indexOfDEnd > indexOfPEnd) {
-                        indexOfDEnd += 6;
-                        tempTxt = tempTxt.substring(0, indexOfDEnd);
-                    }
-                }*/
+                 if (!a.fullPage) {
+                 var indexOfPEnd = tempTxt.indexOf(pEnd);
+                 var indexOfDEnd = tempTxt.indexOf(dEnd);
+                 if (indexOfPEnd > indexOfDEnd) {
+                 indexOfPEnd += 4;
+                 tempTxt = tempTxt.substring(0, indexOfPEnd);
+                 } else if (indexOfDEnd > indexOfPEnd) {
+                 indexOfDEnd += 6;
+                 tempTxt = tempTxt.substring(0, indexOfDEnd);
+                 }
+                 }*/
 
                 //console.log("article text: " + binaryText);
                 console.log("article text: " + tempTxt);

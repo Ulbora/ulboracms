@@ -198,7 +198,7 @@ var ulboracms = function () {
 
         //location
         self.app.post('/rs/location', locationService.create);
-        //self.app.put('/rs/location', locationService.update);
+        self.app.put('/rs/location', locationService.update);
         self.app.delete('/rs/location/:id', locationService.delete);
         self.app.get('/rs/location/:id', locationService.get);
         self.app.post('/rs/location/list', locationService.list);
