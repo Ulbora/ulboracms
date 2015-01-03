@@ -516,9 +516,13 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                         if (addArt) {
                                             if (searchDateFilter !== undefined && searchDateFilter !== null) {
                                                 var ad = a.createdDate;
+                                                console.log("filteredArticle: " + JSON.stringify(ad));
                                                 var month = ad.getMonth();
                                                 var year = ad.getFullYear();
-                                                if (searchDateFilter.month === month && searchDateFilter.year === year) {
+                                                if ((searchDateFilter.month === month && searchDateFilter.year === year)) {
+                                                    filteredArticleList.push(a);
+                                                } else if (a.menuIndex > 0) {
+                                                    a.menuOnly = true;
                                                     filteredArticleList.push(a);
                                                 }
                                             } else {
@@ -546,37 +550,68 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                                     if (fa.accessLevel.toString() === publicAccessLevel.toString()) {
                                                         if (useLan) {
                                                             if (useLanId.toString() === fa.language.toString()) {
-                                                                fa.position.push(locationList[lCnt].name);
+                                                                if (fa.menuOnly && locationList[lCnt].menu) {
+                                                                    fa.position.push(locationList[lCnt].name);
+                                                                    locationArticleList.push(fa);
+                                                                    //} else if (fa.menuOnly === undefined && !locationList[lCnt].menu) {
+                                                                } else if (fa.menuOnly === undefined) {
+                                                                    fa.position.push(locationList[lCnt].name);
+                                                                    locationArticleList.push(fa);
+                                                                }
                                                                 //if (sortableLocationList.indexOf(locationList[lCnt]._id) < 0) {
                                                                 // sortableLocationList.push(locationList[lCnt]._id);
                                                                 //}
-                                                                locationArticleList.push(fa);
+
                                                                 //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                             }
                                                         } else {
-                                                            fa.position.push(locationList[lCnt].name);
+                                                            if (fa.menuOnly && locationList[lCnt].menu) {
+                                                                fa.position.push(locationList[lCnt].name);
+                                                                locationArticleList.push(fa);
+                                                                //} else if (fa.menuOnly === undefined && !locationList[lCnt].menu) {
+                                                            } else if (fa.menuOnly === undefined) {
+                                                                fa.position.push(locationList[lCnt].name);
+                                                                locationArticleList.push(fa);
+                                                            }
+                                                            //////////////fa.position.push(locationList[lCnt].name);
                                                             //if (sortableLocationList.indexOf(locationList[lCnt]._id) < 0) {
                                                             //sortableLocationList.push(locationList[lCnt]._id);
                                                             //}
-                                                            locationArticleList.push(fa);
+                                                            ///////////locationArticleList.push(fa);
                                                             //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                         }
                                                     } else if (creds !== null && creds.loggedIn) {
                                                         if (useLan) {
                                                             if (useLanId.toString() === fa.language.toString()) {
-                                                                fa.position.push(locationList[lCnt].name);
+                                                                if (fa.menuOnly && locationList[lCnt].menu) {
+                                                                    fa.position.push(locationList[lCnt].name);
+                                                                    locationArticleList.push(fa);
+                                                                    //} else if (fa.menuOnly === undefined && !locationList[lCnt].menu) {
+                                                                } else if (fa.menuOnly === undefined) {
+                                                                    fa.position.push(locationList[lCnt].name);
+                                                                    locationArticleList.push(fa);
+                                                                }
+                                                                //////////////////fa.position.push(locationList[lCnt].name);
                                                                 //if (sortableLocationList.indexOf(locationList[lCnt]._id) < 0) {
                                                                 //   sortableLocationList.push(locationList[lCnt]._id);
                                                                 //}
-                                                                locationArticleList.push(fa);
+                                                                ///////////////////locationArticleList.push(fa);
                                                                 //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                             }
                                                         } else {
-                                                            fa.position.push(locationList[lCnt].name);
+                                                            if (fa.menuOnly && locationList[lCnt].menu) {
+                                                                fa.position.push(locationList[lCnt].name);
+                                                                locationArticleList.push(fa);
+                                                                //} else if (fa.menuOnly === undefined && !locationList[lCnt].menu) {
+                                                            } else if (fa.menuOnly === undefined) {
+                                                                fa.position.push(locationList[lCnt].name);
+                                                                locationArticleList.push(fa);
+                                                            }
+                                                            ////////////////////////fa.position.push(locationList[lCnt].name);
                                                             //if (sortableLocationList.indexOf(locationList[lCnt]._id) < 0) {
                                                             //sortableLocationList.push(locationList[lCnt]._id);
                                                             //}
-                                                            locationArticleList.push(fa);
+                                                            ///////////////////////////locationArticleList.push(fa);
                                                             // returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                         }
                                                     }
@@ -962,7 +997,7 @@ exports.sortMenu = function (returnVal, callback) {
                     //console.log("menuLocationList index: " + cnt2);
                     returnVal.articleLocations[menuLocationList[cnt2].name] = sortMenuArray(returnVal.articleLocations[menuLocationList[cnt2].name]);
                 }
-                callback();               
+                callback();
             } else {
                 callback();
             }
@@ -974,7 +1009,7 @@ exports.sortMenu = function (returnVal, callback) {
 sortMenuArray = function (arr) {
     var returnVal;
     var sortedArry = [];
-    
+
     for (var cnt = 0; cnt < arr.length; cnt++) {
         //console.log("array object being sorted:" + JSON.stringify(arr[cnt]));
         for (var cnt2 = 0; cnt2 < arr.length; cnt2++) {
@@ -985,14 +1020,14 @@ sortMenuArray = function (arr) {
                 //done = true;
                 break;
             }
-        }        
+        }
     }
     //console.log("sorted array:" + JSON.stringify(sortedArry));
-    if(sortedArry.length === arr.length){
+    if (sortedArry.length === arr.length) {
         returnVal = sortedArry;
-    }else{
+    } else {
         returnVal = arr;
-    } 
+    }
     return returnVal;
-    
+
 };
