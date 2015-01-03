@@ -75,6 +75,23 @@ exports.delete = function(req, res) {
  */
 exports.get = function(req, res) {
     service.get(req, res, articleManager, service.authorAuthRole);
+    //console.log("url:"+ req.host+":"+port);
+    /*
+    service.authenticate(req, res, service.adminAuthRole, function() {
+        console.log("in auth callback");
+        var articleUrl = req.get("Host");//host + ":" + port;
+        //console.log("imageUrl:"+ imageUrl);
+        var id = req.params.id;
+        if (id !== null && id !== undefined) {
+            articleManager.get(id, articleUrl, function(result) {
+                res.send(result);
+            });
+        } else {
+            res.send({});
+        }
+
+    });
+    */
 };
 
 

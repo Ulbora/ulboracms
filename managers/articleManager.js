@@ -538,6 +538,8 @@ exports.get = function(id, callback) {
                                     User.findById(results.user, function(userErr, foundUser) {
                                         if (!userErr && (foundUser !== undefined && foundUser !== null)) {
                                             a.user = foundUser;
+                                            var articleUrlLink = "http://yourDomain"  + "/article/" + a._id;
+                                            a.accessUrl = articleUrlLink;
                                             callback(a);
                                         } else {
                                             callback({});

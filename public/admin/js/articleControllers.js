@@ -152,6 +152,7 @@ ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '
                 $scope.locationSelectId = 0;
 
             }
+            $scope.accessUrl = response.accessUrl;
 
 
             //////////////////////////////$scope.locationList = tempArticleReq.locationList;
