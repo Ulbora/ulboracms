@@ -285,6 +285,9 @@ exports.update = function(json, creds, callback) {
                                                                                     art.category = json.category;
                                                                                     art.section = json.section;
                                                                                     art.language = json.language;
+                                                                                    if(json.menuIndex !== undefined && json.menuIndex !== null){
+                                                                                        art.menuIndex = json.menuIndex;
+                                                                                    }                                                                                    
                                                                                     art.save(function(artUpdateErr) {
                                                                                         if (artUpdateErr) {
                                                                                             returnVal.message = "update failed";

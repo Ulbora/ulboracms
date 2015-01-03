@@ -2,8 +2,8 @@
 
 var db = require('../db/db');
 var manager = require('../managers/manager');
-var atob = require('atob');//base64 to json
-var btoa = require('btoa');//json to base64
+var atob = require('atob'); //base64 to json
+var btoa = require('btoa'); //json to base64
 
 
 /**
@@ -105,7 +105,6 @@ exports.getArticle = function (id, creds, callback) {
                                                         }
                                                         tagObj.keyWords = keyWords;
                                                         a.tag = tagObj;
-
                                                     }
                                                     //var User = db.getUser();
                                                     User.findById(results.user, function (userErr, foundUser) {
@@ -120,13 +119,9 @@ exports.getArticle = function (id, creds, callback) {
                                                     //console.log("article object: " + JSON.stringify(a));
 
                                                 });
-
                                             });
-
                                         });
-
                                     });
-
                                 } else {
                                     callback({});
                                 }
@@ -136,19 +131,15 @@ exports.getArticle = function (id, creds, callback) {
                         }
 
                     });
-
                 } else {
                     callback({});
                 }
             });
         });
-
     } else {
         callback({});
     }
 };
-
-
 /**
  * 
  * @param id
@@ -157,8 +148,6 @@ exports.getArticle = function (id, creds, callback) {
 exports.getProduct = function (id, callback) {
 
 };
-
-
 /**
  * 
  * @param json
@@ -388,17 +377,12 @@ exports.getContentList = function (json, creds, browserLan, callback) {
                         }
                     }
                 });
-
             });
-
         });
-
     } else {
         callback(returnVal);
     }
 };
-
-
 doFrontPage = function (callback) {
     var returnVal = [];
     var FrontPage = db.getFrontPage();
@@ -454,10 +438,11 @@ doFrontPage = function (callback) {
 
     });
 };
-
 doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, useLan, useLanId, publicAccessLevel, creds, callback) {
     console.log("in do article--------------------------------------------------------------------------");
     console.log("locationList: " + JSON.stringify(locationList));
+    console.log("searchFilter: " + JSON.stringify(searchFilter));
+    console.log("searchDateFilter: " + JSON.stringify(searchDateFilter));
     var ArticleLocation = db.getArticleLocation();
     ArticleLocation.find({}, function (artLocErr, artLocResults) {
         console.log("found articleLocation list: " + JSON.stringify(artLocResults));
@@ -547,7 +532,7 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                 ///////////////
                                 console.log("filteredArticleList: " + JSON.stringify(filteredArticleList));
                                 var locationArticleList = [];
-                                var sortableLocationList = [];
+                                //var sortableLocationList = [];
                                 for (var faCnt = 0; faCnt < filteredArticleList.length; faCnt++) {
                                     var fa = filteredArticleList[faCnt];
                                     fa.position = [];
@@ -562,17 +547,17 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                                         if (useLan) {
                                                             if (useLanId.toString() === fa.language.toString()) {
                                                                 fa.position.push(locationList[lCnt].name);
-                                                                if (sortableLocationList.indexOf(locationList[lCnt].name) < 0) {
-                                                                    sortableLocationList.push(locationList[lCnt].name);
-                                                                }
+                                                                //if (sortableLocationList.indexOf(locationList[lCnt]._id) < 0) {
+                                                                // sortableLocationList.push(locationList[lCnt]._id);
+                                                                //}
                                                                 locationArticleList.push(fa);
                                                                 //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                             }
                                                         } else {
                                                             fa.position.push(locationList[lCnt].name);
-                                                            if (sortableLocationList.indexOf(locationList[lCnt].name) < 0) {
-                                                                sortableLocationList.push(locationList[lCnt].name);
-                                                            }
+                                                            //if (sortableLocationList.indexOf(locationList[lCnt]._id) < 0) {
+                                                            //sortableLocationList.push(locationList[lCnt]._id);
+                                                            //}
                                                             locationArticleList.push(fa);
                                                             //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                         }
@@ -580,17 +565,17 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                                         if (useLan) {
                                                             if (useLanId.toString() === fa.language.toString()) {
                                                                 fa.position.push(locationList[lCnt].name);
-                                                                if (sortableLocationList.indexOf(locationList[lCnt].name) < 0) {
-                                                                    sortableLocationList.push(locationList[lCnt].name);
-                                                                }
+                                                                //if (sortableLocationList.indexOf(locationList[lCnt]._id) < 0) {
+                                                                //   sortableLocationList.push(locationList[lCnt]._id);
+                                                                //}
                                                                 locationArticleList.push(fa);
                                                                 //returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                             }
                                                         } else {
                                                             fa.position.push(locationList[lCnt].name);
-                                                            if (sortableLocationList.indexOf(locationList[lCnt].name) < 0) {
-                                                                sortableLocationList.push(locationList[lCnt].name);
-                                                            }
+                                                            //if (sortableLocationList.indexOf(locationList[lCnt]._id) < 0) {
+                                                            //sortableLocationList.push(locationList[lCnt]._id);
+                                                            //}
                                                             locationArticleList.push(fa);
                                                             // returnVal.articleLocations[locationList[lCnt].name].push(fa);
                                                         }
@@ -605,7 +590,7 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                         //}
                                     }
                                 }
-                                console.log("sortableLocationList: " + JSON.stringify(sortableLocationList));
+                                // console.log("sortableLocationList: " + JSON.stringify(sortableLocationList));
                                 var fcnt = 0;
                                 var mapArray = [];
                                 console.log("locationArticleList: " + JSON.stringify(locationArticleList));
@@ -616,6 +601,7 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                         var al1 = locationArticleList[locACnt];
                                         processArticle(al1, false, function (aComplete) {
                                             //if to check for existing article at position  
+                                            console.log("processed article: " + JSON.stringify(aComplete));
                                             for (var pcnt = 0; pcnt < aComplete.position.length; pcnt++) {
                                                 if (mapArray.indexOf(aComplete.position[pcnt] + aComplete._id) < 0) {
                                                     returnVal.articleLocations[aComplete.position[pcnt]].push(aComplete);
@@ -623,7 +609,11 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                                 }
                                                 fcnt++;
                                                 if (fcnt === locationArticleList.length) {
+                                                    //console.log("topMenu found: "+ returnVal.articleLocations["TopMenu"]);
+                                                    //console.log("returnVal before sort: " + JSON.stringify(returnVal) + "------------------------------------------------");
+                                                    //sortMenu(sortableLocationList, locationList, returnVal, function () {
                                                     callback();
+                                                    //});
                                                 }
                                             }
 
@@ -635,20 +625,16 @@ doArticles = function (searchFilter, searchDateFilter, returnVal, locationList, 
                                 callback();
                             }
                         });
-
                     } else {
                         callback();
                     }
                 });
-
             });
         } else {
             callback();
         }
     });
 };
-
-
 doProducts = function (searchFilter, returnVal, locationList, useLan, useLanId, callback) {
     var ProductLocation = db.getProductLocation();
     ProductLocation.find({}, function (prodLocErr, prodLocResults) {
@@ -754,14 +740,12 @@ doProducts = function (searchFilter, returnVal, locationList, useLan, useLanId, 
                         callback();
                     }
                 });
-
             });
         } else {
             callback();
         }
     });
 };
-
 doLinks = function (returnVal, useLan, useLanId, callback) {
     var Link = db.getLink();
     Link.find({}, function (linkErr, linkList) {
@@ -782,7 +766,6 @@ doLinks = function (returnVal, useLan, useLanId, callback) {
         }
     });
 };
-
 doDates = function (returnVal, useLan, useLanId, callback) {
     var Article = db.getArticle();
     var q = {
@@ -792,7 +775,6 @@ doDates = function (returnVal, useLan, useLanId, callback) {
         q.language = useLanId;
     }
     var filterMap = [];
-
     Article.find(q, null, {sort: {createdDate: -1}}, function (artErr, articleList) {
         console.log("articles: " + JSON.stringify(articleList));
         if (!artErr && articleList !== undefined && articleList !== null) {
@@ -818,8 +800,6 @@ doDates = function (returnVal, useLan, useLanId, callback) {
         }
     });
 };
-
-
 findPublicAccessLevel = function (callback) {
     var AccessLevel = db.getAccessLevel();
     AccessLevel.find({}, function (err, results) {
@@ -838,8 +818,6 @@ findPublicAccessLevel = function (callback) {
         }
     });
 };
-
-
 findLocations = function (callback) {
     var Location = db.getLocation();
     Location.find({}, function (err, results) {
@@ -850,7 +828,6 @@ findLocations = function (callback) {
         }
     });
 };
-
 processArticle = function (art, frontPage, callback) {
     var a = art;
     var pageBreak = "<!-- pagebreak -->";
@@ -957,9 +934,7 @@ processArticle = function (art, frontPage, callback) {
                         //console.log("article object: " + JSON.stringify(a));
 
                     });
-
                 });
-
                 //});
 
             } else {
@@ -970,4 +945,54 @@ processArticle = function (art, frontPage, callback) {
         callback({});
     }
 
+};
+exports.sortMenu = function (returnVal, callback) {
+    if (returnVal !== undefined && returnVal !== null) {
+        var Location = db.getLocation();
+        Location.find({}, function (err, results) {
+            var menuLocationList = [];
+            if (!err && results !== undefined && results !== null) {
+                for (var cnt = 0; cnt < results.length; cnt++) {
+                    if (results[cnt].menu) {
+                        menuLocationList.push(results[cnt]);
+                    }
+                }
+                //console.log("menuLocationList:" + JSON.stringify(menuLocationList));
+                for (var cnt2 = 0; cnt2 < menuLocationList.length; cnt2++) {
+                    //console.log("menuLocationList index: " + cnt2);
+                    returnVal.articleLocations[menuLocationList[cnt2].name] = sortMenuArray(returnVal.articleLocations[menuLocationList[cnt2].name]);
+                }
+                callback();               
+            } else {
+                callback();
+            }
+        });
+    } else {
+        callback();
+    }
+};
+sortMenuArray = function (arr) {
+    var returnVal;
+    var sortedArry = [];
+    
+    for (var cnt = 0; cnt < arr.length; cnt++) {
+        //console.log("array object being sorted:" + JSON.stringify(arr[cnt]));
+        for (var cnt2 = 0; cnt2 < arr.length; cnt2++) {
+            if (arr[cnt2].menuIndex === (cnt + 1)) {
+                sortedArry.push(arr[cnt2]);
+                //console.log("found index: " + (cnt + 1));
+                //menuIndex++;
+                //done = true;
+                break;
+            }
+        }        
+    }
+    //console.log("sorted array:" + JSON.stringify(sortedArry));
+    if(sortedArry.length === arr.length){
+        returnVal = sortedArry;
+    }else{
+        returnVal = arr;
+    } 
+    return returnVal;
+    
 };

@@ -61,7 +61,12 @@ exports.getContentList = function (req, res) {
             console.log("in auth callback");
             contentManager.getContentList(reqBody, creds, browserLan, function (result) {
                 console.log("in callback");
-                res.send(result);
+                console.log("returnVal in service: " + JSON.stringify(result) + "------------------------------------------------");
+                contentManager.sortMenu(result, function(){
+                    res.send(result);
+                });
+                
+                
             });
         });
     } else {

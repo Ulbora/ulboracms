@@ -42,6 +42,7 @@ ulboraCmsNewArticleControllers.controller('NewArticlesCtrl', ['$scope', '$rootSc
                     $scope.allowComments = "false";
                     $scope.frontPage = "false";
                     $scope.commentsRequireLogin = "true";
+                    $scope.menuIndex = 0;
                     setTimeout(function() {
 
                         $scope.$apply(function() {
@@ -133,7 +134,8 @@ ulboraCmsNewArticleControllers.controller('ArticleAddCtrl', ['$scope', '$rootSco
                     "frontPage": ($scope.frontPage === "true"),
                     "tag": {
                         "keyWords": $scope.tagKeyWords
-                    }
+                    },
+                    "menuIndex": $scope.menuIndex
                 };
                 console.log("locations:" + $scope.locationIds);
                 console.log("json request:" + JSON.stringify(postData));

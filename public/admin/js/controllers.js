@@ -21,7 +21,7 @@ ulboraCmsAdminControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$loca
                     $scope.articleList = response.articleList;
                     for (var cnt = 0; cnt < $scope.articleList.length; cnt++) {
                         var artDateLong = $scope.articleList[cnt].modifiedDate;
-                        if(artDateLong === null){
+                        if(artDateLong === undefined || artDateLong === null){
                             artDateLong = $scope.articleList[cnt].createdDate;
                         }
                         $scope.articleList[cnt].modifiedDate = DateUtil.stringifyDate(artDateLong);

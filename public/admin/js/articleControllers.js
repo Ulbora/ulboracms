@@ -208,6 +208,11 @@ ulboraCmsArticleControllers.controller('ArticleCtrl', ['$scope', '$rootScope', '
             } else {
                 $scope.showModDate = "false";
             }
+            if(response.menuIndex !== undefined && response.menuIndex !== null){
+                $scope.menuIndex = response.menuIndex;
+            }else{
+                $scope.menuIndex = 0;
+            }
 
 
             //$scope.published = "false";
@@ -331,7 +336,8 @@ ulboraCmsArticleControllers.controller('ArticleEditCtrl', ['$scope', '$rootScope
                     "frontPage": ($scope.frontPage === "true"),
                     "tag": {
                         "keyWords": $scope.tagKeyWords
-                    }
+                    },
+                    "menuIndex": $scope.menuIndex
                 };
                 console.log("locations:" + $scope.locationIds);
                 console.log("json request:" + JSON.stringify(putData));

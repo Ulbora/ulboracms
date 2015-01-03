@@ -63,11 +63,14 @@ exports.getContentList = function (req, filter, loggedIn, callback) {
                     }
                 }
                 returnVal = result;
+                contentManager.sortMenu(returnVal, function () {
+                    callback(returnVal);
+                });
             } else {
                 callback(returnVal);
             }
 
-            callback(returnVal);
+            //callback(returnVal);
         });
     });
 

@@ -28,7 +28,8 @@ var articleSchema = new mongoose.Schema({
     category: {type: mongoose.Schema.ObjectId, required: true, ref: "Category"},
     section: {type: mongoose.Schema.ObjectId, required: true, ref: "Section"},
     language: {type: mongoose.Schema.ObjectId, required: true, ref: "Language"},
-    user: {type: mongoose.Schema.ObjectId, required: true, ref: "User"}
+    user: {type: mongoose.Schema.ObjectId, required: true, ref: "User"},
+    menuIndex: {type: Number, default: 0}
 
 });
 module.exports = articleSchema;

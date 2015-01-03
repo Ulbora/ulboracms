@@ -11,6 +11,16 @@ if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
             process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
             process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
             process.env.OPENSHIFT_APP_NAME;
+}else if(process.env.ULBORA_CMS_DATABASE_NAME && process.env.ULBORA_CMS_DATABASE_USERNAME){
+    // the database information is set in system variables and uses authentication
+    mongoConnectString = process.env.ULBORA_CMS_DATABASE_USERNAME + ":" +
+            process.env.ULBORA_CMS_DATABASE_PASSWORD + "@" +
+            process.env.ULBORA_CMS_DATABASE_HOST + ':' +
+            process.env.ULBORA_CMS_DATABASE_PORT + '/' +
+            process.env.ULBORA_CMS_DATABASE_NAME;
+    
+}else if(process.env.ULBORA_CMS_DATABASE_NAME){
+    mongoConnectString += (conf.ULBORA_CMS_DATABASE_HOST + "/" + conf.ULBORA_CMS_DATABASE_NAME);
 }
 //---------add other mongoDB configuration blocks here----------------
 //
@@ -613,6 +623,7 @@ initialLocations = function () {
                         loc.save();
 
                         locVal.name = "TopMenu";
+                        locVal.menu = true;
                         loc = new Location(locVal);
                         console.log("Location:" + JSON.stringify(locVal));
                         loc.save();
