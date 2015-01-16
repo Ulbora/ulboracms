@@ -23,9 +23,15 @@ ulboraCmsApp.config(['$routeProvider', '$locationProvider',
                 }).when('/article/:a', {
                     templateUrl: 'partials/article.html',
                     controller: 'ArticleCtrl'
+                }).when('/articleSite/:a', {
+                    templateUrl: 'partials/article.html',
+                    controller: 'ArticleSiteCtrl'
                 }).when('/menuArticle/:a/:name', {
                     templateUrl: 'partials/article.html',
                     controller: 'ArticleCtrl'
+                }).when('/menuArticleSite/:a/:name', {
+                    templateUrl: 'partials/article.html',
+                    controller: 'ArticleSiteCtrl'
                 }).when('/register', {
                     templateUrl: 'partials/register.html',
                     controller: 'RegistrationNewCtrl'
