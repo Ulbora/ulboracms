@@ -1,0 +1,138 @@
+.register-outer-form-wrapper{
+    float: left;    
+    background: white;
+    border: #3A464F 1px solid;
+    border-radius: 5px;
+}
+.register-title{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 2% 0 0 0;
+    font-weight: bold;
+}
+
+.register-form-wrapper{
+    float: left; 
+}
+.register-label{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 2% 0 0 0;
+}
+.register-element{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 0 0 2% 0;
+}
+.register-button{
+    float: left;
+    width: 100%;
+    text-align: center;
+    margin: 3% 0 2% 0;
+}
+
+.register-links{
+    float: left;
+    width: 100%;
+    
+}
+.register-link-cell{
+    float: left;
+    width: 50%;
+    display: inline;
+    text-align: center;
+}
+.register-link-cell a{
+    color: black;
+}
+.register-link-cell a:visited{
+    color: black;
+}
+.register-link-cell a:hover{
+    color: red;
+}
+
+.registration-success{
+    float: left;
+    width: 100%;
+    margin: 25% 0 0 0;
+    padding: 5% 0 5% 0;
+    text-align: center;
+    color: green;
+    background: white;
+    border: #3A464F 1px solid;
+    border-radius: 5px;    
+}
+
+.registration-failed{
+    float: left;
+    width: 100%;
+    margin: 25% 0 0 0;
+    padding: 5% 0 5% 0;
+    text-align: center;
+    color: red;
+    background: white;
+    border: #3A464F 1px solid;
+    border-radius: 5px;    
+}
+
+.registration-result-wrapper{
+    float: left;
+    width: 100%; 
+    padding: 0 2% 0 2%;
+}
+
+@media screen and (min-width: 1200px){
+    .register-outer-form-wrapper{       
+        width: 50%;
+        margin: 15% 0 0 25%;  
+
+    }
+    .register-form-wrapper{        
+        width: 90%;
+        margin: 2% 0 2% 5%;
+
+    }
+
+}
+
+@media screen and (max-width: 1200px){
+    .register-outer-form-wrapper{       
+        width: 50%;
+        margin: 20% 0 0 25%;         
+    }
+    .register-form-wrapper{        
+        width: 90%;
+        margin: 2% 0 2% 5%;
+
+    }
+}
+
+@media screen and (max-width: 770px){
+    .register-outer-form-wrapper{       
+        width: 70%;
+        margin: 25% 0 0 15%;       
+    }
+    .register-form-wrapper{        
+        width: 90%;
+        margin: 2% 0 2% 5%;
+
+    }
+}
+
+
+@media screen and (max-width: 480px){
+    .register-outer-form-wrapper{       
+        width: 100%;
+        margin: 30% 0 0 0%;       
+    }
+    .register-form-wrapper{        
+        width: 100%;
+        margin: 2% 0 2% 0%;
+
+    }
+}
+

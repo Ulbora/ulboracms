@@ -4,40 +4,300 @@
 
 var ulboraCmsControllers = angular.module('ulboraCmsControllers', []);
 
-ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'DateUtil', 'Content', '$sce',
-    function MainCtrl($scope, checkCreds, $location, $http, getToken, DateUtil, Content, $sce) {
+ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'Content', 'ContentUlboraSite', '$sce',
+    function MainCtrl($scope, checkCreds, $location, $http, getToken, Content, ContentUlboraSite, $sce) {
         $scope.brandColor = "color: white;";
-
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
             $scope.loggedIn = false;
         }
-
+        $scope.showContent = false;
+        $scope.useUlboraSite = false;
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
         var postData = {
             "frontPage": true,
             "links": true,
             "articles": true,
             "products": true,
-            //"searchDateFilter": { // used to search by date
-                //"month": 1,
-                //"year": 2000
-            //},
             "searchFilter": [
                 {
                     "sectionName": "MainPage",
                     "categoryName": null
                 },
                 {
-                    "sectionName": "News",
+                    "sectionName": "Tech",
+                    "categoryName": null
+                },
+                {
+                    "sectionName": "About",
+                    "categoryName": null
+                },
+                {
+                    "sectionName": "Menu",
                     "categoryName": null
                 }
             ]
 
+        };
+        var contentLen = 0;
+        console.log("json request:" + JSON.stringify(postData));
+        Content.getContent({}, postData,
+                function success(response) {
+                    //alert($scope.challenge.question);
+                    console.log("Success:" + JSON.stringify(response));
+                    contentLen = response.articleLocations.FrontPage.length;
+                    $scope.content = response;
+                    if (response.links !== null && response.links.length > 0) {
+                        $scope.showLinks = true;
+                    } else {
+                        $scope.showLinks = false;
+                    }
+
+                    if (response.articleLocations.Left.length > 0) {
+                        $scope.showNewsFlash = true;
+                    } else {
+                        $scope.showNewsFlash = false;
+                    }
+
+                    if (response.articleLocations.Right.length > 0) {
+                        $scope.showNews = true;
+                    } else {
+                        $scope.showNews = false;
+                    }
+
+                    for (var cnt = 0; cnt < response.articleLocations.FrontPage.length; cnt++) {
+                        $scope.content.articleLocations.FrontPage[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.FrontPage[cnt].articleText.text));
+
+                    }
+                    $scope.showContent = true;
+                    console.log("Html:");
+                    console.log(JSON.stringify($scope.content));
+
+
+                },
+                function error(errorResponse) {
+                    console.log("Error:" + JSON.stringify(errorResponse));
+                    //$location.path('/loginFailedForm');
+                }
+        );
+
+        if (contentLen === 0) {
+            ContentUlboraSite.getContent({}, postData,
+                    function success(response) {
+                        $scope.useUlboraSite = true;
+                        //alert($scope.challenge.question);
+                        console.log("Success:" + JSON.stringify(response));
+                        contentLen = response.articleLocations.FrontPage.length;
+                        $scope.content = response;
+                        if (response.links !== null && response.links.length > 0) {
+                            $scope.showLinks = true;
+                        } else {
+                            $scope.showLinks = false;
+                        }
+
+                        if (response.articleLocations.Left.length > 0) {
+                            $scope.showNewsFlash = true;
+                        } else {
+                            $scope.showNewsFlash = false;
+                        }
+
+                        if (response.articleLocations.Right.length > 0) {
+                            $scope.showNews = true;
+                        } else {
+                            $scope.showNews = false;
+                        }
+
+                        for (var cnt = 0; cnt < response.articleLocations.FrontPage.length; cnt++) {
+                            $scope.content.articleLocations.FrontPage[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.FrontPage[cnt].articleText.text));
+
+                        }
+                        $scope.showContent = true;
+                        console.log("Html:");
+                        console.log(JSON.stringify($scope.content));
+
+
+                    },
+                    function error(errorResponse) {
+                        console.log("Error:" + JSON.stringify(errorResponse));
+                        //$location.path('/loginFailedForm');
+                    }
+            );
+        }
+
+
+        $scope.homeActiveClass = "activeLink";
+
+    }]);
+
+ulboraCmsControllers.controller('ArchiveCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'Content', '$sce', '$routeParams',
+    function ArchiveCtrl($scope, checkCreds, $location, $http, getToken, Content, $sce, $routeParams) {
+        $scope.brandColor = "color: white;";
+        if (checkCreds() === true) {
+            $scope.loggedIn = true;
+        } else {
+            $scope.loggedIn = false;
+        }
+        $scope.showContent = false;
+        var searchMonth = $routeParams.month;
+        var searchYear = $routeParams.year;
+        if (searchMonth !== undefined && searchMonth !== null) {
+            searchMonth = parseInt(searchMonth);
+        }
+        if (searchYear !== undefined && searchYear !== null) {
+            searchYear = parseInt(searchYear);
+        }
+
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+        var postData = {
+            "frontPage": false,
+            "links": true,
+            "articles": true,
+            "products": true,
+            "searchFilter": [
+                {
+                    "sectionName": "MainPage",
+                    "categoryName": null
+                },
+                {
+                    "sectionName": "Tech",
+                    "categoryName": null
+                },
+                {
+                    "sectionName": "About",
+                    "categoryName": null
+                },
+                {
+                    "sectionName": "Menu",
+                    "categoryName": null
+                }
+            ],
+            "searchDateFilter": {
+                "month": searchMonth,
+                "year": searchYear
+            }
 
         };
         console.log("json request:" + JSON.stringify(postData));
+        Content.getContent({}, postData,
+                function success(response) {
+                    //alert($scope.challenge.question);
+                    console.log("Success:" + JSON.stringify(response));
+
+                    $scope.content = response;
+                    if (response.links !== null && response.links.length > 0) {
+                        $scope.showLinks = true;
+                    } else {
+                        $scope.showLinks = false;
+                    }
+
+                    if (response.articleLocations.Left.length > 0) {
+                        $scope.showNewsFlash = true;
+                    } else {
+                        $scope.showNewsFlash = false;
+                    }
+
+                    if (response.articleLocations.Right.length > 0) {
+                        $scope.showNews = true;
+                    } else {
+                        $scope.showNews = false;
+                    }
+
+                    for (var cnt = 0; cnt < response.articleLocations.Center.length; cnt++) {
+                        $scope.content.articleLocations.Center[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].articleText.text));
+
+                    }
+                    $scope.showContent = true;
+                    console.log("Html:");
+                    console.log(JSON.stringify($scope.content));
+
+
+                },
+                function error(errorResponse) {
+                    console.log("Error:" + JSON.stringify(errorResponse));
+                    //$location.path('/loginFailedForm');
+                }
+        );
+        $scope.homeActiveClass = "activeLink";
+
+    }]);
+
+ulboraCmsControllers.controller('ArticleCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', '$routeParams', 'Article', 'Content', '$sce',
+    function ArticleCtrl($scope, checkCreds, $location, $http, getToken, $routeParams, Article, Content, $sce) {
+
+        if (checkCreds() === true) {
+            $scope.loggedIn = true;
+        } else {
+            $scope.loggedIn = false;
+        }
+        $scope.showComments = false;
+        $scope.showCommentLoginRequied = false;
+        $scope.showContent = false;
+        $scope.showTags = false;
+        $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+        
+        var articleId = $routeParams.a;
+        $scope.menuLinkName = $routeParams.name;
+        Article.get({id: articleId},
+        function success(response) {
+            //alert($scope.challenge.question);
+            console.log("Success:" + JSON.stringify(response));
+
+            if (response.allowComments && (!response.commentsRequireLogin || $scope.loggedIn)) {
+                $scope.showComments = true;
+            }
+
+            if (response.allowComments && !$scope.loggedIn) {
+                $scope.showCommentLoginRequied = true;
+            }
+            if (response.tag !== undefined) {
+                $scope.showTags = true;
+            }
+
+
+            var result = "";
+
+            result = atob(response.articleText.text);
+
+
+            $scope.articleHtml = $sce.trustAsHtml(result);
+
+            console.log(result);//+ JSON.stringify(errorResponse));
+            $scope.article = response;
+
+
+            var cDate = new Date(response.createdDate);
+            $scope.createDate = cDate.getMonth() + "/" + cDate.getDate() + "/" + cDate.getFullYear();
+
+            var modDate = response.modifiedDate;
+            if (modDate !== null) {
+                var mDate = new Date(modDate);
+                $scope.modifiedDate = mDate.getMonth() + "/" + mDate.getDate() + "/" + mDate.getFullYear();
+
+            }
+
+            $scope.showContent = true;
+
+
+        },
+                function error(errorResponse) {
+                    console.log("Error:" + JSON.stringify(errorResponse));
+                }
+        );
+
+        var postData = {
+            "frontPage": false,
+            "links": true,
+            "articles": true,
+            "products": false,
+            "searchFilter": [
+                {
+                    "sectionName": "Menu",
+                    "categoryName": null
+                }
+            ]
+
+        };
         Content.getContent({}, postData,
                 function success(response) {
                     //alert($scope.challenge.question);
@@ -78,73 +338,25 @@ ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location'
         );
 
 
-
-    }]);
-
-
-ulboraCmsControllers.controller('ArticleCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'DateUtil', '$routeParams', 'Article', '$sce',
-    function ArticleCtrl($scope, checkCreds, $location, $http, getToken, DateUtil, $routeParams, Article, $sce) {
-
-        if (checkCreds() === true) {
-            $scope.loggedIn = true;
-        } else {
-            $scope.loggedIn = false;
-        }
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-
-        var articleId = $routeParams.a;
-        Article.get({id: articleId},
-        function success(response) {
-            //alert($scope.challenge.question);
-            console.log("Success:" + JSON.stringify(response));
-
-
-            var result = "";
-
-            result = atob(response.articleText.text);
-
-
-            $scope.articleHtml = $sce.trustAsHtml(result);
-
-            console.log(result);//+ JSON.stringify(errorResponse));
-            $scope.article = response;
-
-
-            var cDate = new Date(response.createdDate);
-            $scope.createDate = cDate.getMonth() + "/" + cDate.getDate() + "/" + cDate.getFullYear();
-
-            var modDate = response.modifiedDate;
-            if (modDate !== null) {
-                var mDate = new Date(modDate);
-                $scope.modifiedDate = mDate.getMonth() + "/" + mDate.getDate() + "/" + mDate.getFullYear();
-
-            }
-
-
-
-
-        },
-                function error(errorResponse) {
-                    console.log("Error:" + JSON.stringify(errorResponse));
-                }
-        );
-
-
-        $scope.newsActiveClass = "active";
+        //$scope.newsActiveClass = "active";
 
     }]);
 
 
 
-ulboraCmsControllers.controller('NewsCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'DateUtil', 'Content', '$sce',
-    function NewsCtrl($scope, checkCreds, $location, $http, getToken, DateUtil, Content, $sce) {
+
+ulboraCmsControllers.controller('LoginScreenCtrl', ['$scope', 'checkCreds', 'setCreds', '$location', '$http', 'getToken', 'Login', 'Content',
+    function LoginScreenCtrl($scope, checkCreds, setCreds, $location, $http, getToken, Login, Content) {
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
             $scope.loggedIn = false;
         }
+        $scope.loginFailMessage = "";
 
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+        //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+        //$scope.loginActiveClass = "active";
+        $scope.showfooter = true;
         var postData = {
             "frontPage": false,
             "links": true,
@@ -152,12 +364,12 @@ ulboraCmsControllers.controller('NewsCtrl', ['$scope', 'checkCreds', '$location'
             "products": false,
             "searchFilter": [
                 {
-                    "sectionName": "News",
+                    "sectionName": "Menu",
                     "categoryName": null
                 }
             ]
+
         };
-        console.log("json request:" + JSON.stringify(postData));
         Content.getContent({}, postData,
                 function success(response) {
                     //alert($scope.challenge.question);
@@ -182,8 +394,8 @@ ulboraCmsControllers.controller('NewsCtrl', ['$scope', 'checkCreds', '$location'
                         $scope.showNews = false;
                     }
 
-                    for (var cnt = 0; cnt < response.articleLocations.Center.length; cnt++) {
-                        $scope.content.articleLocations.Center[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].articleText.text));
+                    for (var cnt = 0; cnt < response.articleLocations.FrontPage.length; cnt++) {
+                        $scope.content.articleLocations.FrontPage[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.FrontPage[cnt].articleText.text));
 
                     }
                     console.log("Html:");
@@ -197,155 +409,12 @@ ulboraCmsControllers.controller('NewsCtrl', ['$scope', 'checkCreds', '$location'
                 }
         );
 
-        $scope.newsActiveClass = "active";
+        $scope.loginActiveClass = "activeLink";
 
     }]);
 
-
-ulboraCmsControllers.controller('AboutCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'DateUtil', 'Content', '$sce',
-    function AboutCtrl($scope, checkCreds, $location, $http, getToken, DateUtil, Content, $sce) {
-
-        if (checkCreds() === true) {
-            $scope.loggedIn = true;
-        } else {
-            $scope.loggedIn = false;
-        }
-
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        var postData = {
-            "frontPage": false,
-            "links": true,
-            "articles": true,
-            "articlesText": true,
-            "products": false,
-            "searchFilter": [
-                {
-                    "sectionName": "About",
-                    "categoryName": null
-                },
-                {
-                    "sectionName": null,
-                    "categoryName": "NewsFlash"
-                }
-            ]
-        };
-        console.log("json request:" + JSON.stringify(postData));
-        Content.getContent({}, postData,
-                function success(response) {
-                    //alert($scope.challenge.question);
-                    console.log("Success:" + JSON.stringify(response));
-
-                    $scope.content = response;
-                    if (response.links !== null && response.links.length > 0) {
-                        $scope.showLinks = true;
-                    } else {
-                        $scope.showLinks = false;
-                    }
-
-                    if (response.articleLocations.Left.length > 0) {
-                        $scope.showNewsFlash = true;
-                    } else {
-                        $scope.showNewsFlash = false;
-                    }
-
-                    if (response.articleLocations.Right.length > 0) {
-                        $scope.showNews = true;
-                    } else {
-                        $scope.showNews = false;
-                    }
-
-                    for (var cnt = 0; cnt < response.articleLocations.Center.length; cnt++) {
-                        $scope.content.articleLocations.Center[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].articleText.text));
-
-                    }
-                    console.log("Html:");
-                    console.log(JSON.stringify($scope.content));
-
-
-                },
-                function error(errorResponse) {
-                    console.log("Error:" + JSON.stringify(errorResponse));
-                    //$location.path('/loginFailedForm');
-                }
-        );
-        $scope.aboutActiveClass = "active";
-
-    }]);
-
-
-ulboraCmsControllers.controller('ContactsCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'DateUtil', 'Content', '$sce',
-    function ContactsCtrl($scope, checkCreds, $location, $http, getToken, DateUtil, Content, $sce) {
-
-        if (checkCreds() === true) {
-            $scope.loggedIn = true;
-        } else {
-            $scope.loggedIn = false;
-        }
-
-        $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        var postData = {
-            "frontPage": false,
-            "links": true,
-            "articles": true,
-            "articlesText": true,
-            "products": false,
-            "searchFilter": [
-                {
-                    "sectionName": "Contacts",
-                    "categoryName": null
-                },
-                {
-                    "sectionName": null,
-                    "categoryName": "NewsFlash"
-                }
-            ]
-        };
-        console.log("json request:" + JSON.stringify(postData));
-        Content.getContent({}, postData,
-                function success(response) {
-                    //alert($scope.challenge.question);
-                    console.log("Success:" + JSON.stringify(response));
-
-                    $scope.content = response;
-                    if (response.links !== null && response.links.length > 0) {
-                        $scope.showLinks = true;
-                    } else {
-                        $scope.showLinks = false;
-                    }
-
-                    if (response.articleLocations.Left.length > 0) {
-                        $scope.showNewsFlash = true;
-                    } else {
-                        $scope.showNewsFlash = false;
-                    }
-
-                    if (response.articleLocations.Right.length > 0) {
-                        $scope.showNews = true;
-                    } else {
-                        $scope.showNews = false;
-                    }
-
-                    for (var cnt = 0; cnt < response.articleLocations.Center.length; cnt++) {
-                        $scope.content.articleLocations.Center[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.Center[cnt].articleText.text));
-
-                    }
-                    console.log("Html:");
-                    console.log(JSON.stringify($scope.content));
-
-
-                },
-                function error(errorResponse) {
-                    console.log("Error:" + JSON.stringify(errorResponse));
-                    //$location.path('/loginFailedForm');
-                }
-        );
-        $scope.contactsActiveClass = "active";
-
-    }]);
-
-
-ulboraCmsControllers.controller('LoginCtrl', ['$scope', 'checkCreds', 'setCreds', '$location', '$http', 'getToken', 'DateUtil', 'Login',
-    function LoginCtrl($scope, checkCreds, setCreds, $location, $http, getToken, DateUtil, Login) {
+ulboraCmsControllers.controller('LoginCtrl', ['$scope', 'checkCreds', 'setCreds', '$location', '$http', 'getToken', 'Login', 'Content',
+    function LoginCtrl($scope, checkCreds, setCreds, $location, $http, getToken, Login, Content) {
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
@@ -355,6 +424,7 @@ ulboraCmsControllers.controller('LoginCtrl', ['$scope', 'checkCreds', 'setCreds'
 
         //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
         $scope.loginActiveClass = "active";
+        $scope.showfooter = true;
 
         $scope.submit = function () {
             var postDate = {
@@ -380,9 +450,10 @@ ulboraCmsControllers.controller('LoginCtrl', ['$scope', 'checkCreds', 'setCreds'
                     }
             );
         };
-
+        //$scope.loginActiveClass = "activeLink";
 
     }]);
+
 
 ulboraCmsControllers.controller('LoginFailedFormCtrl', ['$scope',
     function LoginFailedFormCtrl($scope) {
@@ -409,8 +480,15 @@ ulboraCmsControllers.controller('LogOutCtrl', ['$scope', 'deleteCreds', '$locati
 
     }]);
 
-ulboraCmsControllers.controller('RegistrationNewCtrl', ['$scope', 'Challenge', '$location',
-    function RegistrationNewCtrl($scope, Challenge, $location) {
+
+ulboraCmsControllers.controller('RegistrationNewCtrl', ['$scope', 'Challenge', '$location', 'checkCreds',
+    function RegistrationNewCtrl($scope, Challenge, $location, checkCreds) {
+        if (checkCreds() === true) {
+            $scope.loggedIn = true;
+        } else {
+            $scope.loggedIn = false;
+        }
+        $scope.showfooter = true;
         Challenge.getChallenge({},
                 function success(response) {
                     //alert($scope.challenge.question);
@@ -422,6 +500,7 @@ ulboraCmsControllers.controller('RegistrationNewCtrl', ['$scope', 'Challenge', '
                     console.log("Error:" + JSON.stringify(errorResponse));
                 }
         );
+
 
     }]);
 
@@ -466,13 +545,17 @@ ulboraCmsControllers.controller('RegistrationCtrl', ['$scope', 'Registration', '
                 alert("Passwords must match");
             }
 
-
         };
 
     }]);
 
-ulboraCmsControllers.controller('PasswordResetCtrl', ['$scope', 'Challenge', 'Password', '$location',
-    function PasswordResetCtrl($scope, Challenge, Password, $location) {
+ulboraCmsControllers.controller('PasswordResetCtrl', ['$scope', 'Challenge', 'Password', '$location', 'checkCreds',
+    function PasswordResetCtrl($scope, Challenge, Password, $location, checkCreds) {
+        if (checkCreds() === true) {
+            $scope.loggedIn = true;
+        } else {
+            $scope.loggedIn = false;
+        }
         Challenge.getChallenge({},
                 function success(response) {
                     //alert($scope.challenge.question);
@@ -484,7 +567,7 @@ ulboraCmsControllers.controller('PasswordResetCtrl', ['$scope', 'Challenge', 'Pa
                     console.log("Error:" + JSON.stringify(errorResponse));
                 }
         );
-
+        $scope.showfooter = true;
         $scope.submit = function () {
 
             //var pw = $scope.password;
@@ -525,77 +608,136 @@ ulboraCmsControllers.controller('PasswordResetCtrl', ['$scope', 'Challenge', 'Pa
 
     }]);
 
+ulboraCmsControllers.controller('ProcessSuccessCtrl', ['$scope', 'deleteCreds', '$location', '$http',
+    function ProcessSuccessCtrl($scope, deleteCreds, $location, $http) {
+        $scope.loggedIn = false;
+    }]);
 
-ulboraCmsControllers.controller('PasswordChangeCtrl', ['$scope', 'User', '$location', '$http', 'getToken', 'checkCreds',
-    function PasswordChangeCtrl($scope, User, $location, $http, getToken, checkCreds) {
+ulboraCmsControllers.controller('ProcessFailureCtrl', ['$scope', 'deleteCreds', '$location', '$http',
+    function ProcessFailureCtrl($scope, deleteCreds, $location, $http) {
+        $scope.loggedIn = false;
+    }]);
+
+
+
+
+
+ulboraCmsControllers.controller('ArticleSiteCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', '$routeParams', 'ArticleUlboraSite', 'Content', '$sce',
+    function ArticleSiteCtrl($scope, checkCreds, $location, $http, getToken, $routeParams, ArticleUlboraSite, Content, $sce) {
+        $scope.useUlboraSite = true;
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
             $scope.loggedIn = false;
         }
-
+        $scope.showComments = false;
+        $scope.showCommentLoginRequied = false;
+        $scope.showContent = false;
+        $scope.showTags = false;
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
+        
+        var articleId = $routeParams.a;
+        $scope.menuLinkName = $routeParams.name;
+        ArticleUlboraSite.get({id: articleId},
+        function success(response) {
+            //alert($scope.challenge.question);
+            console.log("Success:" + JSON.stringify(response));
 
-        $scope.submit = function () {
+            if (response.allowComments && (!response.commentsRequireLogin || $scope.loggedIn)) {
+                $scope.showComments = true;
+            }
 
-            var pw = $scope.password;
-            var confirm = $scope.confirm;
-            if (pw === confirm) {
-                var postDate = {
-                    "password": $scope.password,
-                    "oldPassword": $scope.oldPassword
-                };
-
-                User.changePassword({}, postDate,
-                        function success(response) {
-                            //alert($scope.challenge.question);
-                            console.log("Success:" + JSON.stringify(response));
-                            if (response.success === true) {
-                                // set cookie
-                                //setCreds($scope.username, $scope.password);
-                                //$http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-                                $location.path('/processSuccess');
-                            } else {
-                                $location.path('/processFailure');
-                            }
-                        },
-                        function error(errorResponse) {
-                            console.log("Error:" + JSON.stringify(errorResponse));
-                            $location.path('/processFailure');
-                        }
-                );
-            } else {
-                alert("Passwords must match");
+            if (response.allowComments && !$scope.loggedIn) {
+                $scope.showCommentLoginRequied = true;
+            }
+            if (response.tag !== undefined) {
+                $scope.showTags = true;
             }
 
 
+            var result = "";
+
+            result = atob(response.articleText.text);
+
+
+            $scope.articleHtml = $sce.trustAsHtml(result);
+
+            console.log(result);//+ JSON.stringify(errorResponse));
+            $scope.article = response;
+
+
+            var cDate = new Date(response.createdDate);
+            $scope.createDate = cDate.getMonth() + "/" + cDate.getDate() + "/" + cDate.getFullYear();
+
+            var modDate = response.modifiedDate;
+            if (modDate !== null) {
+                var mDate = new Date(modDate);
+                $scope.modifiedDate = mDate.getMonth() + "/" + mDate.getDate() + "/" + mDate.getFullYear();
+
+            }
+
+            $scope.showContent = true;
+
+
+        },
+                function error(errorResponse) {
+                    console.log("Error:" + JSON.stringify(errorResponse));
+                }
+        );
+
+        var postData = {
+            "frontPage": false,
+            "links": true,
+            "articles": true,
+            "products": false,
+            "searchFilter": [
+                {
+                    "sectionName": "Menu",
+                    "categoryName": null
+                }
+            ]
+
         };
+        Content.getContent({}, postData,
+                function success(response) {
+                    //alert($scope.challenge.question);
+                    console.log("Success:" + JSON.stringify(response));
+
+                    $scope.content = response;
+                    if (response.links !== null && response.links.length > 0) {
+                        $scope.showLinks = true;
+                    } else {
+                        $scope.showLinks = false;
+                    }
+
+                    if (response.articleLocations.Left.length > 0) {
+                        $scope.showNewsFlash = true;
+                    } else {
+                        $scope.showNewsFlash = false;
+                    }
+
+                    if (response.articleLocations.Right.length > 0) {
+                        $scope.showNews = true;
+                    } else {
+                        $scope.showNews = false;
+                    }
+
+                    for (var cnt = 0; cnt < response.articleLocations.FrontPage.length; cnt++) {
+                        $scope.content.articleLocations.FrontPage[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.FrontPage[cnt].articleText.text));
+
+                    }
+                    console.log("Html:");
+                    console.log(JSON.stringify($scope.content));
+
+
+                },
+                function error(errorResponse) {
+                    console.log("Error:" + JSON.stringify(errorResponse));
+                    //$location.path('/loginFailedForm');
+                }
+        );
+
+
+        //$scope.newsActiveClass = "active";
 
     }]);
-
-ulboraCmsControllers.controller('ProcessSuccessCtrl', ['$scope', 'deleteCreds', '$location', '$http',
-    function ProcessSuccessCtrl($scope, deleteCreds, $location, $http) {
-        //alert("test");
-
-
-        //}
-
-
-        //$scope.message = "hello";
-        //$scope.uploadArticleActiveClass = "active";
-
-    }]);
-
-ulboraCmsControllers.controller('ProcessFailureCtrl', ['$scope', 'deleteCreds', '$location', '$http',
-    function ProcessFailureCtrl($scope, deleteCreds, $location, $http) {
-        //alert("test");
-
-
-        //}
-
-
-        //$scope.message = "hello";
-        //$scope.uploadArticleActiveClass = "active";
-
-    }]);
-

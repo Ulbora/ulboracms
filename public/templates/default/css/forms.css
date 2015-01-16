@@ -151,7 +151,9 @@ textarea.form-left-text-element {
     float: left;
     width: 80%;
     margin: 0% 0 0 3%;  
-    padding: 0 0 0 0;
+    padding: 1% 0 1% 2%;
+    text-align: left;
+    
 }
 
 .upload-form-label{

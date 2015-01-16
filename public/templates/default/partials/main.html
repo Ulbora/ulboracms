@@ -1,68 +1,33 @@
-<div ng-include src="'partials/menus/topMenu.html'"></div>   
-<div id="container" class="container"> 
-    <div class="main-wrapper">
-        <div class="main-left">
-            <div class="main-news-flash" ng-switch on="showNews">
-                <div class="cell-header" ng-switch-when="true">
-                    Latest
-                </div>
-                <div class="main-cell-body">
-                    <div  ng-repeat="article in content.articleLocations.Left">
-                        <div class="main-cell-row">
-                            <a href="#!article/{{article._id}}">{{article.title}}</a> 
+<div ng-include src="'partials/menu.html'"></div>   
+<div id="container" class="container">  
+    <!-- Ulbora CMS Template and theme -->
+    <div ng-switch on="showContent">
+        <div ng-switch-when="true" >
+            <div class="page-wrapper">
+                <div class="article-wrapper">
+                    <div class="article-wrapper2"  ng-repeat="article in content.articleLocations.FrontPage">              
+                        <div class="article-title"  ng-switch on="article.showTitle">
+                            <span ng-switch-when="true">{{article.title}}</span>
+                        </div>  
+                        <div class="article">
+                            <div ng-bind-html="article.articleText.text"></div>  
+                        </div> 
+                        <div class="article-read-more" ng-switch on="article.fullPage">
+                            <span ng-switch-when="false"><a class="" href="#!article/{{article._id}}">Read More...</a></span>
                         </div>
-                    </div>
-                </div>
-            </div>            
-        </div>
-        <div class="main-middle">
-            <div ng-repeat="article in content.articleLocations.FrontPage">
-                <div class="main-center" ng-switch on="article.showTitle">
-                    <div class="front-page-header" ng-switch-when="true">
-                        {{article.title}}
-                    </div>
-                    <div class="main-cell-body"> 
-                        <div ng-bind-html="article.articleText.text"></div>                     
-                    </div>
-                    <div class="main-center" ng-switch on="article.fullPage">
-                        <div class="read-more-link" ng-switch-when="false">
-                            <a href="#!article/{{article._id}}">Read More...</a> 
-                        </div>                        
+
+                        
 
                     </div>
-                    <div ng-switch on="$index < (content.articleLocations.Frontpage.length - 1)">
-                        <div class="bottom-break-bar" ng-switch-when="true"></div>
-                    </div>
-                </div>            
+                </div>
+                
             </div>
         </div>
-        <div class="main-right">
-            <div class="main-news-flash" ng-switch on="showNewsFlash">
-                <div class="cell-header" ng-switch-when="true">
-                    News Flash
-                </div>
-                <div class="main-cell-body">
-                    <div  ng-repeat="article in content.articleLocations.Right">
-                        <div class="main-cell-row">
-                            <a href="#!article/{{article._id}}">{{article.title}}</a> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="main-links" ng-switch on="showLinks">
-                <div class="cell-header" ng-switch-when="true">
-                    Links
-                </div>
-                <div class="main-cell-body">
-                    <div  ng-repeat="link in content.links">
-                        <div class="main-cell-row">
-                            <a href="{{link.link}}">{{link.name}}</a> 
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
+    </div>
 
-    </div>    
+</div> 
+<div ng-switch on="showContent">
+    <div ng-switch-when="true" >
+        <div ng-include src="'partials/footer.html'"></div>    
+    </div>
 </div>
-<div ng-include src="'partials/footer/footer.html'"></div>

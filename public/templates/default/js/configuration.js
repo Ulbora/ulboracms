@@ -1,6 +1,4 @@
-var siteUrl = "http://ulboracmsmultiuser.micbutton.cloudbees.net/rs/";//"http://localhost:8080/UlboraCmsComAPI/rs/";
-var clientUrl = "http://localhost:8080/UlboraCmsUI";
-//var challengeUrl = "http://micbuttonchallengeapi.micbutton.cloudbees.net/rs";
+'use strict';
 
 var spinOps = {
     lines: 10, // The number of lines to draw
