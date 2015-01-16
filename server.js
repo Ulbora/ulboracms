@@ -34,6 +34,7 @@ var feedService = require('./services/feedService');
 var contentController = require('./controllers/contentController');
 
 var conf = require('./configuration');
+var cors = require('./cors/cors');
 
 var refreshCache = false;
 var refreshRssCache = false;
@@ -123,6 +124,9 @@ var ulboracms = function () {
         self.app.use(express.cookieParser('7320s932h79993Ah4'));
         self.app.use(express.cookieSession());
         self.app.use(express.static(__dirname + '/public'));
+        if(conf.CORS_ENABLED){
+            self.app.use(cors.CORS);
+        }
 
 
         //out of the box ejs---------------
