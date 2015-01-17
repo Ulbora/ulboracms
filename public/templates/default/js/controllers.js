@@ -134,6 +134,7 @@ ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location'
 
 ulboraCmsControllers.controller('ArchiveCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', 'Content', '$sce', '$routeParams',
     function ArchiveCtrl($scope, checkCreds, $location, $http, getToken, Content, $sce, $routeParams) {
+        $scope.useUlboraSite = false;
         $scope.brandColor = "color: white;";
         if (checkCreds() === true) {
             $scope.loggedIn = true;
@@ -226,7 +227,7 @@ ulboraCmsControllers.controller('ArchiveCtrl', ['$scope', 'checkCreds', '$locati
 
 ulboraCmsControllers.controller('ArticleCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', '$routeParams', 'Article', 'Content', '$sce',
     function ArticleCtrl($scope, checkCreds, $location, $http, getToken, $routeParams, Article, Content, $sce) {
-
+        $scope.useUlboraSite = false;
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
@@ -349,6 +350,7 @@ ulboraCmsControllers.controller('ArticleCtrl', ['$scope', 'checkCreds', '$locati
 
 ulboraCmsControllers.controller('LoginScreenCtrl', ['$scope', 'checkCreds', 'setCreds', '$location', '$http', 'getToken', 'Login', 'Content',
     function LoginScreenCtrl($scope, checkCreds, setCreds, $location, $http, getToken, Login, Content) {
+        $scope.useUlboraSite = false;
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
@@ -417,6 +419,7 @@ ulboraCmsControllers.controller('LoginScreenCtrl', ['$scope', 'checkCreds', 'set
 
 ulboraCmsControllers.controller('LoginCtrl', ['$scope', 'checkCreds', 'setCreds', '$location', '$http', 'getToken', 'Login', 'Content',
     function LoginCtrl($scope, checkCreds, setCreds, $location, $http, getToken, Login, Content) {
+        $scope.useUlboraSite = false;
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
@@ -485,6 +488,7 @@ ulboraCmsControllers.controller('LogOutCtrl', ['$scope', 'deleteCreds', '$locati
 
 ulboraCmsControllers.controller('RegistrationNewCtrl', ['$scope', 'Challenge', '$location', 'checkCreds',
     function RegistrationNewCtrl($scope, Challenge, $location, checkCreds) {
+        $scope.useUlboraSite = false;
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
@@ -553,6 +557,7 @@ ulboraCmsControllers.controller('RegistrationCtrl', ['$scope', 'Registration', '
 
 ulboraCmsControllers.controller('PasswordResetCtrl', ['$scope', 'Challenge', 'Password', '$location', 'checkCreds',
     function PasswordResetCtrl($scope, Challenge, Password, $location, checkCreds) {
+        $scope.useUlboraSite = false;
         if (checkCreds() === true) {
             $scope.loggedIn = true;
         } else {
