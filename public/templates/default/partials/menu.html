@@ -4,13 +4,22 @@
 
     </div>
     <div class="top-menu-menu">
-        <nav>
-            <ul ng-switch on="loggedIn">
+        <nav ng-switch on="useUlboraSite">
+            <ul ng-switch-when="false">
                 <li class="{{homeActiveClass}}" ><a  href="#!/">Home</a></li>   
                 <li ng-repeat="item in content.articleLocations.TopMenu" ng-switch="item.title === '{{menuLinkName}}'">
                     <a ng-switch-when="false" href="#!menuArticle/{{item._id}}/{{ item.title}}">{{ item.title}}</a>
                     <a ng-switch-when="true" class="activeLink" href="#!menuArticle/{{item._id}}/{{ item.title}}">{{ item.title}}</a>
-                </li>  
+                </li> 
+                
+
+            </ul>
+            <ul ng-switch-when="true">
+                <li class="{{homeActiveClass}}" ><a  href="#!/">Home</a></li>   
+                <li ng-repeat="item in content.articleLocations.TopMenu" ng-switch="item.title === '{{menuLinkName}}'">
+                    <a ng-switch-when="false" href="#!menuArticleSite/{{item._id}}/{{ item.title}}">{{ item.title}}</a>
+                    <a ng-switch-when="true" class="activeLink" href="#!menuArticleSite/{{item._id}}/{{ item.title}}">{{ item.title}}</a>
+                </li> 
                 
 
             </ul>

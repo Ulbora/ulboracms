@@ -74,6 +74,50 @@ ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location'
                     console.log("Html:");
                     console.log(JSON.stringify($scope.content));
 
+                    if (contentLen === 0) {
+                        console.log("content count" + contentLen);
+                        ContentUlboraSite.getContent({}, postData,
+                                function success(response) {
+                                    $scope.useUlboraSite = true;
+                                    //alert($scope.challenge.question);
+                                    console.log("Success:" + JSON.stringify(response));
+                                    contentLen = response.articleLocations.FrontPage.length;
+                                    $scope.content = response;
+                                    if (response.links !== null && response.links.length > 0) {
+                                        $scope.showLinks = true;
+                                    } else {
+                                        $scope.showLinks = false;
+                                    }
+
+                                    if (response.articleLocations.Left.length > 0) {
+                                        $scope.showNewsFlash = true;
+                                    } else {
+                                        $scope.showNewsFlash = false;
+                                    }
+
+                                    if (response.articleLocations.Right.length > 0) {
+                                        $scope.showNews = true;
+                                    } else {
+                                        $scope.showNews = false;
+                                    }
+
+                                    for (var cnt = 0; cnt < response.articleLocations.FrontPage.length; cnt++) {
+                                        $scope.content.articleLocations.FrontPage[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.FrontPage[cnt].articleText.text));
+
+                                    }
+                                    $scope.showContent = true;
+                                    console.log("Html:");
+                                    console.log(JSON.stringify($scope.content));
+
+
+                                },
+                                function error(errorResponse) {
+                                    console.log("Error:" + JSON.stringify(errorResponse));
+                                    //$location.path('/loginFailedForm');
+                                }
+                        );
+                    }
+
 
                 },
                 function error(errorResponse) {
@@ -82,48 +126,6 @@ ulboraCmsControllers.controller('MainCtrl', ['$scope', 'checkCreds', '$location'
                 }
         );
 
-        if (contentLen === 0) {
-            ContentUlboraSite.getContent({}, postData,
-                    function success(response) {
-                        $scope.useUlboraSite = true;
-                        //alert($scope.challenge.question);
-                        console.log("Success:" + JSON.stringify(response));
-                        contentLen = response.articleLocations.FrontPage.length;
-                        $scope.content = response;
-                        if (response.links !== null && response.links.length > 0) {
-                            $scope.showLinks = true;
-                        } else {
-                            $scope.showLinks = false;
-                        }
-
-                        if (response.articleLocations.Left.length > 0) {
-                            $scope.showNewsFlash = true;
-                        } else {
-                            $scope.showNewsFlash = false;
-                        }
-
-                        if (response.articleLocations.Right.length > 0) {
-                            $scope.showNews = true;
-                        } else {
-                            $scope.showNews = false;
-                        }
-
-                        for (var cnt = 0; cnt < response.articleLocations.FrontPage.length; cnt++) {
-                            $scope.content.articleLocations.FrontPage[cnt].articleText.text = $sce.trustAsHtml(atob(response.articleLocations.FrontPage[cnt].articleText.text));
-
-                        }
-                        $scope.showContent = true;
-                        console.log("Html:");
-                        console.log(JSON.stringify($scope.content));
-
-
-                    },
-                    function error(errorResponse) {
-                        console.log("Error:" + JSON.stringify(errorResponse));
-                        //$location.path('/loginFailedForm');
-                    }
-            );
-        }
 
 
         $scope.homeActiveClass = "activeLink";
@@ -235,7 +237,7 @@ ulboraCmsControllers.controller('ArticleCtrl', ['$scope', 'checkCreds', '$locati
         $scope.showContent = false;
         $scope.showTags = false;
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        
+
         var articleId = $routeParams.a;
         $scope.menuLinkName = $routeParams.name;
         Article.get({id: articleId},
@@ -622,8 +624,8 @@ ulboraCmsControllers.controller('ProcessFailureCtrl', ['$scope', 'deleteCreds', 
 
 
 
-ulboraCmsControllers.controller('ArticleSiteCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', '$routeParams', 'ArticleUlboraSite', 'Content', '$sce',
-    function ArticleSiteCtrl($scope, checkCreds, $location, $http, getToken, $routeParams, ArticleUlboraSite, Content, $sce) {
+ulboraCmsControllers.controller('ArticleSiteCtrl', ['$scope', 'checkCreds', '$location', '$http', 'getToken', '$routeParams', 'ArticleUlboraSite', 'ContentUlboraSite', '$sce',
+    function ArticleSiteCtrl($scope, checkCreds, $location, $http, getToken, $routeParams, ArticleUlboraSite, ContentUlboraSite, $sce) {
         $scope.useUlboraSite = true;
         if (checkCreds() === true) {
             $scope.loggedIn = true;
@@ -635,7 +637,7 @@ ulboraCmsControllers.controller('ArticleSiteCtrl', ['$scope', 'checkCreds', '$lo
         $scope.showContent = false;
         $scope.showTags = false;
         $http.defaults.headers.common['Authorization'] = 'Basic ' + getToken();
-        
+
         var articleId = $routeParams.a;
         $scope.menuLinkName = $routeParams.name;
         ArticleUlboraSite.get({id: articleId},
@@ -658,7 +660,14 @@ ulboraCmsControllers.controller('ArticleSiteCtrl', ['$scope', 'checkCreds', '$lo
             var result = "";
 
             result = atob(response.articleText.text);
-
+            result = result.replace("..", 'http://www.ulboracms.org');
+            result = result.replace("..", 'http://www.ulboracms.org');
+            result = result.replace("..", 'http://www.ulboracms.org');
+            result = result.replace("..", 'http://www.ulboracms.org');
+            result = result.replace("..", 'http://www.ulboracms.org');
+            result = result.replace("..", 'http://www.ulboracms.org');
+            result = result.replace("..", 'http://www.ulboracms.org');
+            result = result.replace("..", 'http://www.ulboracms.org');
 
             $scope.articleHtml = $sce.trustAsHtml(result);
 
@@ -698,7 +707,7 @@ ulboraCmsControllers.controller('ArticleSiteCtrl', ['$scope', 'checkCreds', '$lo
             ]
 
         };
-        Content.getContent({}, postData,
+        ContentUlboraSite.getContent({}, postData,
                 function success(response) {
                     //alert($scope.challenge.question);
                     console.log("Success:" + JSON.stringify(response));

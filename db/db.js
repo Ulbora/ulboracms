@@ -403,7 +403,8 @@ initializeTemplate = function () {
             if (results.length === 0) {
                 var templateRecord = {
                     name: "default",
-                    defaultTemplate: false
+                    defaultTemplate: true,
+                    angularTemplate: true
                 };
                 var tmp = new Template(templateRecord);
                 tmp.save(function (err) {
@@ -412,7 +413,7 @@ initializeTemplate = function () {
                     } else {
                         var template2Record = {
                             name: "ds_101",
-                            defaultTemplate: true
+                            defaultTemplate: false
                         };
                         var tmp2 = new Template(template2Record);
                         tmp2.save(function (err) {

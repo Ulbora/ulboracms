@@ -3,7 +3,7 @@ var DATABASE_NAME = "ulboracms";
 var PORT = 8080;
 
 //cors allowed origins
-var ALLOWED_ORIGINS = ["*"];
+var ALLOWED_ORIGINS = "*";
 var CORS_ENABLED = false;
 
 
