@@ -124,7 +124,7 @@ var ulboracms = function () {
         self.app.use(express.cookieParser('7320s932h79993Ah4'));
         self.app.use(express.cookieSession());
         self.app.use(express.static(__dirname + '/public'));
-        if(conf.CORS_ENABLED){
+        if (conf.CORS_ENABLED) {
             self.app.use(cors.CORS);
         }
 
@@ -225,12 +225,12 @@ var ulboracms = function () {
         self.app.put('/rs/media', mediaService.update);
         self.app.get('/rs/media/:id', mediaService.get);
         //self.app.get('/rs/media/:id', function (req, res) {
-            //mediaService.get(req, res, self.port);
+        //mediaService.get(req, res, self.port);
         //});
         self.app.delete('/rs/media/:id', mediaService.delete);
         self.app.post('/rs/media/list', mediaService.list);
         //self.app.post('/rs/media/list', function (req, res) {
-            //mediaService.list(req, res, self.port);
+        //mediaService.list(req, res, self.port);
         //});
 
 
@@ -309,7 +309,7 @@ var ulboracms = function () {
         self.app.delete('/rs/template/:id', templateService.delete);
         self.app.post('/rs/template/list', templateService.list);
         //self.app.post('/rs/template/upload', templateService.upload);
-        self.app.post('/rs/template/upload', function (req, res){
+        self.app.post('/rs/template/upload', function (req, res) {
             templateService.upload(__dirname, req, res);
         });
 
@@ -452,7 +452,7 @@ var initializeWebApp = function (self) {
                     requestedPage = requestedPage.substring(0, indexOfPeriod + 5);
                 }
                 console.log("filter name: " + filerName);
-                
+
                 var revisedPage = requestedPage.replace("html", "ejs");
                 //var revisedPage = requestedPage.replace("html", "hbs");
                 if (!refreshCache && cashedPages[filerName] !== undefined && cashedPages[filerName] !== null && filerName !== "archive") {
@@ -468,9 +468,9 @@ var initializeWebApp = function (self) {
                             console.log("filter data: " + JSON.stringify(filter));
                             console.log("filter data frontpage: " + filter.frontPage);
                             contentController.getContentList(req, filter, loggedIn, function (results) {
-                                if(filerName !== "archive"){
+                                if (filerName !== "archive") {
                                     cashedPages[filerName] = results;
-                                }   
+                                }
                                 //console.log("cachedPages: " + cashedPages);
                                 console.log("content results: " + JSON.stringify(results));
                                 res.render("public/templates/" + template.name + revisedPage, {content: results, loggedIn: loggedIn});
@@ -498,6 +498,16 @@ var initializeWebApp = function (self) {
             }
         });
     });
+
+
+
+
+    self.app.get('/sitemap.xml', function (req, res) {
+        getDefaultTemplate(function (template) {
+            res.redirect('templates/' + template.name + req.originalUrl);
+        });
+    });
+
 
 
     self.app.get('/article', function (req, res) {
