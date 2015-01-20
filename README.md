@@ -6,6 +6,10 @@ UlboraCMS 2.0
 
 [UlboraCMS 2.0](http://www.ulboracms.org) is the first production quality MEAN stack CMS and blog platform.
 
+[Ulbora CMS Formum] (https://groups.google.com/forum/?hl=en#!forum/ulbora-cms-forum)
+
+[Ulbora CMS Help] (https://groups.google.com/forum/?hl=en#!forum/ulbora-cms-help)
+
 UlboraCMS is built with MongoDB, ExpressJS, AngularJS and Node.js.
 
 UlboraCMS lets you choose either Angular templates or templates built with conventional server-side template engines like EJS or Jade.
