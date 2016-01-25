@@ -1,12 +1,16 @@
 #!/bin/env node
 var express = require('express');
+var bodyParser = require('body-parser');
+var errorHandler = require('errorhandler');
+var logger = require('morgan');
+var cookieParser = require('cookie-parser');
+var cookieSession = require('cookie-session');
+var basicAuth = require('basic-auth');
 var fs = require('fs');
-//var engines = require('consolidate');
 
-var un = 'node';//change this to something private
-var pw = 'password';//change this to something private
+var un = 'node';//change this to something private for testing 
+var pw = 'password';//change this to something private for testing 
 
-//var blogPost = require('./db/blog');
 var db = require('./db/db');
 var publicService = require('./services/publicService');
 var accessLevelService = require('./services/accessLevelService');
@@ -119,10 +123,18 @@ var ulboracms = function () {
     self.initializeServer = function () {
 
         self.app = express();
-        self.app.use(express.logger('dev'));
-        self.app.use(express.bodyParser());
-        self.app.use(express.cookieParser('7320s932h79993Ah4'));
-        self.app.use(express.cookieSession());
+        self.app.use(logger('dev'));
+        self.app.use(bodyParser.json());
+        //self.app.use(express.logger('dev'));
+        //self.app.use(express.bodyParser());
+        //self.app.use(express.cookieParser('7320s932h79993Ah4'));
+        self.app.use(cookieParser('7320s932h79993Ah4'));
+        //self.app.use(express.cookieSession());
+        //self.app.use(cookieSession());
+        self.app.use(cookieSession({
+            name: 'session',
+            keys: ['key1', 'key2']
+        }));
         self.app.use(express.static(__dirname + '/public'));
         if (conf.CORS_ENABLED) {
             self.app.use(cors.CORS);
@@ -144,7 +156,7 @@ var ulboracms = function () {
         //-----------------------------------------
 
         self.app.set("views", __dirname + "/");
-        var auth = express.basicAuth(un, pw);
+        //var auth = express.basicAuth(un, pw);        
         db.initializeMongoDb();
 
         // initial web apps
@@ -334,9 +346,18 @@ var ulboracms = function () {
 
 
 
-        self.app.get('/rs/test', auth, function (req, res) {
-            //var w = test();
-            res.send([{code: 2, name: "ken"}, {name: 'wine2'}]);
+        self.app.get('/rs/test', function (req, res) {
+            var credentials = basicAuth(req);
+            basicAuthenticate(credentials, function (success) {
+                if (success) {
+                    //var w = test();
+                    res.send([{code: 2, name: "ken"}, {name: 'wine2'}]);
+                } else {
+                    res.status(401);
+                    res.send();
+                }
+
+            });
         });
 
 
@@ -404,7 +425,7 @@ var initializeWebApp = function (self) {
             var loggedIn = (req.session.loggedIn);
             console.log("requested page: " + requestedPage);
             if (template.angularTemplate) {
-                res.sendfile("public/templates/" + template.name + "/index.html");
+                res.sendFile(__dirname + "/public/templates/" + template.name + "/index.html");
             } else {
                 //__dirname + 
                 //console.log("cachedPages: " + JSON.stringify(cashedPages["index"]));
@@ -439,8 +460,16 @@ var initializeWebApp = function (self) {
 
     });
 
+    self.app.get('/partials/*.html', function (req, res) { 
+        console.log("in partials");
+        getDefaultTemplate(function (template) {
+            console.log("in partials url: " + '/templates/' + template.name + req.originalUrl);
+            res.redirect('/templates/' + template.name + req.originalUrl);            
+        });
+    });
 
     self.app.get('/*.html', function (req, res) {
+        console.log("in html");
         getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 var loggedIn = (req.session.loggedIn);
@@ -776,52 +805,48 @@ var initializeWebApp = function (self) {
         getDefaultTemplate(function (template) {
             var requestedPage = req.originalUrl;
             console.log("requested page: " + requestedPage);
-            res.sendfile("public/templates/" + template.name + "/appIndex.html");
+            res.sendFile(__dirname + "/public/templates/" + template.name + "/appIndex.html");
         });
 
     });
 
     self.app.get('/css/*', function (req, res) {
         getDefaultTemplate(function (template) {
-            res.redirect('templates/' + template.name + req.originalUrl);
+            res.redirect('/templates/' + template.name + req.originalUrl);
         });
 
     });
 
     self.app.get('/font/*', function (req, res) {
         getDefaultTemplate(function (template) {
-            res.redirect('templates/' + template.name + req.originalUrl);
+            res.redirect('/templates/' + template.name + req.originalUrl);
         });
 
     });
 
     self.app.get('/img/*', function (req, res) {
         getDefaultTemplate(function (template) {
-            res.redirect('templates/' + template.name + req.originalUrl);
+            res.redirect('/templates/' + template.name + req.originalUrl);
         });
 
     });
 
     self.app.get('/js/*', function (req, res) {
         getDefaultTemplate(function (template) {
-            res.redirect('templates/' + template.name + req.originalUrl);
+            res.redirect('/templates/' + template.name + req.originalUrl); 
         });
 
     });
 
     self.app.get('/lib-css/*', function (req, res) {
         getDefaultTemplate(function (template) {
-            res.redirect('templates/' + template.name + req.originalUrl);
+            res.redirect('/templates/' + template.name + req.originalUrl);
+            //es.send("hello");
         });
 
     });
 
-    self.app.get('/partials/*', function (req, res) {
-        getDefaultTemplate(function (template) {
-            res.redirect('templates/' + template.name + req.originalUrl);
-        });
-
-    });
+    
 
 };
 
@@ -845,7 +870,15 @@ var getDefaultTemplate = function (callback) {
 
 var errorHander = function (req, res) {
     //res.status(404).send('Something broke!');
-    res.status(404).sendfile("public/error.html");
+    res.status(404).sendFile(__dirname + "/public/error.html");
+};
+
+var basicAuthenticate = function (creds, callback) {
+    if (!creds || creds.name !== un || creds.pass !== pw) {
+        callback(false);
+    } else {
+        callback(true);
+    }
 };
 
 /**

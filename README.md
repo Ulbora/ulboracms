@@ -1,4 +1,4 @@
-UlboraCMS 2.0 
+UlboraCMS 2.1 alpha (for Ver. 2.0 use the 2.0 branch)
 ==============
 
 [![Build Status][travis-image]][travis-url]
