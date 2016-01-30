@@ -7,25 +7,14 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var basicAuth = require('basic-auth');
 var fs = require('fs');
-
-//var un = 'node';//change this to something private for testing 
-//var pw = 'password';//change this to something private for testing 
-
 var webInitializer = require('./initializers/webInitializer');
 var restServiceInitializer = require('./initializers/restServiceInitializer');
-
 var db = require('./db/db');
-
 var refreshCache = false;
-
 var conf = require('./configuration');
 var cors = require('./cors/cors');
 
-
-
-
 var ulboracms = function () {
-
     //  Scope.
     var self = this;
     /**
@@ -35,17 +24,13 @@ var ulboracms = function () {
         //  Set the environment variables we need.
         self.ipaddress = process.env.OPENSHIFT_NODEJS_IP || process.env.ULBORACMS_IP;
         self.port = process.env.OPENSHIFT_NODEJS_PORT || process.env.ULBORACMS_PORT || conf.PORT;
-
-
         if (typeof self.ipaddress === "undefined") {
             //  Log errors but continue w/ 127.0.0.1 - this
             //  allows us to run/test the app locally.
             console.warn('No IP address defined, using 127.0.0.1');
             self.ipaddress = "127.0.0.1";
-        }
-        ;
+        };
     };
-
 
     /**
      *  terminator === the termination handler
@@ -60,7 +45,6 @@ var ulboracms = function () {
         }
         console.log('%s: Node server stopped.', Date(Date.now()));
     };
-
 
     /**
      *  Setup termination handlers (for exit and a list of signals).
@@ -79,15 +63,13 @@ var ulboracms = function () {
                 self.terminator(element);
             });
         });
-    };
-  
+    };  
 
     /**
      *  Initialize the server (express) and create the routes and register
      *  the handlers.
      */
     self.initializeServer = function () {
-
         self.app = express();
         self.app.use(logger('dev'));
         self.app.use(bodyParser.json());        
@@ -100,7 +82,6 @@ var ulboracms = function () {
         if (conf.CORS_ENABLED) {
             self.app.use(cors.CORS);
         }
-
         //out of the box ejs---------------
         self.app.set('view engine', 'ejs');   
         self.app.set("views", __dirname + "/");
@@ -110,12 +91,9 @@ var ulboracms = function () {
         // initial web apps
        // initializeWebApp(self);
         webInitializer.initialize(__dirname, self, refreshCache);
-        restServiceInitializer.initialize(self, refreshCache);
-        
+        restServiceInitializer.initialize(self, refreshCache);        
         self.app.use(errorHander);
-
     };
-
 
     /**
      *  Initializes the sample application.
@@ -127,7 +105,6 @@ var ulboracms = function () {
         // Create the express server and routes.
         self.initializeServer();
     };
-
 
     /**
      *  Start the server (starts up the sample application).
@@ -141,20 +118,11 @@ var ulboracms = function () {
     }; 
 };
 
-
 var errorHander = function (req, res) {
     //res.status(404).send('Something broke!');
     res.status(404).sendFile(__dirname + "/public/error.html");
 };
-/*
-var basicAuthenticate = function (creds, callback) {
-    if (!creds || creds.name !== un || creds.pass !== pw) {
-        callback(false);
-    } else {
-        callback(true);
-    }
-};
-*/
+
 var zapp = new ulboracms();
 zapp.initialize();
 zapp.start();
