@@ -8,8 +8,8 @@ var cookieSession = require('cookie-session');
 var basicAuth = require('basic-auth');
 var fs = require('fs');
 
-var un = 'node';//change this to something private for testing 
-var pw = 'password';//change this to something private for testing 
+//var un = 'node';//change this to something private for testing 
+//var pw = 'password';//change this to something private for testing 
 
 var webInitializer = require('./initializers/webInitializer');
 var restServiceInitializer = require('./initializers/restServiceInitializer');
@@ -146,7 +146,7 @@ var errorHander = function (req, res) {
     //res.status(404).send('Something broke!');
     res.status(404).sendFile(__dirname + "/public/error.html");
 };
-
+/*
 var basicAuthenticate = function (creds, callback) {
     if (!creds || creds.name !== un || creds.pass !== pw) {
         callback(false);
@@ -154,7 +154,7 @@ var basicAuthenticate = function (creds, callback) {
         callback(true);
     }
 };
-
+*/
 var zapp = new ulboracms();
 zapp.initialize();
 zapp.start();

@@ -206,22 +206,6 @@ exports.initialize = function(self, refreshCache){
         });
 
 
-
-        self.app.get('/rs/test', function (req, res) {
-            var credentials = basicAuth(req);
-            basicAuthenticate(credentials, function (success) {
-                if (success) {
-                    //var w = test();
-                    res.send([{code: 2, name: "ken"}, {name: 'wine2'}]);
-                } else {
-                    res.status(401);
-                    res.send();
-                }
-
-            });
-        });
-
-
        
         self.app.post('/rs/blogTest', function (req, res) {
             var reqBody = req.body;
