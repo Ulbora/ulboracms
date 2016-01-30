@@ -1,14 +1,15 @@
 //initialize web interface
-
 var db = require('../db/db');
 var fs = require('fs');
-
 var refreshRssCache = false;
 var cashedPages = [];
 var contentController = require('../controllers/contentController');
-exports.initialize = function(__dirname, self, refreshCache){    
+var webtpl = require('../utils/webtpl');
+var angular = require('./angularJsInitializer');
+var fileInit = require('./fileInitializer');
+exports.initialize = function (__dirname, self, refreshCache) {
     self.app.get('/', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             var requestedPage = req.originalUrl;
             var loggedIn = (req.session.loggedIn);
             console.log("requested page: " + requestedPage);
@@ -41,24 +42,15 @@ exports.initialize = function(__dirname, self, refreshCache){
 
                     });
                 }
-
             }
-
-        });
-
-    });
-
-    self.app.get('/partials/*.html', function (req, res) { 
-        console.log("in partials");
-        getDefaultTemplate(function (template) {
-            console.log("in partials url: " + '/templates/' + template.name + req.originalUrl);
-            res.redirect('/templates/' + template.name + req.originalUrl);            
         });
     });
+
+    angular.partials(self);
 
     self.app.get('/*.html', function (req, res) {
         console.log("in html");
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 var loggedIn = (req.session.loggedIn);
                 var requestedPage = req.originalUrl;
@@ -104,12 +96,9 @@ exports.initialize = function(__dirname, self, refreshCache){
                                 console.log("page error: " + e);
                                 errorHander(req, res);
                             }
-
                         }
-
                     });
                 }
-
             } else {
                 res.redirect('/templates/' + template.name + req.originalUrl);
             }
@@ -117,18 +106,8 @@ exports.initialize = function(__dirname, self, refreshCache){
     });
 
 
-
-
-    self.app.get('/sitemap.xml', function (req, res) {
-        getDefaultTemplate(function (template) {
-            res.redirect('templates/' + template.name + req.originalUrl);
-        });
-    });
-
-
-
     self.app.get('/article', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 var loggedIn = (req.session.loggedIn);
                 var requestedPage = req.originalUrl;
@@ -152,7 +131,6 @@ exports.initialize = function(__dirname, self, refreshCache){
                             console.log(err);
                             res.render("public/templates/" + template.name + revisedPage, {article: results, loggedIn: loggedIn, content: []});
                         }
-
                     });
                 });
             } else {
@@ -162,7 +140,7 @@ exports.initialize = function(__dirname, self, refreshCache){
     });
 
     self.app.post('/login', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 contentController.login(req, function (results) {
                     console.log("login results: " + results);
@@ -177,7 +155,6 @@ exports.initialize = function(__dirname, self, refreshCache){
                     } else {
                         res.render("public/templates/" + template.name + "/login.ejs", {loginFailed: true, message: "Login failed", content: []});
                     }
-
                 });
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
@@ -186,7 +163,7 @@ exports.initialize = function(__dirname, self, refreshCache){
     });
 
     self.app.get('/login', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 var loggedIn = (req.session.loggedIn);
                 // contentController.login(req, function (results) {
@@ -219,10 +196,8 @@ exports.initialize = function(__dirname, self, refreshCache){
         });
     });
 
-
-
     self.app.post('/register', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 contentController.register(req, function (results) {
                     console.log("register results: " + JSON.stringify(results));
@@ -241,9 +216,8 @@ exports.initialize = function(__dirname, self, refreshCache){
     });
 
 
-
     self.app.get('/register', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 contentController.getMicbuttionChallenge(req, function (results) {
                     var question = "";
@@ -270,11 +244,8 @@ exports.initialize = function(__dirname, self, refreshCache){
                             res.render("public/templates/" + template.name + "/register.ejs", {question: question, key: key, content: []});
                         }
                     });
-
-
                     //res.render("public/templates/" + template.name + "/register.ejs", {question: question, key: key});
                 });
-
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
             }
@@ -282,7 +253,7 @@ exports.initialize = function(__dirname, self, refreshCache){
     });
 
     self.app.post('/resetPassword', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 contentController.resetPassword(req, function (results) {
                     console.log("resetPassword results: " + JSON.stringify(results));
@@ -294,7 +265,6 @@ exports.initialize = function(__dirname, self, refreshCache){
                     }
                     res.render("public/templates/" + template.name + page);
                 });
-
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
             }
@@ -302,7 +272,7 @@ exports.initialize = function(__dirname, self, refreshCache){
     });
 
     self.app.get('/resetPassword', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 contentController.getMicbuttionChallenge(req, function (results) {
                     var chal = JSON.parse(results);
@@ -323,7 +293,6 @@ exports.initialize = function(__dirname, self, refreshCache){
                     });
                     //res.render("public/templates/" + template.name + "/resetPassword.ejs", {question: question, key: key});
                 });
-
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
             }
@@ -331,11 +300,10 @@ exports.initialize = function(__dirname, self, refreshCache){
     });
 
     self.app.get('/logout', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 // contentController.login(req, function (results) {
                 //console.log("content results: " + JSON.stringify(results));
-
                 res.cookie('rememberme', false);
                 req.session.loggedIn = false;
                 res.redirect("/");
@@ -348,9 +316,10 @@ exports.initialize = function(__dirname, self, refreshCache){
             }
         });
     });
+    
     //// add comment section here-------------------------
     self.app.post('/comment', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
                 var loggedIn = (req.session.loggedIn);
                 var userId = req.session.userId;
@@ -380,7 +349,6 @@ exports.initialize = function(__dirname, self, refreshCache){
                             res.redirect("/");
                         }
                     }
-
                 });
             } else {
                 res.redirect('templates/' + template.name + req.originalUrl);
@@ -390,68 +358,15 @@ exports.initialize = function(__dirname, self, refreshCache){
 
     // this if for mix angular and standard templates
     self.app.get('/page', function (req, res) {
-        getDefaultTemplate(function (template) {
+        webtpl.getDefaultTemplate(function (template) {
             var requestedPage = req.originalUrl;
             console.log("requested page: " + requestedPage);
             res.sendFile(__dirname + "/public/templates/" + template.name + "/appIndex.html");
         });
 
     });
+    
+    fileInit.fileInitializer(self);
 
-    self.app.get('/css/*', function (req, res) {
-        getDefaultTemplate(function (template) {
-            res.redirect('/templates/' + template.name + req.originalUrl);
-        });
-
-    });
-
-    self.app.get('/font/*', function (req, res) {
-        getDefaultTemplate(function (template) {
-            res.redirect('/templates/' + template.name + req.originalUrl);
-        });
-
-    });
-
-    self.app.get('/img/*', function (req, res) {
-        getDefaultTemplate(function (template) {
-            res.redirect('/templates/' + template.name + req.originalUrl);
-        });
-
-    });
-
-    self.app.get('/js/*', function (req, res) {
-        getDefaultTemplate(function (template) {
-            res.redirect('/templates/' + template.name + req.originalUrl); 
-        });
-
-    });
-
-    self.app.get('/lib-css/*', function (req, res) {
-        getDefaultTemplate(function (template) {
-            res.redirect('/templates/' + template.name + req.originalUrl);
-            //es.send("hello");
-        });
-
-    });
-
-   
-};
-
-var getDefaultTemplate = function (callback) {
-    var Template = db.getTemplate();
-    Template.findOne({defaultTemplate: true}, function (err, results) {
-        var t = {
-            name: "default",
-            angularTemplate: false
-        }
-        console.log("found template set to default: " + JSON.stringify(results));
-        if (!err && (results !== undefined && results !== null)) {
-            t.name = results.name;
-            t.angularTemplate = results.angularTemplate;
-            callback(t);
-        } else {
-            callback(t);
-        }
-    });
 };
 
