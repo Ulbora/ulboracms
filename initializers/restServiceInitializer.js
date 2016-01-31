@@ -21,6 +21,7 @@ var templateService = require('../services/templateService');
 var adminService = require('../services/adminService');
 var contentService = require('../services/contentService');
 var feedService = require('../services/feedService');
+var templateEngineService = require('../services/templateEngineService');
 
 
 exports.initialize = function(self, refreshCache){
@@ -205,12 +206,16 @@ exports.initialize = function(self, refreshCache){
             feedService.rssFeed(req, res, doCache);
         });
 
-
+        
+        //templates engines        
+        self.app.put('/rs/templateEngine', templateEngineService.update);
+        self.app.get('/rs/templateEngine/:id', templateEngineService.get);        
+        self.app.post('/rs/templateEngine/list', templateEngineService.list);
        
-        self.app.post('/rs/blogTest', function (req, res) {
-            var reqBody = req.body;
-            console.log("new Blog: " + JSON.stringify(reqBody));
-            res.json(req.body);
-        });
+        //self.app.post('/rs/blogTest', function (req, res) {
+            //var reqBody = req.body;
+            //console.log("new Blog: " + JSON.stringify(reqBody));
+            //res.json(req.body);
+        //});
 
 };

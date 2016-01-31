@@ -1,0 +1,50 @@
+<div ng-include src="'partials/templateEngineMenu.html'"></div>   
+
+
+<div id="container" class="container">
+    <div class="page-container">
+        <div class="title-wrapper">            
+            <div class="title">Templates Engines</div>
+        </div>
+        <div class="support-form-wrapper">
+            <form  ng-submit="submit()" ng-controller="TemplateEngineEditCtrl">
+                <input type="hidden" ng-model="engineId"/>               
+               <div class="support-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="name">Name:</label>  
+                    </div>
+                    <div class="support-element">
+                        <input class="form-left-text-element" disabled="disabled" type="text" ng-model="name" name="name" placeholder="name" />
+                    </div>
+                </div>
+                
+                <div class="support-element-wrapper">
+                    <div class="support-label">
+                        <label class="support-form-label" for="code">Default Engine</label>  
+                    </div>
+                    <div class="support-radio-element">
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="defaultEngine"  name="defaultEngine" value="true" />
+                                Yes
+                            </label>
+                        </div>
+                        <div class="form-radio">
+                            <label>
+                                <input type="radio" ng-model="defaultEngine"  name="defaultEngine" value="false" />
+                                No
+                            </label>
+                        </div>
+                    </div>
+                </div>  
+                 
+                <div class="support-submit-button-row">
+                    <button  type="submit" class="btn btn-default">Save</button>
+                </div>
+
+            </form>
+        </div>
+    </div>
+</div>
+
+<div ng-include src="'partials/footer.html'"></div>

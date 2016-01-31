@@ -321,3 +321,20 @@ ulboraCmsAdminServices.factory('TemplateList', ['$resource',
             getList: {method: 'POST', cache: false, isArray: true}
         });
     }]);
+
+
+ulboraCmsAdminServices.factory('TemplateEngine', ['$resource',
+    function($resource) {
+        return $resource("../rs/templateEngine/:id", {}, {
+            get: {method: 'GET', cache: false, isArray: false},           
+            update: {method: 'PUT', cache: false, isArray: false}            
+        });
+    }]);
+
+ulboraCmsAdminServices.factory('TemplateEngineList', ['$resource',
+    function($resource) {
+        return $resource("../rs/templateEngine/list", {}, {
+            getList: {method: 'POST', cache: false, isArray: true}
+        });
+    }]);
+

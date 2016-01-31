@@ -11,15 +11,15 @@ if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
             process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
             process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
             process.env.OPENSHIFT_APP_NAME;
-}else if(process.env.ULBORA_CMS_DATABASE_NAME && process.env.ULBORA_CMS_DATABASE_USERNAME){
+} else if (process.env.ULBORA_CMS_DATABASE_NAME && process.env.ULBORA_CMS_DATABASE_USERNAME) {
     // the database information is set in system variables and uses authentication
     mongoConnectString = process.env.ULBORA_CMS_DATABASE_USERNAME + ":" +
             process.env.ULBORA_CMS_DATABASE_PASSWORD + "@" +
             process.env.ULBORA_CMS_DATABASE_HOST + ':' +
             process.env.ULBORA_CMS_DATABASE_PORT + '/' +
             process.env.ULBORA_CMS_DATABASE_NAME;
-    
-}else if(process.env.ULBORA_CMS_DATABASE_NAME){
+
+} else if (process.env.ULBORA_CMS_DATABASE_NAME) {
     mongoConnectString += (conf.ULBORA_CMS_DATABASE_HOST + "/" + conf.ULBORA_CMS_DATABASE_NAME);
 }
 //---------add other mongoDB configuration blocks here----------------
@@ -63,6 +63,7 @@ var userSchema = require('../databaseSchema/userSchema');
 var workflowRuleSchema = require('../databaseSchema/workflowRuleSchema');
 var templateSchema = require('../databaseSchema/templateSchema');
 var mailServerSchema = require('../databaseSchema/mailServerSchema');
+var templateEngineSchema = require('../databaseSchema/templateEngineSchema');
 
 
 
@@ -93,6 +94,7 @@ var ProductPrice = mongoose.model('ProductPrice', productPriceSchema);
 var DownloadableFile = mongoose.model('DownloadableFile', downloadableFileSchema);
 var Template = mongoose.model('Template', templateSchema);
 var MailServer = mongoose.model('MailServer', mailServerSchema);
+var TemplateEngine = mongoose.model('TemplateEngine', templateEngineSchema);
 
 
 exports.getAccessLevel = function () {
@@ -175,6 +177,9 @@ exports.getTemplate = function () {
 };
 exports.getMailServer = function () {
     return MailServer;
+};
+exports.getTemplateEngine = function () {
+    return TemplateEngine;
 };
 
 //initialize the mongoDB database with needed records required for startup
@@ -423,7 +428,7 @@ initializeTemplate = function () {
                                 //rules declaration
                                 initializeRulesDeclaration();
                             }
-                        });                        
+                        });
                     }
                 });
             } else {
@@ -594,48 +599,102 @@ initialCategories = function () {
 
 initialLocations = function () {
     //check if is in database
-   // Location.findOne({code: "en-us"}, function (lanErr, lan) {
-        //if (!lanErr && lan !== undefined && lan !== null) {
-            Location.find({}, function (err, results) {
-                if (err) {
-                    console.log("Location Error:" + err);
-                } else {
-                    console.log("Location:" + JSON.stringify(results));
-                    if (results.length === 0) {
+    // Location.findOne({code: "en-us"}, function (lanErr, lan) {
+    //if (!lanErr && lan !== undefined && lan !== null) {
+    Location.find({}, function (err, results) {
+        if (err) {
+            console.log("Location Error:" + err);
+        } else {
+            console.log("Location:" + JSON.stringify(results));
+            if (results.length === 0) {
 
-                        var locVal = {
-                            name: null
-                        };
-                        locVal.name = "Center";                        
+                var locVal = {
+                    name: null
+                };
+                locVal.name = "Center";
 
-                        var loc = new Location(locVal);
-                        console.log("Location:" + JSON.stringify(locVal));
-                        loc.save();
+                var loc = new Location(locVal);
+                console.log("Location:" + JSON.stringify(locVal));
+                loc.save();
 
 
-                        locVal.name = "Right";
-                        loc = new Location(locVal);
-                        console.log("Location:" + JSON.stringify(locVal));
-                        loc.save();
-                        
-                        locVal.name = "Left";
-                        loc = new Location(locVal);
-                        console.log("Location:" + JSON.stringify(locVal));
-                        loc.save();
+                locVal.name = "Right";
+                loc = new Location(locVal);
+                console.log("Location:" + JSON.stringify(locVal));
+                loc.save();
 
-                        locVal.name = "TopMenu";
-                        locVal.menu = true;
-                        loc = new Location(locVal);
-                        console.log("Location:" + JSON.stringify(locVal));
-                        loc.save();
+                locVal.name = "Left";
+                loc = new Location(locVal);
+                console.log("Location:" + JSON.stringify(locVal));
+                loc.save();
 
-                        //future use
+                locVal.name = "TopMenu";
+                locVal.menu = true;
+                loc = new Location(locVal);
+                console.log("Location:" + JSON.stringify(locVal));
+                loc.save();
 
-                    } else {
-                        //future use
-                    }
-                }
-            });
-        //}
+                initializeTemplateEngine();
+
+            } else {
+                initializeTemplateEngine();
+            }
+        }
+    });
+    //}
     //});
+};
+
+initializeTemplateEngine = function () {
+    //check if in database
+    TemplateEngine.find({}, function (err, results) {
+        if (err) {
+            console.log("template Engine Error:" + err);
+        } else {
+            console.log("template  Engine:" + JSON.stringify(results));
+            if (results.length === 0) {
+                var templateEngineRecord = {
+                    name: "EJS",
+                    defaultEngine: true,
+                    engine: "ejs"
+                };
+                var tmpEng = new TemplateEngine(templateEngineRecord);
+                tmpEng.save(function (err) {
+                    if (err) {
+                        console.log("template Engine save error: " + err);
+                    } else {
+                        var template2Record = {
+                            name: "Handlebars (hbs)",
+                            defaultEngine: false,
+                            engine: "hbs"
+                        };
+                        var tmpEng2 = new TemplateEngine(template2Record);
+                        tmpEng2.save(function (err) {
+                            if (err) {
+                                console.log("template Engine 2 save error: " + err);
+                            } else {
+                                var template3Record = {
+                                    name: "Jade",
+                                    defaultEngine: false,
+                                    engine: "jade"
+                                };
+                                var tmpEng3 = new TemplateEngine(template3Record);
+                                tmpEng3.save(function (err) {
+                                    if (err) {
+                                        console.log("template Engine 3 save error: " + err);
+                                    } else {
+                                        //rules declaration
+                                        //initializeRulesDeclaration();
+                                    }
+                                });
+                            }
+                        });
+                    }
+                });
+            } else {
+                //rules declaration
+                //initializeRulesDeclaration();
+            }
+        }
+    });
 };
