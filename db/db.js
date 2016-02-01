@@ -656,7 +656,8 @@ initializeTemplateEngine = function () {
                 var templateEngineRecord = {
                     name: "EJS",
                     defaultEngine: true,
-                    engine: "ejs"
+                    engine: "ejs",
+                    ext: "ejs"
                 };
                 var tmpEng = new TemplateEngine(templateEngineRecord);
                 tmpEng.save(function (err) {
@@ -666,7 +667,8 @@ initializeTemplateEngine = function () {
                         var template2Record = {
                             name: "Handlebars (hbs)",
                             defaultEngine: false,
-                            engine: "hbs"
+                            engine: "hbs",
+                            ext: "hbs"
                         };
                         var tmpEng2 = new TemplateEngine(template2Record);
                         tmpEng2.save(function (err) {
@@ -676,7 +678,8 @@ initializeTemplateEngine = function () {
                                 var template3Record = {
                                     name: "Jade",
                                     defaultEngine: false,
-                                    engine: "jade"
+                                    engine: "jade",
+                                    ext: "jade"
                                 };
                                 var tmpEng3 = new TemplateEngine(template3Record);
                                 tmpEng3.save(function (err) {

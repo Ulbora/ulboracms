@@ -1,5 +1,5 @@
 //initialize web interface
-var db = require('../db/db');
+//var db = require('../db/db');
 var fs = require('fs');
 var refreshRssCache = false;
 var cashedPages = [];
@@ -7,7 +7,8 @@ var contentController = require('../controllers/contentController');
 var webtpl = require('../utils/webtpl');
 var angular = require('./angularJsInitializer');
 var fileInit = require('./fileInitializer');
-exports.initialize = function (__dirname, self, refreshCache) {
+exports.initialize = function (__dirname, self, refreshCache, templateEngine) {
+    console.log("template engine in web initializer: "+ JSON.stringify(templateEngine));
     self.app.get('/', function (req, res) {
         webtpl.getDefaultTemplate(function (template) {
             var requestedPage = req.originalUrl;
@@ -19,7 +20,7 @@ exports.initialize = function (__dirname, self, refreshCache) {
                 //__dirname + 
                 //console.log("cachedPages: " + JSON.stringify(cashedPages["index"]));
                 if (!refreshCache && cashedPages["index"] !== undefined && cashedPages["index"] !== null) {
-                    res.render("public/templates/" + template.name + "/index", {content: cashedPages["index"], loggedIn: loggedIn});
+                    res.render("public/templates/" + template.name + "/index." + templateEngine.ext, {content: cashedPages["index"], loggedIn: loggedIn});
                 } else {
                     if (refreshCache) {
                         cashedPages = [];
@@ -34,10 +35,10 @@ exports.initialize = function (__dirname, self, refreshCache) {
                             contentController.getContentList(req, filter, loggedIn, function (results) {
                                 cashedPages["index"] = results;
                                 console.log("content results: " + JSON.stringify(results));
-                                res.render("public/templates/" + template.name + "/index", {content: results, loggedIn: loggedIn});
+                                res.render("public/templates/" + template.name + "/index." + templateEngine.ext, {content: results, loggedIn: loggedIn});
                             });
                         } else {
-                            res.render("public/templates/" + template.name + "/index", {});
+                            res.render("public/templates/" + template.name + "/index." + templateEngine.ext, {});
                         }
 
                     });
@@ -316,7 +317,7 @@ exports.initialize = function (__dirname, self, refreshCache) {
             }
         });
     });
-    
+
     //// add comment section here-------------------------
     self.app.post('/comment', function (req, res) {
         webtpl.getDefaultTemplate(function (template) {
@@ -365,7 +366,7 @@ exports.initialize = function (__dirname, self, refreshCache) {
         });
 
     });
-    
+
     fileInit.fileInitializer(self);
 
 };

@@ -1027,7 +1027,15 @@
 .text-color-green{
     color: green;
 }
+.text-color-green-center{
+    color: green;
+    text-align: center;
+}
 
 .text-color-red{
     color: red;
+}
+.text-color-red-center{
+    color: red;
+    text-align: center;
 }

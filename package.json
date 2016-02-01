@@ -31,6 +31,8 @@
     "node-rest-client": "*",
     "consolidate": "*",
     "ejs": "*",
+    "jade": "*",
+    "hbs": "*",
     "handlebars": "*",
     "nodemailer": "*",
     "rss": "*"
