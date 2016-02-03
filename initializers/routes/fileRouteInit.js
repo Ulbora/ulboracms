@@ -1,4 +1,4 @@
-var webtpl = require('../utils/webtpl');
+var webtpl = require('../../utils/webtpl');
 
 exports.fileInitializer = function (self) {
 

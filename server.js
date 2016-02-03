@@ -7,9 +7,9 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var basicAuth = require('basic-auth');
 var fs = require('fs');
-var webInitializer = require('./initializers/webInitializer');
-var templateEngineInitializer = require('./initializers/templateEngines/engineInitializer');
-var restServiceInitializer = require('./initializers/restServiceInitializer');
+var webInitializer = require('./initializers/webInit');
+var templateEngineInitializer = require('./initializers/templates/engine/engineInit');
+var restServiceInitializer = require('./initializers/restServiceInit');
 var db = require('./db/db');
 var refreshCache = false;
 var conf = require('./configuration');
@@ -18,7 +18,7 @@ var tmplEngUtil = require('./utils/tmplEngUtil');
 
 tmplEngUtil.getDefaultTemplateEngine(function (templateEngineRnt) {
     var templateEngine = null;
-    if (templateEngineRnt === undefined || templateEngineRnt === null) {
+    if (templateEngineRnt === undefined || templateEngineRnt === null || templateEngineRnt.ext === "") {
         templateEngine = {
             name: "Handlebars (hbs)",
             defaultEngine: false,
@@ -139,9 +139,11 @@ tmplEngUtil.getDefaultTemplateEngine(function (templateEngineRnt) {
         };
     };
 
-    var errorHander = function (req, res) {
+    var errorHander = function (err, req, res, next) {
         //res.status(404).send('Something broke!');
-        res.status(404).sendFile(__dirname + "/public/error.html");
+        //res.status(404).sendFile(__dirname + "/public/error.html");
+        console.log(err);
+        res.redirect("error.html");
     };
 
     var zapp = new ulboracms();
