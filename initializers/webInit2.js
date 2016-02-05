@@ -7,6 +7,7 @@ var contentController = require('../controllers/contentController');
 var webtpl = require('../utils/webtpl');
 var angular = require('./angularJsInit');
 var fileInit = require('./fileInit');
+
 exports.initialize = function (__dirname, self, refreshCache, templateEngine) {
     console.log("template engine in web initializer: "+ JSON.stringify(templateEngine));
     self.app.get('/', function (req, res) {
