@@ -7,16 +7,17 @@ var cookieParser = require('cookie-parser');
 var cookieSession = require('cookie-session');
 var basicAuth = require('basic-auth');
 var fs = require('fs');
-var webInitializer = require('./initializers/webInit');
-var templateEngineInitializer = require('./initializers/templates/engine/engineInit');
-var restServiceInitializer = require('./initializers/restServiceInit');
+var webInitializer = require('./initializers/webInitializer');
+var templateEngineInitializer = require('./initializers/templates/engine/templateEngineInitializer');
+var restServiceInitializer = require('./initializers/restServiceInitializer');
 var db = require('./db/db');
 var refreshCache = false;
 var conf = require('./configuration');
 var cors = require('./cors/cors');
-var tmplEngUtil = require('./utils/tmplEngUtil');
+var templateEngineUtility = require('./utils/templateEngineUtility');
+var cacheControlUtility = require('./utils/cacheControlUtility');
 
-tmplEngUtil.getDefaultTemplateEngine(function (templateEngineRnt) {
+templateEngineUtility.getDefaultTemplateEngine(function (templateEngineRnt) {
     var templateEngine = null;
     if (templateEngineRnt === undefined || templateEngineRnt === null || templateEngineRnt.ext === "") {
         templateEngine = {
@@ -91,7 +92,8 @@ tmplEngUtil.getDefaultTemplateEngine(function (templateEngineRnt) {
         self.initializeServer = function () {
             self.app = express();
             self.app.use(logger('dev'));
-            self.app.use(bodyParser.json());
+            self.app.use(bodyParser.json());// for parsing application/json
+            self.app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
             self.app.use(cookieParser('7320s932h79993Ah4'));
             self.app.use(cookieSession({
                 name: 'session',
@@ -109,9 +111,10 @@ tmplEngUtil.getDefaultTemplateEngine(function (templateEngineRnt) {
 
             // initial web apps
             // initializeWebApp(self);
+            restServiceInitializer.initialize(self, cacheControlUtility);
             templateEngineInitializer.initialize(__dirname, self, templateEngine);
-            webInitializer.initialize(__dirname, self, refreshCache, templateEngine);
-            restServiceInitializer.initialize(self, refreshCache);
+            webInitializer.initialize(__dirname, self, cacheControlUtility, templateEngine);
+            
 
             self.app.use(errorHander);
         };

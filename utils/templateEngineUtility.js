@@ -6,7 +6,7 @@ exports.getDefaultTemplateEngine = function (callback) {
             engine: "",
             ext: ""
         };
-        console.log("found template set to default: " + JSON.stringify(results));
+        console.log("found template engine set to default: " + JSON.stringify(results));
         if (!err && (results !== undefined && results !== null)) {
             t.engine = results.engine;
             t.ext = results.ext;

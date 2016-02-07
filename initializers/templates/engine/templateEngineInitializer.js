@@ -1,8 +1,8 @@
-var ejsInitializer = require('../engines/ejsInit');
-var hbsInitializer = require('../engines/hbsInit');
-var jadeInitializer = require('../engines/jadeInit');
+var ejsInitializer = require('../engines/ejsInitializer');
+var hbsInitializer = require('../engines/hbsInitializer');
+var jadeInitializer = require('../engines/jadeInitializer');
 exports.initialize = function (__dirname, self, templateEngine) {
-    if (templateEngine !== undefined && templateEngine != null) {
+    if (templateEngine !== undefined && templateEngine !== null) {
         ejsInitializer.initialize(__dirname, self, templateEngine);
         hbsInitializer.initialize(__dirname, self, templateEngine);
         jadeInitializer.initialize(__dirname, self, templateEngine);

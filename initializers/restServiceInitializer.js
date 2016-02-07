@@ -24,7 +24,8 @@ var feedService = require('../services/feedService');
 var templateEngineService = require('../services/templateEngineService');
 
 
-exports.initialize = function(self, refreshCache){
+exports.initialize = function(self, cacheControlUtility){
+    var refreshRssCache = false;
     self.app.post('/rs/public/login', publicService.login);
         self.app.get('/rs/public/challenge', publicService.getMicbuttionChallenge);
         self.app.post('/rs/public/register', publicService.register);
@@ -111,19 +112,19 @@ exports.initialize = function(self, refreshCache){
         //article
         //self.app.post('/rs/article', articleService.create);
         self.app.post('/rs/article', function (req, res) {
-            refreshCache = true;
+            cacheControlUtility.refresh();
             refreshRssCache = true;
             articleService.create(req, res);
         });
         //self.app.put('/rs/article', articleService.update);
         self.app.put('/rs/article', function (req, res) {
-            refreshCache = true;
+            cacheControlUtility.refresh();
             refreshRssCache = true;
             articleService.update(req, res);
         });
         //self.app.delete('/rs/article/:id', articleService.delete);
         self.app.delete('/rs/article/:id', function (req, res) {
-            refreshCache = true;
+            cacheControlUtility.refresh();
             refreshRssCache = true;
             articleService.delete(req, res);
         });

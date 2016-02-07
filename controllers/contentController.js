@@ -73,8 +73,6 @@ exports.getContentList = function (req, filter, loggedIn, callback) {
             //callback(returnVal);
         });
     });
-
-
 };
 
 
@@ -132,8 +130,6 @@ exports.login = function (req, callback) {
     } else {
         callback(creds);
     }
-
-
 };
 
 exports.addComment = function (req, loggedIn, userId, callback) {
@@ -166,10 +162,11 @@ exports.register = function (req, callback) {
         success: false
     };
     var reqBody = req.body;
+    console.log("registration request: " + JSON.stringify(reqBody));
     if (reqBody.password !== undefined && reqBody.password !== null &&
             reqBody.confirm !== undefined && reqBody.confirm !== null &&
             reqBody.password === reqBody.confirm) {
-        console.log("registration request: " + JSON.stringify(reqBody));
+       // console.log("registration request: " + JSON.stringify(reqBody));
         publicUserManager.register(reqBody, function (regStatus) {
             console.log("exit registration success: " + JSON.stringify(regStatus));
             callback(regStatus);
