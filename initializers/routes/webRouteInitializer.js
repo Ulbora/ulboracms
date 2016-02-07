@@ -2,9 +2,8 @@ var fs = require('fs');
 var webTemplateUtility = require('../../utils/webTemplateUtility');
 var contentController = require('../../controllers/contentController');
 var cashedPages = [];
-
+var angularJsRouteInitializer = require('./angularJsRouteInitializer');
 exports.initialize = function (self, cacheControlUtility, __dirname) {
-
     self.app.get('/login', function (req, res) {
         webTemplateUtility.getDefaultTemplate(function (template) {
             if (!template.angularTemplate) {
@@ -17,7 +16,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                 }
                 res.render("templates/" + template.name + "/login", {username: u, password: p, loginFailed: false, loggedIn: loggedIn});
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.routeAngularRequest(template.name, req, res);
             }
         });
     });
@@ -198,6 +198,16 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                 res.redirect('templates/' + template.name + req.originalUrl);
             }
         });
+    });
+    
+    // this if for mix angular and standard templates
+    self.app.get('/application', function (req, res) {
+        webTemplateUtility.getDefaultTemplate(function (template) {
+            var requestedPage = req.originalUrl;
+            console.log("requested page: " + requestedPage);
+            res.sendFile(__dirname + "/public/templates/" + template.name + "/appIndex.html");
+        });
+
     });
 
     self.app.get('/*', function (req, res) {
