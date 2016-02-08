@@ -103,6 +103,7 @@ exports.create = function(json, creds, callback) {
                                                                                                         if (loc === locationlist[locListCnt]._id.toString()) {
                                                                                                             console.log("in location for save");
                                                                                                             saveArticleLocation(loc, art._id);
+                                                                                                            console.log("save article location");
                                                                                                             break;
                                                                                                         }
                                                                                                     }
@@ -127,8 +128,8 @@ exports.create = function(json, creds, callback) {
                                                                                         callback(returnVal);
                                                                                     }
                                                                                 });
-                                                                                returnVal.success = true;
-                                                                                callback(returnVal);
+                                                                                //returnVal.success = true;
+                                                                                //callback(returnVal);
                                                                             }
                                                                         });
                                                                     } else {
@@ -740,18 +741,23 @@ requirePublishApproval = function(callback) {
 
 saveArticleLocation = function(loc, art) {
     //manager.validateLocation(loc, function(validLocation) {
-    //if (validLocation) {
+    //if (validLocation) 
+    console.log("in save article location: loc: "+ loc + "article: "+ art);
     var ArticleLocation = db.getArticleLocation();
+    console.log("after get article location");
     var artLoc = {
         "article": null,
         "location": null
     };
     artLoc.article = art;
     artLoc.location = loc;
+    console.log("artLoc:" + artLoc);
     var articleLocation = new ArticleLocation(artLoc);
     articleLocation.save(function(err) {
         if (err) {
             console.log("article location save error: " + err);
+        }else{
+            console.log("article location saved");
         }
     });
     // }

@@ -9,6 +9,10 @@ exports.initializePartials = function(self){
     });
 };
 
-exports.routeAngularRequest = function(templateName, req, res){
+exports.redirectAngularRequest = function(templateName, req, res){
     res.redirect('templates/' + templateName + req.originalUrl);
+};
+
+exports.sendAngularRequestFile = function(__dirname, templateName, res){
+    res.sendFile(__dirname + "/public/templates/" + templateName + "/index.html");
 };

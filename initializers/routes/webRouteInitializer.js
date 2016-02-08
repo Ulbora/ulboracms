@@ -17,7 +17,7 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                 res.render("templates/" + template.name + "/login", {username: u, password: p, loginFailed: false, loggedIn: loggedIn});
             } else {
                 //res.redirect('templates/' + template.name + req.originalUrl);
-                angularJsRouteInitializer.routeAngularRequest(template.name, req, res);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -40,7 +40,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                     }
                 });
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -53,7 +54,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                 req.session.loggedIn = false;
                 res.redirect("/");
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -73,7 +75,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                     res.render("templates/" + template.name + page);
                 });
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -88,7 +91,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                     res.render("templates/" + template.name + "/resetPassword", {question: question, key: key});
                 });
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -117,7 +121,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                     });
                 });
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -137,7 +142,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                     res.render("templates/" + template.name + page);
                 });
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -161,7 +167,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                     res.render("templates/" + template.name + "/register", {question: question, key: key});
                 });
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -195,7 +202,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                     }
                 });
             } else {
-                res.redirect('templates/' + template.name + req.originalUrl);
+                //res.redirect('templates/' + template.name + req.originalUrl);
+                angularJsRouteInitializer.redirectAngularRequest(template.name, req, res);
             }
         });
     });
@@ -214,6 +222,7 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
         webTemplateUtility.getDefaultTemplate(function (template) {
             if (template.angularTemplate) {
                 res.sendFile(__dirname + "/public/templates/" + template.name + "/index.html");
+                angularJsRouteInitializer.sendAngularRequestFile(__dirname, template.name, res);
             } else {
                 var page = null;
                 var requestedPage = req.originalUrl;
