@@ -10,7 +10,7 @@ UlboraCMS 2.1 alpha (for Ver. 2.0 use the 2.0 branch)
 
 [Ulbora CMS Help] (https://groups.google.com/forum/?hl=en#!forum/ulbora-cms-help)
 
-UlboraCMS is built with MongoDB, ExpressJS 4.*, AngularJS and Node.js.
+UlboraCMS is built with MongoDB, ExpressJS 4.*, and Node.js, templates are handblebars, EJS, Jade, or AngularJS.
 
 UlboraCMS lets you choose either Angular templates or templates built with conventional server-side template engines like EJS or Jade.
 
