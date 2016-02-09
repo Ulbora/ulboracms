@@ -254,6 +254,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                                 console.log("page: " + page);
                                 res.render("templates/" + template.name + "/" + page, {content: results, loggedIn: loggedIn});
                             });
+                        }else{
+                            res.status(404).send('Not Found');
                         }
                     });
                 }

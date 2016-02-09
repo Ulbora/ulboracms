@@ -162,7 +162,7 @@ exports.list = function (callback) {
 
 exports.upload = function (dirname, body, files, callback) {
     var returnVal = "";
-    
+
     var errorLink = body.errorLink;
     var isOk = manager.securityCheck(body);
     if (isOk) {
@@ -175,49 +175,57 @@ exports.upload = function (dirname, body, files, callback) {
         if (files !== undefined && files !== null &&
                 username !== undefined && username !== null &&
                 uploadKey !== undefined && uploadKey !== null &&
-                manager.validateFileUploadKey(username, uploadKey)) {
+                manager.validateFileUploadKey(username.toString(), uploadKey.toString())) {
             console.log("validated upload key");
             var fs = require('fs');
-            fs.readFile(files.file.path, function (err, data) {
-                if (!err && data !== undefined && data !== null) {
-                    var fileName = files.file.name;
-                    console.log("fileName: " + fileName);
-                    var indexOfDot = fileName.lastIndexOf(".");
-                    //var extension = fileName.substring(++indexOfDot);
-                    var name = fileName.substring(0, indexOfDot);
-                    var indexOfDotTar = name.lastIndexOf(".tar");
-                    name = name.substring(0, indexOfDotTar);
-                    
-                    installTemplate(dirname, fileName, data, function (success) {
-                        if (success) {
-                            var templateJson = {
-                                name: null,
-                                defaultTemplate: false,
-                                angularTemplate: null
-                            };
-                            templateJson.name = name;
-                            templateJson.angularTemplate = angularTemplate;
-                            addTemplate(templateJson, function (addResults) {
-                                if (addResults.success) {
-                                    returnVal = returnLink;
-                                    callback(returnVal);
-                                } else {
-                                    returnVal = errorLink;
-                                    callback(returnVal);
-                                }
+            var fileList = files.file;
+            if (fileList.length > 0) {
+                var file = fileList[0];
+                fs.readFile(file.path, function (err, data) {
+                    if (!err && data !== undefined && data !== null) {
+                        var fileName = file.originalFilename;
+                        console.log("fileName: " + fileName);
+                        var indexOfDot = fileName.lastIndexOf(".");
+                        //var extension = fileName.substring(++indexOfDot);
+                        var name = fileName.substring(0, indexOfDot);
+                        var indexOfDotTar = name.lastIndexOf(".tar");
+                        name = name.substring(0, indexOfDotTar);
 
-                            });
-                        } else {
-                            returnVal = errorLink;
-                            callback(returnVal);
-                        }
-                    });                   
-                } else {
-                    console.log("template read error: " + err);
-                    returnVal = errorLink;
-                    callback(returnVal);
-                }
-            });
+                        installTemplate(dirname, fileName, data, function (success) {
+                            if (success) {
+                                var templateJson = {
+                                    name: null,
+                                    defaultTemplate: false,
+                                    angularTemplate: null
+                                };
+                                templateJson.name = name;
+                                templateJson.angularTemplate = angularTemplate;
+                                addTemplate(templateJson, function (addResults) {
+                                    if (addResults.success) {
+                                        returnVal = returnLink;
+                                        callback(returnVal);
+                                    } else {
+                                        returnVal = errorLink;
+                                        callback(returnVal);
+                                    }
+
+                                });
+                            } else {
+                                returnVal = errorLink;
+                                callback(returnVal);
+                            }
+                        });
+                    } else {
+                        console.log("template read error: " + err);
+                        returnVal = errorLink;
+                        callback(returnVal);
+                    }
+                });
+
+            } else {
+                returnVal = errorLink;
+                callback(returnVal);
+            }
         } else {
             returnVal = errorLink;
             callback(returnVal);

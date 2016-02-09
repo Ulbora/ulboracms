@@ -488,3 +488,9 @@ h1, h2, h3, h4, h5, h6 {
 .desc {
 	margin-top: 25px;
 }
+
+.the-project{
+    float: left;
+    width: 100%;
+    text-align: center;
+}

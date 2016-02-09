@@ -15,8 +15,8 @@
             </tr>        
         </thead>
         <tbody>
-            <tr ng-repeat="m in mediaList">
-                <td>
+            <tr ng-repeat="m in mediaList" ng-switch on="hasImages">
+                <td ng-switch-when="true">
                     <a href="#!media/{{m.id}}"><img class="u-thumbnail"  alt="image" src="{{m.imageLink}}" /></a> 
                 </td>
                 <td>

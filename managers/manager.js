@@ -40,6 +40,9 @@ exports.LINUX_OS = LINUX_OS;
 exports.WINDOWS_OS = WINDOWS_OS;
 
 hashPasswordSync = function (username, pw) {
+    console.log("in hashPasswordSync: username:" + username + " password:" + pw);
+    console.log("typeof pw:" + typeof(pw));
+    console.log("typeof username:" + typeof(username));
     return crypto.pbkdf2Sync(pw, username, 250, 128).toString('base64');
 };
 
@@ -179,6 +182,10 @@ exports.validateFileUploadKey = function (username, key) {
     var returnVal = false;
     var saltNow = getSalt(false);
     var testKey = hashPasswordSync(username, saltNow);
+    
+    //test
+    ////////////////var testKey = key;
+    //test
     console.log("generated Key: " + testKey);
     if (testKey === key) {
         returnVal = true;

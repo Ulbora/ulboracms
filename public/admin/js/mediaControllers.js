@@ -14,9 +14,13 @@ ulboraCmsMediaControllers.controller('MediaListCtrl', ['$scope', 'checkCreds', '
         MediaList.getMediaList({},
                 function success(response) {
                     //alert($scope.challenge.question);
-                    console.log("Success:" + JSON.stringify(response));
-
+                    console.log("Success Media list:" + JSON.stringify(response));
+                    console.log("media lenght:"+ response.length);
+                    $scope.hasImages = false;
                     $scope.mediaList = response;
+                    if(response.length > 0){
+                        $scope.hasImages = true;
+                    }
 
                 },
                 function error(errorResponse) {
@@ -111,15 +115,17 @@ ulboraCmsMediaControllers.controller('NewMediaCtrl', ['$scope', 'checkCreds', '$
         var postData = {
             "languageCode": "en-us"
         };
-
+        var siteUrl = $location.absUrl();
+        var url = $location.url();
+        siteUrl = siteUrl.replace(url, "");
         ArticleValues.getValues({}, postData,
                 function success(response) {
                     //alert($scope.challenge.question);
                     console.log("Success:" + JSON.stringify(response));
 
                     $scope.uploadKey = response.uploadKey;
-                    $scope.errorUrl = "admin/#!";
-                    $scope.mediaUrl = "admin/#!mediaList";
+                    $scope.errorUrl = siteUrl;
+                    $scope.mediaUrl = siteUrl +"/mediaList";
                     $scope.username = response.username;
                     $scope.api = "../../rs/media/upload";
 
