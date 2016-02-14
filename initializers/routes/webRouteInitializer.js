@@ -111,7 +111,8 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                                 if (results._id !== undefined && results._id !== null) {
                                     res.render("templates/" + template.name + "/article", {article: results, loggedIn: loggedIn, content: articleList});
                                 } else {
-                                    errorHander(req, res);
+                                    //errorHander(req, res);
+                                    res.status(404).send('Not Found');
                                 }
                             });
                         } else {
@@ -227,6 +228,10 @@ exports.initialize = function (self, cacheControlUtility, __dirname) {
                 var page = null;
                 var requestedPage = req.originalUrl;
                 page = requestedPage.replace("/", "");
+                var indexOfq = page.indexOf("?");
+                if(indexOfq > 0){
+                    page = page.substring(0, indexOfq);
+                }
                 var loggedIn = (req.session.loggedIn);
                 console.log("requested page: " + requestedPage);
                 console.log("page: " + page);

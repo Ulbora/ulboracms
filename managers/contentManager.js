@@ -78,7 +78,7 @@ exports.getArticle = function (id, creds, callback) {
                                                     }
                                                     for (var c2 = 0; c2 < commentList.length; c2++) {
                                                         var tempC2 = commentList[c2].toObject();
-                                                        if (tempC2.otherComment !== undefined && tempC2.otherComment !== null) {
+                                                        if (tempC2.otherComment !== undefined && tempC2.otherComment !== null  && tempC2.approved) {
                                                             cMap[tempC2.otherComment].subCommentList.push(tempC2)
                                                             subCommentList[tempC2._id] = tempC2;
                                                         }
