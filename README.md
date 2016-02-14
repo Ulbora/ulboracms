@@ -4,7 +4,7 @@ UlboraCMS 2.1 beta 1 (for Ver. 2.0 use the 2.0 branch)
 [![Build Status][travis-image]][travis-url]
 
 
-[UlboraCMS 2.1](http://www.ulboracms.org) is alpha MEAN stack CMS and blog platform.
+[UlboraCMS 2.1](http://www.ulboracms.org) is beta 1 MEAN stack CMS and blog platform.
 
 [Ulbora CMS Forum] (https://groups.google.com/forum/?hl=en#!forum/ulbora-cms-forum)
 
