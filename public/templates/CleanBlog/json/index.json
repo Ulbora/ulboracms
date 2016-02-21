@@ -7,6 +7,18 @@
         {
             "sectionName": "About",
             "categoryName": null
+        },
+        {
+            "sectionName": "Contacts",
+            "categoryName": null
+        },        
+        {
+            "sectionName": "Project",
+            "categoryName": null
+        },
+        {
+            "sectionName": "Services",
+            "categoryName": null
         }
     ]
 
