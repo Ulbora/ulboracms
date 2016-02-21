@@ -5,7 +5,9 @@ var mongoose = require('mongoose');
 var mongoConnectString = "mongodb://";//localhost/ulboracms";
 mongoConnectString += (conf.HOST + "/" + conf.DATABASE_NAME);
 //this is specific to RedHat's OpenShift 
-if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+if(process.env.DOCKER_MONGODB_NAME){
+    mongoConnectString += (process.env.DOCKER_MONGODB_HOST + "/" + process.env.DOCKER_MONGODB_NAME);
+}else if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
     mongoConnectString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
             process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
             process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
