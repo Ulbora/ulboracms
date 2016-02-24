@@ -3,26 +3,36 @@ var conf = require('../configuration');
 var mongoose = require('mongoose');
 //var mongoConnectString = "mongodb://localhost/ulboracms";
 var mongoConnectString = "mongodb://";//localhost/ulboracms";
-mongoConnectString += (conf.HOST + "/" + conf.DATABASE_NAME);
 //this is specific to RedHat's OpenShift 
-if(process.env.DOCKER_MONGODB_NAME){
-    mongoConnectString += (process.env.DOCKER_MONGODB_HOST + "/" + process.env.DOCKER_MONGODB_NAME);
-}else if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
-    mongoConnectString = process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
+if (process.env.DOCKER_MONGODB_NAME && process.env.DOCKER_MONGODB_USERNAME) {
+    mongoConnectString += (process.env.DOCKER_MONGODB_USERNAME + ":" +
+            process.env.DOCKER_MONGODB_PASSWORD + "@" +
+            process.env.DOCKER_MONGODB_HOST + ':' +
+            process.env.DOCKER_MONGODB_PORT + '/' +
+            process.env.DOCKER_MONGODB_NAME);
+    //this is specific to a Docker self contained containers
+} else if (process.env.DOCKER_MONGODB_NAME) {
+    mongoConnectString += (conf.HOST + "/" + process.env.DOCKER_MONGODB_NAME);
+    //this is specific to a Docker data containers
+} else if (process.env.OPENSHIFT_MONGODB_DB_PASSWORD) {
+    mongoConnectString = (process.env.OPENSHIFT_MONGODB_DB_USERNAME + ":" +
             process.env.OPENSHIFT_MONGODB_DB_PASSWORD + "@" +
             process.env.OPENSHIFT_MONGODB_DB_HOST + ':' +
             process.env.OPENSHIFT_MONGODB_DB_PORT + '/' +
-            process.env.OPENSHIFT_APP_NAME;
+            process.env.OPENSHIFT_APP_NAME);
 } else if (process.env.ULBORA_CMS_DATABASE_NAME && process.env.ULBORA_CMS_DATABASE_USERNAME) {
     // the database information is set in system variables and uses authentication
-    mongoConnectString = process.env.ULBORA_CMS_DATABASE_USERNAME + ":" +
+    mongoConnectString = (process.env.ULBORA_CMS_DATABASE_USERNAME + ":" +
             process.env.ULBORA_CMS_DATABASE_PASSWORD + "@" +
             process.env.ULBORA_CMS_DATABASE_HOST + ':' +
             process.env.ULBORA_CMS_DATABASE_PORT + '/' +
-            process.env.ULBORA_CMS_DATABASE_NAME;
+            process.env.ULBORA_CMS_DATABASE_NAME);
 
 } else if (process.env.ULBORA_CMS_DATABASE_NAME) {
     mongoConnectString += (conf.ULBORA_CMS_DATABASE_HOST + "/" + conf.ULBORA_CMS_DATABASE_NAME);
+} else {
+    //this is the default database
+    mongoConnectString += (conf.HOST + "/" + conf.DATABASE_NAME);
 }
 //---------add other mongoDB configuration blocks here----------------
 //
@@ -411,7 +421,7 @@ initializeTemplate = function () {
                 var templateRecord = {
                     name: "default",
                     defaultTemplate: true,
-                    angularTemplate: true
+                    angularTemplate: false
                 };
                 var tmp = new Template(templateRecord);
                 tmp.save(function (err) {
@@ -419,17 +429,24 @@ initializeTemplate = function () {
                         console.log("template save error: " + err);
                     } else {
                         var template2Record = {
-                            name: "ds_101",
+                            name: "BlogPost",
                             defaultTemplate: false
                         };
                         var tmp2 = new Template(template2Record);
                         tmp2.save(function (err) {
-                            if (err) {
-                                console.log("template2 save error: " + err);
-                            } else {
-                                //rules declaration
-                                initializeRulesDeclaration();
-                            }
+                            var template3Record = {
+                                name: "CleanBlog",
+                                defaultTemplate: false
+                            };
+                            var tmp3 = new Template(template3Record);
+                            tmp3.save(function (err) {
+                                if (err) {
+                                    console.log("template3 save error: " + err);
+                                } else {
+                                    //rules declaration
+                                    initializeRulesDeclaration();
+                                }
+                            });
                         });
                     }
                 });
@@ -657,7 +674,7 @@ initializeTemplateEngine = function () {
             if (results.length === 0) {
                 var templateEngineRecord = {
                     name: "EJS",
-                    defaultEngine: true,
+                    defaultEngine: false,
                     engine: "ejs",
                     ext: "ejs"
                 };
@@ -668,7 +685,7 @@ initializeTemplateEngine = function () {
                     } else {
                         var template2Record = {
                             name: "Handlebars (hbs)",
-                            defaultEngine: false,
+                            defaultEngine: true,
                             engine: "hbs",
                             ext: "hbs"
                         };

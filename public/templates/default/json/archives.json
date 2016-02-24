@@ -1,0 +1,29 @@
+{
+    "frontPage": true,
+    "links": true,
+    "articles": true,
+    "products": true,
+    "searchFilter": [
+        {
+            "sectionName": "About",
+            "categoryName": null
+        },
+        {
+            "sectionName": "Contacts",
+            "categoryName": null
+        },
+        {
+            "sectionName": "Dev",
+            "categoryName": null
+        },
+        {
+            "sectionName": "Project",
+            "categoryName": null
+        },
+        {
+            "sectionName": "Services",
+            "categoryName": null
+        }
+    ]
+
+}
