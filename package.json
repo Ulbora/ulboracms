@@ -43,5 +43,9 @@
   "main" : "./server.js",
   "bugs" : {
     "url" : "null"
-  }
+  },
+    "scripts": {
+        "start": "node server.js"
+    }
+
 }
