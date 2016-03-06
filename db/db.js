@@ -30,7 +30,10 @@ if (process.env.DOCKER_MONGODB_NAME && process.env.DOCKER_MONGODB_USERNAME) {
 
 } else if (process.env.ULBORA_CMS_DATABASE_NAME) {
     mongoConnectString += (conf.ULBORA_CMS_DATABASE_HOST + "/" + conf.ULBORA_CMS_DATABASE_NAME);
-} else {
+}else if(process.env.MONGO_PORT_27017_TCP_ADDR){
+    //this is the default database
+    mongoConnectString += (process.env.MONGO_PORT_27017_TCP_ADDR + "/" + process.env.DOCKER_ULBORACMS_DATABASE_NAME);
+}else {
     //this is the default database
     mongoConnectString += (conf.HOST + "/" + conf.DATABASE_NAME);
 }

@@ -36,7 +36,8 @@
     "hbs": "*",
     "handlebars": "*",
     "nodemailer": "*",
-    "rss": "*"
+    "rss": "*",
+    "tar": "*"
   },
   "bundleDependencies" : [ ],
   "private" : true,

@@ -6,8 +6,8 @@ var manager = require('../managers/manager');
 var fs = require('fs');
 var tar = require('tar');
 var zlib = require('zlib');
-var path = require('path');
-var mkdirp = require('mkdirp'); // used to create directory tree
+//var path = require('path');
+//var mkdirp = require('mkdirp'); // used to create directory tree
 
 
 
