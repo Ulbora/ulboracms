@@ -1,16 +1,20 @@
-UlboraCMS 2.1 beta 1 (for Ver. 2.0 use the 2.0 branch)
+UlboraCMS 2.1 
 ==============
 
 [![Build Status][travis-image]][travis-url]
 
 
-[UlboraCMS 2.1](http://www.ulboracms.org) is beta 1 MEAN stack CMS and blog platform.
+[UlboraCMS 2.1](http://www.ulboracms.org) is MEAN stack CMS and blog platform.
 
 [Ulbora CMS Forum] (https://groups.google.com/forum/?hl=en#!forum/ulbora-cms-forum)
 
 [Ulbora CMS Help] (https://groups.google.com/forum/?hl=en#!forum/ulbora-cms-help)
 
 UlboraCMS is built with MongoDB, ExpressJS 4.*, and Node.js, templates are handblebars, EJS, Jade, or AngularJS.
+
+The easiest way to get Ulbora CMS is to use Docker.
+Get the Docker Ulbora Mongodb container here 
+Get the Docker Ulbora CMS container here
 
 You can build multiple templates with UlboraCMS and switch between the templates through the administration screen. Templates can even contain both Angular and convention server-side technologies.
 
