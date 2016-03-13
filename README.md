@@ -12,7 +12,7 @@ UlboraCMS 2.1
 
 UlboraCMS is built with MongoDB, ExpressJS 4.*, and Node.js, templates are handblebars, EJS, Jade, or AngularJS.
 
-##Docker Container
+## Docker Container
 
 The easiest way to get Ulbora CMS is to use Docker.
 
@@ -20,7 +20,7 @@ Get the Docker Ulbora Mongodb container here: link coming
 
 Get the Docker Ulbora CMS container here: link coming
 
-##Templates
+## Templates
 
 You can build multiple templates with UlboraCMS and switch between the templates through the administration screen. Templates can even contain both Angular and convention server-side technologies.
 
