@@ -38,7 +38,7 @@
     "nodemailer": "*",
     "rss": "*",
     "tar": "*",
-    "zlib": "*"
+    "zlib": "~1.0.5"
   },
   "bundleDependencies" : [ ],
   "private" : true,
