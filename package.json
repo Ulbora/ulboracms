@@ -37,7 +37,8 @@
     "handlebars": "*",
     "nodemailer": "*",
     "rss": "*",
-    "tar": "*"
+    "tar": "*",
+    "zlib": "*"
   },
   "bundleDependencies" : [ ],
   "private" : true,
