@@ -26,7 +26,7 @@ templateEngineUtility.getDefaultTemplateEngine(function (templateEngineRnt) {
             engine: "hbs",
             ext: "hbs"
         };
-    }else{
+    } else {
         templateEngine = templateEngineRnt;
     }
     var ulboracms = function () {
@@ -93,7 +93,7 @@ templateEngineUtility.getDefaultTemplateEngine(function (templateEngineRnt) {
             self.app = express();
             self.app.use(logger('dev'));
             self.app.use(bodyParser.json());// for parsing application/json
-            self.app.use(bodyParser.urlencoded({ extended: true })); // for parsing application/x-www-form-urlencoded
+            self.app.use(bodyParser.urlencoded({extended: true})); // for parsing application/x-www-form-urlencoded
             self.app.use(cookieParser('7320s932h79993Ah4'));
             self.app.use(cookieSession({
                 name: 'session',
@@ -114,7 +114,7 @@ templateEngineUtility.getDefaultTemplateEngine(function (templateEngineRnt) {
             restServiceInitializer.initialize(self, cacheControlUtility);
             templateEngineInitializer.initialize(__dirname, self, templateEngine);
             webInitializer.initialize(__dirname, self, cacheControlUtility, templateEngine);
-            
+
 
             self.app.use(errorHander);
         };
@@ -135,10 +135,16 @@ templateEngineUtility.getDefaultTemplateEngine(function (templateEngineRnt) {
          */
         self.start = function () {
             //  Start the app on the specific interface (and port).
-            self.app.listen(self.port, self.ipaddress, function () {
-                console.log('%s: Node server started on %s:%d ...',
-                        Date(Date.now()), self.ipaddress, self.port);
-            });
+            if (process.env.MONGO_PORT_27017_TCP_ADDR) {
+                self.app.listen(self.port, function () {
+                    console.log('Node server started on Docker');
+                });
+            } else {
+                self.app.listen(self.port, self.ipaddress, function () {
+                    console.log('%s: Node server started on %s:%d ...',
+                            Date(Date.now()), self.ipaddress, self.port);
+                });
+            };
         };
     };
 
