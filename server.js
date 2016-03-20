@@ -43,7 +43,7 @@ templateEngineUtility.getDefaultTemplateEngine(function (templateEngineRnt) {
             //  Set the environment variables we need.
             self.ipaddress = process.env.OPENSHIFT_NODEJS_IP || process.env.ULBORACMS_IP;
             self.port = process.env.OPENSHIFT_NODEJS_PORT || process.env.ULBORACMS_PORT || conf.PORT;
-            if (typeof self.ipaddress === "undefined") {
+            if (typeof self.ipaddress === "undefined" && !process.env.MONGO_PORT_27017_TCP_ADDR) {
                 //  Log errors but continue w/ 127.0.0.1 - this
                 //  allows us to run/test the app locally.
                 console.warn('No IP address defined, using 127.0.0.1');
