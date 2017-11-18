@@ -1,7 +1,7 @@
-UlboraCMS 2.1 
+UlboraCMS 2.1 (V3 Coming Soon)
 ==============
 
-[UlboraCMS 3](https://github.com/Ulbora/ulboracms) Cloud CMS built on Golang, and it's fast (Coming soon).
+# [UlboraCMS 3](https://github.com/Ulbora/ulboracms) Cloud CMS built on Golang, and it's fast (Coming soon).
 
 [![Build Status][travis-image]][travis-url]
 
