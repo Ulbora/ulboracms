@@ -1,7 +1,7 @@
-UlboraCMS 2.1
+UlboraCMS 2.1 (Deprecated) Latest version: [UlboraCMS 3](https://github.com/Ulbora/UlboraCmsV3)
 ==============
 
-## [UlboraCMS 3](https://github.com/Ulbora/UlboraCmsV3) Cloud CMS built with Golang, and it's fast (Coming soon).
+## [UlboraCMS 3](https://github.com/Ulbora/UlboraCmsV3) Cloud CMS built with Golang, and it's fast (Has Released).
 
 [![Build Status][travis-image]][travis-url]
 
