@@ -6,7 +6,7 @@ UlboraCMS UI uses open source micro services that provide the functionality need
 All micro services are available on Docker.
 
 
-UlboraCMS 2.1 (Deprecated) Latest version: [UlboraCMS 3](https://github.com/Ulbora/UlboraCmsV3)
+UlboraCMS 2.1 (Deprecated) Latest version: [Headless UlboraCMS](https://github.com/Ulbora/UlboraContentService)
 ==============
 
 ## [Headless UlboraCMS](https://github.com/Ulbora/UlboraContentService) A Headless CMS built with Golang, and it's fast.
