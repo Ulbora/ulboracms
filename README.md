@@ -1,9 +1,6 @@
-[Headless UlboraCMS](https://github.com/Ulbora/UlboraContentService) is the latest version of UlboraCMS
+UlboraCMS Version 4 in comming soon. UlboraCMS V4 will be a self-contained CMS (no database needed) using a JSON datastore with content served from memory. There will be three ways to get UlboraCMS V4: Linux binary, Windows binary, Mac binary, or Docker. UlboraCMS V4 is written and Golang and users will be able to build it for other platforms too.
 
-[UlboraCMS UI](http://www.ulboralabs.com/ulboracms) is a framework for building dynamic web sites using Headless UlboraCMS.
-Web content is saved in the cloud and cached when read.
-UlboraCMS UI uses open source micro services that provide the functionality needed. 
-All micro services are available on Docker.
+UlboraCMS V4 has a very small memory footprint of around 15 MiB; it's fast and easy to deploy.
 
 
 UlboraCMS 2.1 (Deprecated) Latest version: [Headless UlboraCMS](https://github.com/Ulbora/UlboraContentService)
