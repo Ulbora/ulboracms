@@ -3,6 +3,10 @@ UlboraCMS Version 4, not yet released, is comming soon. UlboraCMS V4 will be a s
 
 UlboraCMS V4, not yet released, has a very small memory footprint of around 15 MiB; it's fast and easy to deploy.
 
+With the new UlboraCMS version 4, users can quickly spin up a website on any server where a binary file can run or on Docker. Users can quickly edit content and banners and publish the site in minutes. No need to configure database connection or other complex configurations.
+
+Banners in UlboraCMS can be used to add non-blockable ads to sites or for other things like announcements.
+
 
 UlboraCMS 2.1 (Deprecated) Latest version: [Headless UlboraCMS](https://github.com/Ulbora/UlboraContentService)
 ==============
