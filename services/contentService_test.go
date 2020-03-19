@@ -8,10 +8,6 @@ import (
 	ds "github.com/Ulbora/json-datastore"
 )
 
-var addID int64
-var addID2 int64
-
-//var token = testToken
 var c CmsService
 var cs Service
 
@@ -114,7 +110,7 @@ func TestContentService_GetContentList(t *testing.T) {
 }
 
 func TestContentService_DeleteContent(t *testing.T) {
-	res := c.DeleteContent("books1")
+	res := cs.DeleteContent("books1")
 	fmt.Println("delete Content: ", *res)
 	if !res.Success {
 		t.Fail()

@@ -25,4 +25,11 @@ github.com/Ulbora/ulboracms/services/contentService.go:134.36,136.6 1 1
 github.com/Ulbora/ulboracms/services/contentService.go:146.59,149.9 3 1
 github.com/Ulbora/ulboracms/services/contentService.go:153.2,153.12 1 1
 github.com/Ulbora/ulboracms/services/contentService.go:149.9,152.3 2 1
-github.com/Ulbora/ulboracms/services/service.go:24.39,28.2 3 1
+github.com/Ulbora/ulboracms/services/imageService.go:13.66,21.16 8 1
+github.com/Ulbora/ulboracms/services/imageService.go:24.2,24.12 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:21.16,23.3 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:28.60,30.2 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:33.52,40.17 7 1
+github.com/Ulbora/ulboracms/services/imageService.go:43.2,43.12 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:40.17,42.3 1 1
+github.com/Ulbora/ulboracms/services/service.go:29.39,33.2 3 1
