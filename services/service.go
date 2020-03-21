@@ -2,6 +2,7 @@ package services
 
 import (
 	lg "github.com/Ulbora/Level_Logger"
+	ml "github.com/Ulbora/go-mail-sender"
 	ds "github.com/Ulbora/json-datastore"
 )
 
@@ -16,13 +17,19 @@ type Service interface {
 	AddImage(name string, fileData []byte) bool
 	GetImagePath(imageName string) string
 	DeleteImage(name string) bool
+
+	SendMail(mailer *ml.Mailer) bool
+
+	SendCaptchaCall(cap Captcha) *CaptchaResponse
 }
 
 //CmsService service
 type CmsService struct {
-	Store     ds.JSONDatastore
-	Log       *lg.Logger
-	ImagePath string
+	Store       ds.JSONDatastore
+	MailSender  ml.Sender
+	Log         *lg.Logger
+	ImagePath   string
+	CaptchaHost string
 }
 
 //GetNew GetNew

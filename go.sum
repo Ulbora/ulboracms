@@ -8,6 +8,8 @@ github.com/Ulbora/dbinterface v1.0.5 h1:hzAsS92kIKIApFb6av1vGGz4+lRNOyfzhh5HXxoU
 github.com/Ulbora/dbinterface v1.0.5/go.mod h1:msBriehF2JgLgSpNWq2Yc3MKy3/Rn9aChefibmW1xWM=
 github.com/Ulbora/dbinterface_mysql v1.0.7/go.mod h1:8XA1eoibXMbJNIfL5mvl7b77FZPSRewInYCNFRC65AQ=
 github.com/Ulbora/default_auth v1.0.0/go.mod h1:YiXsU5bzKm9Pa5m+Y2aUqy65Ta0NCRcsVslWzjTmsyk=
+github.com/Ulbora/go-mail-sender v1.0.0 h1:lfVK66JRIPSZCkeTO3/0fnnygVeVF+5ena47I2pj5Fo=
+github.com/Ulbora/go-mail-sender v1.0.0/go.mod h1:uI61omDxYerT9GWLIOIk7Y2wq9esh09UK2LkdCAuTkU=
 github.com/Ulbora/go-sessions v1.0.2/go.mod h1:5CXZMqyt5XJDumnxoKqftZH/i3voi9k1UN47fuwxRLs=
 github.com/Ulbora/json-datastore v1.0.0 h1:f46eLu8J/fMuvYZFGa9a3cfwEdXaFtMGF+Skd99oXEc=
 github.com/Ulbora/json-datastore v1.0.0/go.mod h1:yMKdmKwHW5m3Wh9bgGHu9crDMNeNI4D0xihWYBdSL38=
