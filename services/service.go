@@ -21,15 +21,24 @@ type Service interface {
 	SendMail(mailer *ml.Mailer) bool
 
 	SendCaptchaCall(cap Captcha) *CaptchaResponse
+
+	AddTemplate(tpl *Template) bool
+	ActivateTemplate(name string) bool
+	GetTemplateList() *[]Template
+	DeleteTemplate(name string) bool
+
+	// ExtractFile(tFile *TemplateFile) bool
+	// DeleteTemplateFile(name string) bool
 }
 
 //CmsService service
 type CmsService struct {
-	Store       ds.JSONDatastore
-	MailSender  ml.Sender
-	Log         *lg.Logger
-	ImagePath   string
-	CaptchaHost string
+	Store         ds.JSONDatastore
+	TemplateStore ds.JSONDatastore
+	MailSender    ml.Sender
+	Log           *lg.Logger
+	ImagePath     string
+	CaptchaHost   string
 }
 
 //GetNew GetNew

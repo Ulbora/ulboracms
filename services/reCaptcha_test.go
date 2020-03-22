@@ -25,8 +25,7 @@ func TestCaptchaService_SendCaptchaCall(t *testing.T) {
 	cp.Response = "lsljdiididi"
 
 	res := c.SendCaptchaCall(cp)
-	fmt.Print("Google ReCaptcha Resp: ")
-	fmt.Println(res)
+	fmt.Println("Google ReCaptcha Resp: ", res)
 	if res.Success == true {
 		t.Fail()
 	}
