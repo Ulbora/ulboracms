@@ -10,7 +10,6 @@ import (
 )
 
 func TestTemplateFileService_ExtractFile(t *testing.T) {
-
 	var cs CmsService
 	cs.TemplateFilePath = "./testDownloads"
 
@@ -44,7 +43,6 @@ func TestTemplateFileService_ExtractFile(t *testing.T) {
 }
 
 func TestTemplateFileService_DeleteTemplate(t *testing.T) {
-
 	var cs CmsService
 	cs.TemplateFilePath = "./testDownloads"
 
