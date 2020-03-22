@@ -27,18 +27,19 @@ type Service interface {
 	GetTemplateList() *[]Template
 	DeleteTemplate(name string) bool
 
-	// ExtractFile(tFile *TemplateFile) bool
-	// DeleteTemplateFile(name string) bool
+	ExtractFile(tFile *TemplateFile) bool
+	DeleteTemplateFile(name string) bool
 }
 
 //CmsService service
 type CmsService struct {
-	Store         ds.JSONDatastore
-	TemplateStore ds.JSONDatastore
-	MailSender    ml.Sender
-	Log           *lg.Logger
-	ImagePath     string
-	CaptchaHost   string
+	Store            ds.JSONDatastore
+	TemplateStore    ds.JSONDatastore
+	TemplateFilePath string
+	MailSender       ml.Sender
+	Log              *lg.Logger
+	ImagePath        string
+	CaptchaHost      string
 }
 
 //GetNew GetNew
