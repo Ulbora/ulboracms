@@ -44,6 +44,7 @@ func (c *CmsService) ExtractFile(t *TemplateFile) bool {
 								break
 							}
 							eName := c.TemplateFilePath + string(filepath.Separator) + t.Name
+							c.Log.Debug("eName in extract file: ", eName)
 							err2 := c.extractTarGzFile(tr, hdr, eName)
 							c.Log.Debug("extractTarGzFile error in extract file: ", err2)
 						}
@@ -56,34 +57,6 @@ func (c *CmsService) ExtractFile(t *TemplateFile) bool {
 						rtn = true
 					}
 				}
-			}
-		}
-	}
-	return rtn
-}
-
-func (c *CmsService) extractTarGzFile(tr *tar.Reader, h *tar.Header, dest string) error {
-	var rtn error
-	fname := h.Name
-	switch h.Typeflag {
-	case tar.TypeDir:
-		err := os.MkdirAll(dest+string(filepath.Separator)+fname, 0775)
-		c.Log.Debug("MkdirAll in tar.TypeDir error in extractTarGzFile: ", err)
-		rtn = err
-	case tar.TypeReg:
-		derr := os.MkdirAll(filepath.Dir(dest+string(filepath.Separator)+fname), 0775)
-		rtn = derr
-		c.Log.Debug("MkdirAll in tar.TypeReg error in extractTarGzFile: ", derr)
-		if derr == nil {
-			writer, cerr := os.Create(dest + string(filepath.Separator) + fname)
-			rtn = cerr
-			c.Log.Debug("os.Create error in extractTarGzFile: ", cerr)
-			if cerr == nil {
-				io.Copy(writer, tr)
-				err := os.Chmod(dest+string(filepath.Separator)+fname, 0664)
-				c.Log.Debug("os.Chmod error in extractTarGzFile: ", err)
-				rtn = err
-				writer.Close()
 			}
 		}
 	}
