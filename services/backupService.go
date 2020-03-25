@@ -154,7 +154,7 @@ func (c *CmsService) DownloadBackups() (bool, *[]byte) {
 		c.Log.Debug("template file list: ", templateStoreFiles)
 		bkfs.TemplateStoreFiles = &templateStoreFiles
 	}
-	
+
 	//images
 	var imageFiles []BackupFile
 	imgfiles, err := ioutil.ReadDir(c.ImagePath)
