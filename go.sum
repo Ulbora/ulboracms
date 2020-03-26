@@ -10,6 +10,7 @@ github.com/Ulbora/dbinterface_mysql v1.0.7/go.mod h1:8XA1eoibXMbJNIfL5mvl7b77FZP
 github.com/Ulbora/default_auth v1.0.0/go.mod h1:YiXsU5bzKm9Pa5m+Y2aUqy65Ta0NCRcsVslWzjTmsyk=
 github.com/Ulbora/go-mail-sender v1.0.0 h1:lfVK66JRIPSZCkeTO3/0fnnygVeVF+5ena47I2pj5Fo=
 github.com/Ulbora/go-mail-sender v1.0.0/go.mod h1:uI61omDxYerT9GWLIOIk7Y2wq9esh09UK2LkdCAuTkU=
+github.com/Ulbora/go-sessions v1.0.2 h1:S399x4sW740hvO7n9qjrJM37sSo47KBAJ+7jiT0eiQ0=
 github.com/Ulbora/go-sessions v1.0.2/go.mod h1:5CXZMqyt5XJDumnxoKqftZH/i3voi9k1UN47fuwxRLs=
 github.com/Ulbora/json-datastore v1.0.0 h1:f46eLu8J/fMuvYZFGa9a3cfwEdXaFtMGF+Skd99oXEc=
 github.com/Ulbora/json-datastore v1.0.0/go.mod h1:yMKdmKwHW5m3Wh9bgGHu9crDMNeNI4D0xihWYBdSL38=
@@ -28,8 +29,11 @@ github.com/golang/protobuf v1.2.0/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5y
 github.com/golang/protobuf v1.3.1/go.mod h1:6lQm79b+lXiMfvg/cZm0SGofjICqVBUtrP5yJMmIC1U=
 github.com/google/go-cmp v0.3.1/go.mod h1:8QqcDgzrUqlUb/G2PQTWiueGozuR1884gddMywk6iLU=
 github.com/google/go-cmp v0.4.0/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
+github.com/gorilla/mux v1.7.3 h1:gnP5JzjVOuiZD07fKKToCAOjS0yOpj/qPETTXCCS6hw=
 github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
+github.com/gorilla/securecookie v1.1.1 h1:miw7JPhV+b/lAHSXz4qd/nN9jRiAFV5FwjeKyCS8BvQ=
 github.com/gorilla/securecookie v1.1.1/go.mod h1:ra0sb63/xPlUeL+yeDciTfxMRAA+MP+HVt/4epWDjd4=
+github.com/gorilla/sessions v1.2.0 h1:S7P+1Hm5V/AT9cjEcUD5uDaQSX0OE577aCXgoaKpYbQ=
 github.com/gorilla/sessions v1.2.0/go.mod h1:dk2InVEVJ0sfLlnXv9EAgkf6ecYs/i80K/zI+bUmuGM=
 github.com/magefile/mage v1.9.0/go.mod h1:z5UZb/iS3GoOSn0JgWuiw7dxlurVYTu+/jHXqQg881A=
 golang.org/x/crypto v0.0.0-20190308221718-c2843e01d9a2/go.mod h1:djNgcEr1/C05ACkg1iLfiJU5Ep61QUkGW8qpdssI0+w=

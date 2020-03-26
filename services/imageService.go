@@ -9,6 +9,12 @@ import (
 
 var mu sync.Mutex
 
+//Image Image
+type Image struct {
+	Name     string
+	ImageURL string
+}
+
 //AddImage AddImage
 func (c *CmsService) AddImage(name string, fileData []byte) bool {
 	mu.Lock()
@@ -24,9 +30,28 @@ func (c *CmsService) AddImage(name string, fileData []byte) bool {
 	return rtn
 }
 
+//GetImageList GetImageList
+func (c *CmsService) GetImageList() *[]Image {
+	var rtn []Image
+	ifiles, err := ioutil.ReadDir(c.ImagePath)
+	if err == nil {
+		for _, ifile := range ifiles {
+			if !ifile.IsDir() {
+				//fmt.Println("sfile: ", sfile)
+				var imgfile Image
+				imgfile.Name = ifile.Name()
+				imgfile.ImageURL = c.ImageFullPath + string(filepath.Separator) + ifile.Name()
+				c.Log.Debug("image ImageURL in list: ", imgfile.ImageURL)
+				rtn = append(rtn, imgfile)
+			}
+		}
+	}
+	return &rtn
+}
+
 //GetImagePath GetImagePath
 func (c *CmsService) GetImagePath(imageName string) string {
-	return c.ImagePath + string(filepath.Separator) + imageName
+	return c.ImageFullPath + string(filepath.Separator) + imageName
 }
 
 //DeleteImage DeleteImage

@@ -16,11 +16,12 @@ type Service interface {
 	AddContent(content *Content) *Response
 	UpdateContent(content *Content) *Response
 	GetContent(name string) (bool, *Content)
-	GetContentList() *[]Content
+	GetContentList(published bool) *[]Content
 	DeleteContent(name string) *Response
 
 	AddImage(name string, fileData []byte) bool
 	GetImagePath(imageName string) string
+	GetImageList() *[]Image
 	DeleteImage(name string) bool
 
 	SendMail(mailer *ml.Mailer) bool
@@ -49,6 +50,7 @@ type CmsService struct {
 	MailSender        ml.Sender
 	Log               *lg.Logger
 	ImagePath         string
+	ImageFullPath     string
 	CaptchaHost       string
 }
 

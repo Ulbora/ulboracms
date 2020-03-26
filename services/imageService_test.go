@@ -15,6 +15,7 @@ var csi Service
 
 func TestCmsService_AddImage(t *testing.T) {
 	ci.ImagePath = "./testUploadImages"
+	ci.ImageFullPath = "./testUploadImages"
 
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
@@ -45,6 +46,14 @@ func TestCmsService_AddImage(t *testing.T) {
 func TestCmsService_GetImagePath(t *testing.T) {
 	fn := csi.GetImagePath("testImage.jpg")
 	if fn != "./testUploadImages/testImage.jpg" {
+		t.Fail()
+	}
+}
+
+func TestCmsService_GetImageList(t *testing.T) {
+	res := csi.GetImageList()
+	fmt.Println("imageList: ", *res)
+	if res == nil {
 		t.Fail()
 	}
 }

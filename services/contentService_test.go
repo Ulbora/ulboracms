@@ -26,6 +26,7 @@ func TestContentService_AddContent(t *testing.T) {
 
 	var ct Content
 	ct.Name = "books1"
+	ct.Author = "ken"
 	ct.MetaAuthorName = "ken"
 	ct.MetaDesc = "a book"
 	ct.Text = "some book text"
@@ -102,9 +103,17 @@ func TestContentService_GetContentFail(t *testing.T) {
 }
 
 func TestContentService_GetContentList(t *testing.T) {
-	res := cs.GetContentList()
+	res := cs.GetContentList(false)
 	fmt.Println("get Content List: ", *res)
-	if *res == nil || len(*res) != 1 {
+	if *res == nil || len(*res) < 1 {
+		t.Fail()
+	}
+}
+
+func TestContentService_GetContentListNotVisible(t *testing.T) {
+	res := cs.GetContentList(true)
+	fmt.Println("get Content List: ", *res)
+	if *res == nil || len(*res) < 1 {
 		t.Fail()
 	}
 }

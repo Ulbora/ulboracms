@@ -16,6 +16,7 @@ const (
 type Content struct {
 	Name              string    `json:"name"`
 	Title             string    `json:"title"`
+	Author            string    `json:"author"`
 	CreateDate        time.Time `json:"createDate"`
 	ModifiedDate      time.Time `json:"modifiedDate"`
 	Hits              int64     `json:"hits"`
@@ -83,6 +84,7 @@ func (c *CmsService) UpdateContent(content *Content) *Response {
 			cd.ModifiedDate = time.Now()
 			cd.Text = content.Text
 			cd.Title = content.Title
+			cd.Author = content.Author
 			cd.Visible = content.Visible
 			suc := c.Store.Save(content.Name, cd)
 			rtn.Success = suc
@@ -118,7 +120,7 @@ func (c *CmsService) GetContent(name string) (bool, *Content) {
 }
 
 // GetContentList get content list by client
-func (c *CmsService) GetContentList() *[]Content {
+func (c *CmsService) GetContentList(published bool) *[]Content {
 	var rtn []Content
 	res := c.Store.ReadAll()
 	c.Log.Debug("found content bytes in list: ", *res)
@@ -127,15 +129,19 @@ func (c *CmsService) GetContentList() *[]Content {
 		err := json.Unmarshal((*res)[r], &ct)
 		c.Log.Debug("found content item in list: ", ct)
 		if err == nil {
-			txt, err2 := b64.StdEncoding.DecodeString((ct.Text))
-			c.Log.Debug("found content item in list err2: ", err2)
-			if err2 == nil {
-				ct.Text = string(txt)
-				if ct.ModifiedDate.Year() != 1 {
-					ct.UseModifiedDate = true
+			if published && !ct.Visible {
+				continue
+			} else {
+				txt, err2 := b64.StdEncoding.DecodeString((ct.Text))
+				c.Log.Debug("found content item in list err2: ", err2)
+				if err2 == nil {
+					ct.Text = string(txt)
+					if ct.ModifiedDate.Year() != 1 {
+						ct.UseModifiedDate = true
+					}
+					c.Log.Debug("found content item in list before append: ", ct)
+					rtn = append(rtn, ct)
 				}
-				c.Log.Debug("found content item in list before append: ", ct)
-				rtn = append(rtn, ct)
 			}
 		}
 	}
