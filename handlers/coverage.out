@@ -11,10 +11,10 @@ github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:63.10,65.5 1 1
 github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:66.9,68.4 1 1
 github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:73.81,76.9 3 1
 github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:76.9,79.27 3 1
-github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:79.27,111.24 24 1
+github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:79.27,111.25 24 1
 github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:117.4,117.23 1 1
 github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:123.4,124.19 2 1
-github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:111.24,113.5 1 1
+github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:111.25,113.5 1 1
 github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:113.10,115.5 1 1
 github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:117.23,119.5 1 1
 github.com/Ulbora/ulboracms/handlers/adminContentHandler.go:119.10,121.5 1 1

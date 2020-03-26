@@ -77,38 +77,38 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 		loggedInAuth := s.Values["loggedIn"]
 		h.Log.Debug("loggedIn in new content: ", loggedInAuth)
 		if loggedInAuth == true {
-			name := r.FormValue("name")
-			h.Log.Debug("name in new content: ", name)
+			uname := r.FormValue("name")
+			h.Log.Debug("name in new content: ", uname)
 
-			content := r.FormValue("content")
-			h.Log.Debug("content in new content: ", content)
+			ucontent := r.FormValue("content")
+			h.Log.Debug("content in new content: ", ucontent)
 
-			title := r.FormValue("title")
-			h.Log.Debug("title in new content: ", title)
+			utitle := r.FormValue("title")
+			h.Log.Debug("title in new content: ", utitle)
 
-			author := r.FormValue("author")
-			h.Log.Debug("author in new content: ", author)
+			uauthor := r.FormValue("author")
+			h.Log.Debug("author in new content: ", uauthor)
 
-			metaKeyWords := r.FormValue("metaKeyWords")
-			h.Log.Debug("metaKeyWords in new content: ", metaKeyWords)
+			umetaKeyWords := r.FormValue("metaKeyWords")
+			h.Log.Debug("metaKeyWords in new content: ", umetaKeyWords)
 
-			metaDesc := r.FormValue("desc")
-			h.Log.Debug("metaDesc in new content: ", metaDesc)
+			umetaDesc := r.FormValue("desc")
+			h.Log.Debug("metaDesc in new content: ", umetaDesc)
 
-			archived := r.FormValue("archived")
-			h.Log.Debug("archived in new content: ", archived)
+			uarchived := r.FormValue("archived")
+			h.Log.Debug("archived in new content: ", uarchived)
 
 			visible := r.FormValue("visible")
 			h.Log.Debug("visible in new content: ", visible)
 
 			var ct sr.Content
-			ct.Author = author
-			ct.MetaDesc = metaDesc
-			ct.MetaKeyWords = metaKeyWords
-			ct.Name = name
-			ct.Title = title
-			ct.Text = content
-			if archived == "on" {
+			ct.Author = uauthor
+			ct.MetaDesc = umetaDesc
+			ct.MetaKeyWords = umetaKeyWords
+			ct.Name = uname
+			ct.Title = utitle
+			ct.Text = ucontent
+			if uarchived == "on" {
 				ct.Archived = true
 			} else {
 				ct.Archived = false
@@ -125,7 +125,7 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 				http.Redirect(w, r, adminIndex, http.StatusFound)
 			} else {
 				//go back
-				http.Redirect(w, r, adminGetContent+"/"+name, http.StatusFound)
+				http.Redirect(w, r, adminGetContent+"/"+uname, http.StatusFound)
 			}
 
 		} else {
