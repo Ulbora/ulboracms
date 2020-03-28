@@ -31,6 +31,31 @@ func TestCaptchaService_SendCaptchaCall(t *testing.T) {
 	}
 }
 
+func TestCaptchaService_SendCaptchaCallMock(t *testing.T) {
+	var ci CmsService
+
+	var l lg.Logger
+	l.LogLevel = lg.AllLevel
+	ci.Log = &l
+
+	//var c CaptchaService
+	ci.CaptchaHost = "https://www.google.com/recaptcha/api/siteverify"
+	ci.MockCaptcha = true
+	ci.MockCaptchaSuccess = true
+
+	c := ci.GetNew()
+	var cp Captcha
+	cp.Secret = "abaap"
+	cp.Remoteip = "10.0.0.1"
+	cp.Response = "lsljdiididi"
+
+	res := c.SendCaptchaCall(cp)
+	fmt.Println("Google ReCaptcha Resp: ", res)
+	if res.Success == false {
+		t.Fail()
+	}
+}
+
 func TestCaptchaService_processServiceCall(t *testing.T) {
 	var ci CmsService
 

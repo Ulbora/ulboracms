@@ -19,12 +19,18 @@ const (
 	adminIndex      = "/admin/index"
 	adminGetContent = "/admin/getContent"
 	adminAddContent = "/admin/addContent"
+	adminImages     = "/admin/images"
+
+	indexPage = "/"
 
 	//pages
 	admlogin      = "login.html"
 	admIndex      = "index.html"
 	addContent    = "addContent.html"
 	updateContent = "updateContent.html"
+	imageUpload   = "imageUpload.html"
+	images        = "images.html"
+	contactForm   = "contact.html"
 )
 
 //Handler Handler
@@ -38,16 +44,26 @@ type Handler interface {
 	AdminUpdateContent(w http.ResponseWriter, r *http.Request)
 	AdminGetContent(w http.ResponseWriter, r *http.Request)
 	AdminDeleteContent(w http.ResponseWriter, r *http.Request)
+	AdminAddImage(w http.ResponseWriter, r *http.Request)
+	AdminUploadImage(w http.ResponseWriter, r *http.Request)
+	AdminImageList(w http.ResponseWriter, r *http.Request)
+	AdminDeleteImage(w http.ResponseWriter, r *http.Request)
+	ContactFormSend(w http.ResponseWriter, r *http.Request)
+	ContactForm(w http.ResponseWriter, r *http.Request)
 }
 
 //CmsHandler CmsHandler
 type CmsHandler struct {
-	Service        sr.Service
-	Log            *lg.Logger
-	AdminTemplates *template.Template
-	Session        gs.GoSession
-	Store          *sessions.CookieStore
-	User           *User
+	Service                  sr.Service
+	Log                      *lg.Logger
+	AdminTemplates           *template.Template
+	Session                  gs.GoSession
+	Store                    *sessions.CookieStore
+	User                     *User
+	CaptchaSecret            string
+	CaptchaDataSitekey       string
+	ContactMailSenderAddress string
+	ContactMailSubject       string
 }
 
 //User User

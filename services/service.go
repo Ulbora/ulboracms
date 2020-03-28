@@ -42,16 +42,19 @@ type Service interface {
 
 //CmsService service
 type CmsService struct {
-	Store             ds.JSONDatastore
-	TemplateStore     ds.JSONDatastore
-	ContentStorePath  string
-	TemplateStorePath string
-	TemplateFilePath  string
-	MailSender        ml.Sender
-	Log               *lg.Logger
-	ImagePath         string
-	ImageFullPath     string
-	CaptchaHost       string
+	Store              ds.JSONDatastore
+	TemplateStore      ds.JSONDatastore
+	ContentStorePath   string
+	TemplateStorePath  string
+	TemplateFilePath   string
+	MailSender         ml.Sender
+	Log                *lg.Logger
+	ImagePath          string
+	ImageFullPath      string
+	CaptchaHost        string
+	MockCaptcha        bool
+	MockCaptchaSuccess bool
+	MockCaptchaCode    int
 }
 
 //GetNew GetNew

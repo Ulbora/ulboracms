@@ -25,12 +25,18 @@ type CaptchaResponse struct {
 //SendCaptchaCall SendCaptchaCall
 func (c *CmsService) SendCaptchaCall(cap Captcha) *CaptchaResponse {
 	var rtn = new(CaptchaResponse)
-	var sURL = c.CaptchaHost + "?secret=" + cap.Secret + "&response=" + cap.Response + "&remoteip=" + cap.Remoteip
+	if c.MockCaptcha {
+		rtn.Success = c.MockCaptchaSuccess
+		rtn.Code = c.MockCaptchaCode
 
-	req, rErr := http.NewRequest(http.MethodPost, sURL, nil)
-	if rErr == nil {
-		code := c.processServiceCall(req, &rtn)
-		rtn.Code = code
+	} else {
+		var sURL = c.CaptchaHost + "?secret=" + cap.Secret + "&response=" + cap.Response + "&remoteip=" + cap.Remoteip
+
+		req, rErr := http.NewRequest(http.MethodPost, sURL, nil)
+		if rErr == nil {
+			code := c.processServiceCall(req, &rtn)
+			rtn.Code = code
+		}
 	}
 	c.Log.Debug("CaptchaResponse: ", *rtn)
 	return rtn
