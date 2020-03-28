@@ -8,10 +8,16 @@ import (
 	sr "github.com/Ulbora/ulboracms/services"
 )
 
+type captchaData struct {
+	CaptchaDataSitekey string
+}
+
 //ContactForm ContactForm
 func (h *CmsHandler) ContactForm(w http.ResponseWriter, r *http.Request) {
 	h.Log.Debug("template: ", h.AdminTemplates)
-	h.AdminTemplates.ExecuteTemplate(w, contactForm, nil)
+	var cp captchaData
+	cp.CaptchaDataSitekey = h.CaptchaDataSitekey
+	h.AdminTemplates.ExecuteTemplate(w, contactForm, &cp)
 }
 
 //ContactFormSend ContactFormSend

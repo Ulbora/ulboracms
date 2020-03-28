@@ -24,13 +24,15 @@ const (
 	indexPage = "/"
 
 	//pages
-	admlogin      = "login.html"
-	admIndex      = "index.html"
-	addContent    = "addContent.html"
-	updateContent = "updateContent.html"
-	imageUpload   = "imageUpload.html"
-	images        = "images.html"
-	contactForm   = "contact.html"
+	admlogin       = "login.html"
+	admIndex       = "index.html"
+	addContent     = "addContent.html"
+	updateContent  = "updateContent.html"
+	imageUpload    = "imageUpload.html"
+	images         = "images.html"
+	contactForm    = "contact.html"
+	templateList   = "templates.html"
+	templateUpload = "templateUpload.html"
 )
 
 //Handler Handler
@@ -48,6 +50,11 @@ type Handler interface {
 	AdminUploadImage(w http.ResponseWriter, r *http.Request)
 	AdminImageList(w http.ResponseWriter, r *http.Request)
 	AdminDeleteImage(w http.ResponseWriter, r *http.Request)
+	AdminTemplateList(w http.ResponseWriter, r *http.Request)
+	AdminAddTemplate(w http.ResponseWriter, r *http.Request)
+	//AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
+	//AdminActivateTemplate(w http.ResponseWriter, r *http.Request)
+	//AdminDeleteTemplate(w http.ResponseWriter, r *http.Request)
 	ContactFormSend(w http.ResponseWriter, r *http.Request)
 	ContactForm(w http.ResponseWriter, r *http.Request)
 }
