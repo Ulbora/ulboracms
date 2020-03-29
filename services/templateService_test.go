@@ -1,6 +1,9 @@
 package services
 
 import (
+	"fmt"
+	"io/ioutil"
+	"os"
 	"testing"
 
 	lg "github.com/Ulbora/Level_Logger"
@@ -61,6 +64,37 @@ func TestCmsService_ActivateTemplat2e(t *testing.T) {
 
 func TestCmsService_DeleteTemplate2(t *testing.T) {
 	suc := csit.DeleteTemplate("temp1")
+	if !suc {
+		t.Fail()
+	}
+}
+
+func TestCmsService_AddTemplateFile(t *testing.T) {
+	ci.TemplateFilePath = "./testUploadTemplates"
+	//ci.ImageFullPath = "./testUploadTemplates"
+
+	var l lg.Logger
+	l.LogLevel = lg.AllLevel
+	ci.Log = &l
+
+	csi = ci.GetNew()
+	tmpfile, err := os.Open("./testUploads/testTxt.tar.gz")
+	fmt.Println("tmpfile: ", tmpfile.Name())
+	if err != nil {
+		fmt.Println("tmp file not found!")
+		os.Exit(1)
+	}
+	defer tmpfile.Close()
+	var originalFileName = tmpfile.Name()
+	//i := strings.Index(originalFileName, ".")
+	//var fileName = string(originalFileName[:i])
+	fmt.Println("originalFileName in add template file: ", originalFileName)
+	//fmt.Println("fileName in add template file: ", fileName)
+	data, err := ioutil.ReadAll(tmpfile)
+	if err != nil {
+		fmt.Println(err)
+	}
+	suc := csi.AddTemplateFile("testTxt", originalFileName, data)
 	if !suc {
 		t.Fail()
 	}

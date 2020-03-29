@@ -1,11 +1,34 @@
 package services
 
-import "encoding/json"
+import (
+	"encoding/json"
+	"sync"
+)
 
 //Template template
 type Template struct {
 	Name   string `json:"name"`
 	Active bool   `json:"active"`
+}
+
+var tmu sync.Mutex
+
+//AddTemplateFile AddTemplateFile
+func (c *CmsService) AddTemplateFile(name string, originalFileName string, fileData []byte) bool {
+	tmu.Lock()
+	defer tmu.Unlock()
+	var rtn bool
+	c.Log.Debug("template file name in add: ", name)
+	var tpl TemplateFile
+	tpl.FileData = fileData
+	tpl.Name = name
+	tpl.OriginalFileName = originalFileName
+	c.Log.Debug("tpl in add: ", tpl)
+	rtn = c.ExtractFile(&tpl)
+	//var templateName = c.TemplateFilePath + string(filepath.Separator) + name
+	//c.Log.Debug("template complete file name in add: ", templateName)
+	//err := ioutil.WriteFile(templateName, fileData, 0644)
+	return rtn
 }
 
 //AddTemplate AddTemplate

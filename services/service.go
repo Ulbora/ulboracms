@@ -28,6 +28,7 @@ type Service interface {
 
 	SendCaptchaCall(cap Captcha) *CaptchaResponse
 
+	AddTemplateFile(name string, originalFileName string, fileData []byte) bool
 	AddTemplate(tpl *Template) bool
 	ActivateTemplate(name string) bool
 	GetTemplateList() *[]Template

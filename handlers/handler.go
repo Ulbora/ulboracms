@@ -20,6 +20,7 @@ const (
 	adminGetContent = "/admin/getContent"
 	adminAddContent = "/admin/addContent"
 	adminImages     = "/admin/images"
+	adminTemplates  = "/admin/templates"
 
 	indexPage = "/"
 
@@ -52,9 +53,9 @@ type Handler interface {
 	AdminDeleteImage(w http.ResponseWriter, r *http.Request)
 	AdminTemplateList(w http.ResponseWriter, r *http.Request)
 	AdminAddTemplate(w http.ResponseWriter, r *http.Request)
-	//AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
-	//AdminActivateTemplate(w http.ResponseWriter, r *http.Request)
-	//AdminDeleteTemplate(w http.ResponseWriter, r *http.Request)
+	AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
+	AdminActivateTemplate(w http.ResponseWriter, r *http.Request)
+	AdminDeleteTemplate(w http.ResponseWriter, r *http.Request)
 	ContactFormSend(w http.ResponseWriter, r *http.Request)
 	ContactForm(w http.ResponseWriter, r *http.Request)
 }

@@ -41,7 +41,7 @@ func (h *CmsHandler) AdminUploadImage(w http.ResponseWriter, r *http.Request) {
 			file, handler, ferr := r.FormFile("tempFile")
 			h.Log.Debug("image file err: ", ferr)
 			defer file.Close()
-			h.Log.Debug("image file : ", *handler)
+			//h.Log.Debug("image file : ", *handler)
 
 			data, rferr := ioutil.ReadAll(file)
 			h.Log.Debug("read file  err: ", rferr)
