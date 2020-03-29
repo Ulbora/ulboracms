@@ -21,8 +21,7 @@ const (
 	adminAddContent = "/admin/addContent"
 	adminImages     = "/admin/images"
 	adminTemplates  = "/admin/templates"
-
-	indexPage = "/"
+	indexPage       = "/"
 
 	//pages
 	admlogin       = "login.html"
@@ -34,6 +33,8 @@ const (
 	contactForm    = "contact.html"
 	templateList   = "templates.html"
 	templateUpload = "templateUpload.html"
+	index          = "index.html"
+	viewContent    = "viewContent.html"
 )
 
 //Handler Handler
@@ -58,6 +59,8 @@ type Handler interface {
 	AdminDeleteTemplate(w http.ResponseWriter, r *http.Request)
 	ContactFormSend(w http.ResponseWriter, r *http.Request)
 	ContactForm(w http.ResponseWriter, r *http.Request)
+	Index(w http.ResponseWriter, r *http.Request)
+	ViewPage(w http.ResponseWriter, r *http.Request)
 }
 
 //CmsHandler CmsHandler
@@ -65,6 +68,7 @@ type CmsHandler struct {
 	Service                  sr.Service
 	Log                      *lg.Logger
 	AdminTemplates           *template.Template
+	Templates                *template.Template
 	Session                  gs.GoSession
 	Store                    *sessions.CookieStore
 	User                     *User
