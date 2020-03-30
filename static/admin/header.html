@@ -1,0 +1,52 @@
+{{define "header"}}
+
+<head>
+    <title>Ulbora CMS V3 Admin</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <script type='text/javascript' src="/admin/js/popper.js"></script>
+    <script type='text/javascript' src="/admin/js/jquery-3.2.1.min.js"></script>
+    <script type='text/javascript' src="/admin/js/bootstrap.min.js"></script>
+    <script type='text/javascript' src="/admin/js/tinymce.min.js"></script>
+    <script type='text/javascript' src="/admin/js/custom.js"></script>
+    <script>
+        tinymce.init(
+            {
+                selector: '#content-area',
+                extended_valid_elements : 'button[onclick]',
+               // width: 600,
+                height: 300,
+                browser_spellcheck: true,
+                paste_data_images: true,
+                plugins: [
+                    'advlist autolink link image lists charmap print preview hr anchor pagebreak spellchecker',
+                    'searchreplace wordcount visualblocks visualchars code fullscreen insertdatetime media nonbreaking',
+                    'save table contextmenu directionality emoticons template paste textcolor'
+                ],
+                //content_css: 'css/content.css',
+                toolbar: [
+                    'insertfile undo redo | styleselect | bold italic | alignleft aligncenter alignright alignjustify' ,
+                    'bullist numlist outdent indent | link image | print preview media fullpage',  
+                    'forecolor backcolor emoticons'
+                ]
+
+                //toolbar: [
+                //'undo redo | styleselect | bold italic | link image',
+                // 'alignleft aligncenter alignright'
+                //]
+
+            }
+        );
+    </script>
+
+    <link rel="stylesheet" href="/admin/css/bootstrap.min.css">
+    <link rel="text/plain" href="/admin/css/bootstrap.min.css.map">
+    <link rel="stylesheet" href="/admin/css/bootstrap-grid.min.css">
+    <link rel="text/plain" href="/admin/css/bootstrap-grid.min.css.map">
+    <link rel="stylesheet" href="/admin/css/bootstrap-reboot.min.css">
+    <link rel="text/plain" href="/admin/css/bootstrap-reboot.min.css.map">
+    <link rel="stylesheet" href="/admin/css/content.css">
+
+</head>
+{{end}}

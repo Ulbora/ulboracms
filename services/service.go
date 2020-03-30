@@ -31,6 +31,7 @@ type Service interface {
 	AddTemplateFile(name string, originalFileName string, fileData []byte) bool
 	AddTemplate(tpl *Template) bool
 	ActivateTemplate(name string) bool
+	GetActiveTemplateName() string
 	GetTemplateList() *[]Template
 	DeleteTemplate(name string) bool
 

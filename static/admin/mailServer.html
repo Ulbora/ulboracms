@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="container-fluid">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Mail Server</h3>
+        </div>       
+        <form class="form-submit" method="post" action="/admin/mailServerUpdate">
+            <input name="id" type="hidden" value="{{.ID}}">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Mail Server</span>
+                <input name="mailServer" type="text" class="form-control" placeholder="mail.somehost.com" aria-label="MailServer" aria-describedby="sizing-addon1"
+                    value="{{.MailServer}}" required>
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Secure Connection</span>
+                <span class="input-group-addon">
+                    <input name="secureConnection" type="checkbox" aria-label="Checkbox for following text input"
+                    {{if .SecureConnection}}
+                        checked
+                    {{end}}>
+                </span>
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Port</span>
+                <input name="port" type="number" class="form-control" placeholder="465" aria-label="Port" aria-describedby="sizing-addon1"
+                    value="{{.Port}}">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Debug</span>
+                <span class="input-group-addon">
+                    <input name="debug" type="checkbox" aria-label="Checkbox for following text input"
+                        {{if .Debug}}
+                            checked
+                        {{end}}>
+                </span>
+            </div>
+            <br>
+
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">Username</span>
+                <input name="username" type="text" class="form-control" placeholder="Username" aria-label="Username" aria-describedby="sizing-addon2"
+                    value="{{.Username}}">
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Password</span>
+                <input name="password" type="text" class="form-control" placeholder="password" aria-label="Password" aria-describedby="sizing-addon1"
+                    value="{{.Password}}" required>
+            </div>
+            <br>
+            <div class="input-group input-group-lg">
+                    <span class="input-group-addon" id="basic-addon1">From Address</span>
+                    <input name="fromAddress" type="text" class="form-control" placeholder="someone@gmail.com" aria-label="FromAddress" aria-describedby="sizing-addon1"
+                        value="{{.FromAddress}}" required>
+                </div>
+                <br>
+            <div class="form-submit">
+                <button class="btn" type="submit">Submit</button>
+            </div>
+            <br>
+        </form>
+    </div>
+    <br>   
+</body>
+{{template "footer"}}
+
+</html>

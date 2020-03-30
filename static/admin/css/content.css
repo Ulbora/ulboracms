@@ -1,0 +1,71 @@
+.content-title{
+    text-align: center;
+    width: 100%;
+    padding: 1% 0 0 0;    
+}
+
+.form-submit{
+    text-align: center;
+    width: 100%;
+    padding: 1% 0 0 0;    
+}
+.footer{
+    text-align: center;
+    width: 100%;
+    padding: 3% 0 0 0;   
+}
+
+.content-list{
+    margin: 0 0 500px 0;    
+}
+.content-delete-link{
+    color: red;
+    margin: 0 0 1% 0;
+}
+.content-delete-link a{
+    color: red;
+}
+.content-delete-link a:visited{
+    color:red;  
+}
+
+.image-view{
+    padding: 1%;      
+}
+.image-view img { 
+    max-width: 100%; 
+}
+
+
+.image-list-view{
+    padding: 1%;      
+}
+.image-list-view img { 
+    max-width: 60%; 
+}
+
+.image-card{
+    margin: 0 0 2% 0;
+    padding: 2%;
+    
+}
+
+.page-button{
+    margin: 1% 0 1% 1%;
+}
+
+
+@media screen and (min-width: 1200px){
+    .image-wrapper{
+        overflow-y: auto;
+        height: 1000px;
+    }
+}
+
+@media screen and (max-width: 1200px){
+    .image-wrapper{
+        overflow-y: auto;
+        height: 1000px;
+    }
+}
+

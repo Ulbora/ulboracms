@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+{{template "header" .}}
+
+<body>
+    <div class="container-fluid page-wrapper">
+        {{template "navbar"}} 
+            {{range .Cont}} 
+                {{if eq .SortOrder 0}}
+                    <div class="content-bar1">
+                        {{.TextHTML}}
+                    </div>
+                {{end}} 
+                {{if eq .SortOrder 1}}
+                    <div class="content-bar2">
+                        {{.TextHTML}}
+                    </div>
+                {{end}} 
+                {{if eq .SortOrder 2}}
+                    <div class="content-bar1">
+                        {{.TextHTML}}
+                    </div>
+                {{end}} 
+                {{if gt .SortOrder 2}}
+                    <div class="content-bar2">
+                        {{.TextHTML}}
+                    </div>
+                {{end}} 
+            {{end}}
+    </div>
+</body>
+{{template "footer"}}
+
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="container-fluid content-list">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Images</h3>
+        </div>
+        <div class="page-button">
+            <a class="btn btn-primary" href="/admin/addImage" role="button">Add image</a>
+        </div>
+        <div class="card-group">
+            <div class="card border-primary mb-3" style="max-width: 100rem;">
+                <div class="card-header">Images</div>
+                <div class="card-body text-dark">
+                    <div class="image-wrapper">
+                        {{range .}}
+                        <div class="image-card">
+                            <div class="card">
+                                <div class="content-delete-link">
+                                    <!-- Button trigger modal -->
+                                    <button onclick="setImageId({{.ID}})"  type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                                        Delete this image                                       
+                                      </button>
+                                </div>
+                                <div class="card-header">
+                                    Name: {{.Name}}
+                                </div>
+                                <div class="card-header">
+                                    Link: {{.ImageURL}}
+                                </div>
+                                <div class="card-body">
+                                    <div class="image-list-view">
+                                        <img id="img1" src="{{.ImageURL}}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+     <!-- Modal -->
+     <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                  </button>
+                    </div>
+                    <div class="modal-body">
+                        Delete this image
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button  type="button" class="btn btn-danger" onclick="location.href='/admin/deleteImage/' + getImageId();">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+</body>
+{{template "footer"}}
+
+</html>

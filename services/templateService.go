@@ -47,6 +47,23 @@ func (c *CmsService) AddTemplate(tpl *Template) bool {
 	return rtn
 }
 
+//GetActiveTemplateName GetActiveTemplateName
+func (c *CmsService) GetActiveTemplateName() string {
+	var rtn string
+	res := c.TemplateStore.ReadAll()
+	c.Log.Debug("tpls template get active: ", *res)
+	for r := range *res {
+		var t Template
+		err := json.Unmarshal((*res)[r], &t)
+		c.Log.Debug("found template in list: ", t)
+		if err == nil && t.Active {
+			rtn = t.Name
+			break
+		}
+	}
+	return rtn
+}
+
 //GetTemplateList GetTemplateList
 func (c *CmsService) GetTemplateList() *[]Template {
 	var rtn []Template

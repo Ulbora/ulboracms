@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="container-fluid content-list">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Page List</h3>
+        </div>
+        <div class="page-button">
+            <a class="btn btn-primary" href="/admin/addContent" role="button">Add Page</a>
+        </div>
+        <table class="table table-hover">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>Page</th>
+                    <th>Sort Order</th>
+                    <th>Archived</th>
+                    <th>Created</th>
+                    <th>Modified</th>
+                    <th>Hits</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{range .}}
+                <tr class='clickable-row' data-href='/admin/getContent/{{.ID}}'>
+                    <td><a href="/admin/getContent/{{.ID}}">{{.Title}} </a></td>
+                    <td>{{.Category}}</td>
+                    <td>{{.SortOrder}}</td>
+                    <td>{{.Archived}}</td>
+                    <td>{{.CreateDate.Format "Jan 2, 2006"}}</td>
+                    {{if .UseModifiedDate}}
+                    <td>{{.ModifiedDate.Format "Jan 2, 2006"}}</td>
+                    {{else}}
+                    <td>---</td>
+                    {{end}}
+                    <td>{{.Hits}}</td>
+                </tr>
+
+                {{end}}
+            </tbody>
+        </table>
+    </div>
+</body>
+{{template "footer"}}
+
+</html>

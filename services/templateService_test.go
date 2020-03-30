@@ -36,7 +36,7 @@ func TestCmsService_AddTemplate(t *testing.T) {
 
 func TestCmsService_GetTemplateList(t *testing.T) {
 	tlist := csit.GetTemplateList()
-	if len(*tlist) != 2 {
+	if len(*tlist) < 1 {
 		t.Fail()
 	}
 }
@@ -96,6 +96,26 @@ func TestCmsService_AddTemplateFile(t *testing.T) {
 	}
 	suc := csi.AddTemplateFile("testTxt", originalFileName, data)
 	if !suc {
+		t.Fail()
+	}
+}
+
+func TestCmsService_GetActiveTemplateName(t *testing.T) {
+	var cs CmsService
+
+	var ds ds.DataStore
+	ds.Path = "./testTemplateFiles"
+	cs.TemplateStore = ds.GetNew()
+
+	var l lg.Logger
+	l.LogLevel = lg.AllLevel
+	cs.Log = &l
+
+	s := cs.GetNew()
+
+	name := s.GetActiveTemplateName()
+	fmt.Println("active template name: ", name)
+	if name == "" {
 		t.Fail()
 	}
 }

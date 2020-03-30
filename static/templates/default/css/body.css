@@ -1,0 +1,13 @@
+body {
+  background: #E7E4E4;
+  color: black;
+}
+body a:link {
+  color: black;
+}
+body a:visited {
+  color: black;
+}
+body a:hover {
+  color: #A05353;
+}

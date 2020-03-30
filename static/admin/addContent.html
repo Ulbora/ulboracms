@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+<script>
+// window.onbeforeunload = function(){   
+//     return 'Are you sure you want to leave?';
+// };
+</script>
+<body onbeforeunload="return leavePage()">
+    <div class="container-fluid">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Add Page</h3>
+        </div>
+        <div class="card-group">
+            <div class="card border-primary mb-3" style="max-width: 80rem;">
+                <div class="card-header">Page</div>
+                <div class="card-body text-dark">
+                    <form class="form-submit" method="post" action="/admin/newContent">
+                        <textarea id="content-area" name="content" required>Ulbora CMS V3, a new Cloud CMS!</textarea>
+                        <br>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon" id="basic-addon1">Title</span>
+                            <input name="title" type="text" class="form-control" placeholder="Title" aria-label="Title" aria-describedby="sizing-addon1"
+                                required>
+                        </div>
+                        <br>
+                        <div class="input-group">
+                            <span class="input-group-addon" id="basic-addon1">Author</span>
+                            <input name="author" type="text" class="form-control" placeholder="Author" aria-label="Author" aria-describedby="sizing-addon2">
+                        </div>
+                        <br>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon" id="basic-addon1">Page Name</span>
+                            <input name="category" type="text" class="form-control" placeholder="MyPage" aria-label="Category" aria-describedby="sizing-addon1"
+                                required>
+                        </div>
+                        <br>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon" id="basic-addon1">Sort Order</span>
+                            <input name="sortOrder" type="number" class="form-control" placeholder="Sort Order" aria-label="Sort Order" aria-describedby="sizing-addon1">
+                        </div>
+                        <br>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon" id="basic-addon1">Key Words</span>
+                            <input name="metaKeyWords" type="text" class="form-control" placeholder="Meta Key Words. Example: books, music" aria-label="Meta Key Words"
+                                aria-describedby="sizing-addon1">
+                        </div>
+                        <br>
+                        <div class="input-group input-group-lg">
+                            <span class="input-group-addon" id="basic-addon1">Description</span>
+                            <textarea name="desc" class="form-control" rows="3" placeholder="Description" aria-label="Description" aria-describedby="sizing-addon1"></textarea>
+                        </div>
+                        <br>
+                        
+                        <div class="form-submit">
+                            <button onclick="savePage();" class="btn" type="submit">Submit</button>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+            </div>
+            <div class="card border-primary mb-3" style="max-width: 20rem;">
+                <div class="card-header">Images</div>
+                <div class="card-body text-dark">
+                    <div class="image-wrapper">
+                        {{range .}}
+                        <div class="image-card">
+                            <div class="card">
+                                <div class="card-header">
+                                    {{.Name}}
+                                </div>
+                                <div class="card-body">
+                                    <div class="image-view">
+                                        <img id="img1" src="{{.ImageURL}}" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        {{end}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+</body>
+{{template "footer"}}
+
+</html>

@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="container-fluid">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Upload Image</h3>
+        </div>        
+        <form class="form-submit" method="post" action="/admin/uploadImage" enctype="multipart/form-data">
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Image Name</span>
+                <input name="name" type="text" class="form-control" placeholder="Image Name" aria-label="Name" aria-describedby="sizing-addon1"
+                    required>
+            </div>
+            <br>
+
+
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">Image File</span>
+                <input name="image" type="file" class="form-control" aria-describedby="sizing-addon2" required>
+            </div>
+            <br>           
+            <div class="form-submit">
+                <button class="btn" type="submit">Submit</button>
+            </div>
+            <br>
+        </form>
+    </div>
+    <br>
+</body>
+{{template "footer"}}
+
+</html>
