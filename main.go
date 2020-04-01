@@ -69,7 +69,7 @@ func main() {
 		"./static/admin/footer.html", "./static/admin/navbar.html", "./static/admin/contentNavbar.html",
 		"./static/admin/addContent.html", "./static/admin/images.html", "./static/admin/templates.html",
 		"./static/admin/updateContent.html", "./static/admin/mailServer.html", "./static/admin/templateUpload.html",
-		"./static/admin/imageUpload.html"))
+		"./static/admin/imageUpload.html", "./static/admin/login.html"))
 
 	ch.Log = &l
 	ch.User = &u
@@ -92,14 +92,18 @@ func main() {
 	ccs.TemplateStore = tds.GetNew()
 	ccs.TemplateStorePath = "./data/templateStore"
 
-	ccs.TemplateFilePath = "./data/templates"
-	ccs.ImagePath = "./data/images"
-	ccs.ImageFullPath = "./data/images"
+	ccs.TemplateFilePath = "./static/templates"
+	ccs.ImagePath = "./static/images"
+	ccs.ImageFullPath = "http://localhost:8080/images"
 	ccs.CaptchaHost = captchaHost
 
 	ccs.MailSender = &ms
 
 	ch.Service = ccs.GetNew()
+
+	ch.ActiveTemplateLocation = "./static/templates"
+
+	ch.LoadTemplate()
 
 	router := mux.NewRouter()
 	port := "8080"
@@ -111,9 +115,22 @@ func main() {
 		}
 	}
 
+	h := ch.GetNew()
+	router.HandleFunc("/", h.Index).Methods("GET")
+	router.HandleFunc("/{name}", h.Index).Methods("GET")
+
+	router.HandleFunc("/admin/login", h.Login).Methods("GET")
+	router.HandleFunc("/admin/loginUser", h.LoginUser).Methods("POST")
+	router.HandleFunc("/admin/logout", h.Logout).Methods("GET")
+	router.HandleFunc("/admin/index", h.AdminIndex).Methods("GET")
+	router.HandleFunc("/admin/getContent/{name}", h.AdminGetContent).Methods("GET")
+	router.HandleFunc("/admin/addContent", h.AdminAddContent).Methods("GET")
+	router.HandleFunc("/admin/newContent", h.AdminNewContent).Methods("POST")
+	router.HandleFunc("/admin/updateContent", h.AdminUpdateContent).Methods("POST")
+
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
-	fmt.Println("Starting server Oauth2 Server on " + port)
+	fmt.Println("Ulbora CMS is Running on Port " + port)
 	http.ListenAndServe(":"+port, router)
 
 }

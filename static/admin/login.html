@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="ui container">
+        <div class="login-form">
+            {{if ne .Error ""}}
+            <div class="ui error message">
+                <div class="header">{{.Error}}</div>
+            </div>
+            {{end}}
+            <form class="ui form" method="post" action="/admin/loginUser">
+                <h2 class="ui dividing header">Ulbora CMS Login</h2>
+                <div class="field">
+                    <label>Username</label>
+                    <input type="text" name="username" placeholder="username" required>
+                </div>
+                <div class="field">
+                    <label>Password</label>
+                    <input type="password" name="password" placeholder="password" required>
+                </div>
+                <button class="ui button" type="submit">Login</button>
+            </form>
+        </div>
+    </div>
+</body>
+
+</html>

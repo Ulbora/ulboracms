@@ -13,7 +13,7 @@ import (
 
 const (
 	//Urls
-	loginFailedURL  = "/login?error=Login Failed"
+	loginFailedURL  = "/admin/login?error=Login Failed"
 	login           = "/admin/login"
 	logout          = "/admin/logout"
 	adminIndex      = "/admin/index"
@@ -61,6 +61,7 @@ type Handler interface {
 	ContactForm(w http.ResponseWriter, r *http.Request)
 	Index(w http.ResponseWriter, r *http.Request)
 	ViewPage(w http.ResponseWriter, r *http.Request)
+	LoadTemplate()
 }
 
 //CmsHandler CmsHandler
@@ -76,6 +77,8 @@ type CmsHandler struct {
 	CaptchaDataSitekey       string
 	ContactMailSenderAddress string
 	ContactMailSubject       string
+	ActiveTemplateName       string
+	ActiveTemplateLocation   string
 }
 
 //User User

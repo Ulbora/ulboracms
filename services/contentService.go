@@ -108,6 +108,7 @@ func (c *CmsService) GetContent(name string) (bool, *Content) {
 			txt, err2 := b64.StdEncoding.DecodeString(cd.Text)
 			if err2 == nil {
 				cd.Text = string(txt)
+				cd.TextHTML = template.HTML(cd.Text)
 				if cd.ModifiedDate.Year() != 1 {
 					cd.UseModifiedDate = true
 				}
@@ -136,6 +137,7 @@ func (c *CmsService) GetContentList(published bool) *[]Content {
 				c.Log.Debug("found content item in list err2: ", err2)
 				if err2 == nil {
 					ct.Text = string(txt)
+					ct.TextHTML = template.HTML(ct.Text)
 					if ct.ModifiedDate.Year() != 1 {
 						ct.UseModifiedDate = true
 					}

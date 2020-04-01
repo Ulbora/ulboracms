@@ -1,5 +1,5 @@
-jQuery(document).ready(function($) {
-    $(".clickable-row").click(function() {
+jQuery(document).ready(function ($) {
+    $(".clickable-row").click(function () {
         window.location = $(this).data("href");
     });
 });
@@ -9,12 +9,12 @@ function allowDrop(ev) {
     ev.preventDefault();
 }
 
-function drag(ev) {    
+function drag(ev) {
     ev.dataTransfer.setData("text", ev.target.id);
 }
 
 function drop(ev) {
-    
+
     ev.preventDefault();
     var data = ev.dataTransfer.getData("text");
     ev.target.appendChild(document.getElementById(data));
@@ -22,35 +22,52 @@ function drop(ev) {
 
 var pageSaved;
 
-function leavePage(){  
-    if(pageSaved !== true){
+function leavePage() {
+    if (pageSaved !== true) {
         return "Page Not Saved!";
-    }else{
+    } else {
         return;
-    }  
+    }
 }
-function savePage(){
+function savePage() {
     pageSaved = true;
 }
 
 var imageId;
-function setImageId(id){
+function setImageId(id) {
     imageId = id;
 }
-function getImageId(){
+function getImageId() {
     return imageId;
 }
 
 
 var tmplId;
 var tmplName;
-function setTemplateIdAndName(id, tname){
+function setTemplateIdAndName(id, tname) {
     tmplId = id;
     tmplName = tname;
 }
-function getTemplateId(){
+function getTemplateId() {
     return tmplId;
 }
-function getTemplateName(){
+function getTemplateName() {
     return tmplName;
+}
+
+function test() {
+    alert('test');
+}
+
+function deletePage() {
+    $('.ui.basic.modal')
+        .modal('show')
+        ;
+    // $(function () {
+    //     $('.ui basic modal').modal('show');
+    // });
+    // $(".ui basic modal").modal({
+    //     closable: true
+    // });
+    // document.getElementById("cont").innerHTML = "Delete Client Role " + rl + "?";
 }

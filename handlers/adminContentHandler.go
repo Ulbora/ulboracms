@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"strings"
 
 	sr "github.com/Ulbora/ulboracms/services"
 	"github.com/gorilla/mux"
@@ -33,6 +34,7 @@ func (h *CmsHandler) AdminNewContent(w http.ResponseWriter, r *http.Request) {
 		h.Log.Debug("loggedIn in new content: ", loggedInAuth)
 		if loggedInAuth == true {
 			name := r.FormValue("name")
+			name = strings.Replace(name, " ", "", -1)
 			h.Log.Debug("name in new content: ", name)
 
 			content := r.FormValue("content")
