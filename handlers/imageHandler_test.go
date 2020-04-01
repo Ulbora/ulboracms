@@ -102,7 +102,7 @@ func TestCmsHandler_AdminUploadImage(t *testing.T) {
 
 	body := new(bytes.Buffer)
 	writer := multipart.NewWriter(body)
-	part, err := writer.CreateFormFile("tempFile", fi.Name())
+	part, err := writer.CreateFormFile("image", fi.Name())
 	if err != nil {
 		fmt.Println("create form err: ", err)
 	}
@@ -164,7 +164,7 @@ func TestCmsHandler_AdminUploadImageFail(t *testing.T) {
 
 	body := new(bytes.Buffer)
 	writer := multipart.NewWriter(body)
-	part, err := writer.CreateFormFile("tempFile", fi.Name())
+	part, err := writer.CreateFormFile("image", fi.Name())
 	if err != nil {
 		fmt.Println("create form err: ", err)
 	}
@@ -226,7 +226,7 @@ func TestCmsHandler_AdminUploadImageNotLoggedIn(t *testing.T) {
 
 	body := new(bytes.Buffer)
 	writer := multipart.NewWriter(body)
-	part, err := writer.CreateFormFile("tempFile", fi.Name())
+	part, err := writer.CreateFormFile("image", fi.Name())
 	if err != nil {
 		fmt.Println("create form err: ", err)
 	}

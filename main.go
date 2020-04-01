@@ -95,6 +95,7 @@ func main() {
 	ccs.TemplateFilePath = "./static/templates"
 	ccs.ImagePath = "./static/images"
 	ccs.ImageFullPath = "http://localhost:8080/images"
+	ccs.TemplateFullPath = "http://localhost:8080/templates"
 	ccs.CaptchaHost = captchaHost
 
 	ccs.MailSender = &ms
@@ -127,6 +128,11 @@ func main() {
 	router.HandleFunc("/admin/addContent", h.AdminAddContent).Methods("GET")
 	router.HandleFunc("/admin/newContent", h.AdminNewContent).Methods("POST")
 	router.HandleFunc("/admin/updateContent", h.AdminUpdateContent).Methods("POST")
+	router.HandleFunc("/admin/imageList", h.AdminImageList).Methods("GET")
+	router.HandleFunc("/admin/deleteImage/{name}", h.AdminDeleteImage).Methods("GET")
+	router.HandleFunc("/admin/addImage", h.AdminAddImage).Methods("GET")
+	router.HandleFunc("/admin/uploadImage", h.AdminUploadImage).Methods("POST")
+	router.HandleFunc("/admin/templates", h.AdminTemplateList).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

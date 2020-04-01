@@ -3,38 +3,41 @@
 {{template "header"}}
 
 <body>
-    <div class="container-fluid content-list">
+    <div class="ui container">
         {{template "navbar"}}
-        <div class="content-title">
-            <h3>Template List</h3>
-        </div>
-        <div class="page-button">
-            <a class="btn btn-primary" href="/admin/addTemplate" role="button">Add Template</a>
-        </div>
-        <table class="table table-hover">
+        <h2 class="ui center aligned header">Template List</h2>
+        <a  href="/admin/addTemplate"><button class="ui primary button">
+            Add Template
+        </button></a>
+        
+        <table class="ui selectable celled table">
             <thead>
                 <tr>
+                    <th>Template</th>
                     <th>Name</th>
-                    <th>Active</th>
-                    <th></th>
+                    <th>Activate</th>
+                    <th>Remove</th>
 
                 </tr>
             </thead>
             <tbody>
                 {{range .}}
                 <tr>
+                    <td>
+                        <img class="ui medium image" src="{{.ScreenShot}}">
+                    </td>
                     <td>{{.Name}}</td>
                     {{if .Active}}
-                    <td></td>
+                    <td class="positive">Active</td>
                     {{else}}
-                    <td><a href="/admin/templateActive/{{.ID}}" class="btn btn-primary active" role="button" aria-pressed="true">Make Active</a></td>
+                    <td><a href="/admin/templateActive/{{.Name}}" class="btn btn-primary active" role="button" aria-pressed="true">Make Active</a></td>
                     {{end}} 
                     
                     {{if .Active}}
-                    <td></td>
+                    <td class="warning">Not Allowed</td>
                     {{else}}
                     <td>
-                    <button onclick="setTemplateIdAndName({{.ID}}, {{.Name}})" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                    <button onclick="setTemplateIdAndName({{.Name}}, {{.Name}})" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
                         Delete                                      
                       </button> {{end}}
                     </td>

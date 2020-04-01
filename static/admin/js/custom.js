@@ -71,3 +71,15 @@ function deletePage() {
     // });
     // document.getElementById("cont").innerHTML = "Delete Client Role " + rl + "?";
 }
+
+var imageName
+function setImageToDelete(name){
+    imageName = name;
+    $('.ui.basic.modal')
+    .modal('show')
+    ;
+}
+
+function getImageNameToDelete(){
+    return imageName;
+}

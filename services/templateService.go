@@ -2,13 +2,15 @@ package services
 
 import (
 	"encoding/json"
+	"path/filepath"
 	"sync"
 )
 
 //Template template
 type Template struct {
-	Name   string `json:"name"`
-	Active bool   `json:"active"`
+	Name       string `json:"name"`
+	Active     bool   `json:"active"`
+	ScreenShot string `json:"screenShot"`
 }
 
 var tmu sync.Mutex
@@ -74,6 +76,7 @@ func (c *CmsService) GetTemplateList() *[]Template {
 		err := json.Unmarshal((*res)[r], &t)
 		c.Log.Debug("found template in list: ", t)
 		if err == nil {
+			t.ScreenShot = c.TemplateFullPath + string(filepath.Separator) + t.Name + string(filepath.Separator) + "screenshot.png"
 			rtn = append(rtn, t)
 		}
 	}

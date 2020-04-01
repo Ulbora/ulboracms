@@ -19,7 +19,7 @@ const (
 	adminIndex      = "/admin/index"
 	adminGetContent = "/admin/getContent"
 	adminAddContent = "/admin/addContent"
-	adminImages     = "/admin/images"
+	adminImages     = "/admin/imageList"
 	adminTemplates  = "/admin/templates"
 	indexPage       = "/"
 

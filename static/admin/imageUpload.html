@@ -3,30 +3,25 @@
 {{template "header"}}
 
 <body>
-    <div class="container-fluid">
+    <div class="ui container">
         {{template "navbar"}}
-        <div class="content-title">
-            <h3>Upload Image</h3>
-        </div>        
-        <form class="form-submit" method="post" action="/admin/uploadImage" enctype="multipart/form-data">
-            <div class="input-group input-group-lg">
-                <span class="input-group-addon" id="basic-addon1">Image Name</span>
-                <input name="name" type="text" class="form-control" placeholder="Image Name" aria-label="Name" aria-describedby="sizing-addon1"
-                    required>
-            </div>
-            <br>
-
-
-            <div class="input-group">
-                <span class="input-group-addon" id="basic-addon1">Image File</span>
-                <input name="image" type="file" class="form-control" aria-describedby="sizing-addon2" required>
-            </div>
-            <br>           
-            <div class="form-submit">
-                <button class="btn" type="submit">Submit</button>
-            </div>
+        <h2 class="ui center aligned header">Upload New Image</h2>
+        <div class="ui segment">    
+        <form class="ui form" method="post" action="/admin/uploadImage" enctype="multipart/form-data">
+            <!-- <div class="field">
+                <label>Image Name</label>
+                <input name="name" type="text" placeholder="Name" value="" required>                
+            </div>            
+            <br> -->
+            <div class="field">
+                <label>Image Name</label>
+                <input name="image" type="file" required>                
+            </div> 
+            <br>   
+            <button class="ui button" type="submit">Submit</button>  
             <br>
         </form>
+    </div>  
     </div>
     <br>
 </body>

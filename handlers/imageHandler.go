@@ -32,19 +32,19 @@ func (h *CmsHandler) AdminUploadImage(w http.ResponseWriter, r *http.Request) {
 		loggedInAuth := s.Values["loggedIn"]
 		h.Log.Debug("loggedIn in new content: ", loggedInAuth)
 		if loggedInAuth == true {
-			name := r.FormValue("name")
-			h.Log.Debug("name in image upload: ", name)
 
 			mperr := r.ParseMultipartForm(2000000)
 			h.Log.Debug("ParseMultipartForm err: ", mperr)
 
-			file, handler, ferr := r.FormFile("tempFile")
+			file, handler, ferr := r.FormFile("image")
 			h.Log.Debug("image file err: ", ferr)
 			defer file.Close()
 			//h.Log.Debug("image file : ", *handler)
 
 			data, rferr := ioutil.ReadAll(file)
 			h.Log.Debug("read file  err: ", rferr)
+
+			h.Log.Debug("handler.Filename: ", handler.Filename)
 
 			suc := h.Service.AddImage(handler.Filename, data)
 
@@ -91,7 +91,7 @@ func (h *CmsHandler) AdminDeleteImage(w http.ResponseWriter, r *http.Request) {
 			suc := h.Service.DeleteImage(name)
 			h.Log.Debug("image delete in content delete: ", suc)
 
-			http.Redirect(w, r, adminIndex, http.StatusFound)
+			http.Redirect(w, r, adminImages, http.StatusFound)
 
 		} else {
 			http.Redirect(w, r, login, http.StatusFound)

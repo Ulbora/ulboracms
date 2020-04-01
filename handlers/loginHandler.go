@@ -12,6 +12,7 @@ func (h *CmsHandler) Login(w http.ResponseWriter, r *http.Request) {
 	loginErr := r.URL.Query().Get("error")
 	var lge LoginError
 	lge.Error = loginErr
+	h.Log.Debug("in login----")
 	h.AdminTemplates.ExecuteTemplate(w, admlogin, &lge)
 }
 
@@ -85,7 +86,11 @@ func (h *CmsHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
+		h.Log.Debug("loggedIn in before logout: ", s.Values["loggedIn"])
 		s.Values["loggedIn"] = false
+		serr := s.Save(r, w)
+		h.Log.Debug("serr", serr)
+		h.Log.Debug("loggedIn in after logout: ", s.Values["loggedIn"])
 		http.Redirect(w, r, login, http.StatusFound)
 	}
 }

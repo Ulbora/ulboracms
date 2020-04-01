@@ -49,6 +49,7 @@ type CmsService struct {
 	ContentStorePath   string
 	TemplateStorePath  string
 	TemplateFilePath   string
+	TemplateFullPath   string
 	MailSender         ml.Sender
 	Log                *lg.Logger
 	ImagePath          string
