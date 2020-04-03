@@ -19,7 +19,7 @@ func (h *CmsHandler) AdminTemplateList(w http.ResponseWriter, r *http.Request) {
 		if loggedInAuth == true {
 			h.Log.Debug("template: ", h.AdminTemplates)
 			res := h.Service.GetTemplateList()
-			h.Log.Debug("templates in admin template list: ", *res)
+			//h.Log.Debug("templates in admin template list: ", *res)
 			h.AdminTemplates.ExecuteTemplate(w, templateList, &res)
 		} else {
 			http.Redirect(w, r, login, http.StatusFound)
@@ -58,7 +58,7 @@ func (h *CmsHandler) AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
 			file, handler, ferr := r.FormFile("tempFile")
 			h.Log.Debug("template file err: ", ferr)
 			defer file.Close()
-			h.Log.Debug("template file : ", *handler)
+			//h.Log.Debug("template file : ", *handler)
 
 			data, rferr := ioutil.ReadAll(file)
 			h.Log.Debug("read file  err: ", rferr)
@@ -98,6 +98,9 @@ func (h *CmsHandler) AdminActivateTemplate(w http.ResponseWriter, r *http.Reques
 			vars := mux.Vars(r)
 			name := vars["name"]
 			res := h.Service.ActivateTemplate(name)
+			if res {
+				h.LoadTemplate()
+			}
 			h.Log.Debug("activate templates in admin: ", res)
 			http.Redirect(w, r, adminTemplates, http.StatusFound)
 		} else {

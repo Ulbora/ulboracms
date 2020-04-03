@@ -53,7 +53,7 @@ func (c *CmsService) AddContent(content *Content) *Response {
 	content.Text = b64.StdEncoding.EncodeToString([]byte(content.Text))
 	c.Log.Debug("content in add: ", *content)
 	ec := c.Store.Read(content.Name)
-	c.Log.Debug("found content in add: ", *ec)
+	//c.Log.Debug("found content in add: ", *ec)
 	if *ec == nil {
 		suc := c.Store.Save(content.Name, content)
 		rtn.Success = suc
@@ -124,7 +124,7 @@ func (c *CmsService) GetContent(name string) (bool, *Content) {
 func (c *CmsService) GetContentList(published bool) *[]Content {
 	var rtn []Content
 	res := c.Store.ReadAll()
-	c.Log.Debug("found content bytes in list: ", *res)
+	//c.Log.Debug("found content bytes in list: ", *res)
 	for r := range *res {
 		var ct Content
 		err := json.Unmarshal((*res)[r], &ct)

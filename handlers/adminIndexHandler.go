@@ -12,7 +12,7 @@ func (h *CmsHandler) AdminIndex(w http.ResponseWriter, r *http.Request) {
 		if loggedInAuth == true {
 			h.Log.Debug("template: ", h.AdminTemplates)
 			res := h.Service.GetContentList(false)
-			h.Log.Debug("content in admin index: ", *res)
+			//h.Log.Debug("content in admin index: ", *res)
 			h.AdminTemplates.ExecuteTemplate(w, admIndex, &res)
 		} else {
 			http.Redirect(w, r, login, http.StatusFound)

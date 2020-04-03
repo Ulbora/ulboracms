@@ -69,7 +69,7 @@ func (h *CmsHandler) AdminImageList(w http.ResponseWriter, r *http.Request) {
 		h.Log.Debug("loggedIn in add content: ", loggedInAuth)
 		if loggedInAuth == true {
 			res := h.Service.GetImageList()
-			h.Log.Debug("image list in images: ", *res)
+			//h.Log.Debug("image list in images: ", *res)
 			h.AdminTemplates.ExecuteTemplate(w, images, &res)
 		} else {
 			http.Redirect(w, r, login, http.StatusFound)

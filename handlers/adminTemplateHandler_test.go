@@ -165,7 +165,7 @@ func TestCmsHandler_AdminUploadTemplate(t *testing.T) {
 
 	h := ch.GetNew()
 
-	file, err := os.Open("../services/testUploads/testTxt.tar.gz")
+	file, err := os.Open("../services/testUploads/hestia.tar.gz")
 	if err != nil {
 		fmt.Println("file test template open err: ", err)
 	}
@@ -203,7 +203,7 @@ func TestCmsHandler_AdminUploadTemplate(t *testing.T) {
 	s.Values["loggedIn"] = true
 	s.Save(r, w)
 	h.AdminUploadTemplate(w, r)
-	fmt.Println("code: ", w.Code)
+	fmt.Println("code in upload: ", w.Code)
 
 	if w.Code != 302 {
 		t.Fail()
@@ -229,7 +229,7 @@ func TestCmsHandler_AdminUploadTemplateFail(t *testing.T) {
 
 	h := ch.GetNew()
 
-	file, err := os.Open("../services/testUploads/testTxt.tar.gz")
+	file, err := os.Open("../services/testUploads/hestia.tar.gz")
 	if err != nil {
 		fmt.Println("file test template open err: ", err)
 	}
@@ -293,7 +293,7 @@ func TestCmsHandler_AdminUploadTemplateNotLoggedIn(t *testing.T) {
 
 	h := ch.GetNew()
 
-	file, err := os.Open("../services/testUploads/testTxt.tar.gz")
+	file, err := os.Open("../services/testUploads/hestia.tar.gz")
 	if err != nil {
 		fmt.Println("file test template open err: ", err)
 	}
@@ -354,10 +354,12 @@ func TestCmsHandler_AdminActivateTemplate(t *testing.T) {
 	ci.TemplateStore = ds.GetNew()
 	ch.Service = ci.GetNew()
 
+	ch.ActiveTemplateLocation = "../services/testDownloads"
+
 	h := ch.GetNew()
 	r, _ := http.NewRequest("GET", "/test", nil)
 	vars := map[string]string{
-		"name": "testTxt",
+		"name": "hestia",
 	}
 	r = mux.SetURLVars(r, vars)
 	//r.Header.Set("Content-Type", "application/json")
@@ -393,7 +395,7 @@ func TestCmsHandler_AdminActivateTemplateNotLoggedIn(t *testing.T) {
 	h := ch.GetNew()
 	r, _ := http.NewRequest("GET", "/test", nil)
 	vars := map[string]string{
-		"name": "testTxt",
+		"name": "hestia",
 	}
 	r = mux.SetURLVars(r, vars)
 	//r.Header.Set("Content-Type", "application/json")
@@ -429,7 +431,7 @@ func TestCmsHandler_AdminDeleteTemplate(t *testing.T) {
 	h := ch.GetNew()
 	r, _ := http.NewRequest("GET", "/test", nil)
 	vars := map[string]string{
-		"name": "testTxt",
+		"name": "hestia",
 	}
 	r = mux.SetURLVars(r, vars)
 	//r.Header.Set("Content-Type", "application/json")
@@ -461,6 +463,8 @@ func TestCmsHandler_AdminActivateTemplate2(t *testing.T) {
 	ds.Path = "../services/testBackup/templateStore"
 	ci.TemplateStore = ds.GetNew()
 	ch.Service = ci.GetNew()
+
+	ch.ActiveTemplateLocation = "../services/testDownloads"
 
 	h := ch.GetNew()
 	r, _ := http.NewRequest("GET", "/test", nil)
@@ -502,7 +506,7 @@ func TestCmsHandler_AdminDeleteTemplate2(t *testing.T) {
 	h := ch.GetNew()
 	r, _ := http.NewRequest("GET", "/test", nil)
 	vars := map[string]string{
-		"name": "testTxt",
+		"name": "hestia",
 	}
 	r = mux.SetURLVars(r, vars)
 	//r.Header.Set("Content-Type", "application/json")
@@ -539,7 +543,7 @@ func TestCmsHandler_AdminDeleteTemplateNotLoggedIn(t *testing.T) {
 	h := ch.GetNew()
 	r, _ := http.NewRequest("GET", "/test", nil)
 	vars := map[string]string{
-		"name": "testTxt",
+		"name": "hestia",
 	}
 	r = mux.SetURLVars(r, vars)
 	//r.Header.Set("Content-Type", "application/json")

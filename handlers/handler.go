@@ -35,6 +35,7 @@ const (
 	templateUpload = "templateUpload.html"
 	index          = "index.html"
 	viewContent    = "viewContent.html"
+	backups        = "backups.html"
 )
 
 //Handler Handler
@@ -57,6 +58,9 @@ type Handler interface {
 	AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
 	AdminActivateTemplate(w http.ResponseWriter, r *http.Request)
 	AdminDeleteTemplate(w http.ResponseWriter, r *http.Request)
+	AdminBackup(w http.ResponseWriter, r *http.Request)
+	//AdminUploadBackups(w http.ResponseWriter, r *http.Request)
+	AdminDownloadBackups(w http.ResponseWriter, r *http.Request)
 	ContactFormSend(w http.ResponseWriter, r *http.Request)
 	ContactForm(w http.ResponseWriter, r *http.Request)
 	Index(w http.ResponseWriter, r *http.Request)
@@ -79,6 +83,7 @@ type CmsHandler struct {
 	ContactMailSubject       string
 	ActiveTemplateName       string
 	ActiveTemplateLocation   string
+	BackupFileName           string
 }
 
 //User User

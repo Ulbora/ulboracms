@@ -25,7 +25,7 @@ func (c *CmsService) AddTemplateFile(name string, originalFileName string, fileD
 	tpl.FileData = fileData
 	tpl.Name = name
 	tpl.OriginalFileName = originalFileName
-	c.Log.Debug("tpl in add: ", tpl)
+	//c.Log.Debug("tpl in add: ", tpl)
 	rtn = c.ExtractFile(&tpl)
 	//var templateName = c.TemplateFilePath + string(filepath.Separator) + name
 	//c.Log.Debug("template complete file name in add: ", templateName)
@@ -53,7 +53,7 @@ func (c *CmsService) AddTemplate(tpl *Template) bool {
 func (c *CmsService) GetActiveTemplateName() string {
 	var rtn string
 	res := c.TemplateStore.ReadAll()
-	c.Log.Debug("tpls template get active: ", *res)
+	//c.Log.Debug("tpls template get active: ", *res)
 	for r := range *res {
 		var t Template
 		err := json.Unmarshal((*res)[r], &t)
@@ -70,7 +70,7 @@ func (c *CmsService) GetActiveTemplateName() string {
 func (c *CmsService) GetTemplateList() *[]Template {
 	var rtn []Template
 	res := c.TemplateStore.ReadAll()
-	c.Log.Debug("tpls template get list: ", *res)
+	//c.Log.Debug("tpls template get list: ", *res)
 	for r := range *res {
 		var t Template
 		err := json.Unmarshal((*res)[r], &t)
@@ -87,7 +87,7 @@ func (c *CmsService) GetTemplateList() *[]Template {
 func (c *CmsService) ActivateTemplate(name string) bool {
 	var rtn bool
 	res := c.TemplateStore.ReadAll()
-	c.Log.Debug("tpls template get list: ", *res)
+	//c.Log.Debug("tpls template get list: ", *res)
 	for r := range *res {
 		var t Template
 		err := json.Unmarshal((*res)[r], &t)

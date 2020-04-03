@@ -5,6 +5,7 @@ import "html/template"
 //LoadTemplate LoadTemplate
 func (h *CmsHandler) LoadTemplate() {
 	h.ActiveTemplateName = h.Service.GetActiveTemplateName()
+	h.Log.Debug("ActiveTemplateName: ", h.ActiveTemplateName)
 
 	//var tperr error
 	// tp, tperr := template.ParseFiles("./static/templates/"+h.ActiveTemplateName+"/index.html", "./static/templates/"+h.ActiveTemplateName+"/header.html",

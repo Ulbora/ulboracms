@@ -133,6 +133,10 @@ func main() {
 	router.HandleFunc("/admin/addImage", h.AdminAddImage).Methods("GET")
 	router.HandleFunc("/admin/uploadImage", h.AdminUploadImage).Methods("POST")
 	router.HandleFunc("/admin/templates", h.AdminTemplateList).Methods("GET")
+	router.HandleFunc("/admin/addTemplate", h.AdminAddTemplate).Methods("GET")
+	router.HandleFunc("/admin/uploadTemplate", h.AdminUploadTemplate).Methods("POST")
+	router.HandleFunc("/admin/deleteTemplate/{name}", h.AdminDeleteTemplate).Methods("GET")
+	router.HandleFunc("/admin/templateActive/{name}", h.AdminActivateTemplate).Methods("GET")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

@@ -30,16 +30,22 @@
                     {{if .Active}}
                     <td class="positive">Active</td>
                     {{else}}
-                    <td><a href="/admin/templateActive/{{.Name}}" class="btn btn-primary active" role="button" aria-pressed="true">Make Active</a></td>
+                    <td>
+                        <!-- <a href="/admin/templateActive/{{.Name}}" class="btn btn-primary active" role="button" aria-pressed="true">Make Active</a> -->
+                        <a  href="/admin/templateActive/{{.Name}}"><button class="ui green button">
+                            Make Active
+                        </button></a>
+                    </td>
                     {{end}} 
                     
                     {{if .Active}}
                     <td class="warning">Not Allowed</td>
                     {{else}}
                     <td>
-                    <button onclick="setTemplateIdAndName({{.Name}}, {{.Name}})" type="button" class="btn btn-danger" data-toggle="modal" data-target="#deleteModal">
+                    <button  onclick="setTemplateToDelete({{.Name}})" class="ui red button">
                         Delete                                      
-                      </button> {{end}}
+                      </button> 
+                      {{end}}
                     </td>
                 </tr>
 
@@ -49,25 +55,26 @@
     </div>
 
     <!-- Modal -->
-    <div class="modal fade" id="deleteModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Delete</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-              </button>
-                </div>
-                <div class="modal-body">
-                    Delete this template
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                    <button type="button" class="btn btn-danger" onclick="location.href='/admin/deleteTemplate/' + getTemplateId() + '/' + getTemplateName();">Delete</button>
-                </div>
+    <div class="ui basic modal">
+        <div class="ui icon header">
+            <i class="delete icon"></i>
+            Delete This Template?
+        </div>
+        <div class="content">
+            <p>Do you want to delete this template completely?</p>
+        </div>
+        <div class="actions">
+            <div class="ui basic cancel inverted button">
+                <i class="remove icon"></i>
+                No
+            </div>
+            <div onclick="location.href='/admin/deleteTemplate/' + getTemplateNameToDelete()"
+                class="ui red ok inverted button">
+                <i class="checkmark icon"></i>
+                Yes
             </div>
         </div>
-    </div>
+    </div>    
 </body>
 {{template "footer"}}
 

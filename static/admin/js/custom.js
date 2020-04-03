@@ -72,7 +72,7 @@ function deletePage() {
     // document.getElementById("cont").innerHTML = "Delete Client Role " + rl + "?";
 }
 
-var imageName
+var imageName;
 function setImageToDelete(name){
     imageName = name;
     $('.ui.basic.modal')
@@ -82,4 +82,17 @@ function setImageToDelete(name){
 
 function getImageNameToDelete(){
     return imageName;
+}
+
+
+var templateName;
+function setTemplateToDelete(name){
+    templateName = name;
+    $('.ui.basic.modal')
+    .modal('show')
+    ;
+}
+
+function getTemplateNameToDelete(){
+    return templateName;
 }

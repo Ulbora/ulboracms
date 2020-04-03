@@ -119,7 +119,7 @@ func (c *CmsService) DownloadBackups() (bool, *[]byte) {
 			if !sfile.IsDir() {
 				c.Log.Debug("content store file: ", c.ContentStorePath+string(filepath.Separator)+sfile.Name())
 				fileData, rerr := ioutil.ReadFile(c.ContentStorePath + string(filepath.Separator) + sfile.Name())
-				c.Log.Debug("content store file data: ", fileData)
+				//c.Log.Debug("content store file data: ", fileData)
 				if rerr == nil {
 					var cbk BackupFile
 					cbk.Name = sfile.Name()
@@ -129,7 +129,7 @@ func (c *CmsService) DownloadBackups() (bool, *[]byte) {
 				}
 			}
 		}
-		c.Log.Debug("content store file list: ", contStoreFiles)
+		//c.Log.Debug("content store file list: ", contStoreFiles)
 		bkfs.ContentStoreFiles = &contStoreFiles
 	}
 
@@ -214,7 +214,7 @@ func (c *CmsService) DownloadBackups() (bool, *[]byte) {
 	}
 
 	compressedData := b.Bytes()
-	c.Log.Debug("backup file compressedData: ", compressedData)
+	//c.Log.Debug("backup file compressedData: ", compressedData)
 
 	return rtn, &compressedData
 }

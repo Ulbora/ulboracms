@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="container">
+        {{template "navbar"}}
+        <div class="content-title">
+            <h3>Contact</h3>
+        </div>       
+        <form class="form-submit" method="post" action="/contact/send">            
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Email Address</span>
+                <input name="fromEmail" type="email" class="form-control" placeholder="yourMail@gmail.com" aria-label="fromEmail" aria-describedby="sizing-addon1"
+                     required>
+            </div>            
+            <br>  
+            <div class="input-group">
+                <span class="input-group-addon" id="basic-addon1">Message</span>
+                <textarea name="text" class="form-control" rows="3" placeholder="Your message" aria-label="Your message" aria-describedby="sizing-addon1" required></textarea>
+            </div>
+            <br>      
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Challenge</span>
+                <input name="question" disabled type="text" class="form-control"  aria-label="fromEmail" aria-describedby="sizing-addon1" value="{{.Question}}">
+            </div>   
+            <br>
+            <div class="input-group input-group-lg">
+                <span class="input-group-addon" id="basic-addon1">Answer</span>
+                <input name="answer" type="text" class="form-control" placeholder="" aria-label="answer" aria-describedby="sizing-addon1"
+                         required>
+            </div>            
+            <br>  
+            <input name="key" type="hidden" value="{{.Key}}">
+            <div class="form-submit">
+                <button class="btn btn-secondary" type="submit">Submit</button>
+            </div>
+            <br>
+        </form>
+    </div>
+    <br>   
+</body>
+{{template "footer"}}
+
+</html>
