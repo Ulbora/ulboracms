@@ -48,19 +48,19 @@ func (h *CmsHandler) AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
-		h.Log.Debug("loggedIn in upload template: ", loggedInAuth)
-		if loggedInAuth == true {
+		tloggedInAuth := s.Values["loggedIn"]
+		h.Log.Debug("loggedIn in upload template: ", tloggedInAuth)
+		if tloggedInAuth == true {
 
 			mperr := r.ParseMultipartForm(2000000)
 			h.Log.Debug("ParseMultipartForm err: ", mperr)
 
-			file, handler, ferr := r.FormFile("tempFile")
+			tfile, handler, ferr := r.FormFile("tempFile")
 			h.Log.Debug("template file err: ", ferr)
-			defer file.Close()
+			defer tfile.Close()
 			//h.Log.Debug("template file : ", *handler)
 
-			data, rferr := ioutil.ReadAll(file)
+			data, rferr := ioutil.ReadAll(tfile)
 			h.Log.Debug("read file  err: ", rferr)
 
 			i := strings.Index(handler.Filename, ".")
