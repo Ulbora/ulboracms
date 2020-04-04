@@ -30,6 +30,11 @@
                             <textarea id="content-area" name="content" required>{{.Cont.Text}}</textarea>
                             <br>
                             <div class="field">
+                                <label>Name</label>
+                                <input name="namedis" type="text" disabled placeholder="Title" value="{{.Cont.Name}}">
+                            </div>
+                            <br>
+                            <div class="field">
                                 <label>Published</label>
                                 <input name="visible" type="checkbox" {{if .Cont.Visible}} checked {{end}}>
                                 </span>
