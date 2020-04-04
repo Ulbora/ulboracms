@@ -1,6 +1,9 @@
 package handlers
 
-import "net/http"
+import (
+	"net/http"
+	"sort"
+)
 
 //AdminIndex  AdminIndex
 func (h *CmsHandler) AdminIndex(w http.ResponseWriter, r *http.Request) {
@@ -12,7 +15,10 @@ func (h *CmsHandler) AdminIndex(w http.ResponseWriter, r *http.Request) {
 		if loggedInAuth == true {
 			h.Log.Debug("template: ", h.AdminTemplates)
 			res := h.Service.GetContentList(false)
-			//h.Log.Debug("content in admin index: ", *res)
+			sort.Slice(*res, func(p, q int) bool {
+				return (*res)[p].Title < (*res)[q].Title
+			})
+			h.Log.Debug("content in admin index sorted: ", *res)
 			h.AdminTemplates.ExecuteTemplate(w, admIndex, &res)
 		} else {
 			http.Redirect(w, r, login, http.StatusFound)

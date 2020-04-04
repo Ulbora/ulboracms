@@ -2,6 +2,7 @@ package handlers
 
 import (
 	"net/http"
+	"sort"
 
 	sr "github.com/Ulbora/ulboracms/services"
 	"github.com/gorilla/mux"
@@ -29,6 +30,10 @@ func (h *CmsHandler) Index(w http.ResponseWriter, r *http.Request) {
 		_, ires := h.Service.GetContent(name)
 		h.Log.Debug("content in user index page ", name, " :", *ires)
 		clist := h.Service.GetContentList(true)
+		sort.Slice(*clist, func(p, q int) bool {
+			return (*clist)[p].CreateDate.After((*clist)[q].CreateDate)
+		})
+		h.Log.Debug("content list in user index page ", *clist)
 		var pg pageList
 		pg.ContList = clist
 		if ires.Visible {
