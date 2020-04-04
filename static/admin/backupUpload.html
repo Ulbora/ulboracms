@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+    <div class="ui container">
+        {{template "navbar"}}
+        <h2 class="ui center aligned header">Restore Your Site</h2>
+        <div class="ui warning message">
+            <div class="header">
+              Danger!
+            </div>
+            Uploading a backup file will overwrite all current content, images, and templates and restore them from the backup file.
+          </div>
+        <div class="ui segment">    
+        <form class="ui form" method="post" action="/admin/uploadBackup" enctype="multipart/form-data">            
+            <div class="field">
+                <label>Backup File</label>
+                <input name="backupFile" type="file" required>                
+            </div> 
+            <br>   
+            <button class="ui primary button" type="submit">Submit</button>  
+            <br>
+        </form>
+    </div>  
+    </div>
+    <br>
+</body>
+{{template "footer"}}
+
+</html>

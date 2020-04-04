@@ -1,6 +1,7 @@
 package handlers
 
 import (
+	"io/ioutil"
 	"net/http"
 )
 
@@ -13,6 +14,21 @@ func (h *CmsHandler) AdminBackup(w http.ResponseWriter, r *http.Request) {
 		h.Log.Debug("loggedIn in backups: ", loggedInAuth)
 		if loggedInAuth == true {
 			h.AdminTemplates.ExecuteTemplate(w, backups, nil)
+		} else {
+			http.Redirect(w, r, login, http.StatusFound)
+		}
+	}
+}
+
+//AdminBackupUpload AdminBackupUpload
+func (h *CmsHandler) AdminBackupUpload(w http.ResponseWriter, r *http.Request) {
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc", suc)
+	if suc {
+		loggedInAuth := s.Values["loggedIn"]
+		h.Log.Debug("loggedIn in backups: ", loggedInAuth)
+		if loggedInAuth == true {
+			h.AdminTemplates.ExecuteTemplate(w, backupUpload, nil)
 		} else {
 			http.Redirect(w, r, login, http.StatusFound)
 		}
@@ -35,7 +51,7 @@ func (h *CmsHandler) AdminDownloadBackups(w http.ResponseWriter, r *http.Request
 				w.Write(*file)
 				//var buf = bytes.NewBuffer(*file)
 				//io.Copy(w, buf)
-				w.WriteHeader(http.StatusOK)
+				//w.WriteHeader(http.StatusOK)
 				// out, err := os.Create(h.BackupFileName)
 				// if err == nil {
 				// 	defer out.Close()
@@ -43,7 +59,44 @@ func (h *CmsHandler) AdminDownloadBackups(w http.ResponseWriter, r *http.Request
 				// _, err = io.Copy(out, resp.Body)
 				// }
 			}
+			//http.Redirect(w, r, adminBackups, http.StatusFound)
 			//h.AdminTemplates.ExecuteTemplate(w, backups, nil)
+		} else {
+			http.Redirect(w, r, login, http.StatusFound)
+		}
+	}
+}
+
+//AdminUploadBackups AdminUploadBackups
+func (h *CmsHandler) AdminUploadBackups(w http.ResponseWriter, r *http.Request) {
+	s, suc := h.getSession(r)
+	h.Log.Debug("session suc", suc)
+	if suc {
+		bkloggedInAuth := s.Values["loggedIn"]
+		h.Log.Debug("loggedIn in new content: ", bkloggedInAuth)
+		if bkloggedInAuth == true {
+
+			bkerr := r.ParseMultipartForm(2000000)
+			h.Log.Debug("ParseMultipartForm err: ", bkerr)
+
+			file, handler, ferr := r.FormFile("backupFile")
+			h.Log.Debug("backup file err: ", ferr)
+			defer file.Close()
+			//h.Log.Debug("image file : ", *handler)
+
+			bkdata, rferr := ioutil.ReadAll(file)
+			h.Log.Debug("read file  err: ", rferr)
+
+			h.Log.Debug("handler.Filename: ", handler.Filename)
+
+			suc := h.Service.UploadBackups(&bkdata)
+
+			if suc {
+				http.Redirect(w, r, adminBackups, http.StatusFound)
+			} else {
+				h.Log.Debug("backup upload of " + handler.Filename + " failed")
+				http.Redirect(w, r, adminBackups, http.StatusFound)
+			}
 		} else {
 			http.Redirect(w, r, login, http.StatusFound)
 		}

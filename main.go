@@ -69,7 +69,8 @@ func main() {
 		"./static/admin/footer.html", "./static/admin/navbar.html", "./static/admin/contentNavbar.html",
 		"./static/admin/addContent.html", "./static/admin/images.html", "./static/admin/templates.html",
 		"./static/admin/updateContent.html", "./static/admin/mailServer.html", "./static/admin/templateUpload.html",
-		"./static/admin/imageUpload.html", "./static/admin/login.html"))
+		"./static/admin/imageUpload.html", "./static/admin/login.html", "./static/admin/backups.html",
+		"./static/admin/backupUpload.html"))
 
 	ch.Log = &l
 	ch.User = &u
@@ -104,6 +105,8 @@ func main() {
 
 	ch.ActiveTemplateLocation = "./static/templates"
 
+	ch.BackupFileName = "CmsBackup.dat"
+
 	ch.LoadTemplate()
 
 	router := mux.NewRouter()
@@ -137,6 +140,10 @@ func main() {
 	router.HandleFunc("/admin/uploadTemplate", h.AdminUploadTemplate).Methods("POST")
 	router.HandleFunc("/admin/deleteTemplate/{name}", h.AdminDeleteTemplate).Methods("GET")
 	router.HandleFunc("/admin/templateActive/{name}", h.AdminActivateTemplate).Methods("GET")
+	router.HandleFunc("/admin/backups", h.AdminBackup).Methods("GET")
+	router.HandleFunc("/admin/downloadBackup", h.AdminDownloadBackups).Methods("GET")
+	router.HandleFunc("/admin/backupUpload", h.AdminBackupUpload).Methods("GET")
+	router.HandleFunc("/admin/uploadBackup", h.AdminUploadBackups).Methods("POST")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 

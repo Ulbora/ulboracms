@@ -21,6 +21,7 @@ const (
 	adminAddContent = "/admin/addContent"
 	adminImages     = "/admin/imageList"
 	adminTemplates  = "/admin/templates"
+	adminBackups    = "/admin/backups"
 	indexPage       = "/"
 
 	//pages
@@ -36,6 +37,7 @@ const (
 	index          = "index.html"
 	viewContent    = "viewContent.html"
 	backups        = "backups.html"
+	backupUpload   = "backupUpload.html"
 )
 
 //Handler Handler
@@ -59,7 +61,8 @@ type Handler interface {
 	AdminActivateTemplate(w http.ResponseWriter, r *http.Request)
 	AdminDeleteTemplate(w http.ResponseWriter, r *http.Request)
 	AdminBackup(w http.ResponseWriter, r *http.Request)
-	//AdminUploadBackups(w http.ResponseWriter, r *http.Request)
+	AdminBackupUpload(w http.ResponseWriter, r *http.Request)
+	AdminUploadBackups(w http.ResponseWriter, r *http.Request)
 	AdminDownloadBackups(w http.ResponseWriter, r *http.Request)
 	ContactFormSend(w http.ResponseWriter, r *http.Request)
 	ContactForm(w http.ResponseWriter, r *http.Request)
