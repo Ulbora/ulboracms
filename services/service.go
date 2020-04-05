@@ -5,6 +5,7 @@ import (
 	"io"
 	"os"
 	"path/filepath"
+	"sync"
 
 	lg "github.com/Ulbora/Level_Logger"
 	ml "github.com/Ulbora/go-mail-sender"
@@ -40,6 +41,8 @@ type Service interface {
 
 	UploadBackups(bk *[]byte) bool
 	DownloadBackups() (bool, *[]byte)
+
+	HitCheck()
 }
 
 //CmsService service
@@ -58,11 +61,16 @@ type CmsService struct {
 	MockCaptcha        bool
 	MockCaptchaSuccess bool
 	MockCaptchaCode    int
+	HitTotal           int
+	ContentHits        map[string]int64
+	HitLimit           int
+	hitmu              sync.Mutex
 }
 
 //GetNew GetNew
 func (c *CmsService) GetNew() Service {
 	var cs Service
+	c.ContentHits = make(map[string]int64)
 	cs = c
 	return cs
 }

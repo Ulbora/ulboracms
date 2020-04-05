@@ -113,6 +113,11 @@ func (c *CmsService) GetContent(name string) (bool, *Content) {
 					cd.UseModifiedDate = true
 				}
 				rtn = cd
+				c.HitTotal++
+				c.ContentHits[name]++
+				// if c.HitTotal >= c.HitLimit {
+				// 	c.SaveHits()
+				// }
 				suc = true
 			}
 		}
@@ -159,4 +164,30 @@ func (c *CmsService) DeleteContent(name string) *Response {
 		rtn.Name = name
 	}
 	return rtn
+}
+
+//SaveHits SaveHits
+func (c *CmsService) saveHits() {
+	c.hitmu.Lock()
+	defer c.hitmu.Unlock()
+	for n, h := range c.ContentHits {
+		c.Log.Debug("found content name in content hits loop: ", n)
+		suc, ct := c.GetContent(n)
+		c.Log.Debug("found content suc in content hits loop: ", suc)
+		c.Log.Debug("found content suc in content hits loop: ", *ct)
+		if suc {
+			ct.Hits += h
+			res := c.UpdateContent(ct)
+			c.Log.Debug("update content in content hits loop: ", *res)
+			c.ContentHits[n] = 0
+		}
+	}
+	c.HitTotal = 0
+}
+
+//HitCheck HitCheck
+func (c *CmsService) HitCheck() {
+	if c.HitTotal >= c.HitLimit {
+		c.saveHits()
+	}
 }

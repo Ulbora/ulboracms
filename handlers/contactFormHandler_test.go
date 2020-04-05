@@ -19,7 +19,7 @@ func TestCmsHandler_ContactForm(t *testing.T) {
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
-	ch.AdminTemplates = template.Must(template.ParseFiles("testHtmls/test.html"))
+	ch.Templates = template.Must(template.ParseFiles("testHtmls/test.html"))
 
 	var ci sr.CmsService
 	ci.ContentStorePath = "../services/testBackup/contentStore"
@@ -52,7 +52,7 @@ func TestCmsHandler_ContactFormSend(t *testing.T) {
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
-	ch.AdminTemplates = template.Must(template.ParseFiles("testHtmls/test.html"))
+	ch.Templates = template.Must(template.ParseFiles("testHtmls/test.html"))
 
 	ch.ContactMailSenderAddress = "someSender@test.com"
 	ch.ContactMailSubject = "Ulbora CMS V3 message"

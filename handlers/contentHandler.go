@@ -51,6 +51,10 @@ func (h *CmsHandler) Index(w http.ResponseWriter, r *http.Request) {
 				pg.MetaKeyWords = (*clist)[0].MetaKeyWords
 			}
 		}
+		h.Service.HitCheck()
+		// if c.HitTotal >= c.HitLimit {
+		// 	c.SaveHits()
+		// }
 		//h.Log.Debug("content in index: ", *clist)
 		//h.Log.Debug("content in pg: ", *pg.Cont)
 		h.Templates.ExecuteTemplate(w, index, &pg)

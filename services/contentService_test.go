@@ -88,7 +88,20 @@ func TestContentService_GetContent(t *testing.T) {
 	suc, res := cs.GetContent("books1")
 	fmt.Println("get Content suc: ", suc)
 	fmt.Println("get Content: ", res)
-	if !suc || res.Text != "some book text test stuff" {
+	fmt.Println("get Content total hits: ", c.HitTotal)
+	fmt.Println("get Content books1 hits: ", c.ContentHits["books1"])
+	if !suc || res.Text != "some book text test stuff" || c.HitTotal != 1 || c.ContentHits["books1"] != 1 {
+		t.Fail()
+	}
+}
+
+func TestContentService_GetContent2(t *testing.T) {
+	suc, res := cs.GetContent("books1")
+	fmt.Println("get Content suc: ", suc)
+	fmt.Println("get Content: ", res)
+	fmt.Println("get Content total hits: ", c.HitTotal)
+	fmt.Println("get Content books1 hits: ", c.ContentHits["books1"])
+	if !suc || res.Text != "some book text test stuff" || c.HitTotal != 2 || c.ContentHits["books1"] != 2 {
 		t.Fail()
 	}
 }
@@ -132,4 +145,55 @@ func TestContentService_DeleteContent2(t *testing.T) {
 	if res.Success {
 		t.Fail()
 	}
+}
+
+func TestCmsService_SaveHits(t *testing.T) {
+	var cmsc CmsService
+
+	var ds ds.DataStore
+	ds.Path = "./testFiles"
+	cmsc.Store = ds.GetNew()
+
+	var l lg.Logger
+	l.LogLevel = lg.AllLevel
+	cmsc.Log = &l
+
+	cmsc.HitLimit = 4
+	cmsc.HitTotal = 4
+
+	cmss := cmsc.GetNew()
+
+	var ct Content
+	ct.Name = "books100"
+	ct.Author = "ken"
+	ct.MetaAuthorName = "ken"
+	ct.MetaDesc = "a book"
+	ct.Text = "some book text"
+	ct.Title = "the best book ever"
+	ct.Visible = true
+	res := cmss.AddContent(&ct)
+
+	ct.Name = "books200"
+	res2 := cmss.AddContent(&ct)
+
+	fmt.Println("add in save hits: ", res.Success)
+	fmt.Println("add in save hits2: ", res2.Success)
+	cmsc.ContentHits["books100"] = 4
+	cmsc.ContentHits["books200"] = 1
+
+	cmss.HitCheck()
+
+	// if cmsc.HitTotal >= cmsc.HitLimit {
+	// 	cmss.SaveHits()
+	// }
+	_, b1 := cmss.GetContent("books100")
+	fmt.Println("b1: ", *b1)
+	fmt.Println("b1.Hits: ", b1.Hits)
+	fmt.Println("cmsc.HitTotal: ", cmsc.HitTotal)
+	if cmsc.HitTotal != 1 || b1.Hits != 4 {
+		t.Fail()
+	}
+	cmss.DeleteContent("books100")
+	cmss.DeleteContent("books200")
+
 }
