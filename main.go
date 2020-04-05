@@ -146,6 +146,8 @@ func main() {
 	h := ch.GetNew()
 	router.HandleFunc("/", h.Index).Methods("GET")
 	router.HandleFunc("/{name}", h.Index).Methods("GET")
+	router.HandleFunc("/contact/form", h.ContactForm).Methods("GET")
+	router.HandleFunc("/contact/send", h.ContactFormSend).Methods("POST")
 
 	router.HandleFunc("/admin/login", h.Login).Methods("GET")
 	router.HandleFunc("/admin/loginUser", h.LoginUser).Methods("POST")
@@ -155,6 +157,7 @@ func main() {
 	router.HandleFunc("/admin/addContent", h.AdminAddContent).Methods("GET")
 	router.HandleFunc("/admin/newContent", h.AdminNewContent).Methods("POST")
 	router.HandleFunc("/admin/updateContent", h.AdminUpdateContent).Methods("POST")
+	router.HandleFunc("/admin/deleteContent/{name}", h.AdminDeleteContent).Methods("GET")
 	router.HandleFunc("/admin/imageList", h.AdminImageList).Methods("GET")
 	router.HandleFunc("/admin/deleteImage/{name}", h.AdminDeleteImage).Methods("GET")
 	router.HandleFunc("/admin/addImage", h.AdminAddImage).Methods("GET")
