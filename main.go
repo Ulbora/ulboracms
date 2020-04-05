@@ -22,6 +22,10 @@ func main() {
 	var captchaHost string
 	var contactMailSenderAddress string
 	var cantactMailSubject string
+	var mailHost string
+	var mailUser string
+	var mailPassword string
+	var mailPort string
 
 	if os.Getenv("CMS_USERNAME") != "" {
 		u.Username = os.Getenv("CMS_USERNAME")
@@ -41,6 +45,22 @@ func main() {
 
 	if os.Getenv("CMS_CAPTCHA_DATA_SITE_KEY") != "" {
 		captchaDataSiteKey = os.Getenv("CMS_CAPTCHA_DATA_SITE_KEY")
+	}
+
+	if os.Getenv("EMAIL_HOST") != "" {
+		mailHost = os.Getenv("EMAIL_HOST")
+	}
+
+	if os.Getenv("EMAIL_USER") != "" {
+		mailUser = os.Getenv("EMAIL_USER")
+	}
+
+	if os.Getenv("EMAIL_PASSWORD") != "" {
+		mailPassword = os.Getenv("EMAIL_PASSWORD")
+	}
+
+	if os.Getenv("EMAIL_PORT") != "" {
+		mailPort = os.Getenv("EMAIL_PORT")
 	}
 
 	if os.Getenv("CONTACT_MAIL_SENDER_ADDRESS") != "" {
@@ -63,6 +83,10 @@ func main() {
 	l.LogLevel = lg.AllLevel
 
 	var ms ml.SecureSender
+	ms.MailHost = mailHost
+	ms.User = mailUser
+	ms.Password = mailPassword
+	ms.Port = mailPort
 
 	var ch han.CmsHandler
 	ch.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html", "./static/admin/header.html",
