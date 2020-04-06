@@ -42,6 +42,8 @@ type Service interface {
 	UploadBackups(bk *[]byte) bool
 	DownloadBackups() (bool, *[]byte)
 
+	SaveHits()
+
 	HitCheck()
 }
 

@@ -1,11 +1,15 @@
 package main
 
 import (
+	"context"
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"os"
+	"os/signal"
 	"strconv"
+	"time"
 
 	lg "github.com/Ulbora/Level_Logger"
 	ml "github.com/Ulbora/go-mail-sender"
@@ -119,11 +123,10 @@ func main() {
 
 	ccs.TemplateFilePath = "./static/templates"
 	ccs.ImagePath = "./static/images"
-	ccs.ImageFullPath = "http://localhost:8080/images"
-	ccs.TemplateFullPath = "http://localhost:8080/templates"
 	ccs.CaptchaHost = captchaHost
 
 	ccs.MailSender = &ms
+	ccs.HitLimit = 10
 
 	ch.Service = ccs.GetNew()
 
@@ -134,6 +137,7 @@ func main() {
 	ch.LoadTemplate()
 
 	router := mux.NewRouter()
+
 	port := "8080"
 	envPort := os.Getenv("PORT")
 	if envPort != "" {
@@ -141,6 +145,14 @@ func main() {
 		if portInt != 0 {
 			port = envPort
 		}
+	}
+	srv := &http.Server{
+		Addr: "0.0.0.0:" + port,
+		// Good practice to set timeouts to avoid Slowloris attacks.
+		WriteTimeout: time.Second * 15,
+		ReadTimeout:  time.Second * 15,
+		IdleTimeout:  time.Second * 60,
+		Handler:      router, // Pass our instance of gorilla/mux in.
 	}
 
 	h := ch.GetNew()
@@ -175,7 +187,33 @@ func main() {
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
 	fmt.Println("Ulbora CMS is Running on Port " + port)
-	http.ListenAndServe(":"+port, router)
+	go func() {
+		if err := srv.ListenAndServe(); err != nil {
+			log.Println(err)
+		}
+	}()
+
+	c := make(chan os.Signal, 1)
+	// We'll accept graceful shutdowns when quit via SIGINT (Ctrl+C)
+	// SIGKILL, SIGQUIT or SIGTERM (Ctrl+/) will not be caught.
+	signal.Notify(c, os.Interrupt)
+
+	// Block until we receive our signal.
+	<-c
+
+	// Create a deadline to wait for.
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second*15)
+	defer cancel()
+
+	// Doesn't block if no connections, but will otherwise wait
+	// until the timeout deadline.
+	srv.Shutdown(ctx)
+
+	ccs.SaveHits()
+	log.Println("shutting down")
+	//time.Sleep(10 * time.Second)
+	log.Println("Exit")
+	os.Exit(0)
 
 }
 

@@ -76,7 +76,7 @@ func (c *CmsService) GetTemplateList() *[]Template {
 		err := json.Unmarshal((*res)[r], &t)
 		c.Log.Debug("found template in list: ", t)
 		if err == nil {
-			t.ScreenShot = c.TemplateFullPath + string(filepath.Separator) + t.Name + string(filepath.Separator) + "screenshot.png"
+			t.ScreenShot = ".." + string(filepath.Separator) + "templates" + string(filepath.Separator) + t.Name + string(filepath.Separator) + "screenshot.png"
 			rtn = append(rtn, t)
 		}
 	}

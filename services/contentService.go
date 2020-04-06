@@ -167,7 +167,7 @@ func (c *CmsService) DeleteContent(name string) *Response {
 }
 
 //SaveHits SaveHits
-func (c *CmsService) saveHits() {
+func (c *CmsService) SaveHits() {
 	c.hitmu.Lock()
 	defer c.hitmu.Unlock()
 	for n, h := range c.ContentHits {
@@ -187,7 +187,9 @@ func (c *CmsService) saveHits() {
 
 //HitCheck HitCheck
 func (c *CmsService) HitCheck() {
+	c.Log.Debug("in hitCheck c.HitLimit: ", c.HitLimit)
+	c.Log.Debug("in hitCheck c.HitTotal: ", c.HitTotal)
 	if c.HitTotal >= c.HitLimit {
-		c.saveHits()
+		c.SaveHits()
 	}
 }

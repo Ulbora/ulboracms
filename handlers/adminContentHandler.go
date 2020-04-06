@@ -103,11 +103,12 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 			visible := r.FormValue("visible")
 			h.Log.Debug("visible in new content: ", visible)
 
-			var ct sr.Content
+			_, ct := h.Service.GetContent(uname)
+
 			ct.Author = uauthor
 			ct.MetaDesc = umetaDesc
 			ct.MetaKeyWords = umetaKeyWords
-			ct.Name = uname
+
 			ct.Title = utitle
 			ct.Text = ucontent
 			if uarchived == "on" {
@@ -122,7 +123,7 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 				ct.Visible = false
 			}
 
-			res := h.Service.UpdateContent(&ct)
+			res := h.Service.UpdateContent(ct)
 			if res.Success {
 				http.Redirect(w, r, adminIndex, http.StatusFound)
 			} else {
