@@ -39,7 +39,7 @@ func (c *CmsService) GetImageList() *[]Image {
 			if !ifile.IsDir() {
 				//fmt.Println("sfile: ", sfile)
 				var imgfile Image
-				imgfile.Name = ifile.Name()				
+				imgfile.Name = ifile.Name()
 				imgfile.ImageURL = ".." + string(filepath.Separator) + ".." + string(filepath.Separator) + "images" + string(filepath.Separator) + ifile.Name()
 				c.Log.Debug("image ImageURL in list: ", imgfile.ImageURL)
 				rtn = append(rtn, imgfile)
