@@ -1,0 +1,246 @@
+@import "body.less";
+
+header.masthead {
+    padding-top: 10rem;
+    padding-bottom: calc(10rem - 4.5rem);
+    background: linear-gradient(to bottom, rgba(92, 77, 66, 0.8) 0%, rgba(92, 77, 66, 0.8) 100%), url("../images/bg-masthead.jpg");
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: scroll;
+    background-size: cover;
+}
+
+header.masthead h1 {
+    font-size: 2.25rem;
+}
+
+@media (min-width: 992px) {
+    header.masthead {
+        height: 100vh;
+        min-height: 40rem;
+        padding-top: 4.5rem;
+        padding-bottom: 0;
+    }
+
+    header.masthead p {
+        font-size: 1.15rem;
+    }
+
+    header.masthead h1 {
+        font-size: 3rem;
+    }
+}
+
+@media (min-width: 1200px) {
+    header.masthead h1 {
+        font-size: 3.5rem;
+    }
+}
+
+
+
+.btn {
+    font-family: "Merriweather Sans", -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji";
+}
+
+.btn-xl {
+    padding: 1.25rem 2.25rem;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    border: none;
+    border-radius: 10rem;
+}
+
+.header-bar {
+    width: 100%;
+
+    @media (min-width: 1024px) {
+        height: 100px;
+    }
+
+    @media (max-width: 1024px) {
+        height: 100px;
+    }
+
+    @media (max-width: 768px) {
+        height: 50px;
+        font-size: 14pt;
+    }
+
+    @media (max-width: 480px) {
+        height: 40px;
+    }
+}
+
+.header-wrapper {
+    background: white;
+    padding: 1% 0 1% 0;
+}
+
+.logo {
+    img {
+        max-width: 10%;
+    }
+
+    display: inline;
+    padding: 0 0 0 1%;
+}
+
+.twitter {
+    float: right;
+    margin: 0 1% 0 0;
+
+}
+
+.linkedin {
+    float: right;
+    margin: 0 3% 0 0;
+
+}
+
+.content-bar1 {
+    border-bottom: 2px solid;
+    border-color: green;
+
+    @media (min-width: 1024px) {
+        height: 800px;
+        font-size: 20pt;
+    }
+
+    @media (max-width: 1024px) {
+        height: 800px;
+        font-size: 18pt;
+    }
+
+    @media (max-width: 768px) {
+        height: 600px;
+        font-size: 14pt;
+    }
+
+    @media (max-width: 480px) {
+        height: 600px;
+        font-size: 12pt;
+    }
+
+}
+
+
+.content-bar2 {
+
+    border-bottom: 2px solid;
+    border-color: green;
+
+    @media (min-width: 1024px) {
+        height: 600px;
+        font-size: 14pt;
+    }
+
+    @media (max-width: 1024px) {
+        height: 600px;
+        font-size: 14pt;
+    }
+
+    @media (max-width: 768px) {
+        height: 400px;
+        font-size: 14pt;
+    }
+
+    @media (max-width: 480px) {
+        font-size: 12pt;
+        height: 400px;
+    }
+
+}
+
+
+.download-page {
+
+    a:link {
+        text-decoration: underline;
+    }
+
+    a:visited {
+        text-decoration: underline;
+    }
+
+    @media (min-width: 1024px) {
+        height: 600px;
+        font-size: 20pt;
+    }
+
+    @media (max-width: 1024px) {
+        height: 600px;
+        font-size: 18pt;
+    }
+
+    @media (max-width: 768px) {
+        height: 400px;
+        font-size: 14pt;
+    }
+
+    @media (max-width: 480px) {
+        height: 400px;
+        font-size: 12pt;
+    }
+}
+
+.main-page {
+
+    a:link {
+        text-decoration: underline;
+    }
+
+    a:visited {
+        text-decoration: underline;
+    }
+
+    @media (min-width: 1024px) {
+        width: 80%;
+        margin: 0 0 0 10%;
+        height: 600px;
+        font-size: 20pt;
+    }
+
+    @media (max-width: 1024px) {
+        width: 80%;
+        margin: 0 0 0 10%;
+        height: 600px;
+        font-size: 18pt;
+    }
+
+    @media (max-width: 768px) {
+        width: 100%;
+        margin: 0 0 0 0;
+        height: 400px;
+        font-size: 14pt;
+        border-radius: 0px;
+    }
+
+    @media (max-width: 480px) {
+        width: 100%;
+        margin: 0 0 0 0;
+        height: 400px;
+        font-size: 12pt;
+        border-radius: 0px;
+    }
+
+}
+
+.content-title {
+    text-align: center;
+    width: 100%;
+    padding: 2% 0 1% 0;
+}
+
+.form-submit {
+    text-align: center;
+    width: 100%;
+    padding: 1% 0 0 0;
+}
+
+.footer {
+    text-align: center;
+    width: 100%;
+    padding: 3% 0 3% 0;
+}

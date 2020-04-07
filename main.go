@@ -132,7 +132,7 @@ func main() {
 
 	ch.ActiveTemplateLocation = "./static/templates"
 
-	ch.BackupFileName = "CmsBackup.dat"
+	ch.BackupFileName = "UlboraCmsBackup.dat"
 
 	ch.LoadTemplate()
 
@@ -210,8 +210,8 @@ func main() {
 	srv.Shutdown(ctx)
 
 	ccs.SaveHits()
-	log.Println("shutting down")
-	//time.Sleep(10 * time.Second)
+	log.Println("Shutting Down Ulbora CMS")
+
 	log.Println("Exit")
 	os.Exit(0)
 

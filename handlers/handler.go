@@ -67,7 +67,7 @@ type Handler interface {
 	ContactFormSend(w http.ResponseWriter, r *http.Request)
 	ContactForm(w http.ResponseWriter, r *http.Request)
 	Index(w http.ResponseWriter, r *http.Request)
-	ViewPage(w http.ResponseWriter, r *http.Request)
+	//ViewPage(w http.ResponseWriter, r *http.Request)
 	LoadTemplate()
 }
 

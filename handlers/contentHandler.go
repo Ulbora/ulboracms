@@ -9,12 +9,13 @@ import (
 )
 
 type pageList struct {
-	Title        string
-	MetaDesc     string
-	MetaKeyWords string
-	MetaAuthor   string
-	ContList     *[]sr.Content
-	Cont         *sr.Content
+	Title          string
+	MetaDesc       string
+	MetaKeyWords   string
+	MetaAuthor     string
+	ContListByName *[]sr.Content
+	ContListByDate *[]sr.Content
+	Cont           *sr.Content
 }
 
 //Index  Index
@@ -30,12 +31,20 @@ func (h *CmsHandler) Index(w http.ResponseWriter, r *http.Request) {
 		_, ires := h.Service.GetContent(name)
 		h.Log.Debug("content in user index page ", name, " :", *ires)
 		clist := h.Service.GetContentList(true)
-		sort.Slice(*clist, func(p, q int) bool {
-			return (*clist)[p].CreateDate.After((*clist)[q].CreateDate)
+		clistByDate := *clist
+		sort.Slice(clistByDate, func(p, q int) bool {
+			return (clistByDate)[p].CreateDate.After((clistByDate)[q].CreateDate)
 		})
-		h.Log.Debug("content list in user index page ", *clist)
+		h.Log.Debug("content list by date in user index page ", clistByDate)
+
+		clistByName := *clist
+		sort.Slice(clistByName, func(p, q int) bool {
+			return clistByName[p].Name < clistByName[q].Name
+		})
+		h.Log.Debug("content list by date in user index page ", clistByDate)
 		var pg pageList
-		pg.ContList = clist
+		pg.ContListByDate = &clistByDate
+		pg.ContListByName = &clistByName
 		if ires.Visible {
 			pg.Cont = ires
 			pg.Title = ires.Title
@@ -61,17 +70,17 @@ func (h *CmsHandler) Index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//ViewPage ViewPage
-func (h *CmsHandler) ViewPage(w http.ResponseWriter, r *http.Request) {
-	h.Log.Debug("template: ", h.Templates)
-	vars := mux.Vars(r)
-	name := vars["name"]
-	_, res := h.Service.GetContent(name)
-	h.Log.Debug("content in view Page: ", *res)
-	if res.Visible {
-		h.Templates.ExecuteTemplate(w, viewContent, &res)
-	} else {
-		http.Redirect(w, r, indexPage, http.StatusFound)
-	}
+// //ViewPage ViewPage
+// func (h *CmsHandler) ViewPage(w http.ResponseWriter, r *http.Request) {
+// 	h.Log.Debug("template: ", h.Templates)
+// 	vars := mux.Vars(r)
+// 	name := vars["name"]
+// 	_, res := h.Service.GetContent(name)
+// 	h.Log.Debug("content in view Page: ", *res)
+// 	if res.Visible {
+// 		h.Templates.ExecuteTemplate(w, viewContent, &res)
+// 	} else {
+// 		http.Redirect(w, r, indexPage, http.StatusFound)
+// 	}
 
-}
+// }
