@@ -34,7 +34,7 @@ func TestCmsHandler_LoadTemplate(t *testing.T) {
 	h.LoadTemplate()
 
 	fmt.Println("template in use: ", ch.ActiveTemplateName)
-	if ch.ActiveTemplateName != "default" {
+	if ch.ActiveTemplateName == "" {
 		t.Fail()
 	}
 }
