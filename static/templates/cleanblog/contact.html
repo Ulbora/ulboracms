@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+{{template "header"}}
+
+<body>
+
+    {{template "navbar"}}
+
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('/templates/cleanblog/img/contact-bg.jpg')">
+        <div class="overlay"></div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="page-heading">
+                        <h1>Contact Me</h1>
+                        <span class="subheading">Have questions? We have answers.</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+    <div class="container">
+        <div class="content-title">
+            <h3>Contact</h3>
+        </div>
+        <form class="form-submit" method="post" action="/contact/send">
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                  <label>Email Address</label>
+                  <input name="fromEmail" type="email" class="form-control" placeholder="Email Address" required data-validation-required-message="Please enter your email address.">
+                  <p class="help-block text-danger"></p>
+                </div>
+              </div>            
+            <div class="control-group">
+                <div class="form-group floating-label-form-group controls">
+                  <label>Email Address</label>
+                  <textarea name="text" class="form-control" rows="3" placeholder="Your message" aria-label="Your message"
+                    aria-describedby="sizing-addon1" required></textarea>
+                </div>
+              </div>
+            <br>
+            <div class="recaptcha">
+                <div class="g-recaptcha" data-sitekey="{{.CaptchaDataSitekey}}"></div>
+            </div>
+            <div class="form-submit">
+                <button class="btn btn-secondary" type="submit">Submit</button>
+            </div>
+            <br>
+        </form>
+    </div>
+    <br>
+</body>
+{{template "footer"}}
+
+</html>

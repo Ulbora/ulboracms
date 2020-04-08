@@ -27,9 +27,11 @@ func (h *CmsHandler) ContactFormSend(w http.ResponseWriter, r *http.Request) {
 
 	fromEmail := r.FormValue("fromEmail")
 	h.Log.Debug("fromEmail in contact: ", fromEmail)
+	//fmt.Println("fromEmail: ", fromEmail)
 
 	text := r.FormValue("text")
 	h.Log.Debug("text in contact: ", text)
+	//fmt.Println("text: ", text)
 
 	recaptchaResp := r.FormValue("g-recaptcha-response")
 	h.Log.Debug("recaptchaResp in new content: ", recaptchaResp)

@@ -16,6 +16,7 @@ const (
 type Content struct {
 	Name              string    `json:"name"`
 	Title             string    `json:"title"`
+	Subject           string    `json:"subject"`
 	Author            string    `json:"author"`
 	CreateDate        time.Time `json:"createDate"`
 	ModifiedDate      time.Time `json:"modifiedDate"`
@@ -29,6 +30,7 @@ type Content struct {
 	Archived          bool `json:"archived"`
 	Visible           bool `json:"visible"`
 	UseModifiedDate   bool
+	BlogPost          bool `json:"blogPost"`
 }
 
 // PageHead used for page head
@@ -84,8 +86,10 @@ func (c *CmsService) UpdateContent(content *Content) *Response {
 			cd.ModifiedDate = time.Now()
 			cd.Text = content.Text
 			cd.Title = content.Title
+			cd.Subject = content.Subject
 			cd.Author = content.Author
 			cd.Visible = content.Visible
+			cd.BlogPost = content.BlogPost
 			suc := c.Store.Save(content.Name, cd)
 			rtn.Success = suc
 			rtn.Name = content.Name

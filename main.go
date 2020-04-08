@@ -84,7 +84,7 @@ func main() {
 	}
 
 	var l lg.Logger
-	l.LogLevel = lg.AllLevel
+	//////l.LogLevel = lg.AllLevel
 
 	var ms ml.SecureSender
 	ms.MailHost = mailHost
@@ -158,6 +158,8 @@ func main() {
 	h := ch.GetNew()
 	router.HandleFunc("/", h.Index).Methods("GET")
 	router.HandleFunc("/{name}", h.Index).Methods("GET")
+	router.HandleFunc("/view/{name}", h.ViewPage).Methods("GET")
+
 	router.HandleFunc("/contact/form", h.ContactForm).Methods("GET")
 	router.HandleFunc("/contact/send", h.ContactFormSend).Methods("POST")
 

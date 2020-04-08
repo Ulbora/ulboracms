@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+{{template "header" .}}
+
+<body id="page-top">
+    {{template "navbar"}}
+   <!-- Page Header -->
+  <header class="masthead" style="background-image: url('img/about-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>{{.Cont.Title}}</h1>
+            <span class="subheading">{{.Cont.Subject}}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-8 col-md-10 mx-auto">
+        {{.Cont.TextHTML}}
+      </div>
+    </div>
+  </div>
+
+  <hr>
+    <!-- {{.Cont.TextHTML}} -->
+    <!-- Main Content -->
+
+</body>
+{{template "footer"}}
+
+<!-- Bootstrap core JavaScript -->
+<script src="/templates/cleanblog/vendor/jquery/jquery.min.js"></script>
+<script src="/templates/cleanblog/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="/templates/cleanblog/js/clean-blog.min.js"></script>
+
+</html>

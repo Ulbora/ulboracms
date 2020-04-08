@@ -61,26 +61,29 @@ func (h *CmsHandler) Index(w http.ResponseWriter, r *http.Request) {
 			}
 		}
 		h.Service.HitCheck()
-		// if c.HitTotal >= c.HitLimit {
-		// 	c.SaveHits()
-		// }
 		//h.Log.Debug("content in index: ", *clist)
 		//h.Log.Debug("content in pg: ", *pg.Cont)
 		h.Templates.ExecuteTemplate(w, index, &pg)
 	}
 }
 
-// //ViewPage ViewPage
-// func (h *CmsHandler) ViewPage(w http.ResponseWriter, r *http.Request) {
-// 	h.Log.Debug("template: ", h.Templates)
-// 	vars := mux.Vars(r)
-// 	name := vars["name"]
-// 	_, res := h.Service.GetContent(name)
-// 	h.Log.Debug("content in view Page: ", *res)
-// 	if res.Visible {
-// 		h.Templates.ExecuteTemplate(w, viewContent, &res)
-// 	} else {
-// 		http.Redirect(w, r, indexPage, http.StatusFound)
-// 	}
+//ViewPage ViewPage
+func (h *CmsHandler) ViewPage(w http.ResponseWriter, r *http.Request) {
+	h.Log.Debug("template: ", h.Templates)
+	vars := mux.Vars(r)
+	name := vars["name"]
+	_, vres := h.Service.GetContent(name)
+	h.Log.Debug("content in view Page: ", *vres)
+	if vres.Visible {
+		var pg pageList
+		pg.Cont = vres
+		pg.Title = vres.Title
+		pg.MetaAuthor = vres.Author
+		pg.MetaDesc = vres.MetaDesc
+		pg.MetaKeyWords = vres.MetaKeyWords
+		h.Templates.ExecuteTemplate(w, viewContent, &pg)
+	} else {
+		http.Redirect(w, r, indexPage, http.StatusFound)
+	}
 
-// }
+}

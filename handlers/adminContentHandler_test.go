@@ -104,6 +104,41 @@ func TestCmsHandler_AdminNewContent(t *testing.T) {
 	}
 }
 
+func TestCmsHandler_AdminNewContent2(t *testing.T) {
+	var ch CmsHandler
+	var l lg.Logger
+	l.LogLevel = lg.AllLevel
+	ch.Log = &l
+	ch.AdminTemplates = template.Must(template.ParseFiles("testHtmls/test.html"))
+
+	var ci sr.CmsService
+	ci.ContentStorePath = "../services/testFiles"
+
+	ci.Log = &l
+	var ds ds.DataStore
+	ds.Path = "../services/testFiles"
+	ci.Store = ds.GetNew()
+	ch.Service = ci.GetNew()
+
+	h := ch.GetNew()
+	r, _ := http.NewRequest("POST", "/test", strings.NewReader("content=test content&author=ken&title=test doc&name=testdoc1&metaKeyWords=someKeyWord&desc=some meta desc&blogpost=on&visible=on"))
+	r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
+	//r.Header.Set("Content-Type", "application/json")
+	w := httptest.NewRecorder()
+
+	s, suc := ch.getSession(r)
+	fmt.Println("suc: ", suc)
+	s.Values["loggedIn"] = true
+	s.Save(r, w)
+
+	h.AdminNewContent(w, r)
+	fmt.Println("code: ", w.Code)
+
+	if w.Code != 302 {
+		t.Fail()
+	}
+}
+
 func TestCmsHandler_AdminNewContentFailedDuplicate(t *testing.T) {
 	var ch CmsHandler
 	var l lg.Logger
@@ -226,7 +261,7 @@ func TestCmsHandler_AdminUpdateContentFailed(t *testing.T) {
 	ch.Service = ci.GetNew()
 
 	h := ch.GetNew()
-	r, _ := http.NewRequest("POST", "/test", strings.NewReader("content=test content updated&author=ken2&title=test doc2&name=testdoc111&metaKeyWords=someKeyWord2&desc=some meta desc2&archived=on&visible=on"))
+	r, _ := http.NewRequest("POST", "/test", strings.NewReader("content=test content updated&author=ken2&title=test doc2&name=testdoc111&metaKeyWords=someKeyWord2&desc=some meta desc2&archived=on&visible=on&blogpost=on"))
 	r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	//r.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()
@@ -261,7 +296,7 @@ func TestCmsHandler_AdminUpdateContentVisibleOff(t *testing.T) {
 	ch.Service = ci.GetNew()
 
 	h := ch.GetNew()
-	r, _ := http.NewRequest("POST", "/test", strings.NewReader("content=test content updated&author=ken2&title=test doc2&name=testdoc1&metaKeyWords=someKeyWord2&desc=some meta desc2&archived=off&visible=off"))
+	r, _ := http.NewRequest("POST", "/test", strings.NewReader("content=test content updated&author=ken2&title=test doc2&name=testdoc1&metaKeyWords=someKeyWord2&desc=some meta desc2&archived=off&visible=off&blogpost=off"))
 	r.Header.Set("Content-Type", "application/x-www-form-urlencoded; param=value")
 	//r.Header.Set("Content-Type", "application/json")
 	w := httptest.NewRecorder()

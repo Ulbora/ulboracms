@@ -40,8 +40,14 @@ func (h *CmsHandler) AdminNewContent(w http.ResponseWriter, r *http.Request) {
 			content := r.FormValue("content")
 			h.Log.Debug("content in new content: ", content)
 
+			visible := r.FormValue("visible")
+			h.Log.Debug("visible in new content: ", visible)
+
 			title := r.FormValue("title")
 			h.Log.Debug("title in new content: ", title)
+
+			subject := r.FormValue("subject")
+			h.Log.Debug("subject in new content: ", subject)
 
 			author := r.FormValue("author")
 			h.Log.Debug("author in new content: ", author)
@@ -52,13 +58,27 @@ func (h *CmsHandler) AdminNewContent(w http.ResponseWriter, r *http.Request) {
 			metaDesc := r.FormValue("desc")
 			h.Log.Debug("metaDesc in new content: ", metaDesc)
 
+			blogpost := r.FormValue("blogpost")
+			h.Log.Debug("blogpost in new content: ", blogpost)
+
 			var ct sr.Content
 			ct.Author = author
 			ct.MetaDesc = metaDesc
 			ct.MetaKeyWords = metaKeyWords
 			ct.Name = name
 			ct.Title = title
+			ct.Subject = subject
 			ct.Text = content
+			if blogpost == "on" {
+				ct.BlogPost = true
+			} else {
+				ct.BlogPost = false
+			}
+			if visible == "on" {
+				ct.Visible = true
+			} else {
+				ct.Visible = false
+			}
 			res := h.Service.AddContent(&ct)
 			if res.Success {
 				http.Redirect(w, r, adminIndex, http.StatusFound)
@@ -88,6 +108,9 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 			utitle := r.FormValue("title")
 			h.Log.Debug("title in new content: ", utitle)
 
+			usubject := r.FormValue("subject")
+			h.Log.Debug("subject in new content: ", usubject)
+
 			uauthor := r.FormValue("author")
 			h.Log.Debug("author in new content: ", uauthor)
 
@@ -100,8 +123,11 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 			uarchived := r.FormValue("archived")
 			h.Log.Debug("archived in new content: ", uarchived)
 
-			visible := r.FormValue("visible")
-			h.Log.Debug("visible in new content: ", visible)
+			uvisible := r.FormValue("visible")
+			h.Log.Debug("visible in new content: ", uvisible)
+
+			ublogpost := r.FormValue("blogpost")
+			h.Log.Debug("blogpost in new content: ", ublogpost)
 
 			_, ct := h.Service.GetContent(uname)
 
@@ -110,6 +136,7 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 			ct.MetaKeyWords = umetaKeyWords
 
 			ct.Title = utitle
+			ct.Subject = usubject
 			ct.Text = ucontent
 			if uarchived == "on" {
 				ct.Archived = true
@@ -117,10 +144,16 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 				ct.Archived = false
 			}
 
-			if visible == "on" {
+			if uvisible == "on" {
 				ct.Visible = true
 			} else {
 				ct.Visible = false
+			}
+
+			if ublogpost == "on" {
+				ct.BlogPost = true
+			} else {
+				ct.BlogPost = false
 			}
 
 			res := h.Service.UpdateContent(ct)

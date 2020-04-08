@@ -17,6 +17,7 @@
                     <th>Name</th> 
                     <th>Title</th> 
                     <th>Published</th> 
+                    <th>Is Blog</th> 
                     <th>Archived</th>
                     <th>Created</th>
                     <th>Modified</th>
@@ -29,6 +30,7 @@
                     <td>{{.Name}}</td>
                     <td><a href="/admin/getContent/{{.Name}}">{{.Title}} </a></td> 
                     <td>{{.Visible}}</td>  
+                    <td>{{.BlogPost}}</td> 
                     <td>{{.Archived}}</td>
                     <td>{{.CreateDate.Format "Jan 2, 2006"}}</td>
                     {{if .UseModifiedDate}}
