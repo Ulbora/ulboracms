@@ -156,13 +156,19 @@ func main() {
 	}
 
 	h := ch.GetNew()
+
+	//site screen routes
 	router.HandleFunc("/", h.Index).Methods("GET")
 	router.HandleFunc("/{name}", h.Index).Methods("GET")
 	router.HandleFunc("/view/{name}", h.ViewPage).Methods("GET")
 
+	router.HandleFunc("/blog/posts", h.BlogPosts).Methods("GET")
+	router.HandleFunc("/blog/archived", h.ArchivedBlogPosts).Methods("GET")
+
 	router.HandleFunc("/contact/form", h.ContactForm).Methods("GET")
 	router.HandleFunc("/contact/send", h.ContactFormSend).Methods("POST")
 
+	//admin screen routes
 	router.HandleFunc("/admin/login", h.Login).Methods("GET")
 	router.HandleFunc("/admin/loginUser", h.LoginUser).Methods("POST")
 	router.HandleFunc("/admin/logout", h.Logout).Methods("GET")

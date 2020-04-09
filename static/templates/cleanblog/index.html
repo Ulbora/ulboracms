@@ -3,35 +3,47 @@
 {{template "header" .}}
 
 <body id="page-top">
-    {{template "navbar"}}
-    <!-- Masthead-->
-    {{.Cont.TextHTML}}
+    {{template "navbar" .}}
+    <!-- Page Header -->
+    <header class="masthead" style="background-image: url('../../templates/cleanblog/img/home-bg.jpg');">
+        <div class="overlay">&nbsp;</div>
+        <div class="container">
+            <div class="row">
+                <div class="col-lg-8 col-md-10 mx-auto">
+                    <div class="site-heading">
+                        <h1>{{.Cont.Subject}}</h1>
+                        <span class="subheading">{{.Cont.TextHTML}}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>    
     <!-- Main Content -->
     <div class="container">
         <div class="row">
             <div class="col-lg-8 col-md-10 mx-auto">
                 {{range .ContListByDate}}
-                    {{if eq .BlogPost true}}
-                        <div class="post-preview">
-                    
-                            <a href="/view/{{.Name}}">
-                            <h2 class="post-title">
-                                {{.Title}}
-                            </h2>
-                            <h3 class="post-subtitle">
-                                {{.Subject}}
-                            </h3>
-                            </a>
-                            <p class="post-meta">Posted by
-                            <a href="#">{{.Author}}</a>
-                                on {{.CreateDate.Format "Jan 2, 2006"}}</p>
-                        </div>
-                        <hr>
-                    {{end}}
+                {{if and (.BlogPost) (not .Archived)}}
+                <div class="post-preview">
+
+                    <a href="/view/{{.Name}}">
+                        <h2 class="post-title">
+                            {{.Title}}
+                        </h2>
+                        <h3 class="post-subtitle">
+                            {{.Subject}}
+                        </h3>
+                    </a>
+                    <p class="post-meta">Posted by
+                        <a href="#">{{.Author}}</a>
+                        on {{.CreateDate.Format "Jan 2, 2006"}}</p>
+                </div>
+                <hr>
+                {{end}}
                 {{end}}
                 <!-- Pager -->
                 <div class="clearfix">
-                    <a class="btn btn-primary float-right" href="#">Older Posts &rarr;</a>
+                    <a class="btn btn-primary float-right" href="/blog/archived">Older Posts &rarr;</a>
                 </div>
             </div>
         </div>

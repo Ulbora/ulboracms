@@ -1,0 +1,6 @@
+/services/testBackup/* linguist-documentation
+/services/testBackupRestore/* linguist-documentation
+/services/testDownloads/* linguist-documentation
+/services/testUploads/* linguist-documentation
+/services/testUploadTemplates/* linguist-documentation
+/static/* linguist-documentation

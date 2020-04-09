@@ -36,6 +36,8 @@ const (
 	templateUpload = "templateUpload.html"
 	index          = "index.html"
 	viewContent    = "viewContent.html"
+	blogs          = "blogs.html"
+	archivedBlogs  = "archivedBlogs.html"
 	backups        = "backups.html"
 	backupUpload   = "backupUpload.html"
 )
@@ -64,10 +66,14 @@ type Handler interface {
 	AdminBackupUpload(w http.ResponseWriter, r *http.Request)
 	AdminUploadBackups(w http.ResponseWriter, r *http.Request)
 	AdminDownloadBackups(w http.ResponseWriter, r *http.Request)
+
 	ContactFormSend(w http.ResponseWriter, r *http.Request)
 	ContactForm(w http.ResponseWriter, r *http.Request)
 	Index(w http.ResponseWriter, r *http.Request)
 	ViewPage(w http.ResponseWriter, r *http.Request)
+	BlogPosts(w http.ResponseWriter, r *http.Request)
+	ArchivedBlogPosts(w http.ResponseWriter, r *http.Request)
+
 	LoadTemplate()
 }
 

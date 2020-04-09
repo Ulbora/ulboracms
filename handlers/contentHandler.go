@@ -85,5 +85,56 @@ func (h *CmsHandler) ViewPage(w http.ResponseWriter, r *http.Request) {
 	} else {
 		http.Redirect(w, r, indexPage, http.StatusFound)
 	}
+}
 
+//BlogPosts BlogPosts
+func (h *CmsHandler) BlogPosts(w http.ResponseWriter, r *http.Request) {
+	var clistByDate []sr.Content
+	clist := h.Service.GetContentList(true)
+	h.Log.Debug("content bloo list by date in user index page ", *clist)
+	for _, c := range *clist {
+		if !c.Archived {
+			clistByDate = append(clistByDate, c)
+		}
+	}
+	//clistByDate := *clist
+	sort.Slice(clistByDate, func(p, q int) bool {
+		return (clistByDate)[p].CreateDate.After((clistByDate)[q].CreateDate)
+	})
+	var ppg pageList
+	ppg.ContListByDate = &clistByDate
+	if len(clistByDate) > 0 {
+		ppg.Title = clistByDate[0].Title
+		ppg.MetaAuthor = clistByDate[0].Author
+		ppg.MetaDesc = clistByDate[0].MetaDesc
+		ppg.MetaKeyWords = clistByDate[0].MetaKeyWords
+	}
+	h.Log.Debug("content blog list by date in user index page ", clistByDate)
+	h.Templates.ExecuteTemplate(w, blogs, &ppg)
+}
+
+//ArchivedBlogPosts ArchivedBlogPosts
+func (h *CmsHandler) ArchivedBlogPosts(w http.ResponseWriter, r *http.Request) {
+	var aclistByDate []sr.Content
+	aclist := h.Service.GetContentList(true)
+	h.Log.Debug("content archived blog list by date in user index page ", *aclist)
+	for _, ac := range *aclist {
+		if ac.Archived {
+			aclistByDate = append(aclistByDate, ac)
+		}
+	}
+	//clistByDate := *clist
+	sort.Slice(aclistByDate, func(p, q int) bool {
+		return (aclistByDate)[p].CreateDate.After((aclistByDate)[q].CreateDate)
+	})
+	var appg pageList
+	appg.ContListByDate = &aclistByDate
+	if len(aclistByDate) > 0 {
+		appg.Title = aclistByDate[0].Title
+		appg.MetaAuthor = aclistByDate[0].Author
+		appg.MetaDesc = aclistByDate[0].MetaDesc
+		appg.MetaKeyWords = aclistByDate[0].MetaKeyWords
+	}
+	h.Log.Debug("content blog list by date in user index page ", aclistByDate)
+	h.Templates.ExecuteTemplate(w, archivedBlogs, &appg)
 }

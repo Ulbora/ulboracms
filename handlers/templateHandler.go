@@ -14,7 +14,8 @@ func (h *CmsHandler) LoadTemplate() {
 
 	tp, tperr := template.ParseFiles(h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/index.html", h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/header.html",
 		h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/footer.html", h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/navbar.html",
-		h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/contact.html", h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/viewContent.html")
+		h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/contact.html", h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/viewContent.html",
+		h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/blogs.html", h.ActiveTemplateLocation+"/"+h.ActiveTemplateName+"/archivedBlogs.html")
 
 	h.Log.Debug("template error: ", tperr)
 	h.Templates = template.Must(tp, tperr)

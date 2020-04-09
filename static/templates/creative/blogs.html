@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html>
+{{template "header" .}}
+
+<body id="page-top">
+    {{template "navbar"}}
+    <!-- Page Header -->
+  <header class="masthead" style="background-image: url('/templates/cleanblog/img/about-bg.jpg')">
+    <div class="overlay"></div>
+    <div class="container">
+      <div class="row">
+        <div class="col-lg-8 col-md-10 mx-auto">
+          <div class="page-heading">
+            <h1>Blogs Post</h1>
+            <span class="subheading">All Blog Posts</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </header>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-md-10 mx-auto">
+                {{range .ContListByDate}}
+                {{if and (.BlogPost) (not .Archived)}}
+                <div class="post-preview">
+
+                    <a href="/view/{{.Name}}">
+                        <h2 class="post-title">
+                            {{.Title}}
+                        </h2>
+                        <h3 class="post-subtitle">
+                            {{.Subject}}
+                        </h3>
+                    </a>
+                    <p class="post-meta">Posted by
+                        <a href="#">{{.Author}}</a>
+                        on {{.CreateDate.Format "Jan 2, 2006"}}</p>
+                </div>
+                <hr>
+                {{end}}
+                {{end}}
+                <!-- Pager -->
+                <div class="clearfix">
+                    <a class="btn btn-primary float-right" href="/blog/archived">Older Posts &rarr;</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</body>
+{{template "footer"}}
+
+<!-- Bootstrap core JavaScript -->
+<script src="/templates/cleanblog/vendor/jquery/jquery.min.js"></script>
+<script src="/templates/cleanblog/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+
+<!-- Custom scripts for this template -->
+<script src="/templates/cleanblog/js/clean-blog.min.js"></script>
+
+</html>
