@@ -1,6 +1,8 @@
 package handlers
 
 import (
+	"encoding/json"
+	"errors"
 	"html/template"
 	"net/http"
 
@@ -75,6 +77,8 @@ type Handler interface {
 	ArchivedBlogPosts(w http.ResponseWriter, r *http.Request)
 
 	LoadTemplate()
+
+	SetLogLevel(w http.ResponseWriter, r *http.Request)
 }
 
 //CmsHandler CmsHandler
@@ -152,4 +156,43 @@ func (h *CmsHandler) getSession(r *http.Request) (*sessions.Session, bool) {
 	}
 	//fmt.Println("exit getSession--------------------------------------------------")
 	return srtn, suc
+}
+
+//CheckContent CheckContent
+func (h *CmsHandler) CheckContent(r *http.Request) bool {
+	var rtn bool
+	cType := r.Header.Get("Content-Type")
+	if cType == "application/json" {
+		// http.Error(w, "json required", http.StatusUnsupportedMediaType)
+		rtn = true
+	}
+	return rtn
+}
+
+//SetContentType SetContentType
+func (h *CmsHandler) SetContentType(w http.ResponseWriter) {
+	w.Header().Set("Content-Type", "application/json")
+}
+
+//ProcessBody ProcessBody
+func (h *CmsHandler) ProcessBody(r *http.Request, obj interface{}) (bool, error) {
+	var suc bool
+	var err error
+	//fmt.Println("r.Body: ", r.Body)
+	if r.Body != nil {
+		decoder := json.NewDecoder(r.Body)
+		//fmt.Println("decoder: ", decoder)
+		err = decoder.Decode(obj)
+		//fmt.Println("decoder: ", decoder)
+		if err != nil {
+			//log.Println("Decode Error: ", err.Error())
+			h.Log.Error("Decode Error: ", err.Error())
+		} else {
+			suc = true
+		}
+	} else {
+		err = errors.New("Bad Body")
+	}
+
+	return suc, err
 }

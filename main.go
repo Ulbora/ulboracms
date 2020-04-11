@@ -192,6 +192,8 @@ func main() {
 	router.HandleFunc("/admin/backupUpload", h.AdminBackupUpload).Methods("GET")
 	router.HandleFunc("/admin/uploadBackup", h.AdminUploadBackups).Methods("POST")
 
+	router.HandleFunc("/rs/loglevel", h.SetLogLevel).Methods("POST")
+
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
 	fmt.Println("Ulbora CMS is Running on Port " + port)

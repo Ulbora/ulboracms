@@ -5,7 +5,7 @@
 
 
 
-# UlboraCMS V4
+# Ulbora CMS V4
 UlboraCMS Version 4, not yet released, is comming soon. UlboraCMS V4 will be a self-contained CMS (no database needed) using a JSON datastore with content served from memory. There will be three ways to get UlboraCMS V4: Linux binary, Windows binary, Mac binary, or Docker. UlboraCMS V4 is written and Golang and users will be able to build it for other platforms too.
 
 UlboraCMS V4, not yet released, has a very small memory footprint of around 15 MiB; it's fast and easy to deploy.
