@@ -9,6 +9,12 @@
 UlboraCMS is a self-contained CMS (no database needed) written in Golang. It uses a JSON datastore with content saved in both json files and in memory. You can download and upload a single binary backup file containing content, images, and templates as needed.
 
 
+[Installation](https://github.com/Ulbora/ulboracms/wiki/Installation)
+
+
+[Administration](https://github.com/Ulbora/ulboracms/wiki/Administration)
+
+
 ## Docker Container
 
 The easiest way to get Ulbora CMS is to use Docker.

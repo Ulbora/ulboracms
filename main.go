@@ -51,6 +51,12 @@ func main() {
 		captchaDataSiteKey = os.Getenv("CMS_CAPTCHA_DATA_SITE_KEY")
 	}
 
+	if os.Getenv("CMS_CAPTCHA_HOST") != "" {
+		captchaHost = os.Getenv("CMS_CAPTCHA_HOST")
+	} else {
+		captchaHost = "https://www.google.com/recaptcha/api/siteverify"
+	}
+
 	if os.Getenv("EMAIL_HOST") != "" {
 		mailHost = os.Getenv("EMAIL_HOST")
 	}
@@ -75,12 +81,6 @@ func main() {
 		cantactMailSubject = os.Getenv("CONTACT_MAIL_SUBJECT")
 	} else {
 		cantactMailSubject = "Ulbora CMS Message"
-	}
-
-	if os.Getenv("CMS_CAPTCHA_HOST") != "" {
-		captchaHost = os.Getenv("CMS_CAPTCHA_HOST")
-	} else {
-		captchaHost = "https://www.google.com/recaptcha/api/siteverify"
 	}
 
 	var l lg.Logger
