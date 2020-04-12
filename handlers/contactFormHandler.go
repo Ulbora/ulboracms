@@ -17,6 +17,7 @@ func (h *CmsHandler) ContactForm(w http.ResponseWriter, r *http.Request) {
 	h.Log.Debug("template: ", h.AdminTemplates)
 	var cp captchaData
 	cp.CaptchaDataSitekey = h.CaptchaDataSitekey
+	h.Log.Debug("CaptchaDataSitekey: ", cp.CaptchaDataSitekey)
 	h.Templates.ExecuteTemplate(w, contactForm, &cp)
 }
 

@@ -84,7 +84,7 @@ func main() {
 	}
 
 	var l lg.Logger
-	//////l.LogLevel = lg.AllLevel
+	l.LogLevel = lg.AllLevel
 
 	var ms ml.SecureSender
 	ms.MailHost = mailHost
@@ -103,6 +103,7 @@ func main() {
 	ch.Log = &l
 	ch.User = &u
 
+	ch.Log.Debug("CaptchaDataSitekey in main: ", os.Getenv("CMS_CAPTCHA_DATA_SITE_KEY"))
 	ch.CaptchaSecret = captchaSecret
 	ch.CaptchaDataSitekey = captchaDataSiteKey
 	ch.ContactMailSenderAddress = contactMailSenderAddress
@@ -195,6 +196,8 @@ func main() {
 	router.HandleFunc("/rs/loglevel", h.SetLogLevel).Methods("POST")
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
+
+	l.LogLevel = lg.OffLevel
 
 	fmt.Println("Ulbora CMS is Running on Port " + port)
 	go func() {
