@@ -6,6 +6,7 @@ RUN apt-get install -y ca-certificates
 ADD main /main
 ADD entrypoint.sh /entrypoint.sh
 ADD static /static
+ADD data /data
 WORKDIR /
 
 EXPOSE 8080
