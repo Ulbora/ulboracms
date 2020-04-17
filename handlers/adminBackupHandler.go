@@ -76,7 +76,7 @@ func (h *CmsHandler) AdminUploadBackups(w http.ResponseWriter, r *http.Request) 
 		h.Log.Debug("loggedIn in new content: ", bkloggedInAuth)
 		if bkloggedInAuth == true {
 
-			bkerr := r.ParseMultipartForm(2000000)
+			bkerr := r.ParseMultipartForm(50000000)
 			h.Log.Debug("ParseMultipartForm err: ", bkerr)
 
 			file, handler, ferr := r.FormFile("backupFile")

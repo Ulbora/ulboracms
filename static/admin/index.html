@@ -6,18 +6,17 @@
     <div class="ui container">
         {{template "navbar"}}
         <h2 class="ui center aligned header">Page List</h2>
-        <a  href="/admin/addContent"><button class="ui primary button">
-            Add Page
-        </button></a>
-        
-        
+        <a href="/admin/addContent"><button class="ui primary button">
+                Add Page
+            </button></a>
+
         <table class="ui selectable celled table">
             <thead>
                 <tr>
-                    <th>Name</th> 
-                    <th>Title</th> 
-                    <th>Published</th> 
-                    <th>Is Blog</th> 
+                    <th>Name</th>
+                    <th>Title</th>
+                    <th>Published</th>
+                    <th>Is Blog</th>
                     <th>Archived</th>
                     <th>Created</th>
                     <th>Modified</th>
@@ -28,9 +27,9 @@
                 {{range .}}
                 <tr>
                     <td>{{.Name}}</td>
-                    <td><a href="/admin/getContent/{{.Name}}">{{.Title}} </a></td> 
-                    <td>{{.Visible}}</td>  
-                    <td>{{.BlogPost}}</td> 
+                    <td><a href="/admin/getContent/{{.Name}}">{{.Title}} </a></td>
+                    <td>{{.Visible}}</td>
+                    <td>{{.BlogPost}}</td>
                     <td>{{.Archived}}</td>
                     <td>{{.CreateDate.Format "Jan 2, 2006"}}</td>
                     {{if .UseModifiedDate}}
@@ -44,6 +43,8 @@
                 {{end}}
             </tbody>
         </table>
+        <div class="ui black inverted segment">End of Content</div>
+        <div class="ui black inverted segment"></div>
     </div>
 </body>
 {{template "footer"}}
