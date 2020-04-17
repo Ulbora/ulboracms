@@ -52,7 +52,7 @@ func (h *CmsHandler) AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
 		h.Log.Debug("loggedIn in upload template: ", tloggedInAuth)
 		if tloggedInAuth == true {
 
-			mperr := r.ParseMultipartForm(2000000)
+			mperr := r.ParseMultipartForm(40000000)
 			h.Log.Debug("ParseMultipartForm err: ", mperr)
 
 			tfile, handler, ferr := r.FormFile("tempFile")
