@@ -53,6 +53,7 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 		c.Log.Debug("BackupFiles file unmarshal : ", bkfs)
 
 		// content store files
+		os.RemoveAll(c.ContentStorePath)
 		os.Mkdir(c.ContentStorePath, os.FileMode(0777))
 
 		for _, cf := range *bkfs.ContentStoreFiles {
@@ -65,6 +66,7 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 		c.Store.Reload()
 
 		// template store files
+		os.RemoveAll(c.TemplateStorePath)
 		os.Mkdir(c.TemplateStorePath, os.FileMode(0777))
 
 		for _, cf := range *bkfs.TemplateStoreFiles {
@@ -77,6 +79,7 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 		c.TemplateStore.Reload()
 
 		// image files
+		os.RemoveAll(c.ImagePath)
 		os.Mkdir(c.ImagePath, os.FileMode(0777))
 
 		for _, cf := range *bkfs.ImageFiles {
@@ -87,6 +90,7 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 		}
 
 		// template files
+		os.RemoveAll(c.TemplateFilePath)
 		os.Mkdir(c.TemplateFilePath, os.FileMode(0777))
 
 		r := bytes.NewReader(bkfs.TemplateFiles.FileData)
