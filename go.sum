@@ -22,6 +22,8 @@ github.com/Ulbora/json-datastore v1.0.3 h1:qsPZOlU6WCvuHeedw9Z5+VmdNG6BhK1YtFQr+
 github.com/Ulbora/json-datastore v1.0.3/go.mod h1:yMKdmKwHW5m3Wh9bgGHu9crDMNeNI4D0xihWYBdSL38=
 github.com/Ulbora/json-datastore v1.0.4 h1:8d5CUEFuu/aT60a2qVGbsIEle6jA5BxhNFm/eE1OFS0=
 github.com/Ulbora/json-datastore v1.0.4/go.mod h1:yMKdmKwHW5m3Wh9bgGHu9crDMNeNI4D0xihWYBdSL38=
+github.com/Ulbora/json-datastore v1.0.5 h1:sWH6mBFXOapi7ZMog1FpPKMHF1p2BNVxk4Ejp9H+cxk=
+github.com/Ulbora/json-datastore v1.0.5/go.mod h1:yMKdmKwHW5m3Wh9bgGHu9crDMNeNI4D0xihWYBdSL38=
 github.com/gbrlsnchs/jwt/v3 v3.0.0-rc.1/go.mod h1:JEL7eYb4ETfz9AYni+/4BV09MrMgGwju0G/k4XF8QMg=
 github.com/go-sql-driver/mysql v1.4.1/go.mod h1:zAC/RDZ24gD3HViQzih4MyKcchzm+sOG5ZlKdlhCg5w=
 github.com/go-sql-driver/mysql v1.5.0/go.mod h1:DCzpHaOWr8IXmIStZouvnhqoel9Qv2LBy8hT2VhHyBg=
@@ -31,6 +33,8 @@ github.com/google/go-cmp v0.3.1/go.mod h1:8QqcDgzrUqlUb/G2PQTWiueGozuR1884gddMyw
 github.com/google/go-cmp v0.4.0/go.mod h1:v8dTdLbMG2kIc/vJvl+f65V22dbkXbowE6jgT/gNBxE=
 github.com/gorilla/mux v1.7.3 h1:gnP5JzjVOuiZD07fKKToCAOjS0yOpj/qPETTXCCS6hw=
 github.com/gorilla/mux v1.7.3/go.mod h1:1lud6UwP+6orDFRuTfBEV8e9/aOM/c4fVVCaMa2zaAs=
+github.com/gorilla/mux v1.7.4 h1:VuZ8uybHlWmqV03+zRzdwKL4tUnIp1MAQtp1mIFE1bc=
+github.com/gorilla/mux v1.7.4/go.mod h1:DVbg23sWSpFRCP0SfiEN6jmj59UnW/n46BH5rLB71So=
 github.com/gorilla/securecookie v1.1.1 h1:miw7JPhV+b/lAHSXz4qd/nN9jRiAFV5FwjeKyCS8BvQ=
 github.com/gorilla/securecookie v1.1.1/go.mod h1:ra0sb63/xPlUeL+yeDciTfxMRAA+MP+HVt/4epWDjd4=
 github.com/gorilla/sessions v1.2.0 h1:S7P+1Hm5V/AT9cjEcUD5uDaQSX0OE577aCXgoaKpYbQ=

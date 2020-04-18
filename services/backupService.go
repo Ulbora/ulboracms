@@ -62,6 +62,8 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 			c.Log.Debug("BackupFile content file write err : ", werr)
 		}
 
+		c.Store.Reload()
+
 		// template store files
 		os.Mkdir(c.TemplateStorePath, os.FileMode(0777))
 
@@ -71,6 +73,8 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 			werr := ioutil.WriteFile(c.TemplateStorePath+string(filepath.Separator)+cf.Name, cf.FileData, 0666)
 			c.Log.Debug("BackupFile template file write err : ", werr)
 		}
+
+		c.TemplateStore.Reload()
 
 		// image files
 		os.Mkdir(c.ImagePath, os.FileMode(0777))

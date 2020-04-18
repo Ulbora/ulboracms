@@ -80,18 +80,24 @@ func (h *CmsHandler) AdminUploadBackups(w http.ResponseWriter, r *http.Request) 
 			h.Log.Debug("ParseMultipartForm err: ", bkerr)
 
 			file, handler, ferr := r.FormFile("backupFile")
+			if ferr == nil {
+				defer file.Close()
+			}
 			h.Log.Debug("backup file err: ", ferr)
-			defer file.Close()
+
 			//h.Log.Debug("image file : ", *handler)
 
 			bkdata, rferr := ioutil.ReadAll(file)
 			h.Log.Debug("read file  err: ", rferr)
 
 			h.Log.Debug("handler.Filename: ", handler.Filename)
-
-			suc := h.Service.UploadBackups(&bkdata)
+			var suc bool
+			if ferr == nil && rferr == nil {
+				suc = h.Service.UploadBackups(&bkdata)
+			}
 
 			if suc {
+				h.LoadTemplate()
 				http.Redirect(w, r, adminBackups, http.StatusFound)
 			} else {
 				h.Log.Debug("backup upload of " + handler.Filename + " failed")

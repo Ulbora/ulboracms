@@ -10,6 +10,7 @@ import (
 	"testing"
 
 	lg "github.com/Ulbora/Level_Logger"
+	ds "github.com/Ulbora/json-datastore"
 )
 
 func TestCmsService_DownloadBackups(t *testing.T) {
@@ -60,6 +61,14 @@ func TestCmsService_UploadBackups(t *testing.T) {
 	cs.TemplateStorePath = "./testBackupRestore/templateStore"
 	cs.ImagePath = "./testBackupRestore/images"
 	cs.TemplateFilePath = "./testBackupRestore/templates"
+
+	var cds ds.DataStore
+	cds.Path = "./testBackupRestore/contentStore"
+	cs.Store = cds.GetNew()
+
+	var tds ds.DataStore
+	tds.Path = "./testBackupRestore/templateStore"
+	cs.TemplateStore = tds.GetNew()
 
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel

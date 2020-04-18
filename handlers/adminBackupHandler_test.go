@@ -180,6 +180,16 @@ func TestCmsHandler_AdminUploadBackups(t *testing.T) {
 	ci.ImagePath = "./testBackupRestore/images"
 	ci.TemplateFilePath = "./testBackupRestore/templates"
 
+	var cds ds.DataStore
+	cds.Path = "./testBackupRestore/contentStore"
+	ci.Store = cds.GetNew()
+
+	var tds ds.DataStore
+	tds.Path = "./testBackupRestore/templateStore"
+	ci.TemplateStore = tds.GetNew()
+
+	ch.ActiveTemplateLocation = "../services/testDownloads"
+
 	ci.Log = &l
 
 	ch.Service = ci.GetNew()
