@@ -30,6 +30,7 @@ func main() {
 	var mailUser string
 	var mailPassword string
 	var mailPort string
+	var office365 string
 
 	if os.Getenv("CMS_USERNAME") != "" {
 		u.Username = os.Getenv("CMS_USERNAME")
@@ -83,14 +84,12 @@ func main() {
 		cantactMailSubject = "Ulbora CMS Message"
 	}
 
+	if os.Getenv("USE_OFFICE_365") != "" {
+		office365 = os.Getenv("USE_OFFICE_365")
+	}
+
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
-
-	var ms ml.Office365Sender
-	ms.MailHost = mailHost
-	ms.User = mailUser
-	ms.Password = mailPassword
-	ms.Port = mailPort
 
 	var ch han.CmsHandler
 	ch.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html", "./static/admin/header.html",
@@ -126,7 +125,22 @@ func main() {
 	ccs.ImagePath = "./static/images"
 	ccs.CaptchaHost = captchaHost
 
-	ccs.MailSender = &ms
+	if office365 == "true" {
+		var oms ml.Office365Sender
+		oms.MailHost = mailHost
+		oms.User = mailUser
+		oms.Password = mailPassword
+		oms.Port = mailPort
+		ccs.MailSender = &oms
+	} else {
+		var ms ml.SecureSender
+		ms.MailHost = mailHost
+		ms.User = mailUser
+		ms.Password = mailPassword
+		ms.Port = mailPort
+		ccs.MailSender = &ms
+	}
+
 	ccs.HitLimit = 10
 
 	ch.Service = ccs.GetNew()
