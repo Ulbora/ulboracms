@@ -17,7 +17,7 @@ UlboraCMS is a self-contained CMS (no database needed) written in Golang. It use
 
 ## Docker Container
 
-The easiest way to get Ulbora CMS is to use Docker.
+https://hub.docker.com/r/ulboralabs/ulboracms
 
 
 ## Templates
