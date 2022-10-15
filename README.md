@@ -1,5 +1,5 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/Ulbora/ulboracms)](https://goreportcard.com/report/github.com/Ulbora/ulboracms)
-[![Build Status](https://travis-ci.org/Ulbora/ulboracms.svg?branch=master)](https://travis-ci.org/Ulbora/ulboracms)
+[![Build Status](https://travis-ci.com/Ulbora/ulboracms.svg?branch=master)](https://travis-ci.com/Ulbora/ulboracms)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=ulboracms&metric=alert_status)](https://sonarcloud.io/dashboard?id=ulboracms)
 
 
