@@ -1,16 +1,4 @@
 mode: set
-github.com/Ulbora/ulboracms/services/imageService.go:19.66,27.16 8 1
-github.com/Ulbora/ulboracms/services/imageService.go:30.2,30.12 1 1
-github.com/Ulbora/ulboracms/services/imageService.go:27.16,29.3 1 1
-github.com/Ulbora/ulboracms/services/imageService.go:34.46,37.16 3 1
-github.com/Ulbora/ulboracms/services/imageService.go:49.2,49.13 1 1
-github.com/Ulbora/ulboracms/services/imageService.go:37.16,38.32 1 1
-github.com/Ulbora/ulboracms/services/imageService.go:38.32,39.22 1 1
-github.com/Ulbora/ulboracms/services/imageService.go:39.22,46.5 5 1
-github.com/Ulbora/ulboracms/services/imageService.go:53.60,55.2 1 1
-github.com/Ulbora/ulboracms/services/imageService.go:58.52,65.17 7 1
-github.com/Ulbora/ulboracms/services/imageService.go:68.2,68.12 1 1
-github.com/Ulbora/ulboracms/services/imageService.go:65.17,67.3 1 1
 github.com/Ulbora/ulboracms/services/mailService.go:6.55,12.2 5 1
 github.com/Ulbora/ulboracms/services/reCaptcha.go:26.68,28.19 2 1
 github.com/Ulbora/ulboracms/services/reCaptcha.go:41.2,42.12 2 1
@@ -155,3 +143,15 @@ github.com/Ulbora/ulboracms/services/contentService.go:177.34,182.10 5 1
 github.com/Ulbora/ulboracms/services/contentService.go:182.10,187.4 4 1
 github.com/Ulbora/ulboracms/services/contentService.go:193.33,196.30 3 1
 github.com/Ulbora/ulboracms/services/contentService.go:196.30,198.3 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:19.66,27.16 8 1
+github.com/Ulbora/ulboracms/services/imageService.go:30.2,30.12 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:27.16,29.3 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:34.46,37.16 3 1
+github.com/Ulbora/ulboracms/services/imageService.go:49.2,49.13 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:37.16,38.32 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:38.32,39.22 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:39.22,46.5 5 1
+github.com/Ulbora/ulboracms/services/imageService.go:53.60,55.2 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:58.52,65.17 7 1
+github.com/Ulbora/ulboracms/services/imageService.go:68.2,68.12 1 1
+github.com/Ulbora/ulboracms/services/imageService.go:65.17,67.3 1 1

@@ -86,7 +86,7 @@ func main() {
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 
-	var ms ml.SecureSender
+	var ms ml.Office365Sender
 	ms.MailHost = mailHost
 	ms.User = mailUser
 	ms.Password = mailPassword
