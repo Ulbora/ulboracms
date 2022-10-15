@@ -20,4 +20,4 @@ before_install:
 script:
   # other script steps might be done before running the actual analysis
   - sonar-scanner
-  - docker push ulboralabs/six910-ui:latest
+  - docker push ulboralabs/ulboracms:latest
