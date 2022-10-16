@@ -68,8 +68,8 @@ func (h *CmsHandler) ContactFormSend(w http.ResponseWriter, r *http.Request) {
 		var m ml.Mailer
 		m.Subject = h.ContactMailSubject
 		m.Body = text
-		m.Recipients = []string{h.ContactMailSenderAddress}
-		m.SenderAddress = fromEmail
+		m.Recipients = []string{fromEmail}
+		m.SenderAddress = h.ContactMailSenderAddress
 
 		sendSuc = h.Service.SendMail(&m)
 		h.Log.Debug("sendSuc in contact: ", sendSuc)
