@@ -25,6 +25,7 @@ func main() {
 	var captchaDataSiteKey string
 	var captchaHost string
 	var contactMailSenderAddress string
+	var contactMailToAddress string
 	var cantactMailSubject string
 	var mailHost string
 	var mailUser string
@@ -78,6 +79,10 @@ func main() {
 		contactMailSenderAddress = os.Getenv("CONTACT_MAIL_SENDER_ADDRESS")
 	}
 
+	if os.Getenv("CONTACT_MAIL_TO_ADDRESS") != "" {
+		contactMailToAddress = os.Getenv("CONTACT_MAIL_TO_ADDRESS")
+	}
+
 	if os.Getenv("CONTACT_MAIL_SUBJECT") != "" {
 		cantactMailSubject = os.Getenv("CONTACT_MAIL_SUBJECT")
 	} else {
@@ -106,6 +111,7 @@ func main() {
 	ch.CaptchaSecret = captchaSecret
 	ch.CaptchaDataSitekey = captchaDataSiteKey
 	ch.ContactMailSenderAddress = contactMailSenderAddress
+	ch.ContactMailToAddress = contactMailToAddress
 	ch.ContactMailSubject = cantactMailSubject
 
 	var ccs sr.CmsService

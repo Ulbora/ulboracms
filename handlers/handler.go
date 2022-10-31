@@ -93,6 +93,7 @@ type CmsHandler struct {
 	CaptchaSecret            string
 	CaptchaDataSitekey       string
 	ContactMailSenderAddress string
+	ContactMailToAddress     string
 	ContactMailSubject       string
 	ActiveTemplateName       string
 	ActiveTemplateLocation   string
