@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -10,11 +11,22 @@ import (
 	lg "github.com/Ulbora/Level_Logger"
 	ds "github.com/Ulbora/json-datastore"
 	sr "github.com/Ulbora/ulboracms/services"
-	"github.com/gorilla/mux"
+
+	gss "github.com/GolangToolKits/go-secure-sessions"
+	mux "github.com/GolangToolKits/grrt"
 )
 
 func TestCmsHandler_Index(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -47,7 +59,16 @@ func TestCmsHandler_Index(t *testing.T) {
 }
 
 func TestCmsHandler_IndexNoParam(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -80,7 +101,16 @@ func TestCmsHandler_IndexNoParam(t *testing.T) {
 }
 
 func TestCmsHandler_ViewPage(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -113,7 +143,16 @@ func TestCmsHandler_ViewPage(t *testing.T) {
 }
 
 func TestCmsHandler_ViewPageNotVisible(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -146,7 +185,16 @@ func TestCmsHandler_ViewPageNotVisible(t *testing.T) {
 }
 
 func TestCmsHandler_BlogPosts(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -179,7 +227,16 @@ func TestCmsHandler_BlogPosts(t *testing.T) {
 }
 
 func TestCmsHandler_ArchivedBlogPosts(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l

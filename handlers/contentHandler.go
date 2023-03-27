@@ -4,8 +4,8 @@ import (
 	"net/http"
 	"sort"
 
+	mux "github.com/GolangToolKits/grrt"
 	sr "github.com/Ulbora/ulboracms/services"
-	"github.com/gorilla/mux"
 )
 
 type pageList struct {
@@ -18,11 +18,12 @@ type pageList struct {
 	Cont           *sr.Content
 }
 
-//Index  Index
+// Index  Index
 func (h *CmsHandler) Index(w http.ResponseWriter, r *http.Request) {
 	h.Log.Debug("template: ", h.Templates)
 	vars := mux.Vars(r)
 	name := vars["name"]
+	h.Log.Debug("name: ", name)
 	if name != "favicon.ico" {
 		if name == "" {
 			h.Log.Debug("Setting name to home ")
@@ -67,7 +68,7 @@ func (h *CmsHandler) Index(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//ViewPage ViewPage
+// ViewPage ViewPage
 func (h *CmsHandler) ViewPage(w http.ResponseWriter, r *http.Request) {
 	h.Log.Debug("template: ", h.Templates)
 	vars := mux.Vars(r)
@@ -87,7 +88,7 @@ func (h *CmsHandler) ViewPage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//BlogPosts BlogPosts
+// BlogPosts BlogPosts
 func (h *CmsHandler) BlogPosts(w http.ResponseWriter, r *http.Request) {
 	var clistByDate []sr.Content
 	clist := h.Service.GetContentList(true)
@@ -113,7 +114,7 @@ func (h *CmsHandler) BlogPosts(w http.ResponseWriter, r *http.Request) {
 	h.Templates.ExecuteTemplate(w, blogs, &ppg)
 }
 
-//ArchivedBlogPosts ArchivedBlogPosts
+// ArchivedBlogPosts ArchivedBlogPosts
 func (h *CmsHandler) ArchivedBlogPosts(w http.ResponseWriter, r *http.Request) {
 	var aclistByDate []sr.Content
 	aclist := h.Service.GetContentList(true)

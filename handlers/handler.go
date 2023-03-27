@@ -7,10 +7,12 @@ import (
 	"net/http"
 
 	lg "github.com/Ulbora/Level_Logger"
-	gs "github.com/Ulbora/go-sessions"
+
 	"github.com/Ulbora/ulboracms/services"
 	sr "github.com/Ulbora/ulboracms/services"
-	"github.com/gorilla/sessions"
+
+
+	gss "github.com/GolangToolKits/go-secure-sessions"
 )
 
 const (
@@ -44,7 +46,7 @@ const (
 	backupUpload   = "backupUpload.html"
 )
 
-//Handler Handler
+// Handler Handler
 type Handler interface {
 	Login(w http.ResponseWriter, r *http.Request)
 	LoginUser(w http.ResponseWriter, r *http.Request)
@@ -81,14 +83,15 @@ type Handler interface {
 	SetLogLevel(w http.ResponseWriter, r *http.Request)
 }
 
-//CmsHandler CmsHandler
+// CmsHandler CmsHandler
 type CmsHandler struct {
-	Service                  sr.Service
-	Log                      *lg.Logger
-	AdminTemplates           *template.Template
-	Templates                *template.Template
-	Session                  gs.GoSession
-	Store                    *sessions.CookieStore
+	Service        sr.Service
+	Log            *lg.Logger
+	AdminTemplates *template.Template
+	Templates      *template.Template
+	//Session                  gs.GoSession
+	//Store                    *sessions.CookieStore
+	SessionManager           gss.SessionManager
 	User                     *User
 	CaptchaSecret            string
 	CaptchaDataSitekey       string
@@ -100,7 +103,7 @@ type CmsHandler struct {
 	BackupFileName           string
 }
 
-//User User
+// User User
 type User struct {
 	Username string
 	Password string
@@ -111,23 +114,23 @@ type contentAndImages struct {
 	Img  *[]services.Image
 }
 
-//GetNew GetNew
+// GetNew GetNew
 func (h *CmsHandler) GetNew() Handler {
 	var hd Handler
 	hd = h
 	return hd
 }
 
-func (h *CmsHandler) getSession(r *http.Request) (*sessions.Session, bool) {
+func (h *CmsHandler) getSession(r *http.Request) (gss.Session, bool) {
 	//fmt.Println("getSession--------------------------------------------------")
 	var suc bool
-	var srtn *sessions.Session
-	if h.Store == nil {
-		h.Session.Name = "goauth2"
-		h.Session.MaxAge = 3600
-		h.Store = h.Session.InitSessionStore()
-		//gob.Register(&AuthorizeRequestInfo{})
-	}
+	var srtn gss.Session
+	// if h.Store == nil {
+	// 	h.Session.Name = "goauth2"
+	// 	h.Session.MaxAge = 3600
+	// 	h.Store = h.Session.InitSessionStore()
+	// 	//gob.Register(&AuthorizeRequestInfo{})
+	// }
 	if r != nil {
 		// fmt.Println("secure in getSession", h.Session.Secure)
 		// fmt.Println("name in getSession", h.Session.Name)
@@ -137,29 +140,37 @@ func (h *CmsHandler) getSession(r *http.Request) (*sessions.Session, bool) {
 		//h.Session.HTTPOnly = true
 
 		//h.Session.InitSessionStore()
-		s, err := h.Store.Get(r, h.Session.Name)
+		// s, err := h.Store.Get(r, h.Session.Name)
+		s := h.SessionManager.NewSession(r, "goauth2")
+		if s != nil {
+			suc = true
+			loggedInAuth := s.Get("loggedIn")
+			//userAuth := s.Values["user"]
+			h.Log.Debug("loggedIn: ", loggedInAuth)
+		}
 		//s, err := store.Get(r, "temp-name")
 		//s, err := store.Get(r, "goauth2")
 
-		loggedInAuth := s.Values["loggedIn"]
-		//userAuth := s.Values["user"]
-		h.Log.Debug("loggedIn: ", loggedInAuth)
+		//loggedInAuth := s.Values["loggedIn"]
+		// loggedInAuth := s.Get("loggedIn")
+		// //userAuth := s.Values["user"]
+		// h.Log.Debug("loggedIn: ", loggedInAuth)
 		//h.Log.Debug("user: ", userAuth)
 
 		//larii := s.Values["authReqInfo"]
 		//h.Log.Debug("arii-----login", larii)
 
-		h.Log.Debug("session error in getSession: ", err)
-		if err == nil {
-			suc = true
-			srtn = s
-		}
+		//h.Log.Debug("session error in getSession: ", err)
+		// if err == nil {
+		// suc = true
+		srtn = s
+		// }
 	}
 	//fmt.Println("exit getSession--------------------------------------------------")
 	return srtn, suc
 }
 
-//CheckContent CheckContent
+// CheckContent CheckContent
 func (h *CmsHandler) CheckContent(r *http.Request) bool {
 	var rtn bool
 	cType := r.Header.Get("Content-Type")
@@ -170,12 +181,12 @@ func (h *CmsHandler) CheckContent(r *http.Request) bool {
 	return rtn
 }
 
-//SetContentType SetContentType
+// SetContentType SetContentType
 func (h *CmsHandler) SetContentType(w http.ResponseWriter) {
 	w.Header().Set("Content-Type", "application/json")
 }
 
-//ProcessBody ProcessBody
+// ProcessBody ProcessBody
 func (h *CmsHandler) ProcessBody(r *http.Request, obj interface{}) (bool, error) {
 	var suc bool
 	var err error

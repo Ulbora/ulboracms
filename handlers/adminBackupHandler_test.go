@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
@@ -14,11 +15,21 @@ import (
 	lg "github.com/Ulbora/Level_Logger"
 	ds "github.com/Ulbora/json-datastore"
 	sr "github.com/Ulbora/ulboracms/services"
-	//"github.com/gorilla/sessions"
+
+	gss "github.com/GolangToolKits/go-secure-sessions"
 )
 
 func TestCmsHandler_AdminBackup(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -39,8 +50,20 @@ func TestCmsHandler_AdminBackup(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+	// cookie := http.Cookie{
+	// 	Name:   "goauth2",
+	// 	Value:  	"AwwAAAUEAP4cIAMMAAAKDAAHZ29hdXRoMgQMAAEvDv+BBAEC/4IAARABEAAAIP+CAAEGc3RyaW5nDAoACGxvZ2dlZEluBGJvb2wCAgAB",
+
+	// 	MaxAge: 300,
+	// }
+	//"AwwAAAUEAP4cIAMMAAAKDAAHZ29hdXRoMgQMAAEvDv+BBAEC/4IAARABEAAAIP+CAAEGc3RyaW5nDAoACGxvZ2dlZEluBGJvb2wCAgAB"
+
 	h.AdminBackup(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -50,7 +73,16 @@ func TestCmsHandler_AdminBackup(t *testing.T) {
 }
 
 func TestCmsHandler_AdminBackupNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -76,8 +108,12 @@ func TestCmsHandler_AdminBackupNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminBackup(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -87,7 +123,16 @@ func TestCmsHandler_AdminBackupNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminDownloadBackups(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -115,8 +160,12 @@ func TestCmsHandler_AdminDownloadBackups(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminDownloadBackups(w, r)
 	fmt.Println("download backup w.code: ", w.Code)
 	fmt.Println("download body: ", w.Body)
@@ -127,7 +176,16 @@ func TestCmsHandler_AdminDownloadBackups(t *testing.T) {
 }
 
 func TestCmsHandler_AdminDownloadBackupsNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -155,8 +213,12 @@ func TestCmsHandler_AdminDownloadBackupsNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminDownloadBackups(w, r)
 	fmt.Println("download backup code: ", w.Code)
 	fmt.Println("download body: ", w.Body)
@@ -167,7 +229,16 @@ func TestCmsHandler_AdminDownloadBackupsNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUploadBackups(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -230,8 +301,12 @@ func TestCmsHandler_AdminUploadBackups(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h := ch.GetNew()
 	h.AdminUploadBackups(w, r)
@@ -243,7 +318,16 @@ func TestCmsHandler_AdminUploadBackups(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUploadBackupsFail(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -296,8 +380,12 @@ func TestCmsHandler_AdminUploadBackupsFail(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h := ch.GetNew()
 	h.AdminUploadBackups(w, r)
@@ -309,7 +397,16 @@ func TestCmsHandler_AdminUploadBackupsFail(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUploadBackupsNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -362,8 +459,12 @@ func TestCmsHandler_AdminUploadBackupsNotLoggedIn(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h := ch.GetNew()
 	h.AdminUploadBackups(w, r)
@@ -375,7 +476,16 @@ func TestCmsHandler_AdminUploadBackupsNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminBackupUpload(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -396,8 +506,12 @@ func TestCmsHandler_AdminBackupUpload(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminBackupUpload(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -407,7 +521,16 @@ func TestCmsHandler_AdminBackupUpload(t *testing.T) {
 }
 
 func TestCmsHandler_AdminBackupUploadNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -428,8 +551,12 @@ func TestCmsHandler_AdminBackupUploadNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminBackupUpload(w, r)
 	fmt.Println("code: ", w.Code)
 

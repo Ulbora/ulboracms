@@ -5,16 +5,16 @@ import (
 	"net/http"
 	"strings"
 
+	mux "github.com/GolangToolKits/grrt"
 	sr "github.com/Ulbora/ulboracms/services"
-	"github.com/gorilla/mux"
 )
 
-//AdminTemplateList AdminTemplateList
+// AdminTemplateList AdminTemplateList
 func (h *CmsHandler) AdminTemplateList(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in templateList: ", loggedInAuth)
 		if loggedInAuth == true {
 			h.Log.Debug("template: ", h.AdminTemplates)
@@ -27,12 +27,12 @@ func (h *CmsHandler) AdminTemplateList(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminAddTemplate AdminAddTemplate
+// AdminAddTemplate AdminAddTemplate
 func (h *CmsHandler) AdminAddTemplate(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in add template: ", loggedInAuth)
 		if loggedInAuth == true {
 			h.Log.Debug("template: ", h.AdminTemplates)
@@ -43,12 +43,12 @@ func (h *CmsHandler) AdminAddTemplate(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminUploadTemplate AdminUploadTemplate
+// AdminUploadTemplate AdminUploadTemplate
 func (h *CmsHandler) AdminUploadTemplate(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		tloggedInAuth := s.Values["loggedIn"]
+		tloggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in upload template: ", tloggedInAuth)
 		if tloggedInAuth == true {
 
@@ -86,12 +86,12 @@ func (h *CmsHandler) AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
 	}
 }
 
-//AdminActivateTemplate AdminActivateTemplate
+// AdminActivateTemplate AdminActivateTemplate
 func (h *CmsHandler) AdminActivateTemplate(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in templateList: ", loggedInAuth)
 		if loggedInAuth == true {
 			h.Log.Debug("template: ", h.AdminTemplates)
@@ -109,12 +109,12 @@ func (h *CmsHandler) AdminActivateTemplate(w http.ResponseWriter, r *http.Reques
 	}
 }
 
-//AdminDeleteTemplate AdminDeleteTemplate
+// AdminDeleteTemplate AdminDeleteTemplate
 func (h *CmsHandler) AdminDeleteTemplate(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in templateList: ", loggedInAuth)
 		if loggedInAuth == true {
 			h.Log.Debug("template: ", h.AdminTemplates)

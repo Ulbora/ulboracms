@@ -3,6 +3,7 @@ package handlers
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
@@ -11,11 +12,22 @@ import (
 	lg "github.com/Ulbora/Level_Logger"
 	ds "github.com/Ulbora/json-datastore"
 	sr "github.com/Ulbora/ulboracms/services"
-	"github.com/gorilla/mux"
+
+	gss "github.com/GolangToolKits/go-secure-sessions"
+	mux "github.com/GolangToolKits/grrt"
 )
 
 func TestCmsHandler_AdminAddContent(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -33,8 +45,12 @@ func TestCmsHandler_AdminAddContent(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminAddContent(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -44,7 +60,16 @@ func TestCmsHandler_AdminAddContent(t *testing.T) {
 }
 
 func TestCmsHandler_AdminAddContentNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -59,8 +84,12 @@ func TestCmsHandler_AdminAddContentNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminAddContent(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -70,7 +99,16 @@ func TestCmsHandler_AdminAddContentNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminNewContent(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -93,8 +131,12 @@ func TestCmsHandler_AdminNewContent(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h.AdminNewContent(w, r)
 	fmt.Println("code: ", w.Code)
@@ -105,7 +147,16 @@ func TestCmsHandler_AdminNewContent(t *testing.T) {
 }
 
 func TestCmsHandler_AdminNewContent2(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -128,8 +179,12 @@ func TestCmsHandler_AdminNewContent2(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h.AdminNewContent(w, r)
 	fmt.Println("code: ", w.Code)
@@ -140,7 +195,16 @@ func TestCmsHandler_AdminNewContent2(t *testing.T) {
 }
 
 func TestCmsHandler_AdminNewContentFailedDuplicate(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -163,8 +227,12 @@ func TestCmsHandler_AdminNewContentFailedDuplicate(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h.AdminNewContent(w, r)
 	fmt.Println("code: ", w.Code)
@@ -175,7 +243,16 @@ func TestCmsHandler_AdminNewContentFailedDuplicate(t *testing.T) {
 }
 
 func TestCmsHandler_AdminNewContentNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -198,8 +275,12 @@ func TestCmsHandler_AdminNewContentNotLoggedIn(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h.AdminNewContent(w, r)
 	fmt.Println("code: ", w.Code)
@@ -210,7 +291,16 @@ func TestCmsHandler_AdminNewContentNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUpdateContent(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -233,8 +323,12 @@ func TestCmsHandler_AdminUpdateContent(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h.AdminUpdateContent(w, r)
 	fmt.Println("code: ", w.Code)
@@ -245,7 +339,16 @@ func TestCmsHandler_AdminUpdateContent(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUpdateContentFailed(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -268,8 +371,12 @@ func TestCmsHandler_AdminUpdateContentFailed(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h.AdminUpdateContent(w, r)
 	fmt.Println("code: ", w.Code)
@@ -280,7 +387,16 @@ func TestCmsHandler_AdminUpdateContentFailed(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUpdateContentVisibleOff(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -303,8 +419,12 @@ func TestCmsHandler_AdminUpdateContentVisibleOff(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h.AdminUpdateContent(w, r)
 	fmt.Println("code: ", w.Code)
@@ -315,7 +435,16 @@ func TestCmsHandler_AdminUpdateContentVisibleOff(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUpdateContentNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -338,8 +467,12 @@ func TestCmsHandler_AdminUpdateContentNotLoggedIn(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h.AdminUpdateContent(w, r)
 	fmt.Println("code: ", w.Code)
@@ -350,7 +483,16 @@ func TestCmsHandler_AdminUpdateContentNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminGetContent(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -377,8 +519,13 @@ func TestCmsHandler_AdminGetContent(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+
 	h.AdminGetContent(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -388,7 +535,16 @@ func TestCmsHandler_AdminGetContent(t *testing.T) {
 }
 
 func TestCmsHandler_AdminGetContentNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -415,8 +571,13 @@ func TestCmsHandler_AdminGetContentNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+
 	h.AdminGetContent(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -426,7 +587,16 @@ func TestCmsHandler_AdminGetContentNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminDeleteContent(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -453,8 +623,13 @@ func TestCmsHandler_AdminDeleteContent(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+
 	h.AdminDeleteContent(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -464,7 +639,16 @@ func TestCmsHandler_AdminDeleteContent(t *testing.T) {
 }
 
 func TestCmsHandler_AdminDeleteContentNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -491,8 +675,13 @@ func TestCmsHandler_AdminDeleteContentNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+
 	h.AdminDeleteContent(w, r)
 	fmt.Println("code: ", w.Code)
 

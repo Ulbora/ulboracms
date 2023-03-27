@@ -1,4 +1,4 @@
-//Package handlers ...
+// Package handlers ...
 package handlers
 
 import (
@@ -6,11 +6,13 @@ import (
 	"encoding/json"
 	"fmt"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"os"
 	"testing"
 
+	gss "github.com/GolangToolKits/go-secure-sessions"
 	lg "github.com/Ulbora/Level_Logger"
 )
 
@@ -201,7 +203,16 @@ func TestCmsHandler_SetOffLogLevelLogWrongKey(t *testing.T) {
 }
 
 func TestCmsHandler_SetOffLogLevelBadMedia(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var oh CmsHandler
+	oh.SessionManager = sessionManager
 	var logger lg.Logger
 	oh.Log = &logger
 

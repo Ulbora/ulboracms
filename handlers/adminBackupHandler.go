@@ -5,12 +5,12 @@ import (
 	"net/http"
 )
 
-//AdminBackup AdminBackup
+// AdminBackup AdminBackup
 func (h *CmsHandler) AdminBackup(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in backups: ", loggedInAuth)
 		if loggedInAuth == true {
 			h.AdminTemplates.ExecuteTemplate(w, backups, nil)
@@ -20,12 +20,12 @@ func (h *CmsHandler) AdminBackup(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminBackupUpload AdminBackupUpload
+// AdminBackupUpload AdminBackupUpload
 func (h *CmsHandler) AdminBackupUpload(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in backups: ", loggedInAuth)
 		if loggedInAuth == true {
 			h.AdminTemplates.ExecuteTemplate(w, backupUpload, nil)
@@ -35,12 +35,12 @@ func (h *CmsHandler) AdminBackupUpload(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminDownloadBackups AdminDownloadBackups
+// AdminDownloadBackups AdminDownloadBackups
 func (h *CmsHandler) AdminDownloadBackups(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in backups: ", loggedInAuth)
 		if loggedInAuth == true {
 			suc, file := h.Service.DownloadBackups()
@@ -67,12 +67,12 @@ func (h *CmsHandler) AdminDownloadBackups(w http.ResponseWriter, r *http.Request
 	}
 }
 
-//AdminUploadBackups AdminUploadBackups
+// AdminUploadBackups AdminUploadBackups
 func (h *CmsHandler) AdminUploadBackups(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		bkloggedInAuth := s.Values["loggedIn"]
+		bkloggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in new content: ", bkloggedInAuth)
 		if bkloggedInAuth == true {
 

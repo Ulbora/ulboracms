@@ -4,16 +4,16 @@ import (
 	"net/http"
 	"strings"
 
+	mux "github.com/GolangToolKits/grrt"
 	sr "github.com/Ulbora/ulboracms/services"
-	"github.com/gorilla/mux"
 )
 
-//AdminAddContent AdminAddContent
+// AdminAddContent AdminAddContent
 func (h *CmsHandler) AdminAddContent(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in add content: ", loggedInAuth)
 		if loggedInAuth == true {
 			res := h.Service.GetImageList()
@@ -25,12 +25,12 @@ func (h *CmsHandler) AdminAddContent(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminNewContent AdminNewContent
+// AdminNewContent AdminNewContent
 func (h *CmsHandler) AdminNewContent(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in new content: ", loggedInAuth)
 		if loggedInAuth == true {
 			name := r.FormValue("name")
@@ -91,12 +91,12 @@ func (h *CmsHandler) AdminNewContent(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminUpdateContent AdminUpdateContent
+// AdminUpdateContent AdminUpdateContent
 func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in new content: ", loggedInAuth)
 		if loggedInAuth == true {
 			uname := r.FormValue("name")
@@ -170,12 +170,12 @@ func (h *CmsHandler) AdminUpdateContent(w http.ResponseWriter, r *http.Request) 
 	}
 }
 
-//AdminGetContent AdminGetContent
+// AdminGetContent AdminGetContent
 func (h *CmsHandler) AdminGetContent(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in add content: ", loggedInAuth)
 		if loggedInAuth == true {
 			vars := mux.Vars(r)
@@ -197,12 +197,12 @@ func (h *CmsHandler) AdminGetContent(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminDeleteContent AdminDeleteContent
+// AdminDeleteContent AdminDeleteContent
 func (h *CmsHandler) AdminDeleteContent(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in add content: ", loggedInAuth)
 		if loggedInAuth == true {
 			vars := mux.Vars(r)

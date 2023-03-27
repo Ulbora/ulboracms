@@ -11,12 +11,13 @@ import (
 	"strconv"
 	"time"
 
+	gss "github.com/GolangToolKits/go-secure-sessions"
+	mux "github.com/GolangToolKits/grrt"
 	lg "github.com/Ulbora/Level_Logger"
 	ml "github.com/Ulbora/go-mail-sender"
 	ds "github.com/Ulbora/json-datastore"
 	han "github.com/Ulbora/ulboracms/handlers"
 	sr "github.com/Ulbora/ulboracms/services"
-	"github.com/gorilla/mux"
 )
 
 func main() {
@@ -32,6 +33,7 @@ func main() {
 	var mailPassword string
 	var mailPort string
 	var office365 string
+	var secretSessionKey string
 
 	if os.Getenv("CMS_USERNAME") != "" {
 		u.Username = os.Getenv("CMS_USERNAME")
@@ -93,8 +95,23 @@ func main() {
 		office365 = os.Getenv("USE_OFFICE_365")
 	}
 
+	if os.Getenv("SECRET_SESSION_KEY") != "" {
+		secretSessionKey = os.Getenv("SECRET_SESSION_KEY")
+	} else {
+		secretSessionKey = "dsdfsadfs61dsscfsdfdsdsfsdsdllsd"
+	}
+
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
+
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager(secretSessionKey, cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 
 	var ch han.CmsHandler
 	ch.AdminTemplates = template.Must(template.ParseFiles("./static/admin/index.html", "./static/admin/header.html",
@@ -106,6 +123,7 @@ func main() {
 
 	ch.Log = &l
 	ch.User = &u
+	ch.SessionManager = sessionManager
 
 	ch.Log.Debug("CaptchaDataSitekey in main: ", os.Getenv("CMS_CAPTCHA_DATA_SITE_KEY"))
 	ch.CaptchaSecret = captchaSecret
@@ -173,7 +191,7 @@ func main() {
 		WriteTimeout: time.Second * 15,
 		ReadTimeout:  time.Second * 15,
 		IdleTimeout:  time.Second * 60,
-		Handler:      router, // Pass our instance of gorilla/mux in.
+		Handler:      router, // Pass our instance of GolangToolKits/grrt router in.
 	}
 
 	h := ch.GetNew()
@@ -217,7 +235,7 @@ func main() {
 
 	router.PathPrefix("/").Handler(http.FileServer(http.Dir("./static/")))
 
-	l.LogLevel = lg.OffLevel
+	////////l.LogLevel = lg.OffLevel
 
 	fmt.Println("Ulbora CMS is Running on Port " + port)
 	go func() {

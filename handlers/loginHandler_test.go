@@ -3,17 +3,27 @@ package handlers
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 
+	gss "github.com/GolangToolKits/go-secure-sessions"
 	lg "github.com/Ulbora/Level_Logger"
-	//"github.com/gorilla/sessions"
 )
 
 func TestCmsHandler_Login(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	ch.Log = &l
 	ch.AdminTemplates = template.Must(template.ParseFiles("testHtmls/test.html"))
@@ -30,7 +40,16 @@ func TestCmsHandler_Login(t *testing.T) {
 }
 
 func TestOauthWebHandler_LoginUser(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -53,7 +72,16 @@ func TestOauthWebHandler_LoginUser(t *testing.T) {
 }
 
 func TestOauthWebHandler_LoginUserFail(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -76,7 +104,16 @@ func TestOauthWebHandler_LoginUserFail(t *testing.T) {
 }
 
 func TestOauthWebHandler_LoginUserBadsession(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -98,7 +135,16 @@ func TestOauthWebHandler_LoginUserBadsession(t *testing.T) {
 	}
 }
 func TestCmsHandler_Logout(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	ch.Log = &l
 	ch.AdminTemplates = template.Must(template.ParseFiles("testHtmls/test.html"))

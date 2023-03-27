@@ -2,12 +2,12 @@ package handlers
 
 import "net/http"
 
-//LoginError LoginError
+// LoginError LoginError
 type LoginError struct {
 	Error string
 }
 
-//Login  login handler
+// Login  login handler
 func (h *CmsHandler) Login(w http.ResponseWriter, r *http.Request) {
 	loginErr := r.URL.Query().Get("error")
 	var lge LoginError
@@ -16,7 +16,7 @@ func (h *CmsHandler) Login(w http.ResponseWriter, r *http.Request) {
 	h.AdminTemplates.ExecuteTemplate(w, admlogin, &lge)
 }
 
-//LoginUser LoginUser
+// LoginUser LoginUser
 func (h *CmsHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 	//fmt.Println("in login form submit--------------------------------------")
 	s, suc := h.getSession(r)
@@ -52,9 +52,9 @@ func (h *CmsHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 		h.Log.Debug("login suc", loginSuc)
 		if loginSuc {
 			//if lari.ResponseType == codeRespType || lari.ResponseType == tokenRespType {
-			s.Values["loggedIn"] = true
+			s.Set("loggedIn", true)
 			//s.Values["user"] = username
-			serr := s.Save(r, w)
+			serr := s.Save(w)
 			h.Log.Debug("serr", serr)
 			//session, sserr := store.Get(r, "temp-name")
 			//fmt.Println("sserr", sserr)
@@ -81,16 +81,16 @@ func (h *CmsHandler) LoginUser(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//Logout Logout
+// Logout Logout
 func (h *CmsHandler) Logout(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		h.Log.Debug("loggedIn in before logout: ", s.Values["loggedIn"])
-		s.Values["loggedIn"] = false
-		serr := s.Save(r, w)
+		h.Log.Debug("loggedIn in before logout: ", s.Get("loggedIn"))
+		s.Set("loggedIn", false)
+		serr := s.Save(w)
 		h.Log.Debug("serr", serr)
-		h.Log.Debug("loggedIn in after logout: ", s.Values["loggedIn"])
+		h.Log.Debug("loggedIn in after logout: ", s.Get("loggedIn"))
 		http.Redirect(w, r, login, http.StatusFound)
 	}
 }

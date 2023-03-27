@@ -3,9 +3,12 @@ package handlers
 import (
 	"bytes"
 	"encoding/json"
+	"fmt"
+	"log"
 	"net/http"
 	"testing"
 
+	gss "github.com/GolangToolKits/go-secure-sessions"
 	lg "github.com/Ulbora/Level_Logger"
 )
 
@@ -15,7 +18,16 @@ type testObj struct {
 }
 
 func TestCmsHandler_ProcessBody(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var oh CmsHandler
+	oh.SessionManager = sessionManager
 	var l lg.Logger
 	oh.Log = &l
 	var robj testObj

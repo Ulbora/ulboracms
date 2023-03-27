@@ -3,11 +3,13 @@ package handlers
 import (
 	"fmt"
 	"html/template"
+	"log"
 	"net/http"
 	"net/http/httptest"
 	"strings"
 	"testing"
 
+	gss "github.com/GolangToolKits/go-secure-sessions"
 	lg "github.com/Ulbora/Level_Logger"
 	ml "github.com/Ulbora/go-mail-sender"
 	ds "github.com/Ulbora/json-datastore"
@@ -15,7 +17,16 @@ import (
 )
 
 func TestCmsHandler_ContactForm(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -36,8 +47,12 @@ func TestCmsHandler_ContactForm(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.ContactForm(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -47,7 +62,16 @@ func TestCmsHandler_ContactForm(t *testing.T) {
 }
 
 func TestCmsHandler_ContactFormSend(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
@@ -82,8 +106,12 @@ func TestCmsHandler_ContactFormSend(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.ContactFormSend(w, r)
 	fmt.Println("code: ", w.Code)
 

@@ -5,12 +5,12 @@ import (
 	"sort"
 )
 
-//AdminIndex  AdminIndex
+// AdminIndex  AdminIndex
 func (h *CmsHandler) AdminIndex(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in add content: ", loggedInAuth)
 		if loggedInAuth == true {
 			h.Log.Debug("template: ", h.AdminTemplates)

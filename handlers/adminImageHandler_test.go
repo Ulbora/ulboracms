@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"html/template"
 	"io"
+	"log"
 	"mime/multipart"
 	"net/http"
 	"net/http/httptest"
@@ -13,11 +14,22 @@ import (
 
 	lg "github.com/Ulbora/Level_Logger"
 	sr "github.com/Ulbora/ulboracms/services"
-	"github.com/gorilla/mux"
+
+	gss "github.com/GolangToolKits/go-secure-sessions"
+	mux "github.com/GolangToolKits/grrt"
 )
 
 func TestCmsHandler_AdminAddImage(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -35,8 +47,12 @@ func TestCmsHandler_AdminAddImage(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminAddImage(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -46,7 +62,16 @@ func TestCmsHandler_AdminAddImage(t *testing.T) {
 }
 
 func TestCmsHandler_AdminAddImageNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -64,8 +89,12 @@ func TestCmsHandler_AdminAddImageNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 	h.AdminAddImage(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -75,7 +104,16 @@ func TestCmsHandler_AdminAddImageNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUploadImage(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -124,8 +162,12 @@ func TestCmsHandler_AdminUploadImage(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h := ch.GetNew()
 	h.AdminUploadImage(w, r)
@@ -137,7 +179,16 @@ func TestCmsHandler_AdminUploadImage(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUploadImageFail(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -186,8 +237,12 @@ func TestCmsHandler_AdminUploadImageFail(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h := ch.GetNew()
 	h.AdminUploadImage(w, r)
@@ -199,7 +254,16 @@ func TestCmsHandler_AdminUploadImageFail(t *testing.T) {
 }
 
 func TestCmsHandler_AdminUploadImageNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -248,8 +312,12 @@ func TestCmsHandler_AdminUploadImageNotLoggedIn(t *testing.T) {
 
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
 
 	h := ch.GetNew()
 	h.AdminUploadImage(w, r)
@@ -261,7 +329,16 @@ func TestCmsHandler_AdminUploadImageNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminImageList(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -279,8 +356,13 @@ func TestCmsHandler_AdminImageList(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+
 	h.AdminImageList(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -290,7 +372,16 @@ func TestCmsHandler_AdminImageList(t *testing.T) {
 }
 
 func TestCmsHandler_AdminImageListNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -308,8 +399,13 @@ func TestCmsHandler_AdminImageListNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+
 	h.AdminImageList(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -319,7 +415,16 @@ func TestCmsHandler_AdminImageListNotLoggedIn(t *testing.T) {
 }
 
 func TestCmsHandler_AdminDeleteImage(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -341,8 +446,13 @@ func TestCmsHandler_AdminDeleteImage(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = true
-	s.Save(r, w)
+	s.Set("loggedIn", true)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+
 	h.AdminDeleteImage(w, r)
 	fmt.Println("code: ", w.Code)
 
@@ -352,7 +462,16 @@ func TestCmsHandler_AdminDeleteImage(t *testing.T) {
 }
 
 func TestCmsHandler_AdminDeleteImageNotLoggedIn(t *testing.T) {
+	var cf gss.ConfigOptions
+	cf.MaxAge = 3600
+	cf.Path = "/"
+	sessionManager, err := gss.NewSessionManager("dsdfsadfs61dsscfsdfdsdsfsdsdllsd", cf)
+	if err != nil {
+		fmt.Println(err)
+		log.Println("Session err: ", err)
+	}
 	var ch CmsHandler
+	ch.SessionManager = sessionManager
 	var l lg.Logger
 	l.LogLevel = lg.AllLevel
 	ch.Log = &l
@@ -374,8 +493,13 @@ func TestCmsHandler_AdminDeleteImageNotLoggedIn(t *testing.T) {
 	w := httptest.NewRecorder()
 	s, suc := ch.getSession(r)
 	fmt.Println("suc: ", suc)
-	s.Values["loggedIn"] = false
-	s.Save(r, w)
+	s.Set("loggedIn", false)
+	s.Save(w)
+	cook3 := w.Result().Cookies()
+	if len(cook3) > 0 {
+		r.AddCookie(cook3[0])
+	}
+
 	h.AdminDeleteImage(w, r)
 	fmt.Println("code: ", w.Code)
 

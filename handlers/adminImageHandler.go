@@ -4,15 +4,15 @@ import (
 	"io/ioutil"
 	"net/http"
 
-	"github.com/gorilla/mux"
+	mux "github.com/GolangToolKits/grrt"
 )
 
-//AdminAddImage AdminAddImage
+// AdminAddImage AdminAddImage
 func (h *CmsHandler) AdminAddImage(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in add content: ", loggedInAuth)
 		if loggedInAuth == true {
 			//res := h.Service.GetImageList()
@@ -24,12 +24,12 @@ func (h *CmsHandler) AdminAddImage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminUploadImage AdminUploadImage
+// AdminUploadImage AdminUploadImage
 func (h *CmsHandler) AdminUploadImage(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in new content: ", loggedInAuth)
 		if loggedInAuth == true {
 
@@ -60,12 +60,12 @@ func (h *CmsHandler) AdminUploadImage(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminImageList AdminImageList
+// AdminImageList AdminImageList
 func (h *CmsHandler) AdminImageList(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in add content: ", loggedInAuth)
 		if loggedInAuth == true {
 			res := h.Service.GetImageList()
@@ -77,12 +77,12 @@ func (h *CmsHandler) AdminImageList(w http.ResponseWriter, r *http.Request) {
 	}
 }
 
-//AdminDeleteImage AdminDeleteImage
+// AdminDeleteImage AdminDeleteImage
 func (h *CmsHandler) AdminDeleteImage(w http.ResponseWriter, r *http.Request) {
 	s, suc := h.getSession(r)
 	h.Log.Debug("session suc", suc)
 	if suc {
-		loggedInAuth := s.Values["loggedIn"]
+		loggedInAuth := s.Get("loggedIn")
 		h.Log.Debug("loggedIn in delete image: ", loggedInAuth)
 		if loggedInAuth == true {
 			vars := mux.Vars(r)
