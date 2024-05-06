@@ -1,6 +1,6 @@
 module github.com/Ulbora/ulboracms
 
-go 1.20
+go 1.22
 
 require (
 	github.com/Ulbora/Level_Logger v1.0.2
