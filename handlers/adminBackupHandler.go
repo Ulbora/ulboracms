@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 )
 
@@ -87,7 +87,7 @@ func (h *CmsHandler) AdminUploadBackups(w http.ResponseWriter, r *http.Request) 
 
 			//h.Log.Debug("image file : ", *handler)
 
-			bkdata, rferr := ioutil.ReadAll(file)
+			bkdata, rferr := io.ReadAll(file)
 			h.Log.Debug("read file  err: ", rferr)
 
 			h.Log.Debug("handler.Filename: ", handler.Filename)

@@ -8,7 +8,6 @@ import (
 	"compress/zlib"
 	"encoding/json"
 	"io"
-	"io/ioutil"
 	"os"
 	"path/filepath"
 )
@@ -20,7 +19,7 @@ const (
 	templateFiles = "templateFiles"
 )
 
-//BackupFiles BackupFiles
+// BackupFiles BackupFiles
 type BackupFiles struct {
 	ContentStoreFiles  *[]BackupFile
 	TemplateStoreFiles *[]BackupFile
@@ -28,14 +27,14 @@ type BackupFiles struct {
 	TemplateFiles      *BackupFile
 }
 
-//BackupFile BackupFile
+// BackupFile BackupFile
 type BackupFile struct {
 	FilesLocation string
 	Name          string
 	FileData      []byte
 }
 
-//UploadBackups UploadBackups
+// UploadBackups UploadBackups
 func (c *CmsService) UploadBackups(bk *[]byte) bool {
 	var rtn bool
 	var bkfs BackupFiles
@@ -59,7 +58,7 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 		for _, cf := range *bkfs.ContentStoreFiles {
 			c.Log.Debug("BackupFile content file name: ", c.ContentStorePath+string(filepath.Separator)+cf.Name)
 			c.Log.Debug("BackupFile content file: ", cf)
-			werr := ioutil.WriteFile(c.ContentStorePath+string(filepath.Separator)+cf.Name, cf.FileData, 0666)
+			werr := os.WriteFile(c.ContentStorePath+string(filepath.Separator)+cf.Name, cf.FileData, 0666)
 			c.Log.Debug("BackupFile content file write err : ", werr)
 		}
 
@@ -72,7 +71,7 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 		for _, cf := range *bkfs.TemplateStoreFiles {
 			c.Log.Debug("BackupFile template file name: ", c.TemplateStorePath+string(filepath.Separator)+cf.Name)
 			c.Log.Debug("BackupFile template file: ", cf)
-			werr := ioutil.WriteFile(c.TemplateStorePath+string(filepath.Separator)+cf.Name, cf.FileData, 0666)
+			werr := os.WriteFile(c.TemplateStorePath+string(filepath.Separator)+cf.Name, cf.FileData, 0666)
 			c.Log.Debug("BackupFile template file write err : ", werr)
 		}
 
@@ -85,7 +84,7 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 		for _, cf := range *bkfs.ImageFiles {
 			c.Log.Debug("BackupFile image file name: ", c.ImagePath+string(filepath.Separator)+cf.Name)
 			c.Log.Debug("BackupFile image file: ", cf)
-			werr := ioutil.WriteFile(c.ImagePath+string(filepath.Separator)+cf.Name, cf.FileData, 0666)
+			werr := os.WriteFile(c.ImagePath+string(filepath.Separator)+cf.Name, cf.FileData, 0666)
 			c.Log.Debug("BackupFile image file write err : ", werr)
 		}
 
@@ -114,19 +113,19 @@ func (c *CmsService) UploadBackups(bk *[]byte) bool {
 	return rtn
 }
 
-//DownloadBackups DownloadBackups
+// DownloadBackups DownloadBackups
 func (c *CmsService) DownloadBackups() (bool, *[]byte) {
 	var rtn bool
 	var bkfs BackupFiles
 
 	//contentStore
 	var contStoreFiles []BackupFile
-	cntfiles, err := ioutil.ReadDir(c.ContentStorePath)
+	cntfiles, err := os.ReadDir(c.ContentStorePath)
 	if err == nil {
 		for _, sfile := range cntfiles {
 			if !sfile.IsDir() {
 				c.Log.Debug("content store file: ", c.ContentStorePath+string(filepath.Separator)+sfile.Name())
-				fileData, rerr := ioutil.ReadFile(c.ContentStorePath + string(filepath.Separator) + sfile.Name())
+				fileData, rerr := os.ReadFile(c.ContentStorePath + string(filepath.Separator) + sfile.Name())
 				//c.Log.Debug("content store file data: ", fileData)
 				if rerr == nil {
 					var cbk BackupFile
@@ -143,12 +142,12 @@ func (c *CmsService) DownloadBackups() (bool, *[]byte) {
 
 	//templateStore
 	var templateStoreFiles []BackupFile
-	tempfiles, err := ioutil.ReadDir(c.TemplateStorePath)
+	tempfiles, err := os.ReadDir(c.TemplateStorePath)
 	if err == nil {
 		for _, sfile := range tempfiles {
 			if !sfile.IsDir() {
 				c.Log.Debug("template store file: ", c.TemplateStorePath+string(filepath.Separator)+sfile.Name())
-				fileData, rerr := ioutil.ReadFile(c.TemplateStorePath + string(filepath.Separator) + sfile.Name())
+				fileData, rerr := os.ReadFile(c.TemplateStorePath + string(filepath.Separator) + sfile.Name())
 				c.Log.Debug("template store  file data: ", fileData)
 				if rerr == nil {
 					var cbk BackupFile
@@ -165,13 +164,13 @@ func (c *CmsService) DownloadBackups() (bool, *[]byte) {
 
 	//images
 	var imageFiles []BackupFile
-	imgfiles, err := ioutil.ReadDir(c.ImagePath)
+	imgfiles, err := os.ReadDir(c.ImagePath)
 	if err == nil {
 		c.Log.Debug("imgfiles: ", imgfiles)
 		for _, sfile := range imgfiles {
 			if !sfile.IsDir() {
 				c.Log.Debug("image file: ", c.ImagePath+string(filepath.Separator)+sfile.Name())
-				fileData, rerr := ioutil.ReadFile(c.ImagePath + string(filepath.Separator) + sfile.Name())
+				fileData, rerr := os.ReadFile(c.ImagePath + string(filepath.Separator) + sfile.Name())
 				if rerr == nil {
 					var cbk BackupFile
 					cbk.Name = sfile.Name()
@@ -190,7 +189,7 @@ func (c *CmsService) DownloadBackups() (bool, *[]byte) {
 	var buf bytes.Buffer
 	zr := gzip.NewWriter(&buf)
 	tw := tar.NewWriter(zr)
-	files, err := ioutil.ReadDir(c.TemplateFilePath)
+	files, err := os.ReadDir(c.TemplateFilePath)
 	if err == nil {
 		for _, file := range files {
 			if file.IsDir() {

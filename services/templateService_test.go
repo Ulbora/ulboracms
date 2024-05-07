@@ -2,7 +2,7 @@ package services
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 
@@ -90,7 +90,7 @@ func TestCmsService_AddTemplateFile(t *testing.T) {
 	//var fileName = string(originalFileName[:i])
 	fmt.Println("originalFileName in add template file: ", originalFileName)
 	//fmt.Println("fileName in add template file: ", fileName)
-	data, err := ioutil.ReadAll(tmpfile)
+	data, err := io.ReadAll(tmpfile)
 	if err != nil {
 		fmt.Println(err)
 	}

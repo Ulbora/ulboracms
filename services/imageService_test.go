@@ -2,7 +2,7 @@ package services
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"strings"
 	"testing"
@@ -33,7 +33,7 @@ func TestCmsService_AddImage(t *testing.T) {
 	i := strings.LastIndex(originalFileName, ".")
 	var ext = string(originalFileName[i:])
 	fmt.Println("ext: ", ext)
-	data, err := ioutil.ReadAll(imgfile)
+	data, err := io.ReadAll(imgfile)
 	if err != nil {
 		fmt.Println(err)
 	}

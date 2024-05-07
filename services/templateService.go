@@ -6,7 +6,7 @@ import (
 	"sync"
 )
 
-//Template template
+// Template template
 type Template struct {
 	Name       string `json:"name"`
 	Active     bool   `json:"active"`
@@ -15,7 +15,7 @@ type Template struct {
 
 var tmu sync.Mutex
 
-//AddTemplateFile AddTemplateFile
+// AddTemplateFile AddTemplateFile
 func (c *CmsService) AddTemplateFile(name string, originalFileName string, fileData []byte) bool {
 	tmu.Lock()
 	defer tmu.Unlock()
@@ -29,11 +29,11 @@ func (c *CmsService) AddTemplateFile(name string, originalFileName string, fileD
 	rtn = c.ExtractFile(&tpl)
 	//var templateName = c.TemplateFilePath + string(filepath.Separator) + name
 	//c.Log.Debug("template complete file name in add: ", templateName)
-	//err := ioutil.WriteFile(templateName, fileData, 0644)
+	//err := os.WriteFile(templateName, fileData, 0644)
 	return rtn
 }
 
-//AddTemplate AddTemplate
+// AddTemplate AddTemplate
 func (c *CmsService) AddTemplate(tpl *Template) bool {
 	var rtn bool
 	c.Log.Debug("tpl template in add: ", *tpl)
@@ -49,7 +49,7 @@ func (c *CmsService) AddTemplate(tpl *Template) bool {
 	return rtn
 }
 
-//GetActiveTemplateName GetActiveTemplateName
+// GetActiveTemplateName GetActiveTemplateName
 func (c *CmsService) GetActiveTemplateName() string {
 	var rtn string
 	res := c.TemplateStore.ReadAll()
@@ -66,7 +66,7 @@ func (c *CmsService) GetActiveTemplateName() string {
 	return rtn
 }
 
-//GetTemplateList GetTemplateList
+// GetTemplateList GetTemplateList
 func (c *CmsService) GetTemplateList() *[]Template {
 	var rtn []Template
 	res := c.TemplateStore.ReadAll()
@@ -83,7 +83,7 @@ func (c *CmsService) GetTemplateList() *[]Template {
 	return &rtn
 }
 
-//ActivateTemplate ActivateTemplate
+// ActivateTemplate ActivateTemplate
 func (c *CmsService) ActivateTemplate(name string) bool {
 	var rtn bool
 	res := c.TemplateStore.ReadAll()
@@ -111,7 +111,7 @@ func (c *CmsService) ActivateTemplate(name string) bool {
 	return rtn
 }
 
-//DeleteTemplate DeleteTemplate
+// DeleteTemplate DeleteTemplate
 func (c *CmsService) DeleteTemplate(name string) bool {
 	var rtn bool
 	detpl := c.TemplateStore.Read(name)

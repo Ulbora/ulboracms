@@ -34,7 +34,7 @@ func TestCmsHandler_ProcessBody(t *testing.T) {
 	robj.Valid = true
 	robj.Code = "3"
 	// var res http.Response
-	// res.Body = ioutil.NopCloser(bytes.NewBufferString(`{"valid":true, "code":"1"}`))
+	// res.Body = io.NopCloser(bytes.NewBufferString(`{"valid":true, "code":"1"}`))
 	var sURL = "http://localhost/test"
 	aJSON, _ := json.Marshal(robj)
 	r, _ := http.NewRequest("POST", sURL, bytes.NewBuffer(aJSON))

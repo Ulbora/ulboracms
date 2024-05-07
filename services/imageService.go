@@ -1,7 +1,6 @@
 package services
 
 import (
-	"io/ioutil"
 	"os"
 	"path/filepath"
 	"sync"
@@ -9,13 +8,13 @@ import (
 
 var mu sync.Mutex
 
-//Image Image
+// Image Image
 type Image struct {
 	Name     string
 	ImageURL string
 }
 
-//AddImage AddImage
+// AddImage AddImage
 func (c *CmsService) AddImage(name string, fileData []byte) bool {
 	mu.Lock()
 	defer mu.Unlock()
@@ -23,17 +22,17 @@ func (c *CmsService) AddImage(name string, fileData []byte) bool {
 	c.Log.Debug("image file name in add: ", name)
 	var imageName = c.ImagePath + string(filepath.Separator) + name
 	c.Log.Debug("image complete file name in add: ", imageName)
-	err := ioutil.WriteFile(imageName, fileData, 0644)
+	err := os.WriteFile(imageName, fileData, 0644)
 	if err == nil {
 		rtn = true
 	}
 	return rtn
 }
 
-//GetImageList GetImageList
+// GetImageList GetImageList
 func (c *CmsService) GetImageList() *[]Image {
 	var rtn []Image
-	ifiles, err := ioutil.ReadDir(c.ImagePath)
+	ifiles, err := os.ReadDir(c.ImagePath)
 	if err == nil {
 		for _, ifile := range ifiles {
 			if !ifile.IsDir() {
@@ -49,12 +48,12 @@ func (c *CmsService) GetImageList() *[]Image {
 	return &rtn
 }
 
-//GetImagePath GetImagePath
+// GetImagePath GetImagePath
 func (c *CmsService) GetImagePath(imageName string) string {
 	return c.ImageFullPath + string(filepath.Separator) + imageName
 }
 
-//DeleteImage DeleteImage
+// DeleteImage DeleteImage
 func (c *CmsService) DeleteImage(name string) bool {
 	mu.Lock()
 	defer mu.Unlock()

@@ -5,7 +5,6 @@ import (
 	"compress/zlib"
 	"fmt"
 	"io"
-	"io/ioutil"
 	"os"
 	"testing"
 
@@ -43,7 +42,7 @@ func TestCmsService_DownloadBackups(t *testing.T) {
 
 func TestCmsService_UploadBackups(t *testing.T) {
 
-	fileData, rerr := ioutil.ReadFile("./testBackupZips/compress.dat")
+	fileData, rerr := os.ReadFile("./testBackupZips/compress.dat")
 	fmt.Println(rerr)
 
 	var b bytes.Buffer
@@ -54,7 +53,7 @@ func TestCmsService_UploadBackups(t *testing.T) {
 		io.Copy(&out, r)
 		r.Close()
 		rtn := out.Bytes()
-		ioutil.WriteFile("./testBackupZips/uncompress.json", rtn, 0644)
+		os.WriteFile("./testBackupZips/uncompress.json", rtn, 0644)
 	}
 	var cs CmsService
 	cs.ContentStorePath = "./testBackupRestore/contentStore"

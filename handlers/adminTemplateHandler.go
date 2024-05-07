@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 	"strings"
 
@@ -60,7 +60,7 @@ func (h *CmsHandler) AdminUploadTemplate(w http.ResponseWriter, r *http.Request)
 			defer tfile.Close()
 			//h.Log.Debug("template file : ", *handler)
 
-			data, rferr := ioutil.ReadAll(tfile)
+			data, rferr := io.ReadAll(tfile)
 			h.Log.Debug("read file  err: ", rferr)
 
 			i := strings.Index(handler.Filename, ".")

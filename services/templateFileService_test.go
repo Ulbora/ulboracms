@@ -2,7 +2,7 @@ package services
 
 import (
 	"fmt"
-	"io/ioutil"
+	"io"
 	"os"
 	"testing"
 
@@ -28,7 +28,7 @@ func TestTemplateFileService_ExtractFile(t *testing.T) {
 	var ts TemplateFile
 	ts.OriginalFileName = tf.Name()
 	ts.Name = "newTemplate"
-	data, err := ioutil.ReadAll(tf)
+	data, err := io.ReadAll(tf)
 	if err != nil {
 		fmt.Println(err)
 	} else {

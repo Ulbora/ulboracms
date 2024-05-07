@@ -1,7 +1,7 @@
 package handlers
 
 import (
-	"io/ioutil"
+	"io"
 	"net/http"
 
 	mux "github.com/GolangToolKits/grrt"
@@ -41,7 +41,7 @@ func (h *CmsHandler) AdminUploadImage(w http.ResponseWriter, r *http.Request) {
 			defer file.Close()
 			//h.Log.Debug("image file : ", *handler)
 
-			data, rferr := ioutil.ReadAll(file)
+			data, rferr := io.ReadAll(file)
 			h.Log.Debug("read file  err: ", rferr)
 
 			h.Log.Debug("handler.Filename: ", handler.Filename)
