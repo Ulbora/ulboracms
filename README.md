@@ -1,5 +1,5 @@
 [![Go Report Card](https://goreportcard.com/badge/github.com/Ulbora/ulboracms)](https://goreportcard.com/report/github.com/Ulbora/ulboracms)
-[![CircleCI](https://circleci.com/gh/Ulbora/ulboracms.svg?style=svg)](https://circleci.com/gh/Ulbora/ulboracms)
+[![GitHub Actions Build](https://github.com/Ulbora/ulboracms/actions/workflows/build.yml/badge.svg)](https://github.com/Ulbora/ulboracms/actions/workflows/build.yml)
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=Ulbora_ulboracms&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=Ulbora_ulboracms)
 
 
