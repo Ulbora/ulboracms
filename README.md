@@ -33,5 +33,3 @@ New templates can easily be installed by zipping them as tar.gz files and follow
 
 
 
-[travis-image]: https://img.shields.io/travis/Ulbora/ulboracms.svg?style=flat
-[travis-url]: https://travis-ci.org/Ulbora/ulboracms
